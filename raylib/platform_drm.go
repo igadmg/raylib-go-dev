@@ -15,7 +15,7 @@ import (
 )
 
 // InitWindow - Initialize Window and OpenGL Graphics
-func InitWindow(width int32, height int32, title string) {
+func InitWindow[WT, HT IntegerT](width WT, height HT, title string) {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 

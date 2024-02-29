@@ -1008,8 +1008,8 @@ func init() {
 }
 
 // InitWindow - Initialize window and OpenGL context
-func InitWindow(width int32, height int32, title string) {
-	initWindow(width, height, title)
+func InitWindow[WT, HT IntegerT](width WT, height HT, title string) {
+	initWindow(int32(width), int32(height), title)
 }
 
 // CloseWindow - Close window and unload OpenGL context
