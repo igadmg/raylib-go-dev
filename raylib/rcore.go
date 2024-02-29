@@ -11,6 +11,10 @@ import (
 	"unsafe"
 )
 
+// AutomationEvent - Automation event
+type AutomationEvent = C.AutomationEvent
+type AutomationEventList = C.AutomationEventList
+
 // newVector2FromPointer - Returns new Vector2 from pointer
 func newVector2FromPointer(ptr unsafe.Pointer) Vector2 {
 	return *(*Vector2)(ptr)
@@ -892,8 +896,8 @@ func LoadAutomationEventList(fileName string) AutomationEventList {
 }
 
 // UnloadAutomationEventList - Unload automation events list from file
-func UnloadAutomationEventList(list *AutomationEventList) {
-	C.UnloadAutomationEventList(list.cptr())
+func UnloadAutomationEventList(list AutomationEventList) {
+	C.UnloadAutomationEventList(list)
 }
 
 // ExportAutomationEventList - Export automation events list as text file

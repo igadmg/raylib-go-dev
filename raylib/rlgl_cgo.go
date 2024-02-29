@@ -586,10 +586,8 @@ func LoadTextureDepth(width, height int32, useRenderBuffer bool) {
 }
 
 // LoadFramebuffer - Load an empty framebuffer
-func LoadFramebuffer(width int32, height int32) uint32 {
-	cwidth := C.int(width)
-	cheight := C.int(height)
-	return uint32(C.rlLoadFramebuffer(cwidth, cheight))
+func LoadFramebuffer() uint32 {
+	return uint32(C.rlLoadFramebuffer())
 }
 
 // FramebufferAttach - Attach texture/renderbuffer to a framebuffer
