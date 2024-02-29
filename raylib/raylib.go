@@ -20,8 +20,20 @@ func init() {
 	runtime.LockOSThread()
 }
 
+type IntegerT interface {
+	int | int32 | int64
+}
+
+type FloatT interface {
+	float32 | float64
+}
+
+type NumberT interface {
+	IntegerT | FloatT
+}
+
 type CoordinateT interface {
-	int | int32 | int64 | float32 | float64
+	NumberT
 }
 
 // Wave type, defines audio wave data
@@ -167,20 +179,6 @@ type AudioProcessor struct {
 	Process *[0]byte
 	Next    *AudioProcessor
 	Prev    *AudioProcessor
-}
-
-// AutomationEvent - Automation event
-type AutomationEvent struct {
-	Frame  uint32
-	Type   uint32
-	Params [4]int32
-}
-
-// AutomationEventList - Automation event list
-type AutomationEventList struct {
-	Capacity uint32
-	Count    uint32
-	Events   *AutomationEvent
 }
 
 // CameraMode type
@@ -577,10 +575,6 @@ type Rectangle struct {
 // NewRectangle - Returns new Rectangle
 func NewRectangle[XT, YT, WT, HT CoordinateT](x XT, y YT, width WT, height HT) Rectangle {
 	return Rectangle{float32(x), float32(y), float32(width), float32(height)}
-}
-
-func (r *Rectangle) Delta(x, y, width, height float32) Rectangle {
-	return Rectangle{float32(r.X + x), float32(r.Y + y), float32(r.Width + width), float32(r.Height + height)}
 }
 
 // ToInt32 converts rectangle to int32 variant

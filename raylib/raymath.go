@@ -5,8 +5,8 @@ import (
 )
 
 // Clamp - Clamp float value
-func Clamp(value, min, max float32) float32 {
-	var res float32
+func Clamp[NT NumberT](value, min, max NT) NT {
+	var res NT
 	if value < min {
 		res = min
 	} else {
@@ -21,27 +21,27 @@ func Clamp(value, min, max float32) float32 {
 }
 
 // Lerp - Calculate linear interpolation between two floats
-func Lerp(start, end, amount float32) float32 {
+func Lerp[NT NumberT](start, end, amount NT) NT {
 	return start + amount*(end-start)
 }
 
 // Normalize - Normalize input value within input range
-func Normalize(value, start, end float32) float32 {
+func Normalize[NT NumberT](value, start, end NT) NT {
 	return (value - start) / (end - start)
 }
 
 // Remap - Remap input value within input range to output range
-func Remap(value, inputStart, inputEnd, outputStart, outputEnd float32) float32 {
+func Remap[NT NumberT](value, inputStart, inputEnd, outputStart, outputEnd NT) NT {
 	return (value-inputStart)/(inputEnd-inputStart)*(outputEnd-outputStart) + outputStart
 }
 
 // Wrap - Wrap input value from min to max
-func Wrap(value, min, max float32) float32 {
-	return float32(float64(value) - float64(max-min)*math.Floor(float64((value-min)/(max-min))))
+func Wrap[NT NumberT](value, min, max NT) NT {
+	return NT(float64(value) - float64(max-min)*math.Floor(float64((value-min)/(max-min))))
 }
 
 // FloatEquals - Check whether two given floats are almost equal
-func FloatEquals(x, y float32) bool {
+func FloatEquals[FT FloatT](x, y FT) bool {
 	return (math.Abs(float64(x-y)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(x)), math.Abs(float64(y)))))
 }
 
@@ -1785,4 +1785,8 @@ func QuaternionEquals(p, q Quaternion) bool {
 			math.Abs(float64(p.Y+q.Y)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.Y)), math.Abs(float64(q.Y)))) &&
 			math.Abs(float64(p.Z+q.Z)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.Z)), math.Abs(float64(q.Z)))) &&
 			math.Abs(float64(p.W+q.W)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.W)), math.Abs(float64(q.W)))))
+}
+
+func RectangleDelta[XT, YT, WT, HT CoordinateT](r *Rectangle, x XT, y YT, width WT, height HT) Rectangle {
+	return Rectangle{r.X + float32(x), r.Y + float32(y), r.Width + float32(width), r.Height + float32(height)}
 }
