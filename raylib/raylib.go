@@ -492,8 +492,8 @@ type Vector2 struct {
 }
 
 // NewVector2 - Returns new Vector2
-func NewVector2(x, y float32) Vector2 {
-	return Vector2{x, y}
+func NewVector2[XT, YT CoordinateT](x XT, y YT) Vector2 {
+	return Vector2{float32(x), float32(y)}
 }
 
 // Vector3 type
@@ -504,8 +504,8 @@ type Vector3 struct {
 }
 
 // NewVector3 - Returns new Vector3
-func NewVector3(x, y, z float32) Vector3 {
-	return Vector3{x, y, z}
+func NewVector3[XT, YT, ZT CoordinateT](x XT, y YT, z ZT) Vector3 {
+	return Vector3{float32(x), float32(y), float32(z)}
 }
 
 // Vector4 type
@@ -517,8 +517,8 @@ type Vector4 struct {
 }
 
 // NewVector4 - Returns new Vector4
-func NewVector4(x, y, z, w float32) Vector4 {
-	return Vector4{x, y, z, w}
+func NewVector4[XT, YT, ZT, WT CoordinateT](x XT, y YT, z ZT, w WT) Vector4 {
+	return Vector4{float32(x), float32(y), float32(z), float32(w)}
 }
 
 // Matrix type (OpenGL style 4x4 - right handed, column major)

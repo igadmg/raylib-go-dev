@@ -179,7 +179,7 @@ func DrawRingLines(center Vector2, innerRadius, outerRadius, startAngle, endAngl
 }
 
 // DrawRectangle - Draw a color-filled rectangle
-func DrawRectangle(posX, posY, width, height int32, col color.RGBA) {
+func DrawRectangle[XT, YT, WT, HT CoordinateT](posX XT, posY YT, width WT, height HT, col color.RGBA) {
 	cposX := (C.int)(posX)
 	cposY := (C.int)(posY)
 	cwidth := (C.int)(width)
