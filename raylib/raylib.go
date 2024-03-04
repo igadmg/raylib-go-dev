@@ -496,6 +496,20 @@ func NewVector2[XT, YT CoordinateT](x XT, y YT) Vector2 {
 	return Vector2{float32(x), float32(y)}
 }
 
+func (v *Vector2) ToInt() Vector2Int {
+	return Vector2Int{int(v.X), int(v.Y)}
+}
+
+type Vector2Int struct {
+	X int
+	Y int
+}
+
+// NewVector2 - Returns new Vector2
+func NewVector2Int[XT, YT CoordinateT](x XT, y YT) Vector2Int {
+	return Vector2Int{int(x), int(y)}
+}
+
 // Vector3 type
 type Vector3 struct {
 	X float32
@@ -586,6 +600,10 @@ func (r *Rectangle) ToInt32() RectangleInt32 {
 	rect.Height = int32(r.Height)
 
 	return rect
+}
+
+func (r *Rectangle) Size() Vector2 {
+	return Vector2{r.Width, r.Height}
 }
 
 // RectangleInt32 type

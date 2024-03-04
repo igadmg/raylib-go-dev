@@ -55,6 +55,10 @@ func Vector2One() Vector2 {
 	return NewVector2(1.0, 1.0)
 }
 
+func Vector2Less(v1, v2 Vector2) bool {
+	return v1.X < v2.X && v1.Y < v2.Y
+}
+
 // Vector2Add - Add two vectors (v1 + v2)
 func Vector2Add(v1, v2 Vector2) Vector2 {
 	return NewVector2(v1.X+v2.X, v1.Y+v2.Y)
