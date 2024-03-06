@@ -496,8 +496,12 @@ func NewVector2[XT, YT CoordinateT](x XT, y YT) Vector2 {
 	return Vector2{float32(x), float32(y)}
 }
 
-func (v *Vector2) ToInt() Vector2Int {
+func (v Vector2) ToInt() Vector2Int {
 	return Vector2Int{int(v.X), int(v.Y)}
+}
+
+func (v Vector2) ToRect() Rectangle {
+	return Rectangle{0, 0, v.X, v.Y}
 }
 
 type Vector2Int struct {

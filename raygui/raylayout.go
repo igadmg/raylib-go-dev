@@ -7,6 +7,7 @@ import (
 var (
 	AnchorTopLeft  = rl.NewVector2(0, 0)
 	AnchorTopRight = rl.NewVector2(1, 0)
+	AnchorCenter   = rl.NewVector2(0.5, 0.5)
 )
 
 func Pivot(anchor rl.Vector2, r rl.Rectangle) rl.Rectangle {
