@@ -1,6 +1,8 @@
 package raygui
 
 import (
+	"image/color"
+
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -14,6 +16,11 @@ var (
 
 func Pivot(anchor rl.Vector2, r rl.Rectangle) rl.Rectangle {
 	return rl.NewRectangle(r.X-r.Width*anchor.X, r.Y-r.Height*anchor.Y, r.Width, r.Height)
+}
+
+func DrawTextLayout(font rl.Font, text string, fontSize float32, spacing float32, tint color.RGBA, layoutFn func(wh rl.Vector2) rl.Rectangle) {
+	rect := layoutFn(rl.MeasureTextEx(font, text, fontSize, spacing))
+	rl.DrawTextEx(font, text, rl.NewVector2(rect.X, rect.Y), fontSize, spacing, tint)
 }
 
 type canvasLayout struct {
