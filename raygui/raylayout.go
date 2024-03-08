@@ -36,7 +36,7 @@ func CanvasLayout(bounds rl.Rectangle) canvasLayout {
 func (cl *canvasLayout) Layout(anchor rl.Vector2, pivot rl.Vector2, rect rl.Rectangle) rl.Rectangle {
 	anchorp := rl.NewVector2(anchor.X*cl.bounds.Width, anchor.Y*cl.bounds.Height)
 	pivotp := rl.NewVector2(pivot.X*rect.Width, pivot.Y*rect.Height)
-	return rl.NewRectangle(anchorp.X-pivotp.X+rect.X, anchorp.Y-pivotp.Y+rect.Y, rect.Width, rect.Height)
+	return rl.NewRectangle(cl.bounds.X+anchorp.X-pivotp.X+rect.X, cl.bounds.Y+anchorp.Y-pivotp.Y+rect.Y, rect.Width, rect.Height)
 }
 
 type horizontalLayout struct {

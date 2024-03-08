@@ -595,6 +595,10 @@ func NewRectangle[XT, YT, WT, HT CoordinateT](x XT, y YT, width WT, height HT) R
 	return Rectangle{float32(x), float32(y), float32(width), float32(height)}
 }
 
+func NewRectangleV(xy, wh Vector2) Rectangle {
+	return Rectangle{xy.X, xy.Y, wh.X, wh.Y}
+}
+
 // ToInt32 converts rectangle to int32 variant
 func (r *Rectangle) ToInt32() RectangleInt32 {
 	rect := RectangleInt32{}
@@ -1151,6 +1155,10 @@ type Texture2D struct {
 // NewTexture2D - Returns new Texture2D
 func NewTexture2D(id uint32, width, height, mipmaps int32, format PixelFormat) Texture2D {
 	return Texture2D{id, width, height, mipmaps, format}
+}
+
+func (t *Texture2D) IsEmpty() bool {
+	return t.ID == 0
 }
 
 // RenderTexture2D type, for texture rendering
