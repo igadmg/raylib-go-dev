@@ -70,180 +70,180 @@ func newRayCollisionFromPointer(ptr unsafe.Pointer) RayCollision {
 
 // DrawLine3D - Draw a line in 3D world space
 func DrawLine3D(startPos Vector3, endPos Vector3, col color.RGBA) {
-	cstartPos := cvec3(startPos)
-	cendPos := cvec3(endPos)
-	ccolor := colorCptr(col)
-	C.DrawLine3D(cstartPos, cendPos, *ccolor)
+	cstartPos := cvec3ptr(&startPos)
+	cendPos := cvec3ptr(&endPos)
+	ccolor := ccolorptr(&col)
+	C.DrawLine3D(*cstartPos, *cendPos, *ccolor)
 }
 
 // DrawPoint3D - Draw a point in 3D space, actually a small line
 func DrawPoint3D(position Vector3, col color.RGBA) {
-	cposition := cvec3(position)
-	ccolor := colorCptr(col)
-	C.DrawPoint3D(cposition, *ccolor)
+	cposition := cvec3ptr(&position)
+	ccolor := ccolorptr(&col)
+	C.DrawPoint3D(*cposition, *ccolor)
 }
 
 // DrawCircle3D - Draw a circle in 3D world space
 func DrawCircle3D(center Vector3, radius float32, rotationAxis Vector3, rotationAngle float32, col color.RGBA) {
-	ccenter := cvec3(center)
+	ccenter := cvec3ptr(&center)
 	cradius := (C.float)(radius)
-	crotationAxis := cvec3(rotationAxis)
+	crotationAxis := cvec3ptr(&rotationAxis)
 	crotationAngle := (C.float)(rotationAngle)
-	ccolor := colorCptr(col)
-	C.DrawCircle3D(ccenter, cradius, crotationAxis, crotationAngle, *ccolor)
+	ccolor := ccolorptr(&col)
+	C.DrawCircle3D(*ccenter, cradius, *crotationAxis, crotationAngle, *ccolor)
 }
 
 // DrawTriangle3D - Draw a color-filled triangle (vertex in counter-clockwise order!)
 func DrawTriangle3D(v1 Vector3, v2 Vector3, v3 Vector3, col color.RGBA) {
-	cv1 := cvec3(v1)
-	cv2 := cvec3(v2)
-	cv3 := cvec3(v3)
-	ccolor := colorCptr(col)
-	C.DrawTriangle3D(cv1, cv2, cv3, *ccolor)
+	cv1 := cvec3ptr(&v1)
+	cv2 := cvec3ptr(&v2)
+	cv3 := cvec3ptr(&v3)
+	ccolor := ccolorptr(&col)
+	C.DrawTriangle3D(*cv1, *cv2, *cv3, *ccolor)
 }
 
 // DrawCube - Draw cube
 func DrawCube(position Vector3, width float32, height float32, length float32, col color.RGBA) {
-	cposition := cvec3(position)
+	cposition := cvec3ptr(&position)
 	cwidth := (C.float)(width)
 	cheight := (C.float)(height)
 	clength := (C.float)(length)
-	ccolor := colorCptr(col)
-	C.DrawCube(cposition, cwidth, cheight, clength, *ccolor)
+	ccolor := ccolorptr(&col)
+	C.DrawCube(*cposition, cwidth, cheight, clength, *ccolor)
 }
 
 // DrawCubeV - Draw cube (Vector version)
 func DrawCubeV(position Vector3, size Vector3, col color.RGBA) {
-	cposition := cvec3(position)
-	csize := cvec3(size)
-	ccolor := colorCptr(col)
-	C.DrawCubeV(cposition, csize, *ccolor)
+	cposition := cvec3ptr(&position)
+	csize := cvec3ptr(&size)
+	ccolor := ccolorptr(&col)
+	C.DrawCubeV(*cposition, *csize, *ccolor)
 }
 
 // DrawCubeWires - Draw cube wires
 func DrawCubeWires(position Vector3, width float32, height float32, length float32, col color.RGBA) {
-	cposition := cvec3(position)
+	cposition := cvec3ptr(&position)
 	cwidth := (C.float)(width)
 	cheight := (C.float)(height)
 	clength := (C.float)(length)
-	ccolor := colorCptr(col)
-	C.DrawCubeWires(cposition, cwidth, cheight, clength, *ccolor)
+	ccolor := ccolorptr(&col)
+	C.DrawCubeWires(*cposition, cwidth, cheight, clength, *ccolor)
 }
 
 // DrawCubeWiresV - Draw cube wires (Vector version)
 func DrawCubeWiresV(position Vector3, size Vector3, col color.RGBA) {
-	cposition := cvec3(position)
-	csize := cvec3(size)
-	ccolor := colorCptr(col)
-	C.DrawCubeWiresV(cposition, csize, *ccolor)
+	cposition := cvec3ptr(&position)
+	csize := cvec3ptr(&size)
+	ccolor := ccolorptr(&col)
+	C.DrawCubeWiresV(*cposition, *csize, *ccolor)
 }
 
 // DrawSphere - Draw sphere
 func DrawSphere(centerPos Vector3, radius float32, col color.RGBA) {
-	ccenterPos := cvec3(centerPos)
+	ccenterPos := cvec3ptr(&centerPos)
 	cradius := (C.float)(radius)
-	ccolor := colorCptr(col)
-	C.DrawSphere(ccenterPos, cradius, *ccolor)
+	ccolor := ccolorptr(&col)
+	C.DrawSphere(*ccenterPos, cradius, *ccolor)
 }
 
 // DrawSphereEx - Draw sphere with extended parameters
 func DrawSphereEx(centerPos Vector3, radius float32, rings int32, slices int32, col color.RGBA) {
-	ccenterPos := cvec3(centerPos)
+	ccenterPos := cvec3ptr(&centerPos)
 	cradius := (C.float)(radius)
 	crings := (C.int)(rings)
 	cslices := (C.int)(slices)
-	ccolor := colorCptr(col)
-	C.DrawSphereEx(ccenterPos, cradius, crings, cslices, *ccolor)
+	ccolor := ccolorptr(&col)
+	C.DrawSphereEx(*ccenterPos, cradius, crings, cslices, *ccolor)
 }
 
 // DrawSphereWires - Draw sphere wires
 func DrawSphereWires(centerPos Vector3, radius float32, rings int32, slices int32, col color.RGBA) {
-	ccenterPos := cvec3(centerPos)
+	ccenterPos := cvec3ptr(&centerPos)
 	cradius := (C.float)(radius)
 	crings := (C.int)(rings)
 	cslices := (C.int)(slices)
-	ccolor := colorCptr(col)
-	C.DrawSphereWires(ccenterPos, cradius, crings, cslices, *ccolor)
+	ccolor := ccolorptr(&col)
+	C.DrawSphereWires(*ccenterPos, cradius, crings, cslices, *ccolor)
 }
 
 // DrawCylinder - Draw a cylinder/cone
 func DrawCylinder(position Vector3, radiusTop float32, radiusBottom float32, height float32, slices int32, col color.RGBA) {
-	cposition := cvec3(position)
+	cposition := cvec3ptr(&position)
 	cradiusTop := (C.float)(radiusTop)
 	cradiusBottom := (C.float)(radiusBottom)
 	cheight := (C.float)(height)
 	cslices := (C.int)(slices)
-	ccolor := colorCptr(col)
-	C.DrawCylinder(cposition, cradiusTop, cradiusBottom, cheight, cslices, *ccolor)
+	ccolor := ccolorptr(&col)
+	C.DrawCylinder(*cposition, cradiusTop, cradiusBottom, cheight, cslices, *ccolor)
 }
 
 // DrawCylinderEx - Draw a cylinder with base at startPos and top at endPos
 func DrawCylinderEx(startPos Vector3, endPos Vector3, startRadius float32, endRadius float32, sides int32, col color.RGBA) {
-	cstartPos := cvec3(startPos)
-	cendPos := cvec3(endPos)
+	cstartPos := cvec3ptr(&startPos)
+	cendPos := cvec3ptr(&endPos)
 	cstartRadius := (C.float)(startRadius)
 	cendRadius := (C.float)(endRadius)
 	csides := (C.int)(sides)
-	ccolor := colorCptr(col)
-	C.DrawCylinderEx(cstartPos, cendPos, cstartRadius, cendRadius, csides, *ccolor)
+	ccolor := ccolorptr(&col)
+	C.DrawCylinderEx(*cstartPos, *cendPos, cstartRadius, cendRadius, csides, *ccolor)
 }
 
 // DrawCylinderWires - Draw a cylinder/cone wires
 func DrawCylinderWires(position Vector3, radiusTop float32, radiusBottom float32, height float32, slices int32, col color.RGBA) {
-	cposition := cvec3(position)
+	cposition := cvec3ptr(&position)
 	cradiusTop := (C.float)(radiusTop)
 	cradiusBottom := (C.float)(radiusBottom)
 	cheight := (C.float)(height)
 	cslices := (C.int)(slices)
-	ccolor := colorCptr(col)
-	C.DrawCylinderWires(cposition, cradiusTop, cradiusBottom, cheight, cslices, *ccolor)
+	ccolor := ccolorptr(&col)
+	C.DrawCylinderWires(*cposition, cradiusTop, cradiusBottom, cheight, cslices, *ccolor)
 }
 
 // DrawCylinderWiresEx - Draw a cylinder wires with base at startPos and top at endPos
 func DrawCylinderWiresEx(startPos Vector3, endPos Vector3, startRadius float32, endRadius float32, sides int32, col color.RGBA) {
-	cstartPos := cvec3(startPos)
-	cendPos := cvec3(endPos)
+	cstartPos := cvec3ptr(&startPos)
+	cendPos := cvec3ptr(&endPos)
 	cstartRadius := (C.float)(startRadius)
 	cendRadius := (C.float)(endRadius)
 	csides := (C.int)(sides)
-	ccolor := colorCptr(col)
-	C.DrawCylinderWiresEx(cstartPos, cendPos, cstartRadius, cendRadius, csides, *ccolor)
+	ccolor := ccolorptr(&col)
+	C.DrawCylinderWiresEx(*cstartPos, *cendPos, cstartRadius, cendRadius, csides, *ccolor)
 }
 
 // DrawCapsule - Draw a capsule with the center of its sphere caps at startPos and endPos
 func DrawCapsule(startPos, endPos Vector3, radius float32, slices, rings int32, col color.RGBA) {
-	cstartPos := cvec3(startPos)
-	cendPos := cvec3(endPos)
+	cstartPos := cvec3ptr(&startPos)
+	cendPos := cvec3ptr(&endPos)
 	cradius := (C.float)(radius)
 	cslices := (C.int)(slices)
 	crings := (C.int)(rings)
-	ccolor := colorCptr(col)
-	C.DrawCapsule(cstartPos, cendPos, cradius, cslices, crings, *ccolor)
+	ccolor := ccolorptr(&col)
+	C.DrawCapsule(*cstartPos, *cendPos, cradius, cslices, crings, *ccolor)
 }
 
 // DrawCapsuleWires - Draw capsule wireframe with the center of its sphere caps at startPos and endPos
 func DrawCapsuleWires(startPos, endPos Vector3, radius float32, slices, rings int32, col color.RGBA) {
-	cstartPos := cvec3(startPos)
-	cendPos := cvec3(endPos)
+	cstartPos := cvec3ptr(&startPos)
+	cendPos := cvec3ptr(&endPos)
 	cradius := (C.float)(radius)
 	cslices := (C.int)(slices)
 	crings := (C.int)(rings)
-	ccolor := colorCptr(col)
-	C.DrawCapsuleWires(cstartPos, cendPos, cradius, cslices, crings, *ccolor)
+	ccolor := ccolorptr(&col)
+	C.DrawCapsuleWires(*cstartPos, *cendPos, cradius, cslices, crings, *ccolor)
 }
 
 // DrawPlane - Draw a plane XZ
 func DrawPlane(centerPos Vector3, size Vector2, col color.RGBA) {
-	ccenterPos := cvec3(centerPos)
-	csize := cvec2(size)
-	ccolor := colorCptr(col)
-	C.DrawPlane(ccenterPos, csize, *ccolor)
+	ccenterPos := cvec3ptr(&centerPos)
+	csize := cvec2ptr(&size)
+	ccolor := ccolorptr(&col)
+	C.DrawPlane(*ccenterPos, *csize, *ccolor)
 }
 
 // DrawRay - Draw a ray line
 func DrawRay(ray Ray, col color.RGBA) {
 	cray := ray.cptr()
-	ccolor := colorCptr(col)
+	ccolor := ccolorptr(&col)
 	C.DrawRay(*cray, *ccolor)
 }
 
@@ -296,47 +296,47 @@ func GetModelBoundingBox(model Model) BoundingBox {
 // DrawModel - Draw a model (with texture if set)
 func DrawModel(model Model, position Vector3, scale float32, tint color.RGBA) {
 	cmodel := model.cptr()
-	cposition := cvec3(position)
+	cposition := cvec3ptr(&position)
 	cscale := (C.float)(scale)
-	ctint := colorCptr(tint)
-	C.DrawModel(*cmodel, cposition, cscale, *ctint)
+	ctint := ccolorptr(&tint)
+	C.DrawModel(*cmodel, *cposition, cscale, *ctint)
 }
 
 // DrawModelEx - Draw a model with extended parameters
 func DrawModelEx(model Model, position Vector3, rotationAxis Vector3, rotationAngle float32, scale Vector3, tint color.RGBA) {
 	cmodel := model.cptr()
-	cposition := cvec3(position)
-	crotationAxis := cvec3(rotationAxis)
+	cposition := cvec3ptr(&position)
+	crotationAxis := cvec3ptr(&rotationAxis)
 	crotationAngle := (C.float)(rotationAngle)
-	cscale := cvec3(scale)
-	ctint := colorCptr(tint)
-	C.DrawModelEx(*cmodel, cposition, crotationAxis, crotationAngle, cscale, *ctint)
+	cscale := cvec3ptr(&scale)
+	ctint := ccolorptr(&tint)
+	C.DrawModelEx(*cmodel, *cposition, *crotationAxis, crotationAngle, *cscale, *ctint)
 }
 
 // DrawModelWires - Draw a model wires (with texture if set)
 func DrawModelWires(model Model, position Vector3, scale float32, tint color.RGBA) {
 	cmodel := model.cptr()
-	cposition := cvec3(position)
+	cposition := cvec3ptr(&position)
 	cscale := (C.float)(scale)
-	ctint := colorCptr(tint)
-	C.DrawModelWires(*cmodel, cposition, cscale, *ctint)
+	ctint := ccolorptr(&tint)
+	C.DrawModelWires(*cmodel, *cposition, cscale, *ctint)
 }
 
 // DrawModelWiresEx - Draw a model wires (with texture if set) with extended parameters
 func DrawModelWiresEx(model Model, position Vector3, rotationAxis Vector3, rotationAngle float32, scale Vector3, tint color.RGBA) {
 	cmodel := model.cptr()
-	cposition := cvec3(position)
-	crotationAxis := cvec3(rotationAxis)
+	cposition := cvec3ptr(&position)
+	crotationAxis := cvec3ptr(&rotationAxis)
 	crotationAngle := (C.float)(rotationAngle)
-	cscale := cvec3(scale)
-	ctint := colorCptr(tint)
-	C.DrawModelWiresEx(*cmodel, cposition, crotationAxis, crotationAngle, cscale, *ctint)
+	cscale := cvec3ptr(&scale)
+	ctint := ccolorptr(&tint)
+	C.DrawModelWiresEx(*cmodel, *cposition, *crotationAxis, crotationAngle, *cscale, *ctint)
 }
 
 // DrawBoundingBox - Draw bounding box (wires)
 func DrawBoundingBox(box BoundingBox, col color.RGBA) {
 	cbox := box.cptr()
-	ccolor := colorCptr(col)
+	ccolor := ccolorptr(&col)
 	C.DrawBoundingBox(*cbox, *ccolor)
 }
 
@@ -344,35 +344,35 @@ func DrawBoundingBox(box BoundingBox, col color.RGBA) {
 func DrawBillboard(camera Camera, texture Texture2D, center Vector3, size float32, tint color.RGBA) {
 	ccamera := camera.cptr()
 	ctexture := texture.cptr()
-	ccenter := cvec3(center)
+	ccenter := cvec3ptr(&center)
 	csize := (C.float)(size)
-	ctint := colorCptr(tint)
-	C.DrawBillboard(*ccamera, *ctexture, ccenter, csize, *ctint)
+	ctint := ccolorptr(&tint)
+	C.DrawBillboard(*ccamera, *ctexture, *ccenter, csize, *ctint)
 }
 
 // DrawBillboardRec - Draw a billboard texture defined by sourceRec
 func DrawBillboardRec(camera Camera, texture Texture2D, sourceRec Rectangle, center Vector3, size Vector2, tint color.RGBA) {
 	ccamera := camera.cptr()
 	ctexture := texture.cptr()
-	csourceRec := crect2(sourceRec)
-	ccenter := cvec3(center)
-	csize := cvec2(size)
-	ctint := colorCptr(tint)
-	C.DrawBillboardRec(*ccamera, *ctexture, csourceRec, ccenter, csize, *ctint)
+	csourceRec := crect2ptr(&sourceRec)
+	ccenter := cvec3ptr(&center)
+	csize := cvec2ptr(&size)
+	ctint := ccolorptr(&tint)
+	C.DrawBillboardRec(*ccamera, *ctexture, *csourceRec, *ccenter, *csize, *ctint)
 }
 
 // DrawBillboardPro - Draw a billboard texture with pro parameters
 func DrawBillboardPro(camera Camera, texture Texture2D, sourceRec Rectangle, position Vector3, up Vector3, size Vector2, origin Vector2, rotation float32, tint Color) {
 	ccamera := camera.cptr()
 	ctexture := texture.cptr()
-	csourceRec := crect2(sourceRec)
-	cposition := cvec3(position)
-	cup := cvec3(up)
-	csize := cvec2(size)
-	corigin := cvec2(origin)
+	csourceRec := crect2ptr(&sourceRec)
+	cposition := cvec3ptr(&position)
+	cup := cvec3ptr(&up)
+	csize := cvec2ptr(&size)
+	corigin := cvec2ptr(&origin)
 	crotation := (C.float)(rotation)
-	ctint := colorCptr(tint)
-	C.DrawBillboardPro(*ccamera, *ctexture, csourceRec, cposition, cup, csize, corigin, crotation, *ctint)
+	ctint := ccolorptr(&tint)
+	C.DrawBillboardPro(*ccamera, *ctexture, *csourceRec, *cposition, *cup, *csize, *corigin, crotation, *ctint)
 }
 
 // List of VaoIDs of meshes created by calling UploadMesh()
@@ -596,9 +596,9 @@ func GenMeshKnot(radius, size float32, radSeg, sides int) Mesh {
 // GenMeshHeightmap - Generate heightmap mesh from image data
 func GenMeshHeightmap(heightmap Image, size Vector3) Mesh {
 	cheightmap := heightmap.cptr()
-	csize := cvec3(size)
+	csize := cvec3ptr(&size)
 
-	ret := C.GenMeshHeightmap(*cheightmap, csize)
+	ret := C.GenMeshHeightmap(*cheightmap, *csize)
 	v := newMeshFromPointer(unsafe.Pointer(&ret))
 	return v
 }
@@ -606,9 +606,9 @@ func GenMeshHeightmap(heightmap Image, size Vector3) Mesh {
 // GenMeshCubicmap - Generate cubes-based map mesh from image data
 func GenMeshCubicmap(cubicmap Image, size Vector3) Mesh {
 	ccubicmap := cubicmap.cptr()
-	csize := cvec3(size)
+	csize := cvec3ptr(&size)
 
-	ret := C.GenMeshCubicmap(*ccubicmap, csize)
+	ret := C.GenMeshCubicmap(*ccubicmap, *csize)
 	v := newMeshFromPointer(unsafe.Pointer(&ret))
 	return v
 }
@@ -700,11 +700,11 @@ func IsModelAnimationValid(model Model, anim ModelAnimation) bool {
 
 // CheckCollisionSpheres - Detect collision between two spheres
 func CheckCollisionSpheres(centerA Vector3, radiusA float32, centerB Vector3, radiusB float32) bool {
-	ccenterA := cvec3(centerA)
+	ccenterA := cvec3ptr(&centerA)
 	cradiusA := (C.float)(radiusA)
-	ccenterB := cvec3(centerB)
+	ccenterB := cvec3ptr(&centerB)
 	cradiusB := (C.float)(radiusB)
-	ret := C.CheckCollisionSpheres(ccenterA, cradiusA, ccenterB, cradiusB)
+	ret := C.CheckCollisionSpheres(*ccenterA, cradiusA, *ccenterB, cradiusB)
 	v := bool(ret)
 	return v
 }
@@ -721,9 +721,9 @@ func CheckCollisionBoxes(box1 BoundingBox, box2 BoundingBox) bool {
 // CheckCollisionBoxSphere - Detect collision between box and sphere
 func CheckCollisionBoxSphere(box BoundingBox, centerSphere Vector3, radiusSphere float32) bool {
 	cbox := box.cptr()
-	ccenterSphere := cvec3(centerSphere)
+	ccenterSphere := cvec3ptr(&centerSphere)
 	cradiusSphere := (C.float)(radiusSphere)
-	ret := C.CheckCollisionBoxSphere(*cbox, ccenterSphere, cradiusSphere)
+	ret := C.CheckCollisionBoxSphere(*cbox, *ccenterSphere, cradiusSphere)
 	v := bool(ret)
 	return v
 }
@@ -731,9 +731,9 @@ func CheckCollisionBoxSphere(box BoundingBox, centerSphere Vector3, radiusSphere
 // GetRayCollisionSphere - Get collision info between ray and sphere
 func GetRayCollisionSphere(ray Ray, center Vector3, radius float32) RayCollision {
 	cray := ray.cptr()
-	ccenter := cvec3(center)
+	ccenter := cvec3ptr(&center)
 	cradius := (C.float)(radius)
-	ret := C.GetRayCollisionSphere(*cray, ccenter, cradius)
+	ret := C.GetRayCollisionSphere(*cray, *ccenter, cradius)
 	v := newRayCollisionFromPointer(unsafe.Pointer(&ret))
 	return v
 }
@@ -760,10 +760,10 @@ func GetRayCollisionMesh(ray Ray, mesh Mesh, transform Matrix) RayCollision {
 // GetRayCollisionTriangle - Get collision info between ray and triangle
 func GetRayCollisionTriangle(ray Ray, p1, p2, p3 Vector3) RayCollision {
 	cray := ray.cptr()
-	cp1 := cvec3(p1)
-	cp2 := cvec3(p2)
-	cp3 := cvec3(p3)
-	ret := C.GetRayCollisionTriangle(*cray, cp1, cp2, cp3)
+	cp1 := cvec3ptr(&p1)
+	cp2 := cvec3ptr(&p2)
+	cp3 := cvec3ptr(&p3)
+	ret := C.GetRayCollisionTriangle(*cray, *cp1, *cp2, *cp3)
 	v := newRayCollisionFromPointer(unsafe.Pointer(&ret))
 	return v
 }
@@ -771,11 +771,11 @@ func GetRayCollisionTriangle(ray Ray, p1, p2, p3 Vector3) RayCollision {
 // GetRayCollisionQuad - Get collision info between ray and quad
 func GetRayCollisionQuad(ray Ray, p1, p2, p3, p4 Vector3) RayCollision {
 	cray := ray.cptr()
-	cp1 := cvec3(p1)
-	cp2 := cvec3(p2)
-	cp3 := cvec3(p3)
-	cp4 := cvec3(p4)
-	ret := C.GetRayCollisionQuad(*cray, cp1, cp2, cp3, cp4)
+	cp1 := cvec3ptr(&p1)
+	cp2 := cvec3ptr(&p2)
+	cp3 := cvec3ptr(&p3)
+	cp4 := cvec3ptr(&p4)
+	ret := C.GetRayCollisionQuad(*cray, *cp1, *cp2, *cp3, *cp4)
 	v := newRayCollisionFromPointer(unsafe.Pointer(&ret))
 	return v
 }

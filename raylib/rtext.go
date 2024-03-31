@@ -71,7 +71,7 @@ func LoadFontEx(fileName string, fontSize int32, fontChars []rune, runesNumber .
 // LoadFontFromImage - Loads an Image font file (XNA style)
 func LoadFontFromImage(image Image, key color.RGBA, firstChar int32) *Font {
 	cimage := image.cptr()
-	ckey := colorCptr(key)
+	ckey := ccolorptr(&key)
 	cfirstChar := (C.int)(firstChar)
 	ret := C.LoadFontFromImage(*cimage, *ckey, cfirstChar)
 	v := newFontFromPointer(unsafe.Pointer(&ret))
@@ -139,7 +139,7 @@ func DrawText[XT, YT CoordinateT](text string, posX XT, posY YT, fontSize int32,
 	cposX := (C.int)(posX)
 	cposY := (C.int)(posY)
 	cfontSize := (C.int)(fontSize)
-	ccolor := colorCptr(col)
+	ccolor := ccolorptr(&col)
 	C.DrawText(ctext, cposX, cposY, cfontSize, *ccolor)
 }
 
@@ -148,11 +148,11 @@ func DrawTextEx(font Font, text string, position Vector2, fontSize float32, spac
 	cfont := font.cptr()
 	ctext := C.CString(text)
 	defer C.free(unsafe.Pointer(ctext))
-	cposition := cvec2(position)
+	cposition := cvec2ptr(&position)
 	cfontSize := (C.float)(fontSize)
 	cspacing := (C.float)(spacing)
-	ctint := colorCptr(tint)
-	C.DrawTextEx(*cfont, ctext, cposition, cfontSize, cspacing, *ctint)
+	ctint := ccolorptr(&tint)
+	C.DrawTextEx(*cfont, ctext, *cposition, cfontSize, cspacing, *ctint)
 }
 
 // SetTextLineSpacing - Set vertical line spacing when drawing with line-breaks
@@ -179,8 +179,7 @@ func MeasureTextEx(font Font, text string, fontSize float32, spacing float32) Ve
 	cfontSize := (C.float)(fontSize)
 	cspacing := (C.float)(spacing)
 	ret := C.MeasureTextEx(*cfont, ctext, cfontSize, cspacing)
-	v := newVector2FromPointer(unsafe.Pointer(&ret))
-	return v
+	return *govec2ptr(&ret)
 }
 
 // GetGlyphIndex - Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found

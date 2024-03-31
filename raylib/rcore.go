@@ -10,8 +10,6 @@ import (
 	"image/color"
 	"unsafe"
 
-	"github.com/EliCDavis/vector"
-	"github.com/EliCDavis/vector/rect2"
 	"github.com/EliCDavis/vector/vector2"
 	"github.com/EliCDavis/vector/vector3"
 	"github.com/EliCDavis/vector/vector4"
@@ -21,9 +19,9 @@ import (
 type AutomationEvent = C.AutomationEvent
 type AutomationEventList = C.AutomationEventList
 
-// newVector2FromPointer - Returns new Vector2 from pointer
-func newVector2FromPointer(ptr unsafe.Pointer) Vector2 {
-	return *(*Vector2)(ptr)
+// govec2ptr - Returns new Vector2 from pointer
+func govec2ptr(v *C.Vector2) *Vector2 {
+	return (*Vector2)(unsafe.Pointer(v))
 }
 
 // cptr returns C pointer
@@ -31,13 +29,9 @@ func cvec2ptr(v *vector2.Float32) *C.Vector2 {
 	return (*C.Vector2)(unsafe.Pointer(v))
 }
 
-func cvec2[T vector.Number](v vector2.Vector[T]) C.Vector2 {
-	return C.Vector2{(C.float)(v.X), (C.float)(v.Y)}
-}
-
-// newVector3FromPointer - Returns new Vector3 from pointer
-func newVector3FromPointer(ptr unsafe.Pointer) Vector3 {
-	return *(*Vector3)(ptr)
+// govec3ptr - Returns new Vector3 from pointer
+func govec3ptr(v *C.Vector3) *Vector3 {
+	return (*Vector3)(unsafe.Pointer(v))
 }
 
 // cvec3 returns C pointer
@@ -45,22 +39,14 @@ func cvec3ptr(v *vector3.Float32) *C.Vector3 {
 	return (*C.Vector3)(unsafe.Pointer(v))
 }
 
-func cvec3[T vector.Number](v vector3.Vector[T]) C.Vector3 {
-	return C.Vector3{(C.float)(v.X), (C.float)(v.Y), (C.float)(v.Z)}
-}
-
-// newVector4FromPointer - Returns new Vector4 from pointer
-func newVector4FromPointer(ptr unsafe.Pointer) Vector4 {
-	return *(*Vector4)(ptr)
+// govec4ptr - Returns new Vector4 from pointer
+func govec4ptr(v *C.Vector4) *Vector4 {
+	return (*Vector4)(unsafe.Pointer(v))
 }
 
 // cvec4 returns C pointer
 func cvec4ptr(v *vector4.Float32) *C.Vector4 {
 	return (*C.Vector4)(unsafe.Pointer(v))
-}
-
-func cvec4[T vector.Number](v vector4.Vector[T]) C.Vector4 {
-	return C.Vector4{(C.float)(v.X), (C.float)(v.Y), (C.float)(v.Z), (C.float)(v.W)}
 }
 
 // newMatrixFromPointer - Returns new Matrix from pointer
@@ -78,9 +64,9 @@ func newColorFromPointer(ptr unsafe.Pointer) color.RGBA {
 	return *(*color.RGBA)(ptr)
 }
 
-// colorCptr returns color C pointer
-func colorCptr(col color.RGBA) *C.Color {
-	return (*C.Color)(unsafe.Pointer(&col))
+// ccolorptr returns color C pointer
+func ccolorptr(col *color.RGBA) *C.Color {
+	return (*C.Color)(unsafe.Pointer(col))
 }
 
 // newRectangleFromPointer - Returns new Rectangle from pointer
@@ -89,8 +75,8 @@ func newRectangleFromPointer(ptr unsafe.Pointer) Rectangle {
 }
 
 // cptr returns C pointer
-func crect2[T vector.Number](r rect2.Rectangle[T]) C.Rectangle {
-	return C.Rectangle{(C.float)(r.XY.X), (C.float)(r.XY.Y), (C.float)(r.WH.X), (C.float)(r.WH.Y)}
+func crect2ptr(r *Rectangle) *C.Rectangle {
+	return (*C.Rectangle)(unsafe.Pointer(r))
 }
 
 // newCamera3DFromPointer - Returns new Camera3D from pointer
@@ -366,8 +352,7 @@ func GetCurrentMonitor() int {
 func GetMonitorPosition(monitor int) Vector2 {
 	cmonitor := (C.int)(monitor)
 	ret := C.GetMonitorPosition(cmonitor)
-	v := newVector2FromPointer(unsafe.Pointer(&ret))
-	return v
+	return *govec2ptr(&ret)
 }
 
 // GetMonitorWidth - Get primary monitor width
@@ -413,15 +398,13 @@ func GetMonitorRefreshRate(monitor int) int {
 // GetWindowPosition - Get window position XY on monitor
 func GetWindowPosition() Vector2 {
 	ret := C.GetWindowPosition()
-	v := newVector2FromPointer(unsafe.Pointer(&ret))
-	return v
+	return *govec2ptr(&ret)
 }
 
 // GetWindowScaleDPI - Get window scale DPI factor
 func GetWindowScaleDPI() Vector2 {
 	ret := C.GetWindowScaleDPI()
-	v := newVector2FromPointer(unsafe.Pointer(&ret))
-	return v
+	return *govec2ptr(&ret)
 }
 
 // GetMonitorName - Get the human-readable, UTF-8 encoded name of the primary monitor
@@ -458,7 +441,7 @@ func DisableEventWaiting() {
 
 // ClearBackground - Sets Background Color
 func ClearBackground(col color.RGBA) {
-	ccolor := colorCptr(col)
+	ccolor := ccolorptr(&col)
 	C.ClearBackground(*ccolor)
 }
 
@@ -636,9 +619,9 @@ func UnloadShader(shader *Shader) {
 
 // GetMouseRay - Returns a ray trace from mouse position
 func GetMouseRay(mousePosition Vector2, camera Camera) Ray {
-	cmousePosition := cvec2(mousePosition)
+	cmousePosition := cvec2ptr(&mousePosition)
 	ccamera := camera.cptr()
-	ret := C.GetMouseRay(cmousePosition, *ccamera)
+	ret := C.GetMouseRay(*cmousePosition, *ccamera)
 	v := newRayFromPointer(unsafe.Pointer(&ret))
 	return v
 }
@@ -661,40 +644,36 @@ func GetCameraMatrix2D(camera Camera2D) Matrix {
 
 // GetWorldToScreen - Returns the screen space position from a 3d world space position
 func GetWorldToScreen(position Vector3, camera Camera) Vector2 {
-	cposition := cvec3(position)
+	cposition := cvec3ptr(&position)
 	ccamera := camera.cptr()
-	ret := C.GetWorldToScreen(cposition, *ccamera)
-	v := newVector2FromPointer(unsafe.Pointer(&ret))
-	return v
+	ret := C.GetWorldToScreen(*cposition, *ccamera)
+	return *govec2ptr(&ret)
 }
 
 // GetScreenToWorld2D - Returns the world space position for a 2d camera screen space position
 func GetScreenToWorld2D(position Vector2, camera Camera2D) Vector2 {
-	cposition := cvec2(position)
+	cposition := cvec2ptr(&position)
 	ccamera := camera.cptr()
-	ret := C.GetScreenToWorld2D(cposition, *ccamera)
-	v := newVector2FromPointer(unsafe.Pointer(&ret))
-	return v
+	ret := C.GetScreenToWorld2D(*cposition, *ccamera)
+	return *govec2ptr(&ret)
 }
 
 // GetWorldToScreenEx - Get size position for a 3d world space position
 func GetWorldToScreenEx(position Vector3, camera Camera, width int32, height int32) Vector2 {
-	cposition := cvec3(position)
+	cposition := cvec3ptr(&position)
 	ccamera := camera.cptr()
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
-	ret := C.GetWorldToScreenEx(cposition, *ccamera, cwidth, cheight)
-	v := newVector2FromPointer(unsafe.Pointer(&ret))
-	return v
+	ret := C.GetWorldToScreenEx(*cposition, *ccamera, cwidth, cheight)
+	return *govec2ptr(&ret)
 }
 
 // GetWorldToScreen2D - Returns the screen space position for a 2d camera world space position
 func GetWorldToScreen2D(position Vector2, camera Camera2D) Vector2 {
-	cposition := cvec2(position)
+	cposition := cvec2ptr(&position)
 	ccamera := camera.cptr()
-	ret := C.GetWorldToScreen2D(cposition, *ccamera)
-	v := newVector2FromPointer(unsafe.Pointer(&ret))
-	return v
+	ret := C.GetWorldToScreen2D(*cposition, *ccamera)
+	return *govec2ptr(&ret)
 }
 
 // SetTargetFPS - Set target FPS (maximum)
@@ -726,7 +705,7 @@ func GetTime() float64 {
 
 // Fade - Returns color with alpha applied, alpha goes from 0.0f to 1.0f
 func Fade(col color.RGBA, alpha float32) color.RGBA {
-	ccolor := colorCptr(col)
+	ccolor := ccolorptr(&col)
 	calpha := (C.float)(alpha)
 	ret := C.Fade(*ccolor, calpha)
 	v := newColorFromPointer(unsafe.Pointer(&ret))
@@ -735,7 +714,7 @@ func Fade(col color.RGBA, alpha float32) color.RGBA {
 
 // ColorToInt - Returns hexadecimal value for a Color
 func ColorToInt(col color.RGBA) int32 {
-	ccolor := colorCptr(col)
+	ccolor := ccolorptr(&col)
 	ret := C.ColorToInt(*ccolor)
 	v := (int32)(ret)
 	return v
@@ -755,18 +734,17 @@ func ColorNormalize(col color.RGBA) Vector4 {
 
 // ColorFromNormalized - Returns Color from normalized values [0..1]
 func ColorFromNormalized(normalized Vector4) color.RGBA {
-	cnormalized := cvec4(normalized)
-	ret := C.ColorFromNormalized(cnormalized)
+	cnormalized := cvec4ptr(&normalized)
+	ret := C.ColorFromNormalized(*cnormalized)
 	v := newColorFromPointer(unsafe.Pointer(&ret))
 	return v
 }
 
 // ColorToHSV - Returns HSV values for a Color, hue [0..360], saturation/value [0..1]
 func ColorToHSV(col color.RGBA) Vector3 {
-	ccolor := colorCptr(col)
+	ccolor := ccolorptr(&col)
 	ret := C.ColorToHSV(*ccolor)
-	v := newVector3FromPointer(unsafe.Pointer(&ret))
-	return v
+	return *govec3ptr(&ret)
 }
 
 // ColorFromHSV - Returns a Color from HSV values, hue [0..360], saturation/value [0..1]
@@ -781,8 +759,8 @@ func ColorFromHSV(hue, saturation, value float32) color.RGBA {
 
 // ColorTint - Get color multiplied with another color
 func ColorTint(col color.RGBA, tint color.RGBA) color.RGBA {
-	ccolor := colorCptr(col)
-	ctint := colorCptr(tint)
+	ccolor := ccolorptr(&col)
+	ctint := ccolorptr(&tint)
 	ret := C.ColorTint(*ccolor, *ctint)
 	v := newColorFromPointer(unsafe.Pointer(&ret))
 	return v
@@ -790,7 +768,7 @@ func ColorTint(col color.RGBA, tint color.RGBA) color.RGBA {
 
 // ColorBrightness - Get color with brightness correction, brightness factor goes from -1.0f to 1.0f
 func ColorBrightness(col color.RGBA, factor float32) color.RGBA {
-	ccolor := colorCptr(col)
+	ccolor := ccolorptr(&col)
 	cfactor := C.float(factor)
 	ret := C.ColorBrightness(*ccolor, cfactor)
 	v := newColorFromPointer(unsafe.Pointer(&ret))
@@ -799,7 +777,7 @@ func ColorBrightness(col color.RGBA, factor float32) color.RGBA {
 
 // ColorContrast - Get color with contrast correction, contrast values between -1.0f and 1.0f
 func ColorContrast(col color.RGBA, contrast float32) color.RGBA {
-	ccolor := colorCptr(col)
+	ccolor := ccolorptr(&col)
 	ccontrast := C.float(contrast)
 	ret := C.ColorContrast(*ccolor, ccontrast)
 	v := newColorFromPointer(unsafe.Pointer(&ret))
@@ -813,9 +791,9 @@ func ColorAlpha(col color.RGBA, alpha float32) color.RGBA {
 
 // ColorAlphaBlend - Returns src alpha-blended into dst color with tint
 func ColorAlphaBlend(src, dst, tint color.RGBA) color.RGBA {
-	csrc := colorCptr(src)
-	cdst := colorCptr(dst)
-	ctint := colorCptr(tint)
+	csrc := ccolorptr(&src)
+	cdst := ccolorptr(&dst)
+	ctint := ccolorptr(&tint)
 	ret := C.ColorAlphaBlend(*csrc, *cdst, *ctint)
 	v := newColorFromPointer(unsafe.Pointer(&ret))
 	return v
@@ -1149,15 +1127,13 @@ func GetMouseY() int32 {
 // GetMousePosition - Returns mouse position XY
 func GetMousePosition() Vector2 {
 	ret := C.GetMousePosition()
-	v := newVector2FromPointer(unsafe.Pointer(&ret))
-	return v
+	return *govec2ptr(&ret)
 }
 
 // GetMouseDelta - Get mouse delta between frames
 func GetMouseDelta() Vector2 {
 	ret := C.GetMouseDelta()
-	v := newVector2FromPointer(unsafe.Pointer(&ret))
-	return v
+	return *govec2ptr(&ret)
 }
 
 // SetMousePosition - Set mouse position XY
@@ -1191,8 +1167,7 @@ func GetMouseWheelMove() float32 {
 // GetMouseWheelMoveV - Get mouse wheel movement for both X and Y
 func GetMouseWheelMoveV() Vector2 {
 	ret := C.GetMouseWheelMoveV()
-	v := newVector2FromPointer(unsafe.Pointer(&ret))
-	return v
+	return *govec2ptr(&ret)
 }
 
 // SetMouseCursor - Set mouse cursor
@@ -1219,8 +1194,7 @@ func GetTouchY() int32 {
 func GetTouchPosition(index int32) Vector2 {
 	cindex := (C.int)(index)
 	ret := C.GetTouchPosition(cindex)
-	v := newVector2FromPointer(unsafe.Pointer(&ret))
-	return v
+	return *govec2ptr(&ret)
 }
 
 // GetTouchPointId - Get touch point identifier for given index
