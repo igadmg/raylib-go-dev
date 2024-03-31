@@ -9,6 +9,12 @@ import "C"
 import (
 	"image/color"
 	"unsafe"
+
+	"github.com/EliCDavis/vector"
+	"github.com/EliCDavis/vector/rect2"
+	"github.com/EliCDavis/vector/vector2"
+	"github.com/EliCDavis/vector/vector3"
+	"github.com/EliCDavis/vector/vector4"
 )
 
 // AutomationEvent - Automation event
@@ -21,8 +27,12 @@ func newVector2FromPointer(ptr unsafe.Pointer) Vector2 {
 }
 
 // cptr returns C pointer
-func (v *Vector2) cptr() *C.Vector2 {
+func cvec2ptr(v *vector2.Float32) *C.Vector2 {
 	return (*C.Vector2)(unsafe.Pointer(v))
+}
+
+func cvec2[T vector.Number](v vector2.Vector[T]) C.Vector2 {
+	return C.Vector2{(C.float)(v.X), (C.float)(v.Y)}
 }
 
 // newVector3FromPointer - Returns new Vector3 from pointer
@@ -30,9 +40,13 @@ func newVector3FromPointer(ptr unsafe.Pointer) Vector3 {
 	return *(*Vector3)(ptr)
 }
 
-// cptr returns C pointer
-func (v *Vector3) cptr() *C.Vector3 {
+// cvec3 returns C pointer
+func cvec3ptr(v *vector3.Float32) *C.Vector3 {
 	return (*C.Vector3)(unsafe.Pointer(v))
+}
+
+func cvec3[T vector.Number](v vector3.Vector[T]) C.Vector3 {
+	return C.Vector3{(C.float)(v.X), (C.float)(v.Y), (C.float)(v.Z)}
 }
 
 // newVector4FromPointer - Returns new Vector4 from pointer
@@ -40,9 +54,13 @@ func newVector4FromPointer(ptr unsafe.Pointer) Vector4 {
 	return *(*Vector4)(ptr)
 }
 
-// cptr returns C pointer
-func (v *Vector4) cptr() *C.Vector4 {
+// cvec4 returns C pointer
+func cvec4ptr(v *vector4.Float32) *C.Vector4 {
 	return (*C.Vector4)(unsafe.Pointer(v))
+}
+
+func cvec4[T vector.Number](v vector4.Vector[T]) C.Vector4 {
+	return C.Vector4{(C.float)(v.X), (C.float)(v.Y), (C.float)(v.Z), (C.float)(v.W)}
 }
 
 // newMatrixFromPointer - Returns new Matrix from pointer
@@ -71,8 +89,8 @@ func newRectangleFromPointer(ptr unsafe.Pointer) Rectangle {
 }
 
 // cptr returns C pointer
-func (r *Rectangle) cptr() *C.Rectangle {
-	return (*C.Rectangle)(unsafe.Pointer(r))
+func crect2[T vector.Number](r rect2.Rectangle[T]) C.Rectangle {
+	return C.Rectangle{(C.float)(r.XY.X), (C.float)(r.XY.Y), (C.float)(r.WH.X), (C.float)(r.WH.Y)}
 }
 
 // newCamera3DFromPointer - Returns new Camera3D from pointer
@@ -618,9 +636,9 @@ func UnloadShader(shader *Shader) {
 
 // GetMouseRay - Returns a ray trace from mouse position
 func GetMouseRay(mousePosition Vector2, camera Camera) Ray {
-	cmousePosition := mousePosition.cptr()
+	cmousePosition := cvec2(mousePosition)
 	ccamera := camera.cptr()
-	ret := C.GetMouseRay(*cmousePosition, *ccamera)
+	ret := C.GetMouseRay(cmousePosition, *ccamera)
 	v := newRayFromPointer(unsafe.Pointer(&ret))
 	return v
 }
@@ -643,38 +661,38 @@ func GetCameraMatrix2D(camera Camera2D) Matrix {
 
 // GetWorldToScreen - Returns the screen space position from a 3d world space position
 func GetWorldToScreen(position Vector3, camera Camera) Vector2 {
-	cposition := position.cptr()
+	cposition := cvec3(position)
 	ccamera := camera.cptr()
-	ret := C.GetWorldToScreen(*cposition, *ccamera)
+	ret := C.GetWorldToScreen(cposition, *ccamera)
 	v := newVector2FromPointer(unsafe.Pointer(&ret))
 	return v
 }
 
 // GetScreenToWorld2D - Returns the world space position for a 2d camera screen space position
 func GetScreenToWorld2D(position Vector2, camera Camera2D) Vector2 {
-	cposition := position.cptr()
+	cposition := cvec2(position)
 	ccamera := camera.cptr()
-	ret := C.GetScreenToWorld2D(*cposition, *ccamera)
+	ret := C.GetScreenToWorld2D(cposition, *ccamera)
 	v := newVector2FromPointer(unsafe.Pointer(&ret))
 	return v
 }
 
 // GetWorldToScreenEx - Get size position for a 3d world space position
 func GetWorldToScreenEx(position Vector3, camera Camera, width int32, height int32) Vector2 {
-	cposition := position.cptr()
+	cposition := cvec3(position)
 	ccamera := camera.cptr()
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
-	ret := C.GetWorldToScreenEx(*cposition, *ccamera, cwidth, cheight)
+	ret := C.GetWorldToScreenEx(cposition, *ccamera, cwidth, cheight)
 	v := newVector2FromPointer(unsafe.Pointer(&ret))
 	return v
 }
 
 // GetWorldToScreen2D - Returns the screen space position for a 2d camera world space position
 func GetWorldToScreen2D(position Vector2, camera Camera2D) Vector2 {
-	cposition := position.cptr()
+	cposition := cvec2(position)
 	ccamera := camera.cptr()
-	ret := C.GetWorldToScreen2D(*cposition, *ccamera)
+	ret := C.GetWorldToScreen2D(cposition, *ccamera)
 	v := newVector2FromPointer(unsafe.Pointer(&ret))
 	return v
 }
@@ -737,8 +755,8 @@ func ColorNormalize(col color.RGBA) Vector4 {
 
 // ColorFromNormalized - Returns Color from normalized values [0..1]
 func ColorFromNormalized(normalized Vector4) color.RGBA {
-	cnormalized := normalized.cptr()
-	ret := C.ColorFromNormalized(*cnormalized)
+	cnormalized := cvec4(normalized)
+	ret := C.ColorFromNormalized(cnormalized)
 	v := newColorFromPointer(unsafe.Pointer(&ret))
 	return v
 }

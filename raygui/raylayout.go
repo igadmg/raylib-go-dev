@@ -6,18 +6,6 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-var (
-	AnchorTopLeft     = rl.NewVector2(0, 0)
-	AnchorTopRight    = rl.NewVector2(1, 0)
-	AnchorCenter      = rl.NewVector2(0.5, 0.5)
-	AnchorBottomLeft  = rl.NewVector2(0, 1)
-	AnchorBottomRight = rl.NewVector2(1, 1)
-)
-
-func Pivot(anchor rl.Vector2, r rl.Rectangle) rl.Rectangle {
-	return rl.NewRectangle(r.X-r.Width*anchor.X, r.Y-r.Height*anchor.Y, r.Width, r.Height)
-}
-
 func DrawTextLayout(font rl.Font, text string, fontSize float32, spacing float32, tint color.RGBA, layoutFn func(wh rl.Vector2) rl.Rectangle) {
 	rect := layoutFn(rl.MeasureTextEx(font, text, fontSize, spacing))
 	rl.DrawTextEx(font, text, rl.NewVector2(rect.X, rect.Y), fontSize, spacing, tint)

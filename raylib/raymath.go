@@ -1790,7 +1790,3 @@ func QuaternionEquals(p, q Quaternion) bool {
 			math.Abs(float64(p.Z+q.Z)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.Z)), math.Abs(float64(q.Z)))) &&
 			math.Abs(float64(p.W+q.W)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.W)), math.Abs(float64(q.W)))))
 }
-
-func RectangleDelta[XT, YT, WT, HT CoordinateT](r *Rectangle, x XT, y YT, width WT, height HT) Rectangle {
-	return Rectangle{r.X + float32(x), r.Y + float32(y), r.Width + float32(width), r.Height + float32(height)}
-}
