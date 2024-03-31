@@ -21,8 +21,8 @@ func (c *GlyphInfo) cptr() *C.GlyphInfo {
 }
 
 // newFontFromPointer - Returns new Font from pointer
-func newFontFromPointer(ptr unsafe.Pointer) Font {
-	return *(*Font)(ptr)
+func newFontFromPointer(ptr unsafe.Pointer) *Font {
+	return (*Font)(ptr)
 }
 
 // cptr returns C pointer
@@ -31,14 +31,14 @@ func (s *Font) cptr() *C.Font {
 }
 
 // GetFontDefault - Get the default Font
-func GetFontDefault() Font {
+func GetFontDefault() *Font {
 	ret := C.GetFontDefault()
 	v := newFontFromPointer(unsafe.Pointer(&ret))
 	return v
 }
 
 // LoadFont - Load a Font image into GPU memory (VRAM)
-func LoadFont(fileName string) Font {
+func LoadFont(fileName string) *Font {
 	cfileName := C.CString(fileName)
 	defer C.free(unsafe.Pointer(cfileName))
 	ret := C.LoadFont(cfileName)
@@ -47,7 +47,7 @@ func LoadFont(fileName string) Font {
 }
 
 // LoadFontEx - Load Font from file with extended parameters
-func LoadFontEx(fileName string, fontSize int32, fontChars []rune, runesNumber ...int32) Font {
+func LoadFontEx(fileName string, fontSize int32, fontChars []rune, runesNumber ...int32) *Font {
 	var cfontChars *C.int
 	var ccharsCount C.int
 
@@ -69,7 +69,7 @@ func LoadFontEx(fileName string, fontSize int32, fontChars []rune, runesNumber .
 }
 
 // LoadFontFromImage - Loads an Image font file (XNA style)
-func LoadFontFromImage(image Image, key color.RGBA, firstChar int32) Font {
+func LoadFontFromImage(image Image, key color.RGBA, firstChar int32) *Font {
 	cimage := image.cptr()
 	ckey := colorCptr(key)
 	cfirstChar := (C.int)(firstChar)
@@ -79,7 +79,7 @@ func LoadFontFromImage(image Image, key color.RGBA, firstChar int32) Font {
 }
 
 // LoadFontFromMemory - Load font from memory buffer, fileType refers to extension: i.e. ".ttf"
-func LoadFontFromMemory(fileType string, fileData []byte, fontSize int32, codepoints []rune) Font {
+func LoadFontFromMemory(fileType string, fileData []byte, fontSize int32, codepoints []rune) *Font {
 	cfileType := C.CString(fileType)
 	defer C.free(unsafe.Pointer(cfileType))
 	cfileData := (*C.uchar)(unsafe.Pointer(&fileData[0]))
@@ -93,9 +93,9 @@ func LoadFontFromMemory(fileType string, fileData []byte, fontSize int32, codepo
 }
 
 // IsFontReady - Check if a font is ready
-func IsFontReady(font Font) bool {
+func IsFontReady(font *Font) bool {
 	cfont := font.cptr()
-	ret := C.IsFontReady(*cfont)
+	ret := C.IsFontReady(cfont)
 	v := bool(ret)
 	return v
 }
@@ -120,9 +120,9 @@ func UnloadFontData(glyphs []GlyphInfo) {
 }
 
 // UnloadFont - Unload Font from GPU memory (VRAM)
-func UnloadFont(font Font) {
+func UnloadFont(font *Font) {
 	cfont := font.cptr()
-	C.UnloadFont(*cfont)
+	C.UnloadFont(cfont)
 }
 
 // DrawFPS - Shows current FPS

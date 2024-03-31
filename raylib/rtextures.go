@@ -37,8 +37,8 @@ func (i *Image) ToImage() image.Image {
 }
 
 // newTexture2DFromPointer - Returns new Texture2D from pointer
-func newTexture2DFromPointer(ptr unsafe.Pointer) Texture2D {
-	return *(*Texture2D)(ptr)
+func newTexture2DFromPointer(ptr unsafe.Pointer) *Texture2D {
+	return (*Texture2D)(ptr)
 }
 
 // cptr returns C pointer
@@ -47,8 +47,8 @@ func (t *Texture2D) cptr() *C.Texture2D {
 }
 
 // newRenderTexture2DFromPointer - Returns new RenderTexture2D from pointer
-func newRenderTexture2DFromPointer(ptr unsafe.Pointer) RenderTexture2D {
-	return *(*RenderTexture2D)(ptr)
+func newRenderTexture2DFromPointer(ptr unsafe.Pointer) *RenderTexture2D {
+	return (*RenderTexture2D)(ptr)
 }
 
 // cptr returns C pointer
@@ -136,10 +136,22 @@ func LoadImageFromMemory(fileType string, fileData []byte, dataSize int32) *Imag
 }
 
 // LoadImageFromTexture - Get pixel data from GPU texture and return an Image
-func LoadImageFromTexture(texture Texture2D) *Image {
+func LoadImageFromTexture(texture *Texture2D) *Image {
 	ctexture := texture.cptr()
-	ret := C.LoadImageFromTexture(*ctexture)
+	ret := C.LoadImageFromTexture(ctexture)
 	v := newImageFromPointer(unsafe.Pointer(&ret))
+	return v
+}
+
+func ReloadImageFromTexture(texture *Texture2D, image *Image) *Image {
+	if image == nil {
+		return LoadImageFromTexture(texture)
+	}
+
+	ctexture := texture.cptr()
+	cimage := image.cptr()
+	ret := C.ReloadImageFromTexture(ctexture, cimage)
+	v := newImageFromPointer(unsafe.Pointer(ret))
 	return v
 }
 
@@ -153,13 +165,13 @@ func LoadImageFromScreen() *Image {
 // IsImageReady - Check if an image is ready
 func IsImageReady(image *Image) bool {
 	cimage := image.cptr()
-	ret := C.IsImageReady(*cimage)
+	ret := C.IsImageReady(cimage)
 	v := bool(ret)
 	return v
 }
 
 // LoadTexture - Load an image as texture into GPU memory
-func LoadTexture(fileName string) Texture2D {
+func LoadTexture(fileName string) *Texture2D {
 	cfileName := C.CString(fileName)
 	defer C.free(unsafe.Pointer(cfileName))
 	ret := C.LoadTexture(cfileName)
@@ -168,15 +180,28 @@ func LoadTexture(fileName string) Texture2D {
 }
 
 // LoadTextureFromImage - Load a texture from image data
-func LoadTextureFromImage(image *Image) Texture2D {
+func LoadTextureFromImage(image *Image) *Texture2D {
 	cimage := image.cptr()
-	ret := C.LoadTextureFromImage(*cimage)
+	ret := C.LoadTextureFromImage(cimage)
 	v := newTexture2DFromPointer(unsafe.Pointer(&ret))
 	return v
 }
 
+// ReloadTextureFromImage - Load a texture from image data
+func ReloadTextureFromImage(image *Image, texture *Texture2D) *Texture2D {
+	if texture == nil {
+		return LoadTextureFromImage(image)
+	}
+
+	cimage := image.cptr()
+	ctexture := texture.cptr()
+	ret := C.ReloadTextureFromImage(cimage, ctexture)
+	v := newTexture2DFromPointer(unsafe.Pointer(ret))
+	return v
+}
+
 // LoadRenderTexture - Load a texture to be used for rendering
-func LoadRenderTexture(width, height int32) RenderTexture2D {
+func LoadRenderTexture[WT, HT IntegerT](width WT, height HT) *RenderTexture2D {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	ret := C.LoadRenderTexture(cwidth, cheight)
@@ -185,10 +210,10 @@ func LoadRenderTexture(width, height int32) RenderTexture2D {
 }
 
 // LoadTextureCubemap - Loads a texture for a cubemap using given layout
-func LoadTextureCubemap(image *Image, layout int32) Texture2D {
+func LoadTextureCubemap(image *Image, layout int32) *Texture2D {
 	cimage := image.cptr()
 	clayout := (C.int)(layout)
-	ret := C.LoadTextureCubemap(*cimage, clayout)
+	ret := C.LoadTextureCubemap(cimage, clayout)
 	v := newTexture2DFromPointer(unsafe.Pointer(&ret))
 	return v
 }
@@ -196,35 +221,35 @@ func LoadTextureCubemap(image *Image, layout int32) Texture2D {
 // UnloadImage - Unload image from CPU memory (RAM)
 func UnloadImage(image *Image) {
 	cimage := image.cptr()
-	C.UnloadImage(*cimage)
+	C.UnloadImage(cimage)
 }
 
 // IsTextureReady - Check if a texture is ready
-func IsTextureReady(texture Texture2D) bool {
+func IsTextureReady(texture *Texture2D) bool {
 	ctexture := texture.cptr()
-	ret := C.IsTextureReady(*ctexture)
+	ret := C.IsTextureReady(ctexture)
 	v := bool(ret)
 	return v
 }
 
 // UnloadTexture - Unload texture from GPU memory
-func UnloadTexture(texture Texture2D) {
+func UnloadTexture(texture *Texture2D) {
 	ctexture := texture.cptr()
-	C.UnloadTexture(*ctexture)
+	C.UnloadTexture(ctexture)
 }
 
 // IsRenderTextureReady - Check if a render texture is ready
-func IsRenderTextureReady(target RenderTexture2D) bool {
+func IsRenderTextureReady(target *RenderTexture2D) bool {
 	ctarget := target.cptr()
-	ret := C.IsRenderTextureReady(*ctarget)
+	ret := C.IsRenderTextureReady(ctarget)
 	v := bool(ret)
 	return v
 }
 
 // UnloadRenderTexture - Unload render texture from GPU memory
-func UnloadRenderTexture(target RenderTexture2D) {
+func UnloadRenderTexture(target *RenderTexture2D) {
 	ctarget := target.cptr()
-	C.UnloadRenderTexture(*ctarget)
+	C.UnloadRenderTexture(ctarget)
 }
 
 // LoadImageColors - Get pixel data from image as a Color slice
@@ -255,7 +280,7 @@ func UpdateTextureRec(texture Texture2D, rec Rectangle, pixels []color.RGBA) {
 }
 
 // ExportImage - Export image as a PNG file
-func ExportImage(image Image, fileName string) bool {
+func ExportImage(image *Image, fileName string) bool {
 	cfileName := C.CString(fileName)
 	defer C.free(unsafe.Pointer(cfileName))
 	cimage := image.cptr()
@@ -263,7 +288,7 @@ func ExportImage(image Image, fileName string) bool {
 }
 
 // ExportImageToMemory - Export image to memory buffer
-func ExportImageToMemory(image Image, fileType string) []byte {
+func ExportImageToMemory(image *Image, fileType string) []byte {
 	cfileType := C.CString(fileType)
 	defer C.free(unsafe.Pointer(cfileType))
 	cimage := image.cptr()
@@ -277,16 +302,16 @@ func ExportImageToMemory(image Image, fileType string) []byte {
 // ImageCopy - Create an image duplicate (useful for transformations)
 func ImageCopy(image *Image) *Image {
 	cimage := image.cptr()
-	ret := C.ImageCopy(*cimage)
+	ret := C.ImageCopy(cimage)
 	v := newImageFromPointer(unsafe.Pointer(&ret))
 	return v
 }
 
 // Create an image from another image piece
-func ImageFromImage(image Image, rec Rectangle) Image {
+func ImageFromImage(image *Image, rec Rectangle) Image {
 	cimage := image.cptr()
 	crec := rec.cptr()
-	ret := C.ImageFromImage(*cimage, *crec)
+	ret := C.ImageFromImage(cimage, *crec)
 	v := newImageFromPointer(unsafe.Pointer(&ret))
 	return *v
 }
@@ -487,7 +512,7 @@ func ImageColorReplace(image *Image, col, replace color.RGBA) {
 }
 
 // GetImageColor - Get image pixel color at (x, y) position
-func GetImageColor(image Image, x, y int32) color.RGBA {
+func GetImageColor(image *Image, x, y int32) color.RGBA {
 	cimage := image.cptr()
 	cx := (C.int)(x)
 	cy := (C.int)(y)
@@ -783,7 +808,7 @@ func SetTextureWrap(texture Texture2D, wrapMode TextureWrapMode) {
 }
 
 // DrawTexture - Draw a Texture2D
-func DrawTexture(texture Texture2D, posX int32, posY int32, tint color.RGBA) {
+func DrawTexture[XT, YT IntegerT](texture *Texture2D, posX XT, posY YT, tint color.RGBA) {
 	ctexture := texture.cptr()
 	cposX := (C.int)(posX)
 	cposY := (C.int)(posY)
@@ -792,7 +817,7 @@ func DrawTexture(texture Texture2D, posX int32, posY int32, tint color.RGBA) {
 }
 
 // DrawTextureV - Draw a Texture2D with position defined as Vector2
-func DrawTextureV(texture Texture2D, position Vector2, tint color.RGBA) {
+func DrawTextureV(texture *Texture2D, position Vector2, tint color.RGBA) {
 	ctexture := texture.cptr()
 	cposition := position.cptr()
 	ctint := colorCptr(tint)
@@ -800,7 +825,7 @@ func DrawTextureV(texture Texture2D, position Vector2, tint color.RGBA) {
 }
 
 // DrawTextureEx - Draw a Texture2D with extended parameters
-func DrawTextureEx(texture Texture2D, position Vector2, rotation, scale float32, tint color.RGBA) {
+func DrawTextureEx(texture *Texture2D, position Vector2, rotation, scale float32, tint color.RGBA) {
 	ctexture := texture.cptr()
 	cposition := position.cptr()
 	crotation := (C.float)(rotation)
@@ -810,7 +835,7 @@ func DrawTextureEx(texture Texture2D, position Vector2, rotation, scale float32,
 }
 
 // DrawTextureRec - Draw a part of a texture defined by a rectangle
-func DrawTextureRec(texture Texture2D, sourceRec Rectangle, position Vector2, tint color.RGBA) {
+func DrawTextureRec(texture *Texture2D, sourceRec Rectangle, position Vector2, tint color.RGBA) {
 	ctexture := texture.cptr()
 	csourceRec := sourceRec.cptr()
 	cposition := position.cptr()
@@ -819,7 +844,7 @@ func DrawTextureRec(texture Texture2D, sourceRec Rectangle, position Vector2, ti
 }
 
 // DrawTexturePro - Draw a part of a texture defined by a rectangle with 'pro' parameters
-func DrawTexturePro(texture Texture2D, sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint color.RGBA) {
+func DrawTexturePro(texture *Texture2D, sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint color.RGBA) {
 	ctexture := texture.cptr()
 	csourceRec := sourceRec.cptr()
 	cdestRec := destRec.cptr()
