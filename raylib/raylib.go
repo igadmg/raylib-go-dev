@@ -13,6 +13,11 @@ import (
 	"io"
 	"runtime"
 	"unsafe"
+
+	"github.com/EliCDavis/vector/rect2"
+	"github.com/EliCDavis/vector/vector2"
+	"github.com/EliCDavis/vector/vector3"
+	"github.com/EliCDavis/vector/vector4"
 )
 
 func init() {
@@ -34,6 +39,10 @@ type NumberT interface {
 
 type CoordinateT interface {
 	NumberT
+}
+
+type Vector2T interface {
+	Vector2 | Vector2Int
 }
 
 // Wave type, defines audio wave data
@@ -486,57 +495,42 @@ var (
 )
 
 // Vector2 type
-type Vector2 struct {
-	X float32
-	Y float32
-}
+type Vector2 = vector2.Float32
+type Vector2Int = vector2.Int
+
+var (
+	AnchorTopLeft     = NewVector2(0, 0)
+	AnchorTopRight    = NewVector2(1, 0)
+	AnchorCenter      = NewVector2(0.5, 0.5)
+	AnchorBottomLeft  = NewVector2(0, 1)
+	AnchorBottomRight = NewVector2(1, 1)
+)
 
 // NewVector2 - Returns new Vector2
 func NewVector2[XT, YT CoordinateT](x XT, y YT) Vector2 {
-	return Vector2{float32(x), float32(y)}
-}
-
-func (v Vector2) ToInt() Vector2Int {
-	return Vector2Int{int(v.X), int(v.Y)}
-}
-
-func (v Vector2) ToRect() Rectangle {
-	return Rectangle{0, 0, v.X, v.Y}
-}
-
-type Vector2Int struct {
-	X int
-	Y int
+	return vector2.New(float32(x), float32(y))
 }
 
 // NewVector2 - Returns new Vector2
 func NewVector2Int[XT, YT CoordinateT](x XT, y YT) Vector2Int {
-	return Vector2Int{int(x), int(y)}
+	return vector2.New(int(x), int(y))
 }
 
 // Vector3 type
-type Vector3 struct {
-	X float32
-	Y float32
-	Z float32
-}
+type Vector3 = vector3.Float32
+type Vector3Int = vector3.Int
 
 // NewVector3 - Returns new Vector3
 func NewVector3[XT, YT, ZT CoordinateT](x XT, y YT, z ZT) Vector3 {
-	return Vector3{float32(x), float32(y), float32(z)}
+	return vector3.New(float32(x), float32(y), float32(z))
 }
 
 // Vector4 type
-type Vector4 struct {
-	X float32
-	Y float32
-	Z float32
-	W float32
-}
+type Vector4 = vector4.Float32
 
 // NewVector4 - Returns new Vector4
 func NewVector4[XT, YT, ZT, WT CoordinateT](x XT, y YT, z ZT, w WT) Vector4 {
-	return Vector4{float32(x), float32(y), float32(z), float32(w)}
+	return vector4.New(float32(x), float32(y), float32(z), float32(w))
 }
 
 // Matrix type (OpenGL style 4x4 - right handed, column major)
@@ -570,7 +564,7 @@ type Quaternion = Vector4
 
 // NewQuaternion - Returns new Quaternion
 func NewQuaternion(x, y, z, w float32) Quaternion {
-	return Quaternion{x, y, z, w}
+	return NewVector4(x, y, z, w)
 }
 
 // Color type, RGBA (32bit)
@@ -583,62 +577,23 @@ func NewColor(r, g, b, a uint8) color.RGBA {
 }
 
 // Rectangle type
-type Rectangle struct {
-	X      float32
-	Y      float32
-	Width  float32
-	Height float32
-}
+type Rectangle = rect2.Float32
+type RectangleInt32 = rect2.Int32
+
+//type Rectangle struct {
+//	X      float32
+//	Y      float32
+//	Width  float32
+//	Height float32
+//}
 
 // NewRectangle - Returns new Rectangle
 func NewRectangle[XT, YT, WT, HT CoordinateT](x XT, y YT, width WT, height HT) Rectangle {
-	return Rectangle{float32(x), float32(y), float32(width), float32(height)}
+	return rect2.New(vector2.New(float32(x), float32(y)), vector2.New(float32(width), float32(height)))
 }
 
 func NewRectangleV(xy, wh Vector2) Rectangle {
-	return Rectangle{xy.X, xy.Y, wh.X, wh.Y}
-}
-
-// ToInt32 converts rectangle to int32 variant
-func (r Rectangle) ToInt32() RectangleInt32 {
-	rect := RectangleInt32{}
-	rect.X = int32(r.X)
-	rect.Y = int32(r.Y)
-	rect.Width = int32(r.Width)
-	rect.Height = int32(r.Height)
-
-	return rect
-}
-
-func (r Rectangle) Size() Vector2 {
-	return Vector2{r.Width, r.Height}
-}
-
-func (r Rectangle) Scale(f float32) Rectangle {
-	return Rectangle{r.X, r.Y, r.Width * f, r.Height * f}
-}
-
-func (r Rectangle) ScaleWH(w, h float32) Rectangle {
-	return Rectangle{r.X, r.Y, r.Width * w, r.Height * h}
-}
-
-// RectangleInt32 type
-type RectangleInt32 struct {
-	X      int32
-	Y      int32
-	Width  int32
-	Height int32
-}
-
-// ToFloat32 converts rectangle to float32 variant
-func (r *RectangleInt32) ToFloat32() Rectangle {
-	rect := Rectangle{}
-	rect.X = float32(r.X)
-	rect.Y = float32(r.Y)
-	rect.Width = float32(r.Width)
-	rect.Height = float32(r.Height)
-
-	return rect
+	return rect2.New(vector2.New(xy.X, xy.Y), vector2.New(wh.X, wh.Y))
 }
 
 // Camera3D type, defines a camera position/orientation in 3d space
@@ -1169,6 +1124,10 @@ func (t *Texture2D) IsReady() bool {
 	return IsTextureReady(t)
 }
 
+func (t *Texture2D) GetSize() Vector2 {
+	return NewVector2(t.Width, t.Height)
+}
+
 func (t *Texture2D) GetRect() Rectangle {
 	return NewRectangle(0, 0, t.Width, t.Height)
 }
@@ -1177,8 +1136,36 @@ func (t *Texture2D) Draw(posX int, posY int, tint color.RGBA) {
 	DrawTexture(t, posX, posY, tint)
 }
 
+func (t *Texture2D) DrawDef(posX int, posY int) {
+	DrawTexture(t, posX, posY, White)
+}
+
+func (t *Texture2D) DrawV(position Vector2, tint color.RGBA) {
+	DrawTextureV(t, position, tint)
+}
+
+func (t *Texture2D) DrawVDef(position Vector2) {
+	DrawTextureV(t, position, White)
+}
+
 func (t *Texture2D) DrawEx(position Vector2, rotation, scale float32, tint color.RGBA) {
 	DrawTextureEx(t, position, rotation, scale, tint)
+}
+
+func (t *Texture2D) DrawRec(sourceRec Rectangle, position Vector2, tint color.RGBA) {
+	DrawTextureRec(t, sourceRec, position, tint)
+}
+
+func (t *Texture2D) DrawPro(sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint color.RGBA) {
+	DrawTexturePro(t, sourceRec, destRec, origin, rotation, tint)
+}
+
+func (t *Texture2D) DrawTiled(source, dest Rectangle, origin Vector2, rotation, scale float32, tint color.RGBA) {
+	DrawTextureTiled(t, source, dest, origin, rotation, scale, tint)
+}
+
+func (t *Texture2D) DrawTiledDef(dest Rectangle) {
+	DrawTextureTiled(t, t.GetRect(), dest, vector2.Zero[float32](), 0, 1, White)
 }
 
 // RenderTexture2D type, for texture rendering

@@ -148,11 +148,11 @@ func DrawTextEx(font Font, text string, position Vector2, fontSize float32, spac
 	cfont := font.cptr()
 	ctext := C.CString(text)
 	defer C.free(unsafe.Pointer(ctext))
-	cposition := position.cptr()
+	cposition := cvec2(position)
 	cfontSize := (C.float)(fontSize)
 	cspacing := (C.float)(spacing)
 	ctint := colorCptr(tint)
-	C.DrawTextEx(*cfont, ctext, *cposition, cfontSize, cspacing, *ctint)
+	C.DrawTextEx(*cfont, ctext, cposition, cfontSize, cspacing, *ctint)
 }
 
 // SetTextLineSpacing - Set vertical line spacing when drawing with line-breaks

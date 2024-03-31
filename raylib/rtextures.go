@@ -275,8 +275,8 @@ func UpdateTexture(texture Texture2D, pixels []color.RGBA) {
 func UpdateTextureRec(texture Texture2D, rec Rectangle, pixels []color.RGBA) {
 	ctexture := texture.cptr()
 	cpixels := unsafe.Pointer(&pixels[0])
-	crec := rec.cptr()
-	C.UpdateTextureRec(*ctexture, *crec, cpixels)
+	crec := crect2(rec)
+	C.UpdateTextureRec(*ctexture, crec, cpixels)
 }
 
 // ExportImage - Export image as a PNG file
@@ -310,8 +310,8 @@ func ImageCopy(image *Image) *Image {
 // Create an image from another image piece
 func ImageFromImage(image *Image, rec Rectangle) Image {
 	cimage := image.cptr()
-	crec := rec.cptr()
-	ret := C.ImageFromImage(cimage, *crec)
+	crec := crect2(rec)
+	ret := C.ImageFromImage(cimage, crec)
 	v := newImageFromPointer(unsafe.Pointer(&ret))
 	return *v
 }
@@ -357,8 +357,8 @@ func ImageToPOT(image *Image, fillColor color.RGBA) {
 // ImageCrop - Crop an image to a defined rectangle
 func ImageCrop(image *Image, crop Rectangle) {
 	cimage := image.cptr()
-	ccrop := crop.cptr()
-	C.ImageCrop(cimage, *ccrop)
+	ccrop := crect2(crop)
+	C.ImageCrop(cimage, ccrop)
 }
 
 // ImageAlphaCrop - Crop image depending on alpha value
@@ -533,10 +533,10 @@ func ImageClearBackground(dst *Image, col color.RGBA) {
 func ImageDraw(dst, src *Image, srcRec, dstRec Rectangle, tint color.RGBA) {
 	cdst := dst.cptr()
 	csrc := src.cptr()
-	csrcRec := srcRec.cptr()
-	cdstRec := dstRec.cptr()
+	csrcRec := crect2(srcRec)
+	cdstRec := crect2(dstRec)
 	ctint := colorCptr(tint)
-	C.ImageDraw(cdst, *csrc, *csrcRec, *cdstRec, *ctint)
+	C.ImageDraw(cdst, *csrc, csrcRec, cdstRec, *ctint)
 }
 
 // ImageDrawLine - Draw line within an image
@@ -553,10 +553,10 @@ func ImageDrawLine(dst *Image, startPosX, startPosY, endPosX, endPosY int32, col
 // ImageDrawLineV - Draw line within an image, vector version
 func ImageDrawLineV(dst *Image, start, end Vector2, col color.RGBA) {
 	cdst := dst.cptr()
-	cstart := start.cptr()
-	cend := end.cptr()
+	cstart := cvec2(start)
+	cend := cvec2(end)
 	ccolor := colorCptr(col)
-	C.ImageDrawLineV(cdst, *cstart, *cend, *ccolor)
+	C.ImageDrawLineV(cdst, cstart, cend, *ccolor)
 }
 
 // ImageDrawCircle - Draw a filled circle within an image
@@ -572,10 +572,10 @@ func ImageDrawCircle(dst *Image, centerX, centerY, radius int32, col color.RGBA)
 // ImageDrawCircleV - Draw a filled circle within an image (Vector version)
 func ImageDrawCircleV(dst *Image, center Vector2, radius int32, col color.RGBA) {
 	cdst := dst.cptr()
-	ccenter := center.cptr()
+	ccenter := cvec2(center)
 	cradius := (C.int)(radius)
 	ccolor := colorCptr(col)
-	C.ImageDrawCircleV(cdst, *ccenter, cradius, *ccolor)
+	C.ImageDrawCircleV(cdst, ccenter, cradius, *ccolor)
 }
 
 // ImageDrawCircleLines - Draw circle outline within an image
@@ -591,10 +591,10 @@ func ImageDrawCircleLines(dst *Image, centerX, centerY, radius int32, col color.
 // ImageDrawCircleLinesV - Draw circle outline within an image (Vector version)
 func ImageDrawCircleLinesV(dst *Image, center Vector2, radius int32, col color.RGBA) {
 	cdst := dst.cptr()
-	ccenter := center.cptr()
+	ccenter := cvec2(center)
 	cradius := (C.int)(radius)
 	ccolor := colorCptr(col)
-	C.ImageDrawCircleLinesV(cdst, *ccenter, cradius, *ccolor)
+	C.ImageDrawCircleLinesV(cdst, ccenter, cradius, *ccolor)
 }
 
 // ImageDrawPixel - Draw pixel within an image
@@ -609,9 +609,9 @@ func ImageDrawPixel(dst *Image, posX, posY int32, col color.RGBA) {
 // ImageDrawPixelV - Draw pixel within an image (Vector version)
 func ImageDrawPixelV(dst *Image, position Vector2, col color.RGBA) {
 	cdst := dst.cptr()
-	cposition := position.cptr()
+	cposition := cvec2(position)
 	ccolor := colorCptr(col)
-	C.ImageDrawPixelV(cdst, *cposition, *ccolor)
+	C.ImageDrawPixelV(cdst, cposition, *ccolor)
 }
 
 // ImageDrawRectangle - Draw rectangle within an image
@@ -628,27 +628,27 @@ func ImageDrawRectangle(dst *Image, x, y, width, height int32, col color.RGBA) {
 // ImageDrawRectangleV - Draw rectangle within an image (Vector version)
 func ImageDrawRectangleV(dst *Image, position, size Vector2, col color.RGBA) {
 	cdst := dst.cptr()
-	cposition := position.cptr()
-	csize := size.cptr()
+	cposition := cvec2(position)
+	csize := cvec2(size)
 	ccolor := colorCptr(col)
-	C.ImageDrawRectangleV(cdst, *cposition, *csize, *ccolor)
+	C.ImageDrawRectangleV(cdst, cposition, csize, *ccolor)
 }
 
 // ImageDrawRectangleLines - Draw rectangle lines within an image
 func ImageDrawRectangleLines(dst *Image, rec Rectangle, thick int, col color.RGBA) {
 	cdst := dst.cptr()
-	crec := rec.cptr()
+	crec := crect2(rec)
 	cthick := (C.int)(thick)
 	ccolor := colorCptr(col)
-	C.ImageDrawRectangleLines(cdst, *crec, cthick, *ccolor)
+	C.ImageDrawRectangleLines(cdst, crec, cthick, *ccolor)
 }
 
 // ImageDrawRectangleRec - Draw rectangle within an image
 func ImageDrawRectangleRec(dst *Image, rec Rectangle, col color.RGBA) {
 	cdst := dst.cptr()
-	crec := rec.cptr()
+	crec := crect2(rec)
 	ccolor := colorCptr(col)
-	C.ImageDrawRectangleRec(cdst, *crec, *ccolor)
+	C.ImageDrawRectangleRec(cdst, crec, *ccolor)
 }
 
 // ImageDrawText - Draw text (default font) within an image (destination)
@@ -666,14 +666,14 @@ func ImageDrawText(dst *Image, posX, posY int32, text string, fontSize int32, co
 // ImageDrawTextEx - Draw text (custom sprite font) within an image (destination)
 func ImageDrawTextEx(dst *Image, position Vector2, font Font, text string, fontSize, spacing float32, col color.RGBA) {
 	cdst := dst.cptr()
-	cposition := position.cptr()
+	cposition := cvec2(position)
 	cfont := font.cptr()
 	ctext := C.CString(text)
 	defer C.free(unsafe.Pointer(ctext))
 	cfontSize := (C.float)(fontSize)
 	cspacing := (C.float)(spacing)
 	ccolor := colorCptr(col)
-	C.ImageDrawTextEx(cdst, *cfont, ctext, *cposition, cfontSize, cspacing, *ccolor)
+	C.ImageDrawTextEx(cdst, *cfont, ctext, cposition, cfontSize, cspacing, *ccolor)
 }
 
 // GenImageColor - Generate image: plain color
@@ -819,39 +819,50 @@ func DrawTexture[XT, YT IntegerT](texture *Texture2D, posX XT, posY YT, tint col
 // DrawTextureV - Draw a Texture2D with position defined as Vector2
 func DrawTextureV(texture *Texture2D, position Vector2, tint color.RGBA) {
 	ctexture := texture.cptr()
-	cposition := position.cptr()
+	cposition := cvec2(position)
 	ctint := colorCptr(tint)
-	C.DrawTextureV(*ctexture, *cposition, *ctint)
+	C.DrawTextureV(*ctexture, cposition, *ctint)
 }
 
 // DrawTextureEx - Draw a Texture2D with extended parameters
 func DrawTextureEx(texture *Texture2D, position Vector2, rotation, scale float32, tint color.RGBA) {
 	ctexture := texture.cptr()
-	cposition := position.cptr()
+	cposition := cvec2(position)
 	crotation := (C.float)(rotation)
 	cscale := (C.float)(scale)
 	ctint := colorCptr(tint)
-	C.DrawTextureEx(*ctexture, *cposition, crotation, cscale, *ctint)
+	C.DrawTextureEx(*ctexture, cposition, crotation, cscale, *ctint)
 }
 
 // DrawTextureRec - Draw a part of a texture defined by a rectangle
 func DrawTextureRec(texture *Texture2D, sourceRec Rectangle, position Vector2, tint color.RGBA) {
 	ctexture := texture.cptr()
-	csourceRec := sourceRec.cptr()
-	cposition := position.cptr()
+	csourceRec := crect2(sourceRec)
+	cposition := cvec2(position)
 	ctint := colorCptr(tint)
-	C.DrawTextureRec(*ctexture, *csourceRec, *cposition, *ctint)
+	C.DrawTextureRec(*ctexture, csourceRec, cposition, *ctint)
 }
 
 // DrawTexturePro - Draw a part of a texture defined by a rectangle with 'pro' parameters
 func DrawTexturePro(texture *Texture2D, sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint color.RGBA) {
 	ctexture := texture.cptr()
-	csourceRec := sourceRec.cptr()
-	cdestRec := destRec.cptr()
-	corigin := origin.cptr()
+	csourceRec := crect2(sourceRec)
+	cdestRec := crect2(destRec)
+	corigin := cvec2(origin)
 	crotation := (C.float)(rotation)
 	ctint := colorCptr(tint)
-	C.DrawTexturePro(*ctexture, *csourceRec, *cdestRec, *corigin, crotation, *ctint)
+	C.DrawTexturePro(*ctexture, csourceRec, cdestRec, corigin, crotation, *ctint)
+}
+
+func DrawTextureTiled(texture *Texture2D, source, dest Rectangle, origin Vector2, rotation, scale float32, tint color.RGBA) {
+	ctexture := texture.cptr()
+	csource := crect2(source)
+	cdest := crect2(dest)
+	corigin := cvec2(origin)
+	crotation := (C.float)(rotation)
+	cscale := (C.float)(scale)
+	ctint := colorCptr(tint)
+	C.DrawTextureTiled(*ctexture, csource, cdest, corigin, crotation, cscale, *ctint)
 }
 
 // cptr returns C pointer
@@ -863,9 +874,9 @@ func (n *NPatchInfo) cptr() *C.NPatchInfo {
 func DrawTextureNPatch(texture Texture2D, nPatchInfo NPatchInfo, dest Rectangle, origin Vector2, rotation float32, tint color.RGBA) {
 	ctexture := texture.cptr()
 	cnPatchInfo := nPatchInfo.cptr()
-	cdest := dest.cptr()
-	corigin := origin.cptr()
+	cdest := crect2(dest)
+	corigin := cvec2(origin)
 	crotation := (C.float)(rotation)
 	ctint := colorCptr(tint)
-	C.DrawTextureNPatch(*ctexture, *cnPatchInfo, *cdest, *corigin, crotation, *ctint)
+	C.DrawTextureNPatch(*ctexture, *cnPatchInfo, cdest, corigin, crotation, *ctint)
 }
