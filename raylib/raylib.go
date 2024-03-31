@@ -600,7 +600,7 @@ func NewRectangleV(xy, wh Vector2) Rectangle {
 }
 
 // ToInt32 converts rectangle to int32 variant
-func (r *Rectangle) ToInt32() RectangleInt32 {
+func (r Rectangle) ToInt32() RectangleInt32 {
 	rect := RectangleInt32{}
 	rect.X = int32(r.X)
 	rect.Y = int32(r.Y)
@@ -610,8 +610,16 @@ func (r *Rectangle) ToInt32() RectangleInt32 {
 	return rect
 }
 
-func (r *Rectangle) Size() Vector2 {
+func (r Rectangle) Size() Vector2 {
 	return Vector2{r.Width, r.Height}
+}
+
+func (r Rectangle) Scale(f float32) Rectangle {
+	return Rectangle{r.X, r.Y, r.Width * f, r.Height * f}
+}
+
+func (r Rectangle) ScaleWH(w, h float32) Rectangle {
+	return Rectangle{r.X, r.Y, r.Width * w, r.Height * h}
 }
 
 // RectangleInt32 type
@@ -1153,12 +1161,24 @@ type Texture2D struct {
 }
 
 // NewTexture2D - Returns new Texture2D
-func NewTexture2D(id uint32, width, height, mipmaps int32, format PixelFormat) Texture2D {
-	return Texture2D{id, width, height, mipmaps, format}
+func NewTexture2D(id uint32, width, height, mipmaps int32, format PixelFormat) *Texture2D {
+	return &Texture2D{id, width, height, mipmaps, format}
 }
 
-func (t *Texture2D) IsEmpty() bool {
-	return t.ID == 0
+func (t *Texture2D) IsReady() bool {
+	return IsTextureReady(t)
+}
+
+func (t *Texture2D) GetRect() Rectangle {
+	return NewRectangle(0, 0, t.Width, t.Height)
+}
+
+func (t *Texture2D) Draw(posX int, posY int, tint color.RGBA) {
+	DrawTexture(t, posX, posY, tint)
+}
+
+func (t *Texture2D) DrawEx(position Vector2, rotation, scale float32, tint color.RGBA) {
+	DrawTextureEx(t, position, rotation, scale, tint)
 }
 
 // RenderTexture2D type, for texture rendering
@@ -1172,8 +1192,8 @@ type RenderTexture2D struct {
 }
 
 // NewRenderTexture2D - Returns new RenderTexture2D
-func NewRenderTexture2D(id uint32, texture, depth Texture2D) RenderTexture2D {
-	return RenderTexture2D{id, texture, depth}
+func NewRenderTexture2D(id uint32, texture, depth Texture2D) *RenderTexture2D {
+	return &RenderTexture2D{id, texture, depth}
 }
 
 // TraceLogCallbackFun - function that will recive the trace log messages

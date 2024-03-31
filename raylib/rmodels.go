@@ -272,17 +272,17 @@ func LoadModelFromMesh(data Mesh) Model {
 }
 
 // IsModelReady - Check if a model is ready
-func IsModelReady(model Model) bool {
+func IsModelReady(model *Model) bool {
 	cmodel := model.cptr()
-	ret := C.IsModelReady(*cmodel)
+	ret := C.IsModelReady(cmodel)
 	v := bool(ret)
 	return v
 }
 
 // UnloadModel - Unload model from memory (RAM and/or VRAM)
-func UnloadModel(model Model) {
+func UnloadModel(model *Model) {
 	cmodel := model.cptr()
-	C.UnloadModel(*cmodel)
+	C.UnloadModel(cmodel)
 }
 
 // GetModelBoundingBox - Compute model bounding box limits (considers all meshes
@@ -456,13 +456,13 @@ func UnloadMesh(mesh *Mesh) {
 			VboID: mesh.VboID,
 		}
 		cmesh := tempMesh.cptr()
-		C.UnloadMesh(*cmesh)
+		C.UnloadMesh(cmesh)
 
 		// remove mesh VaoID from list
 		goManagedMeshIDs = slices.DeleteFunc(goManagedMeshIDs, func(id uint32) bool { return id == mesh.VaoID })
 	} else {
 		cmesh := mesh.cptr()
-		C.UnloadMesh(*cmesh)
+		C.UnloadMesh(cmesh)
 	}
 }
 
@@ -631,17 +631,17 @@ func LoadMaterialDefault() Material {
 }
 
 // IsMaterialReady - Check if a material is ready
-func IsMaterialReady(material Material) bool {
+func IsMaterialReady(material *Material) bool {
 	cmaterial := material.cptr()
-	ret := C.IsMaterialReady(*cmaterial)
+	ret := C.IsMaterialReady(cmaterial)
 	v := bool(ret)
 	return v
 }
 
 // UnloadMaterial - Unload material textures from VRAM
-func UnloadMaterial(material Material) {
+func UnloadMaterial(material *Material) {
 	cmaterial := material.cptr()
-	C.UnloadMaterial(*cmaterial)
+	C.UnloadMaterial(cmaterial)
 }
 
 // SetMaterialTexture - Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...)
@@ -679,9 +679,9 @@ func UpdateModelAnimation(model Model, anim ModelAnimation, frame int32) {
 }
 
 // UnloadModelAnimation - Unload animation data
-func UnloadModelAnimation(anim ModelAnimation) {
+func UnloadModelAnimation(anim *ModelAnimation) {
 	canim := anim.cptr()
-	C.UnloadModelAnimation(*canim)
+	C.UnloadModelAnimation(canim)
 }
 
 // UnloadModelAnimations - Unload animation array data

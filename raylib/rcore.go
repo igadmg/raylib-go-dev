@@ -477,7 +477,7 @@ func EndMode3D() {
 }
 
 // BeginTextureMode - Initializes render texture for drawing
-func BeginTextureMode(target RenderTexture2D) {
+func BeginTextureMode(target *RenderTexture2D) {
 	ctarget := target.cptr()
 	C.BeginTextureMode(*ctarget)
 }
@@ -546,9 +546,9 @@ func LoadShaderFromMemory(vsCode string, fsCode string) Shader {
 }
 
 // IsShaderReady - Check if a shader is ready
-func IsShaderReady(shader Shader) bool {
+func IsShaderReady(shader *Shader) bool {
 	cshader := shader.cptr()
-	ret := C.IsShaderReady(*cshader)
+	ret := C.IsShaderReady(cshader)
 	v := bool(ret)
 	return v
 }
@@ -603,7 +603,7 @@ func SetShaderValueMatrix(shader Shader, locIndex int32, mat Matrix) {
 }
 
 // SetShaderValueTexture - Set shader uniform value for texture (sampler2d)
-func SetShaderValueTexture(shader Shader, locIndex int32, texture Texture2D) {
+func SetShaderValueTexture(shader Shader, locIndex int32, texture *Texture2D) {
 	cshader := shader.cptr()
 	clocIndex := (C.int)(locIndex)
 	ctexture := texture.cptr()
@@ -611,9 +611,9 @@ func SetShaderValueTexture(shader Shader, locIndex int32, texture Texture2D) {
 }
 
 // UnloadShader - Unload a custom shader from memory
-func UnloadShader(shader Shader) {
+func UnloadShader(shader *Shader) {
 	cshader := shader.cptr()
-	C.UnloadShader(*cshader)
+	C.UnloadShader(cshader)
 }
 
 // GetMouseRay - Returns a ray trace from mouse position
@@ -680,7 +680,7 @@ func GetWorldToScreen2D(position Vector2, camera Camera2D) Vector2 {
 }
 
 // SetTargetFPS - Set target FPS (maximum)
-func SetTargetFPS(fps int32) {
+func SetTargetFPS[T IntegerT](fps T) {
 	cfps := (C.int)(fps)
 	C.SetTargetFPS(cfps)
 }
@@ -896,7 +896,7 @@ func LoadAutomationEventList(fileName string) AutomationEventList {
 }
 
 // UnloadAutomationEventList - Unload automation events list from file
-func UnloadAutomationEventList(list AutomationEventList) {
+func UnloadAutomationEventList(list *AutomationEventList) {
 	C.UnloadAutomationEventList(list)
 }
 

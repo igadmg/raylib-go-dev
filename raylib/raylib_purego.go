@@ -1423,7 +1423,7 @@ func SetShaderValueTexture(shader Shader, locIndex int32, texture Texture2D) {
 }
 
 // UnloadShader - Unload shader from GPU memory (VRAM)
-func UnloadShader(shader Shader) {
+func UnloadShader(shader *Shader) {
 	unloadShader(uintptr(unsafe.Pointer(&shader)))
 }
 
@@ -2255,9 +2255,9 @@ func LoadImageFromMemory(fileType string, fileData []byte, dataSize int32) *Imag
 }
 
 // LoadImageFromTexture - Load image from GPU texture data
-func LoadImageFromTexture(texture Texture2D) *Image {
+func LoadImageFromTexture(texture *Texture2D) *Image {
 	var img Image
-	loadImageFromTexture(uintptr(unsafe.Pointer(&img)), uintptr(unsafe.Pointer(&texture)))
+	loadImageFromTexture(uintptr(unsafe.Pointer(&img)), uintptr(unsafe.Pointer(texture)))
 	return &img
 }
 
