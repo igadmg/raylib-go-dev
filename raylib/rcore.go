@@ -59,9 +59,9 @@ func (m *Matrix) cptr() *C.Matrix {
 	return (*C.Matrix)(unsafe.Pointer(m))
 }
 
-// newColorFromPointer - Returns new Color from pointer
-func newColorFromPointer(ptr unsafe.Pointer) color.RGBA {
-	return *(*color.RGBA)(ptr)
+// gocolorptr - Returns new Color from pointer
+func gocolorptr(ptr *C.Color) *color.RGBA {
+	return (*color.RGBA)(unsafe.Pointer(ptr))
 }
 
 // ccolorptr returns color C pointer
@@ -69,9 +69,9 @@ func ccolorptr(col *color.RGBA) *C.Color {
 	return (*C.Color)(unsafe.Pointer(col))
 }
 
-// newRectangleFromPointer - Returns new Rectangle from pointer
-func newRectangleFromPointer(ptr unsafe.Pointer) Rectangle {
-	return *(*Rectangle)(ptr)
+// gorec2ptr - Returns new Rectangle from pointer
+func gorec2ptr(ptr *C.Rectangle) *Rectangle {
+	return (*Rectangle)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -708,8 +708,7 @@ func Fade(col color.RGBA, alpha float32) color.RGBA {
 	ccolor := ccolorptr(&col)
 	calpha := (C.float)(alpha)
 	ret := C.Fade(*ccolor, calpha)
-	v := newColorFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *gocolorptr(&ret)
 }
 
 // ColorToInt - Returns hexadecimal value for a Color
@@ -736,8 +735,7 @@ func ColorNormalize(col color.RGBA) Vector4 {
 func ColorFromNormalized(normalized Vector4) color.RGBA {
 	cnormalized := cvec4ptr(&normalized)
 	ret := C.ColorFromNormalized(*cnormalized)
-	v := newColorFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *gocolorptr(&ret)
 }
 
 // ColorToHSV - Returns HSV values for a Color, hue [0..360], saturation/value [0..1]
@@ -753,8 +751,7 @@ func ColorFromHSV(hue, saturation, value float32) color.RGBA {
 	csaturation := (C.float)(saturation)
 	cvalue := (C.float)(value)
 	ret := C.ColorFromHSV(chue, csaturation, cvalue)
-	v := newColorFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *gocolorptr(&ret)
 }
 
 // ColorTint - Get color multiplied with another color
@@ -762,8 +759,7 @@ func ColorTint(col color.RGBA, tint color.RGBA) color.RGBA {
 	ccolor := ccolorptr(&col)
 	ctint := ccolorptr(&tint)
 	ret := C.ColorTint(*ccolor, *ctint)
-	v := newColorFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *gocolorptr(&ret)
 }
 
 // ColorBrightness - Get color with brightness correction, brightness factor goes from -1.0f to 1.0f
@@ -771,8 +767,7 @@ func ColorBrightness(col color.RGBA, factor float32) color.RGBA {
 	ccolor := ccolorptr(&col)
 	cfactor := C.float(factor)
 	ret := C.ColorBrightness(*ccolor, cfactor)
-	v := newColorFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *gocolorptr(&ret)
 }
 
 // ColorContrast - Get color with contrast correction, contrast values between -1.0f and 1.0f
@@ -780,8 +775,7 @@ func ColorContrast(col color.RGBA, contrast float32) color.RGBA {
 	ccolor := ccolorptr(&col)
 	ccontrast := C.float(contrast)
 	ret := C.ColorContrast(*ccolor, ccontrast)
-	v := newColorFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *gocolorptr(&ret)
 }
 
 // ColorAlpha - Returns color with alpha applied, alpha goes from 0.0f to 1.0f
@@ -795,16 +789,14 @@ func ColorAlphaBlend(src, dst, tint color.RGBA) color.RGBA {
 	cdst := ccolorptr(&dst)
 	ctint := ccolorptr(&tint)
 	ret := C.ColorAlphaBlend(*csrc, *cdst, *ctint)
-	v := newColorFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *gocolorptr(&ret)
 }
 
 // GetColor - Returns a Color struct from hexadecimal value
 func GetColor(hexValue uint) color.RGBA {
 	chexValue := (C.uint)(hexValue)
 	ret := C.GetColor(chexValue)
-	v := newColorFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *gocolorptr(&ret)
 }
 
 // GetPixelDataSize - Get pixel data size in bytes for certain format

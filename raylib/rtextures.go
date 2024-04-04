@@ -518,8 +518,7 @@ func GetImageColor(image *Image, x, y int32) color.RGBA {
 	cy := (C.int)(y)
 
 	ret := C.GetImageColor(*cimage, cx, cy)
-	v := newColorFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *gocolorptr(&ret)
 }
 
 // ImageClearBackground - Clear image background with given color

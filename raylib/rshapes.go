@@ -595,6 +595,5 @@ func GetCollisionRec(rec1, rec2 Rectangle) Rectangle {
 	crec1 := crect2ptr(&rec1)
 	crec2 := crect2ptr(&rec2)
 	ret := C.GetCollisionRec(*crec1, *crec2)
-	v := newRectangleFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *gorec2ptr(&ret)
 }

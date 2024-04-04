@@ -144,7 +144,7 @@ func DrawText[XT, YT CoordinateT](text string, posX XT, posY YT, fontSize int32,
 }
 
 // DrawTextEx - Draw text using Font and additional parameters
-func DrawTextEx(font Font, text string, position Vector2, fontSize float32, spacing float32, tint color.RGBA) {
+func DrawTextEx(font *Font, text string, position Vector2, fontSize float32, spacing float32, tint color.RGBA) {
 	cfont := font.cptr()
 	ctext := C.CString(text)
 	defer C.free(unsafe.Pointer(ctext))
@@ -153,6 +153,11 @@ func DrawTextEx(font Font, text string, position Vector2, fontSize float32, spac
 	cspacing := (C.float)(spacing)
 	ctint := ccolorptr(&tint)
 	C.DrawTextEx(*cfont, ctext, *cposition, cfontSize, cspacing, *ctint)
+}
+
+func DrawTextLayout(font *Font, text string, fontSize float32, spacing float32, tint color.RGBA, layoutFn func(wh Vector2) Rectangle) {
+	rect := layoutFn(MeasureTextEx(font, text, fontSize, spacing))
+	DrawTextEx(font, text, rect.XY, fontSize, spacing, tint)
 }
 
 // SetTextLineSpacing - Set vertical line spacing when drawing with line-breaks
@@ -172,7 +177,7 @@ func MeasureText(text string, fontSize int32) int32 {
 }
 
 // MeasureTextEx - Measure string size for Font
-func MeasureTextEx(font Font, text string, fontSize float32, spacing float32) Vector2 {
+func MeasureTextEx(font *Font, text string, fontSize float32, spacing float32) Vector2 {
 	cfont := font.cptr()
 	ctext := C.CString(text)
 	defer C.free(unsafe.Pointer(ctext))
@@ -205,6 +210,5 @@ func GetGlyphAtlasRec(font Font, codepoint int32) Rectangle {
 	cfont := font.cptr()
 	ccodepoint := (C.int)(codepoint)
 	ret := C.GetGlyphAtlasRec(*cfont, ccodepoint)
-	v := newRectangleFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *gorec2ptr(&ret)
 }
