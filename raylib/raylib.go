@@ -26,7 +26,7 @@ func init() {
 }
 
 type IntegerT interface {
-	int | int32 | int64
+	int | int8 | int16 | int32 | int64
 }
 
 type FloatT interface {
