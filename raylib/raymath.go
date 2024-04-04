@@ -5,16 +5,16 @@ import (
 )
 
 // Clamp - Clamp float value
-func Clamp[NT NumberT](value, min, max NT) NT {
-	var res NT
-	if value < min {
-		res = min
+func Clamp[VT, MINT, MAXT NumberT](value VT, min MAXT, max MINT) VT {
+	var res VT
+	if value < VT(min) {
+		res = VT(min)
 	} else {
 		res = value
 	}
 
-	if res > max {
-		return max
+	if res > VT(max) {
+		return VT(max)
 	}
 
 	return res
