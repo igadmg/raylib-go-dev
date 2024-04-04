@@ -596,6 +596,10 @@ func NewRectangleV(xy, wh Vector2) Rectangle {
 	return rect2.New(vector2.New(xy.X, xy.Y), vector2.New(wh.X, wh.Y))
 }
 
+func NewRectangleWHV(wh Vector2) Rectangle {
+	return rect2.New(vector2.Zero[float32](), vector2.New(wh.X, wh.Y))
+}
+
 // Camera3D type, defines a camera position/orientation in 3d space
 type Camera3D struct {
 	// Camera position
@@ -935,12 +939,12 @@ func NewShader(id uint32, locs *int32) Shader {
 }
 
 // GetLocation - Get shader value's location
-func (sh Shader) GetLocation(index int32) int32 {
+func (sh *Shader) GetLocation(index int32) int32 {
 	return *(*int32)(unsafe.Pointer(uintptr(unsafe.Pointer(sh.Locs)) + uintptr(index*4)))
 }
 
 // UpdateLocation - Update shader value's location
-func (sh Shader) UpdateLocation(index int32, loc int32) {
+func (sh *Shader) UpdateLocation(index int32, loc int32) {
 	*(*int32)(unsafe.Pointer(uintptr(unsafe.Pointer(sh.Locs)) + uintptr(index*4))) = loc
 }
 
@@ -963,6 +967,13 @@ func NewGlyphInfo(value int32, offsetX, offsetY, advanceX int32, image Image) Gl
 	return GlyphInfo{value, offsetX, offsetY, advanceX, image}
 }
 
+// Font type, defines generation method
+const (
+	FontDefault = iota // Default font generation, anti-aliased
+	FontBitmap         // Bitmap font generation, no anti-aliasing
+	FontSdf            // SDF font generation, requires external shader
+)
+
 // Font type, includes texture and charSet array data
 type Font struct {
 	// Base size (default chars height)
@@ -979,12 +990,19 @@ type Font struct {
 	Chars *GlyphInfo
 }
 
-// Font type, defines generation method
-const (
-	FontDefault = iota // Default font generation, anti-aliased
-	FontBitmap         // Bitmap font generation, no anti-aliasing
-	FontSdf            // SDF font generation, requires external shader
-)
+// DrawTextEx - Draw text using Font and additional parameters
+func (f *Font) DrawEx(text string, position Vector2, fontSize float32, spacing float32, tint color.RGBA) {
+	DrawTextEx(f, text, position, fontSize, spacing, tint)
+}
+
+func (f *Font) DrawLayout(text string, fontSize float32, spacing float32, tint color.RGBA, layoutFn func(wh Vector2) Rectangle) {
+	DrawTextLayout(f, text, fontSize, spacing, tint, layoutFn)
+}
+
+// MeasureTextEx - Measure string size for Font
+func (f *Font) MeasureEx(text string, fontSize float32, spacing float32) Vector2 {
+	return MeasureTextEx(f, text, fontSize, spacing)
+}
 
 // PixelFormat - Texture format
 type PixelFormat int32
