@@ -3,10 +3,10 @@
 	url = git@github.com:igadmg/raylib.git
 [submodule "external/raygui"]
 	path = external/raygui
-	url = https://github.com/raysan5/raygui.git
+	url = git@github.com:igadmg/raygui.git
 [submodule "external/rres"]
 	path = external/rres
-	url = https://github.com/raysan5/rres.git
+	url = git@github.com:igadmg/rres.git
 [submodule "vector"]
 	path = vector
 	url = git@github.com:igadmg/vector.git
