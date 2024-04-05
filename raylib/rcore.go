@@ -926,7 +926,7 @@ func PlayAutomationEvent(event AutomationEvent) {
 }
 
 // IsKeyPressed - Detect if a key has been pressed once
-func IsKeyPressed(key int32) bool {
+func IsKeyPressed[KT IntegerT](key KT) bool {
 	ckey := (C.int)(key)
 	ret := C.IsKeyPressed(ckey)
 	v := bool(ret)
@@ -934,7 +934,7 @@ func IsKeyPressed(key int32) bool {
 }
 
 // IsKeyPressedRepeat - Detect if a key has been pressed again (Only PLATFORM_DESKTOP)
-func IsKeyPressedRepeat(key int32) bool {
+func IsKeyPressedRepeat[KT IntegerT](key KT) bool {
 	ckey := (C.int)(key)
 	ret := C.IsKeyPressedRepeat(ckey)
 	v := bool(ret)
@@ -942,7 +942,7 @@ func IsKeyPressedRepeat(key int32) bool {
 }
 
 // IsKeyDown - Detect if a key is being pressed
-func IsKeyDown(key int32) bool {
+func IsKeyDown[KT IntegerT](key KT) bool {
 	ckey := (C.int)(key)
 	ret := C.IsKeyDown(ckey)
 	v := bool(ret)
@@ -950,7 +950,7 @@ func IsKeyDown(key int32) bool {
 }
 
 // IsKeyReleased - Detect if a key has been released once
-func IsKeyReleased(key int32) bool {
+func IsKeyReleased[KT IntegerT](key KT) bool {
 	ckey := (C.int)(key)
 	ret := C.IsKeyReleased(ckey)
 	v := bool(ret)
@@ -958,7 +958,7 @@ func IsKeyReleased(key int32) bool {
 }
 
 // IsKeyUp - Detect if a key is NOT being pressed
-func IsKeyUp(key int32) bool {
+func IsKeyUp[KT IntegerT](key KT) bool {
 	ckey := (C.int)(key)
 	ret := C.IsKeyUp(ckey)
 	v := bool(ret)
@@ -980,13 +980,13 @@ func GetCharPressed() int32 {
 }
 
 // SetExitKey - Set a custom key to exit program (default is ESC)
-func SetExitKey(key int32) {
+func SetExitKey[KT IntegerT](key KT) {
 	ckey := (C.int)(key)
 	C.SetExitKey(ckey)
 }
 
 // IsGamepadAvailable - Detect if a gamepad is available
-func IsGamepadAvailable(gamepad int32) bool {
+func IsGamepadAvailable[GT IntegerT](gamepad GT) bool {
 	cgamepad := (C.int)(gamepad)
 	ret := C.IsGamepadAvailable(cgamepad)
 	v := bool(ret)
@@ -994,7 +994,7 @@ func IsGamepadAvailable(gamepad int32) bool {
 }
 
 // GetGamepadName - Return gamepad internal name id
-func GetGamepadName(gamepad int32) string {
+func GetGamepadName[GT IntegerT](gamepad GT) string {
 	cgamepad := (C.int)(gamepad)
 	ret := C.GetGamepadName(cgamepad)
 	v := C.GoString(ret)
@@ -1002,7 +1002,7 @@ func GetGamepadName(gamepad int32) string {
 }
 
 // IsGamepadButtonPressed - Detect if a gamepad button has been pressed once
-func IsGamepadButtonPressed(gamepad, button int32) bool {
+func IsGamepadButtonPressed[GT, BT IntegerT](gamepad GT, button BT) bool {
 	cgamepad := (C.int)(gamepad)
 	cbutton := (C.int)(button)
 	ret := C.IsGamepadButtonPressed(cgamepad, cbutton)
@@ -1011,7 +1011,7 @@ func IsGamepadButtonPressed(gamepad, button int32) bool {
 }
 
 // IsGamepadButtonDown - Detect if a gamepad button is being pressed
-func IsGamepadButtonDown(gamepad, button int32) bool {
+func IsGamepadButtonDown[GT, BT IntegerT](gamepad GT, button BT) bool {
 	cgamepad := (C.int)(gamepad)
 	cbutton := (C.int)(button)
 	ret := C.IsGamepadButtonDown(cgamepad, cbutton)
@@ -1020,7 +1020,7 @@ func IsGamepadButtonDown(gamepad, button int32) bool {
 }
 
 // IsGamepadButtonReleased - Detect if a gamepad button has been released once
-func IsGamepadButtonReleased(gamepad, button int32) bool {
+func IsGamepadButtonReleased[GT, BT IntegerT](gamepad GT, button BT) bool {
 	cgamepad := (C.int)(gamepad)
 	cbutton := (C.int)(button)
 	ret := C.IsGamepadButtonReleased(cgamepad, cbutton)
@@ -1029,7 +1029,7 @@ func IsGamepadButtonReleased(gamepad, button int32) bool {
 }
 
 // IsGamepadButtonUp - Detect if a gamepad button is NOT being pressed
-func IsGamepadButtonUp(gamepad, button int32) bool {
+func IsGamepadButtonUp[GT, BT IntegerT](gamepad GT, button BT) bool {
 	cgamepad := (C.int)(gamepad)
 	cbutton := (C.int)(button)
 	ret := C.IsGamepadButtonUp(cgamepad, cbutton)
@@ -1045,7 +1045,7 @@ func GetGamepadButtonPressed() int32 {
 }
 
 // GetGamepadAxisCount - Return gamepad axis count for a gamepad
-func GetGamepadAxisCount(gamepad int32) int32 {
+func GetGamepadAxisCount[GT IntegerT](gamepad GT) int32 {
 	cgamepad := (C.int)(gamepad)
 	ret := C.GetGamepadAxisCount(cgamepad)
 	v := (int32)(ret)
@@ -1053,7 +1053,7 @@ func GetGamepadAxisCount(gamepad int32) int32 {
 }
 
 // GetGamepadAxisMovement - Return axis movement value for a gamepad axis
-func GetGamepadAxisMovement(gamepad, axis int32) float32 {
+func GetGamepadAxisMovement[GT, AT IntegerT](gamepad GT, axis AT) float32 {
 	cgamepad := (C.int)(gamepad)
 	caxis := (C.int)(axis)
 	ret := C.GetGamepadAxisMovement(cgamepad, caxis)
@@ -1071,7 +1071,7 @@ func SetGamepadMappings(mappings string) int32 {
 }
 
 // IsMouseButtonPressed - Detect if a mouse button has been pressed once
-func IsMouseButtonPressed(button int32) bool {
+func IsMouseButtonPressed[BT IntegerT](button BT) bool {
 	cbutton := (C.int)(button)
 	ret := C.IsMouseButtonPressed(cbutton)
 	v := bool(ret)
@@ -1079,7 +1079,7 @@ func IsMouseButtonPressed(button int32) bool {
 }
 
 // IsMouseButtonDown - Detect if a mouse button is being pressed
-func IsMouseButtonDown(button int32) bool {
+func IsMouseButtonDown[BT IntegerT](button BT) bool {
 	cbutton := (C.int)(button)
 	ret := C.IsMouseButtonDown(cbutton)
 	v := bool(ret)
@@ -1087,7 +1087,7 @@ func IsMouseButtonDown(button int32) bool {
 }
 
 // IsMouseButtonReleased - Detect if a mouse button has been released once
-func IsMouseButtonReleased(button int32) bool {
+func IsMouseButtonReleased[BT IntegerT](button BT) bool {
 	cbutton := (C.int)(button)
 	ret := C.IsMouseButtonReleased(cbutton)
 	v := bool(ret)
@@ -1095,7 +1095,7 @@ func IsMouseButtonReleased(button int32) bool {
 }
 
 // IsMouseButtonUp - Detect if a mouse button is NOT being pressed
-func IsMouseButtonUp(button int32) bool {
+func IsMouseButtonUp[BT IntegerT](button BT) bool {
 	cbutton := (C.int)(button)
 	ret := C.IsMouseButtonUp(cbutton)
 	v := bool(ret)
@@ -1183,14 +1183,14 @@ func GetTouchY() int32 {
 }
 
 // GetTouchPosition - Returns touch position XY for a touch point index (relative to screen size)
-func GetTouchPosition(index int32) Vector2 {
+func GetTouchPosition[IT IntegerT](index IT) Vector2 {
 	cindex := (C.int)(index)
 	ret := C.GetTouchPosition(cindex)
 	return *govec2ptr(&ret)
 }
 
 // GetTouchPointId - Get touch point identifier for given index
-func GetTouchPointId(index int32) int32 {
+func GetTouchPointId[IT IntegerT](index IT) int32 {
 	cindex := (C.int)(index)
 	ret := C.GetTouchPointId(cindex)
 	v := (int32)(ret)
