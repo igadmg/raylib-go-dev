@@ -115,8 +115,8 @@ func main() {
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.Black)
 
-		rl.DrawTextureRec(screenCam1.Texture, splitScreenRec, rl.NewVector2(0, 0), rl.White)
-		rl.DrawTextureRec(screenCam2.Texture, splitScreenRec, rl.NewVector2(float32(screenW/2), 0), rl.White)
+		rl.DrawTextureRec(&screenCam1.Texture, splitScreenRec, rl.NewVector2(0, 0), rl.White)
+		rl.DrawTextureRec(&screenCam2.Texture, splitScreenRec, rl.NewVector2(float32(screenW/2), 0), rl.White)
 		rl.DrawRectangle((screenW/2)-2, 0, 4, screenH, rl.LightGray)
 
 		rl.EndDrawing()

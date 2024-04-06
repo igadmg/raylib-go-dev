@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/gen2brain/raylib-go/raylib"
+	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 func main() {
@@ -32,8 +32,8 @@ func main() {
 		rl.EndDrawing()
 	}
 
-	rl.UnloadSound(fxWav)
-	rl.UnloadSound(fxOgg)
+	rl.UnloadSound(&fxWav)
+	rl.UnloadSound(&fxOgg)
 
 	rl.CloseAudioDevice()
 
