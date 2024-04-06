@@ -74,7 +74,7 @@ func main() {
 	screenPlayer2 := rl.LoadRenderTexture(screenWidth/2, screenHeight)
 
 	// Build a flipped rectangle the size of the split view to use for drawing later
-	splitScreenRect := rl.Rectangle{0.0, 0.0, float32(screenPlayer1.Texture.Width), float32(-screenPlayer1.Texture.Height)}
+	splitScreenRect := rl.NewRectangle(0.0, 0.0, screenPlayer1.Texture.Width, -screenPlayer1.Texture.Height)
 
 	rl.SetTargetFPS(60) // Set our game to run at 60 frames-per-second
 	//--------------------------------------------------------------------------------------
@@ -129,8 +129,8 @@ func main() {
 		// Draw both views render textures to the screen side by side
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.Black)
-		rl.DrawTextureRec(screenPlayer1.Texture, splitScreenRect, rl.Vector2{0, 0}, rl.White)
-		rl.DrawTextureRec(screenPlayer2.Texture, splitScreenRect, rl.Vector2{screenWidth / 2.0, 0}, rl.White)
+		rl.DrawTextureRec(&screenPlayer1.Texture, splitScreenRect, rl.NewVector2(0, 0), rl.White)
+		rl.DrawTextureRec(&screenPlayer2.Texture, splitScreenRect, rl.NewVector2(screenWidth/2.0, 0), rl.White)
 		rl.EndDrawing()
 	}
 

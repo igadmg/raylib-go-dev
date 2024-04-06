@@ -69,7 +69,7 @@ func main() {
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.Red)
 		rl.BeginMode2D(screenSpaceCam)
-		rl.DrawTexturePro(target.Texture, sourceRec, destRec, origin, 0, rl.White)
+		rl.DrawTexturePro(&target.Texture, sourceRec, destRec, origin, 0, rl.White)
 		rl.EndMode2D()
 
 		rl.DrawText("screen res "+fmt.Sprint(screenW)+"x"+fmt.Sprint(screenH), 10, 10, 20, rl.Black)
