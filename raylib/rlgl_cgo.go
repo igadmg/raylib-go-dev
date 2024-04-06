@@ -448,7 +448,7 @@ func CheckErrors() {
 }
 
 // SetBlendMode - Set blending mode
-func SetBlendMode(mode int32) {
+func SetBlendMode(mode BlendMode) {
 	cmode := C.int(mode)
 	C.rlSetBlendMode(cmode)
 }
@@ -459,6 +459,7 @@ func SetBlendFactors(glSrcFactor int32, glDstFactor int32, glEquation int32) {
 	cglDstFactor := C.int(glDstFactor)
 	cglEquation := C.int(glEquation)
 	C.rlSetBlendFactors(cglSrcFactor, cglDstFactor, cglEquation)
+	SetBlendMode(BlendCustom)
 }
 
 // SetBlendFactorsSeparate - Set blending mode factors and equations separately (using OpenGL factors)
@@ -470,6 +471,7 @@ func SetBlendFactorsSeparate(glSrcRGB int32, glDstRGB int32, glSrcAlpha int32, g
 	cglEqRGB := C.int(glEqRGB)
 	cglEqAlpha := C.int(glEqAlpha)
 	C.rlSetBlendFactorsSeparate(cglSrcRGB, cglDstRGB, cglSrcAlpha, cglDstAlpha, cglEqRGB, cglEqAlpha)
+	SetBlendMode(BlendCustomSeparate)
 }
 
 // GlInit - Initialize rlgl (buffers, shaders, textures, states)

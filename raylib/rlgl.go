@@ -50,6 +50,30 @@ const (
 	FragmentShader = 0x8B30 // GL_FRAGMENT_SHADER
 	VertexShader   = 0x8B31 // GL_VERTEX_SHADER
 	ComputeShader  = 0x91B9 // GL_COMPUTE_SHADER
+
+	// GL blending factors
+	BlendZero                  = 0      // GL_ZERO
+	BlendOne                   = 1      // GL_ONE
+	BlendSrcColor              = 0x0300 // GL_SRC_COLOR
+	BlendOneMinusSrcColor      = 0x0301 // GL_ONE_MINUS_SRC_COLOR
+	BlendSrcAlpha              = 0x0302 // GL_SRC_ALPHA
+	BlendOneMinusSrcAlpha      = 0x0303 // GL_ONE_MINUS_SRC_ALPHA
+	BlendDstAlpha              = 0x0304 // GL_DST_ALPHA
+	BlendOneMinusDstAlpha      = 0x0305 // GL_ONE_MINUS_DST_ALPHA
+	BlendDstColor              = 0x0306 // GL_DST_COLOR
+	BlendOneMinusDstColor      = 0x0307 // GL_ONE_MINUS_DST_COLOR
+	BlendSrcAlphaSaturate      = 0x0308 // GL_SRC_ALPHA_SATURATE
+	BlendConstantColor         = 0x8001 // GL_CONSTANT_COLOR
+	BlendOneMinusConstantColor = 0x8002 // GL_ONE_MINUS_CONSTANT_COLOR
+	BlendConstantAlpha         = 0x8003 // GL_CONSTANT_ALPHA
+	BlendOneMinusConstantAlpha = 0x8004 // GL_ONE_MINUS_CONSTANT_ALPHA
+
+	// GL blending functions/equations
+	BlendFuncAdd             = 0x8006 // GL_FUNC_ADD
+	BlendMin                 = 0x8007 // GL_MIN
+	BlendMax                 = 0x8008 // GL_MAX
+	BlendFuncSubtract        = 0x800A // GL_FUNC_SUBTRACT
+	BlendFuncReverseSubtract = 0x800B // GL_FUNC_REVERSE_SUBTRACT
 )
 
 // VertexBuffer - Dynamic vertex buffers (position + texcoords + colors + indices arrays)
