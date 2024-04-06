@@ -62,7 +62,7 @@ func main() {
 		cam1.Target = rl.NewVector2(player1.XY.X, player1.XY.Y)
 		cam2.Target = rl.NewVector2(player2.XY.X, player2.XY.Y)
 
-		rl.BeginTextureMode(screenCam1)
+		rl.BeginTextureMode(&screenCam1)
 		rl.ClearBackground(rl.RayWhite)
 		rl.BeginMode2D(cam1)
 
@@ -86,7 +86,7 @@ func main() {
 		rl.DrawText("PLAYER 1 WASD KEYS", 10, 10, 10, rl.Maroon)
 		rl.EndTextureMode()
 
-		rl.BeginTextureMode(screenCam2)
+		rl.BeginTextureMode(&screenCam2)
 		rl.ClearBackground(rl.RayWhite)
 		rl.BeginMode2D(cam2)
 
@@ -121,8 +121,8 @@ func main() {
 
 	}
 
-	rl.UnloadRenderTexture(screenCam1)
-	rl.UnloadRenderTexture(screenCam2)
+	rl.UnloadRenderTexture(&screenCam1)
+	rl.UnloadRenderTexture(&screenCam2)
 
 	rl.CloseWindow()
 }

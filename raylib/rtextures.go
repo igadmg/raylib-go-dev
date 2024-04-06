@@ -37,8 +37,8 @@ func (i *Image) ToImage() image.Image {
 }
 
 // newTexture2DFromPointer - Returns new Texture2D from pointer
-func newTexture2DFromPointer(ptr unsafe.Pointer) *Texture2D {
-	return (*Texture2D)(ptr)
+func newTexture2DFromPointer(ptr *C.Texture2D) *Texture2D {
+	return (*Texture2D)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -47,8 +47,8 @@ func (t *Texture2D) cptr() *C.Texture2D {
 }
 
 // newRenderTexture2DFromPointer - Returns new RenderTexture2D from pointer
-func newRenderTexture2DFromPointer(ptr unsafe.Pointer) *RenderTexture2D {
-	return (*RenderTexture2D)(ptr)
+func newRenderTexture2DFromPointer(ptr *C.RenderTexture2D) *RenderTexture2D {
+	return (*RenderTexture2D)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -171,51 +171,47 @@ func IsImageReady(image *Image) bool {
 }
 
 // LoadTexture - Load an image as texture into GPU memory
-func LoadTexture(fileName string) *Texture2D {
+func LoadTexture(fileName string) Texture2D {
 	cfileName := C.CString(fileName)
 	defer C.free(unsafe.Pointer(cfileName))
 	ret := C.LoadTexture(cfileName)
-	v := newTexture2DFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newTexture2DFromPointer(&ret)
 }
 
 // LoadTextureFromImage - Load a texture from image data
-func LoadTextureFromImage(image *Image) *Texture2D {
+func LoadTextureFromImage(image *Image) Texture2D {
 	cimage := image.cptr()
 	ret := C.LoadTextureFromImage(cimage)
-	v := newTexture2DFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newTexture2DFromPointer(&ret)
 }
 
 // ReloadTextureFromImage - Load a texture from image data
 func ReloadTextureFromImage(image *Image, texture *Texture2D) *Texture2D {
 	if texture == nil {
-		return LoadTextureFromImage(image)
+		newTexture := LoadTextureFromImage(image)
+		return &newTexture
 	}
 
 	cimage := image.cptr()
 	ctexture := texture.cptr()
 	ret := C.ReloadTextureFromImage(cimage, ctexture)
-	v := newTexture2DFromPointer(unsafe.Pointer(ret))
-	return v
+	return newTexture2DFromPointer(ret)
 }
 
 // LoadRenderTexture - Load a texture to be used for rendering
-func LoadRenderTexture[WT, HT IntegerT](width WT, height HT) *RenderTexture2D {
+func LoadRenderTexture[WT, HT IntegerT](width WT, height HT) RenderTexture2D {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	ret := C.LoadRenderTexture(cwidth, cheight)
-	v := newRenderTexture2DFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newRenderTexture2DFromPointer(&ret)
 }
 
 // LoadTextureCubemap - Loads a texture for a cubemap using given layout
-func LoadTextureCubemap(image *Image, layout int32) *Texture2D {
+func LoadTextureCubemap(image *Image, layout int32) Texture2D {
 	cimage := image.cptr()
 	clayout := (C.int)(layout)
 	ret := C.LoadTextureCubemap(cimage, clayout)
-	v := newTexture2DFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newTexture2DFromPointer(&ret)
 }
 
 // UnloadImage - Unload image from CPU memory (RAM)

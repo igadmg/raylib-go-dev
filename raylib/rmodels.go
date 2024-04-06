@@ -34,8 +34,8 @@ func (m *Material) cptr() *C.Material {
 }
 
 // newModelFromPointer - Returns new Model from pointer
-func newModelFromPointer(ptr unsafe.Pointer) Model {
-	return *(*Model)(ptr)
+func newModelFromPointer(ptr *C.Model) *Model {
+	return (*Model)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -259,16 +259,14 @@ func LoadModel(fileName string) Model {
 	cfileName := C.CString(fileName)
 	defer C.free(unsafe.Pointer(cfileName))
 	ret := C.LoadModel(cfileName)
-	v := newModelFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newModelFromPointer(&ret)
 }
 
 // LoadModelFromMesh - Load model from mesh data
 func LoadModelFromMesh(data Mesh) Model {
 	cdata := data.cptr()
 	ret := C.LoadModelFromMesh(*cdata)
-	v := newModelFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newModelFromPointer(&ret)
 }
 
 // IsModelReady - Check if a model is ready
@@ -645,7 +643,7 @@ func UnloadMaterial(material *Material) {
 }
 
 // SetMaterialTexture - Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...)
-func SetMaterialTexture(material *Material, mapType int32, texture Texture2D) {
+func SetMaterialTexture(material *Material, mapType int32, texture *Texture2D) {
 	cmaterial := material.cptr()
 	cmapType := (C.int)(mapType)
 	ctexture := texture.cptr()

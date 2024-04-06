@@ -68,7 +68,7 @@ func main() {
 			cam2.Target.X += frameOffset
 		}
 
-		rl.BeginTextureMode(screenCam1)
+		rl.BeginTextureMode(&screenCam1)
 		rl.ClearBackground(rl.SkyBlue)
 		rl.BeginMode3D(cam1)
 
@@ -90,7 +90,7 @@ func main() {
 		rl.DrawText("PLAYER 1 WASD KEYS", 10, 10, 20, rl.Maroon)
 		rl.EndTextureMode()
 
-		rl.BeginTextureMode(screenCam2)
+		rl.BeginTextureMode(&screenCam2)
 		rl.ClearBackground(rl.SkyBlue)
 		rl.BeginMode3D(cam2)
 
@@ -123,8 +123,8 @@ func main() {
 
 	}
 
-	rl.UnloadRenderTexture(screenCam1)
-	rl.UnloadRenderTexture(screenCam2)
+	rl.UnloadRenderTexture(&screenCam1)
+	rl.UnloadRenderTexture(&screenCam2)
 
 	rl.CloseWindow()
 }
