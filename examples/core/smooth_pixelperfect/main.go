@@ -55,7 +55,7 @@ func main() {
 		screenSpaceCam.Target.Y -= worldSpaceCam.Target.Y
 		screenSpaceCam.Target.Y *= virtualRatio
 
-		rl.BeginTextureMode(target)
+		rl.BeginTextureMode(&target)
 		rl.ClearBackground(rl.RayWhite)
 		rl.BeginMode2D(worldSpaceCam)
 
@@ -79,7 +79,7 @@ func main() {
 		rl.EndDrawing()
 	}
 
-	rl.UnloadRenderTexture(target)
+	rl.UnloadRenderTexture(&target)
 
 	rl.CloseWindow()
 }

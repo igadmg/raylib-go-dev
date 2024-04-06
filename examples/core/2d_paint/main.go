@@ -51,7 +51,7 @@ func main() {
 	target := rl.LoadRenderTexture(screenWidth, screenHeight)
 
 	// Clear render texture before entering the game loop
-	rl.BeginTextureMode(target)
+	rl.BeginTextureMode(&target)
 	rl.ClearBackground(colors[0])
 	rl.EndTextureMode()
 
@@ -101,14 +101,14 @@ func main() {
 
 		if rl.IsKeyPressed(rl.KeyC) {
 			// Clear render texture to clear color
-			rl.BeginTextureMode(target)
+			rl.BeginTextureMode(&target)
 			rl.ClearBackground(colors[0])
 			rl.EndTextureMode()
 		}
 
 		if rl.IsMouseButtonDown(rl.MouseLeftButton) || rl.GetGestureDetected() == rl.GestureDrag {
 			// Clear render texture to clear color
-			rl.BeginTextureMode(target)
+			rl.BeginTextureMode(&target)
 
 			if mousePos.Y > 50 {
 				rl.DrawCircle(int32(mousePos.X), int32(mousePos.Y), float32(brushSize), colors[colorSelected])
@@ -121,7 +121,7 @@ func main() {
 			colorSelected = 0
 
 			// Erase circle from render texture
-			rl.BeginTextureMode(target)
+			rl.BeginTextureMode(&target)
 
 			if mousePos.Y > 50 {
 				rl.DrawCircle(int32(mousePos.X), int32(mousePos.Y), float32(brushSize), colors[0])
@@ -207,7 +207,7 @@ func main() {
 
 	// De-Initialization
 	//--------------------------------------------------------------------------------------
-	rl.UnloadRenderTexture(target)
+	rl.UnloadRenderTexture(&target)
 
 	rl.CloseWindow()
 

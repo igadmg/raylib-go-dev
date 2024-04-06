@@ -21,8 +21,8 @@ func (c *GlyphInfo) cptr() *C.GlyphInfo {
 }
 
 // newFontFromPointer - Returns new Font from pointer
-func newFontFromPointer(ptr unsafe.Pointer) *Font {
-	return (*Font)(ptr)
+func newFontFromPointer(ptr *C.Font) *Font {
+	return (*Font)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -31,23 +31,21 @@ func (s *Font) cptr() *C.Font {
 }
 
 // GetFontDefault - Get the default Font
-func GetFontDefault() *Font {
+func GetFontDefault() Font {
 	ret := C.GetFontDefault()
-	v := newFontFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newFontFromPointer(&ret)
 }
 
 // LoadFont - Load a Font image into GPU memory (VRAM)
-func LoadFont(fileName string) *Font {
+func LoadFont(fileName string) Font {
 	cfileName := C.CString(fileName)
 	defer C.free(unsafe.Pointer(cfileName))
 	ret := C.LoadFont(cfileName)
-	v := newFontFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newFontFromPointer(&ret)
 }
 
 // LoadFontEx - Load Font from file with extended parameters
-func LoadFontEx(fileName string, fontSize int32, fontChars []rune, runesNumber ...int32) *Font {
+func LoadFontEx(fileName string, fontSize int32, fontChars []rune, runesNumber ...int32) Font {
 	var cfontChars *C.int
 	var ccharsCount C.int
 
@@ -64,22 +62,20 @@ func LoadFontEx(fileName string, fontSize int32, fontChars []rune, runesNumber .
 		}
 	}
 	ret := C.LoadFontEx(cfileName, cfontSize, cfontChars, ccharsCount)
-	v := newFontFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newFontFromPointer(&ret)
 }
 
 // LoadFontFromImage - Loads an Image font file (XNA style)
-func LoadFontFromImage(image Image, key color.RGBA, firstChar int32) *Font {
+func LoadFontFromImage(image Image, key color.RGBA, firstChar int32) Font {
 	cimage := image.cptr()
 	ckey := ccolorptr(&key)
 	cfirstChar := (C.int)(firstChar)
 	ret := C.LoadFontFromImage(*cimage, *ckey, cfirstChar)
-	v := newFontFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newFontFromPointer(&ret)
 }
 
 // LoadFontFromMemory - Load font from memory buffer, fileType refers to extension: i.e. ".ttf"
-func LoadFontFromMemory(fileType string, fileData []byte, fontSize int32, codepoints []rune) *Font {
+func LoadFontFromMemory(fileType string, fileData []byte, fontSize int32, codepoints []rune) Font {
 	cfileType := C.CString(fileType)
 	defer C.free(unsafe.Pointer(cfileType))
 	cfileData := (*C.uchar)(unsafe.Pointer(&fileData[0]))
@@ -88,8 +84,7 @@ func LoadFontFromMemory(fileType string, fileData []byte, fontSize int32, codepo
 	cfontChars := (*C.int)(unsafe.SliceData(codepoints))
 	ccharsCount := (C.int)(len(codepoints))
 	ret := C.LoadFontFromMemory(cfileType, cfileData, cdataSize, cfontSize, cfontChars, ccharsCount)
-	v := newFontFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newFontFromPointer(&ret)
 }
 
 // IsFontReady - Check if a font is ready
