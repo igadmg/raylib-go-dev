@@ -39,6 +39,16 @@ func BeginBlendMode(mode BlendMode) {
 	C.BeginBlendMode(cmode)
 }
 
+func BeginBlendCustomMode(glSrcFactor, glDstFactor BlendFactor, glEquation BlendFunc) {
+	SetBlendFactors(glSrcFactor, glDstFactor, glEquation)
+	SetBlendMode(BlendCustom)
+}
+
+func BeginBlendCustomSeparateMode(glSrcRGB, glDstRGB, glSrcAlpha, glDstAlpha BlendFactor, glEqRGB, glEqAlpha BlendFunc) {
+	SetBlendFactorsSeparate(glSrcRGB, glDstRGB, glSrcAlpha, glDstAlpha, glEqRGB, glEqAlpha)
+	SetBlendMode(BlendCustomSeparate)
+}
+
 // EndBlendMode - End blending mode (reset to default: alpha blending)
 func EndBlendMode() {
 	C.EndBlendMode()
@@ -454,16 +464,15 @@ func SetBlendMode(mode BlendMode) {
 }
 
 // SetBlendFactors - Set blending mode factor and equation (using OpenGL factors)
-func SetBlendFactors(glSrcFactor int32, glDstFactor int32, glEquation int32) {
+func SetBlendFactors(glSrcFactor, glDstFactor BlendFactor, glEquation BlendFunc) {
 	cglSrcFactor := C.int(glSrcFactor)
 	cglDstFactor := C.int(glDstFactor)
 	cglEquation := C.int(glEquation)
 	C.rlSetBlendFactors(cglSrcFactor, cglDstFactor, cglEquation)
-	SetBlendMode(BlendCustom)
 }
 
 // SetBlendFactorsSeparate - Set blending mode factors and equations separately (using OpenGL factors)
-func SetBlendFactorsSeparate(glSrcRGB int32, glDstRGB int32, glSrcAlpha int32, glDstAlpha int32, glEqRGB int32, glEqAlpha int32) {
+func SetBlendFactorsSeparate(glSrcRGB, glDstRGB, glSrcAlpha, glDstAlpha BlendFactor, glEqRGB, glEqAlpha BlendFunc) {
 	cglSrcRGB := C.int(glSrcRGB)
 	cglDstRGB := C.int(glDstRGB)
 	cglSrcAlpha := C.int(glSrcAlpha)
@@ -471,7 +480,6 @@ func SetBlendFactorsSeparate(glSrcRGB int32, glDstRGB int32, glSrcAlpha int32, g
 	cglEqRGB := C.int(glEqRGB)
 	cglEqAlpha := C.int(glEqAlpha)
 	C.rlSetBlendFactorsSeparate(cglSrcRGB, cglDstRGB, cglSrcAlpha, cglDstAlpha, cglEqRGB, cglEqAlpha)
-	SetBlendMode(BlendCustomSeparate)
 }
 
 // GlInit - Initialize rlgl (buffers, shaders, textures, states)

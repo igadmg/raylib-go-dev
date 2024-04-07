@@ -12,9 +12,13 @@ import (
 	"unsafe"
 )
 
+func ptr[T any](x T) *T {
+	return &x
+}
+
 // newImageFromPointer - Returns new Image from pointer
-func newImageFromPointer(ptr unsafe.Pointer) *Image {
-	return (*Image)(ptr)
+func newImageFromPointer(ptr *C.Image) *Image {
+	return (*Image)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -57,7 +61,7 @@ func (r *RenderTexture2D) cptr() *C.RenderTexture2D {
 }
 
 // NewImageFromImage - Returns new Image from Go image.Image
-func NewImageFromImage(img image.Image) *Image {
+func NewImageFromImage(img image.Image) Image {
 	size := img.Bounds().Size()
 
 	cx := (C.int)(size.X)
@@ -77,21 +81,19 @@ func NewImageFromImage(img image.Image) *Image {
 			C.ImageDrawPixel(&ret, cx, cy, *ccolor)
 		}
 	}
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // LoadImage - Load an image into CPU memory (RAM)
-func LoadImage(fileName string) *Image {
+func LoadImage(fileName string) Image {
 	cfileName := C.CString(fileName)
 	defer C.free(unsafe.Pointer(cfileName))
 	ret := C.LoadImage(cfileName)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // LoadImageRaw - Load image data from RAW file
-func LoadImageRaw(fileName string, width, height int32, format PixelFormat, headerSize int32) *Image {
+func LoadImageRaw(fileName string, width, height int32, format PixelFormat, headerSize int32) Image {
 	cfileName := C.CString(fileName)
 	defer C.free(unsafe.Pointer(cfileName))
 	cwidth := (C.int)(width)
@@ -99,67 +101,60 @@ func LoadImageRaw(fileName string, width, height int32, format PixelFormat, head
 	cformat := (C.int)(format)
 	cheaderSize := (C.int)(headerSize)
 	ret := C.LoadImageRaw(cfileName, cwidth, cheight, cformat, cheaderSize)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // LoadImageSvg - Load image from SVG file data or string with specified size
-func LoadImageSvg(fileNameOrString string, width, height int32) *Image {
+func LoadImageSvg(fileNameOrString string, width, height int32) Image {
 	cfileNameOrString := C.CString(fileNameOrString)
 	defer C.free(unsafe.Pointer(cfileNameOrString))
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	ret := C.LoadImageSvg(cfileNameOrString, cwidth, cheight)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // LoadImageAnim - Load image sequence from file (frames appended to image.data)
-func LoadImageAnim(fileName string, frames *int32) *Image {
+func LoadImageAnim(fileName string, frames *int32) Image {
 	cfileName := C.CString(fileName)
 	defer C.free(unsafe.Pointer(cfileName))
 	cframes := (*C.int)(frames)
 	ret := C.LoadImageAnim(cfileName, cframes)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // LoadImageFromMemory - Load image from memory buffer, fileType refers to extension: i.e. ".png"
-func LoadImageFromMemory(fileType string, fileData []byte, dataSize int32) *Image {
+func LoadImageFromMemory(fileType string, fileData []byte, dataSize int32) Image {
 	cfileType := C.CString(fileType)
 	defer C.free(unsafe.Pointer(cfileType))
 	cfileData := (*C.uchar)(unsafe.Pointer(&fileData[0]))
 	cdataSize := (C.int)(dataSize)
 	ret := C.LoadImageFromMemory(cfileType, cfileData, cdataSize)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // LoadImageFromTexture - Get pixel data from GPU texture and return an Image
-func LoadImageFromTexture(texture *Texture2D) *Image {
+func LoadImageFromTexture(texture *Texture2D) Image {
 	ctexture := texture.cptr()
 	ret := C.LoadImageFromTexture(ctexture)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 func ReloadImageFromTexture(texture *Texture2D, image *Image) *Image {
 	if image == nil {
-		return LoadImageFromTexture(texture)
+		return ptr(LoadImageFromTexture(texture))
 	}
 
 	ctexture := texture.cptr()
 	cimage := image.cptr()
 	ret := C.ReloadImageFromTexture(ctexture, cimage)
-	v := newImageFromPointer(unsafe.Pointer(ret))
-	return v
+	return newImageFromPointer(ret)
 }
 
 // LoadImageFromScreen - Load image from screen buffer (screenshot)
-func LoadImageFromScreen() *Image {
+func LoadImageFromScreen() Image {
 	ret := C.LoadImageFromScreen()
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // IsImageReady - Check if an image is ready
@@ -296,11 +291,10 @@ func ExportImageToMemory(image *Image, fileType string) []byte {
 }
 
 // ImageCopy - Create an image duplicate (useful for transformations)
-func ImageCopy(image *Image) *Image {
+func ImageCopy(image *Image) Image {
 	cimage := image.cptr()
 	ret := C.ImageCopy(cimage)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // Create an image from another image piece
@@ -308,23 +302,21 @@ func ImageFromImage(image *Image, rec Rectangle) Image {
 	cimage := image.cptr()
 	crec := crect2ptr(&rec)
 	ret := C.ImageFromImage(cimage, *crec)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return *v
+	return *newImageFromPointer(&ret)
 }
 
 // ImageText - Create an image from text (default font)
-func ImageText(text string, fontSize int32, col color.RGBA) *Image {
+func ImageText(text string, fontSize int32, col color.RGBA) Image {
 	ctext := C.CString(text)
 	defer C.free(unsafe.Pointer(ctext))
 	cfontSize := (C.int)(fontSize)
 	ccolor := ccolorptr(&col)
 	ret := C.ImageText(ctext, cfontSize, *ccolor)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // ImageTextEx - Create an image from text (custom sprite font)
-func ImageTextEx(font Font, text string, fontSize, spacing float32, tint color.RGBA) *Image {
+func ImageTextEx(font Font, text string, fontSize, spacing float32, tint color.RGBA) Image {
 	cfont := font.cptr()
 	ctext := C.CString(text)
 	defer C.free(unsafe.Pointer(ctext))
@@ -332,8 +324,7 @@ func ImageTextEx(font Font, text string, fontSize, spacing float32, tint color.R
 	cspacing := (C.float)(spacing)
 	ctint := ccolorptr(&tint)
 	ret := C.ImageTextEx(*cfont, ctext, cfontSize, cspacing, *ctint)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // ImageFormat - Convert image data to desired format
@@ -672,18 +663,17 @@ func ImageDrawTextEx(dst *Image, position Vector2, font Font, text string, fontS
 }
 
 // GenImageColor - Generate image: plain color
-func GenImageColor(width, height int, col color.RGBA) *Image {
+func GenImageColor(width, height int, col color.RGBA) Image {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	ccolor := ccolorptr(&col)
 
 	ret := C.GenImageColor(cwidth, cheight, *ccolor)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // GenImageGradientLinear - Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient
-func GenImageGradientLinear(width, height, direction int, start, end color.RGBA) *Image {
+func GenImageGradientLinear(width, height, direction int, start, end color.RGBA) Image {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	cdensity := (C.int)(direction)
@@ -691,12 +681,11 @@ func GenImageGradientLinear(width, height, direction int, start, end color.RGBA)
 	cend := ccolorptr(&end)
 
 	ret := C.GenImageGradientLinear(cwidth, cheight, cdensity, *cstart, *cend)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // GenImageGradientRadial - Generate image: radial gradient
-func GenImageGradientRadial(width, height int, density float32, inner, outer color.RGBA) *Image {
+func GenImageGradientRadial(width, height int, density float32, inner, outer color.RGBA) Image {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	cdensity := (C.float)(density)
@@ -704,12 +693,11 @@ func GenImageGradientRadial(width, height int, density float32, inner, outer col
 	couter := ccolorptr(&outer)
 
 	ret := C.GenImageGradientRadial(cwidth, cheight, cdensity, *cinner, *couter)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // GenImageGradientSquare - Generate image: square gradient
-func GenImageGradientSquare(width, height int, density float32, inner, outer color.RGBA) *Image {
+func GenImageGradientSquare(width, height int, density float32, inner, outer color.RGBA) Image {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	cdensity := (C.float)(density)
@@ -717,12 +705,11 @@ func GenImageGradientSquare(width, height int, density float32, inner, outer col
 	couter := ccolorptr(&outer)
 
 	ret := C.GenImageGradientSquare(cwidth, cheight, cdensity, *cinner, *couter)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // GenImageChecked - Generate image: checked
-func GenImageChecked(width, height, checksX, checksY int, col1, col2 color.RGBA) *Image {
+func GenImageChecked(width, height, checksX, checksY int, col1, col2 color.RGBA) Image {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	cchecksX := (C.int)(checksX)
@@ -731,23 +718,21 @@ func GenImageChecked(width, height, checksX, checksY int, col1, col2 color.RGBA)
 	ccol2 := ccolorptr(&col2)
 
 	ret := C.GenImageChecked(cwidth, cheight, cchecksX, cchecksY, *ccol1, *ccol2)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // GenImageWhiteNoise - Generate image: white noise
-func GenImageWhiteNoise(width, height int, factor float32) *Image {
+func GenImageWhiteNoise(width, height int, factor float32) Image {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	cfactor := (C.float)(factor)
 
 	ret := C.GenImageWhiteNoise(cwidth, cheight, cfactor)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // GenImagePerlinNoise - Generate image: perlin noise
-func GenImagePerlinNoise(width, height, offsetX, offsetY int, scale float32) *Image {
+func GenImagePerlinNoise(width, height, offsetX, offsetY int, scale float32) Image {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	coffsetX := (C.int)(offsetX)
@@ -755,31 +740,28 @@ func GenImagePerlinNoise(width, height, offsetX, offsetY int, scale float32) *Im
 	cscale := (C.float)(scale)
 
 	ret := C.GenImagePerlinNoise(cwidth, cheight, coffsetX, coffsetY, cscale)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // GenImageCellular - Generate image: cellular algorithm. Bigger tileSize means bigger cells
-func GenImageCellular(width, height, tileSize int) *Image {
+func GenImageCellular(width, height, tileSize int) Image {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	ctileSize := (C.int)(tileSize)
 
 	ret := C.GenImageCellular(cwidth, cheight, ctileSize)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // GenImageText - Generate image: grayscale image from text data
-func GenImageText(width, height int, text string) *Image {
+func GenImageText(width, height int, text string) Image {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	ctext := C.CString(text)
 	defer C.free(unsafe.Pointer(ctext))
 
 	ret := C.GenImageText(cwidth, cheight, ctext)
-	v := newImageFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newImageFromPointer(&ret)
 }
 
 // GenTextureMipmaps - Generate GPU mipmaps for a texture
