@@ -14,8 +14,8 @@ import (
 )
 
 // newMeshFromPointer - Returns new Mesh from pointer
-func newMeshFromPointer(ptr unsafe.Pointer) Mesh {
-	return *(*Mesh)(ptr)
+func newMeshFromPointer(ptr *C.Mesh) *Mesh {
+	return (*Mesh)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -24,8 +24,8 @@ func (m *Mesh) cptr() *C.Mesh {
 }
 
 // newMaterialFromPointer - Returns new Material from pointer
-func newMaterialFromPointer(ptr unsafe.Pointer) Material {
-	return *(*Material)(ptr)
+func newMaterialFromPointer(ptr *C.Material) *Material {
+	return (*Material)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -44,8 +44,8 @@ func (m *Model) cptr() *C.Model {
 }
 
 // newRayFromPointer - Returns new Ray from pointer
-func newRayFromPointer(ptr unsafe.Pointer) Ray {
-	return *(*Ray)(ptr)
+func newRayFromPointer(ptr *C.Ray) *Ray {
+	return (*Ray)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -54,8 +54,8 @@ func (r *Ray) cptr() *C.Ray {
 }
 
 // newModelAnimationFromPointer - Returns new ModelAnimation from pointer
-func newModelAnimationFromPointer(ptr unsafe.Pointer) ModelAnimation {
-	return *(*ModelAnimation)(ptr)
+func newModelAnimationFromPointer(ptr *C.ModelAnimation) *ModelAnimation {
+	return (*ModelAnimation)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -64,8 +64,8 @@ func (r *ModelAnimation) cptr() *C.ModelAnimation {
 }
 
 // newRayCollisionFromPointer - Returns new RayCollision from pointer
-func newRayCollisionFromPointer(ptr unsafe.Pointer) RayCollision {
-	return *(*RayCollision)(ptr)
+func newRayCollisionFromPointer(ptr *C.RayCollision) *RayCollision {
+	return (*RayCollision)(unsafe.Pointer(ptr))
 }
 
 // DrawLine3D - Draw a line in 3D world space
@@ -287,8 +287,7 @@ func UnloadModel(model *Model) {
 func GetModelBoundingBox(model Model) BoundingBox {
 	cmodel := model.cptr()
 	ret := C.GetModelBoundingBox(*cmodel)
-	v := newBoundingBoxFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newBoundingBoxFromPointer(&ret)
 }
 
 // DrawModel - Draw a model (with texture if set)
@@ -486,8 +485,7 @@ func ExportMesh(mesh Mesh, fileName string) {
 func GetMeshBoundingBox(mesh Mesh) BoundingBox {
 	cmesh := mesh.cptr()
 	ret := C.GetMeshBoundingBox(*cmesh)
-	v := newBoundingBoxFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newBoundingBoxFromPointer(&ret)
 }
 
 // GenMeshPoly - Generate polygonal mesh
@@ -496,8 +494,7 @@ func GenMeshPoly(sides int, radius float32) Mesh {
 	cradius := (C.float)(radius)
 
 	ret := C.GenMeshPoly(csides, cradius)
-	v := newMeshFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMeshFromPointer(&ret)
 }
 
 // GenMeshPlane - Generate plane mesh (with subdivisions)
@@ -508,8 +505,7 @@ func GenMeshPlane(width, length float32, resX, resZ int) Mesh {
 	cresZ := (C.int)(resZ)
 
 	ret := C.GenMeshPlane(cwidth, clength, cresX, cresZ)
-	v := newMeshFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMeshFromPointer(&ret)
 }
 
 // GenMeshCube - Generate cuboid mesh
@@ -519,8 +515,7 @@ func GenMeshCube(width, height, length float32) Mesh {
 	clength := (C.float)(length)
 
 	ret := C.GenMeshCube(cwidth, cheight, clength)
-	v := newMeshFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMeshFromPointer(&ret)
 }
 
 // GenMeshSphere - Generate sphere mesh (standard sphere)
@@ -530,8 +525,7 @@ func GenMeshSphere(radius float32, rings, slices int) Mesh {
 	cslices := (C.int)(slices)
 
 	ret := C.GenMeshSphere(cradius, crings, cslices)
-	v := newMeshFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMeshFromPointer(&ret)
 }
 
 // GenMeshHemiSphere - Generate half-sphere mesh (no bottom cap)
@@ -541,8 +535,7 @@ func GenMeshHemiSphere(radius float32, rings, slices int) Mesh {
 	cslices := (C.int)(slices)
 
 	ret := C.GenMeshHemiSphere(cradius, crings, cslices)
-	v := newMeshFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMeshFromPointer(&ret)
 }
 
 // GenMeshCylinder - Generate cylinder mesh
@@ -552,8 +545,7 @@ func GenMeshCylinder(radius, height float32, slices int) Mesh {
 	cslices := (C.int)(slices)
 
 	ret := C.GenMeshCylinder(cradius, cheight, cslices)
-	v := newMeshFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMeshFromPointer(&ret)
 }
 
 // GenMeshCone - Generate cone/pyramid mesh
@@ -563,8 +555,7 @@ func GenMeshCone(radius, height float32, slices int) Mesh {
 	cslices := (C.int)(slices)
 
 	ret := C.GenMeshCone(cradius, cheight, cslices)
-	v := newMeshFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMeshFromPointer(&ret)
 }
 
 // GenMeshTorus - Generate torus mesh
@@ -575,8 +566,7 @@ func GenMeshTorus(radius, size float32, radSeg, sides int) Mesh {
 	csides := (C.int)(sides)
 
 	ret := C.GenMeshTorus(cradius, csize, cradSeg, csides)
-	v := newMeshFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMeshFromPointer(&ret)
 }
 
 // GenMeshKnot - Generate trefoil knot mesh
@@ -587,8 +577,7 @@ func GenMeshKnot(radius, size float32, radSeg, sides int) Mesh {
 	csides := (C.int)(sides)
 
 	ret := C.GenMeshKnot(cradius, csize, cradSeg, csides)
-	v := newMeshFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMeshFromPointer(&ret)
 }
 
 // GenMeshHeightmap - Generate heightmap mesh from image data
@@ -597,8 +586,7 @@ func GenMeshHeightmap(heightmap Image, size Vector3) Mesh {
 	csize := cvec3ptr(&size)
 
 	ret := C.GenMeshHeightmap(*cheightmap, *csize)
-	v := newMeshFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMeshFromPointer(&ret)
 }
 
 // GenMeshCubicmap - Generate cubes-based map mesh from image data
@@ -607,8 +595,7 @@ func GenMeshCubicmap(cubicmap Image, size Vector3) Mesh {
 	csize := cvec3ptr(&size)
 
 	ret := C.GenMeshCubicmap(*ccubicmap, *csize)
-	v := newMeshFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMeshFromPointer(&ret)
 }
 
 // LoadMaterials - Load material data (.MTL)
@@ -624,8 +611,7 @@ func LoadMaterials(fileName string) []Material {
 // LoadMaterialDefault - Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps)
 func LoadMaterialDefault() Material {
 	ret := C.LoadMaterialDefault()
-	v := newMaterialFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMaterialFromPointer(&ret)
 }
 
 // IsMaterialReady - Check if a material is ready
@@ -732,8 +718,7 @@ func GetRayCollisionSphere(ray Ray, center Vector3, radius float32) RayCollision
 	ccenter := cvec3ptr(&center)
 	cradius := (C.float)(radius)
 	ret := C.GetRayCollisionSphere(*cray, *ccenter, cradius)
-	v := newRayCollisionFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newRayCollisionFromPointer(&ret)
 }
 
 // GetRayCollisionBox - Get collision info between ray and box
@@ -741,8 +726,7 @@ func GetRayCollisionBox(ray Ray, box BoundingBox) RayCollision {
 	cray := ray.cptr()
 	cbox := box.cptr()
 	ret := C.GetRayCollisionBox(*cray, *cbox)
-	v := newRayCollisionFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newRayCollisionFromPointer(&ret)
 }
 
 // GetRayCollisionMesh - Get collision info between ray and mesh
@@ -751,8 +735,7 @@ func GetRayCollisionMesh(ray Ray, mesh Mesh, transform Matrix) RayCollision {
 	cmesh := mesh.cptr()
 	ctransform := transform.cptr()
 	ret := C.GetRayCollisionMesh(*cray, *cmesh, *ctransform)
-	v := newRayCollisionFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newRayCollisionFromPointer(&ret)
 }
 
 // GetRayCollisionTriangle - Get collision info between ray and triangle
@@ -762,8 +745,7 @@ func GetRayCollisionTriangle(ray Ray, p1, p2, p3 Vector3) RayCollision {
 	cp2 := cvec3ptr(&p2)
 	cp3 := cvec3ptr(&p3)
 	ret := C.GetRayCollisionTriangle(*cray, *cp1, *cp2, *cp3)
-	v := newRayCollisionFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newRayCollisionFromPointer(&ret)
 }
 
 // GetRayCollisionQuad - Get collision info between ray and quad
@@ -774,6 +756,5 @@ func GetRayCollisionQuad(ray Ray, p1, p2, p3, p4 Vector3) RayCollision {
 	cp3 := cvec3ptr(&p3)
 	cp4 := cvec3ptr(&p4)
 	ret := C.GetRayCollisionQuad(*cray, *cp1, *cp2, *cp3, *cp4)
-	v := newRayCollisionFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newRayCollisionFromPointer(&ret)
 }

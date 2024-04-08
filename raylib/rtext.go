@@ -11,8 +11,8 @@ import (
 )
 
 // newGlyphInfoFromPointer - Returns new GlyphInfo from pointer
-func newGlyphInfoFromPointer(ptr unsafe.Pointer) GlyphInfo {
-	return *(*GlyphInfo)(ptr)
+func newGlyphInfoFromPointer(ptr *C.GlyphInfo) *GlyphInfo {
+	return (*GlyphInfo)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -196,8 +196,7 @@ func GetGlyphInfo(font Font, codepoint int32) GlyphInfo {
 	cfont := font.cptr()
 	ccodepoint := (C.int)(codepoint)
 	ret := C.GetGlyphInfo(*cfont, ccodepoint)
-	v := newGlyphInfoFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newGlyphInfoFromPointer(&ret)
 }
 
 // GetGlyphAtlasRec - Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found
