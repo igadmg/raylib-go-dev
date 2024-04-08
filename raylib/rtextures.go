@@ -183,8 +183,7 @@ func LoadTextureFromImage(image *Image) Texture2D {
 // ReloadTextureFromImage - Load a texture from image data
 func ReloadTextureFromImage(image *Image, texture *Texture2D) *Texture2D {
 	if texture == nil {
-		newTexture := LoadTextureFromImage(image)
-		return &newTexture
+		return ptr(LoadTextureFromImage(image))
 	}
 
 	cimage := image.cptr()

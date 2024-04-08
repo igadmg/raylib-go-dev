@@ -51,8 +51,8 @@ func cvec4ptr(v *vector4.Float32) *C.Vector4 {
 }
 
 // newMatrixFromPointer - Returns new Matrix from pointer
-func newMatrixFromPointer(ptr unsafe.Pointer) Matrix {
-	return *(*Matrix)(ptr)
+func newMatrixFromPointer(ptr *C.Matrix) *Matrix {
+	return (*Matrix)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -101,8 +101,8 @@ func (c *Camera2D) cptr() *C.Camera2D {
 }
 
 // newBoundingBoxFromPointer - Returns new BoundingBox from pointer
-func newBoundingBoxFromPointer(ptr unsafe.Pointer) BoundingBox {
-	return *(*BoundingBox)(ptr)
+func newBoundingBoxFromPointer(ptr *C.BoundingBox) *BoundingBox {
+	return (*BoundingBox)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -111,8 +111,8 @@ func (b *BoundingBox) cptr() *C.BoundingBox {
 }
 
 // newShaderFromPointer - Returns new Shader from pointer
-func newShaderFromPointer(ptr unsafe.Pointer) Shader {
-	return *(*Shader)(ptr)
+func newShaderFromPointer(ptr *C.Shader) *Shader {
+	return (*Shader)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -131,8 +131,8 @@ func (a *AutomationEvent) cptr() *C.AutomationEvent {
 }
 
 // newAutomationEventListFromPointer - Returns new AutomationEventList from pointer
-func newAutomationEventListFromPointer(ptr unsafe.Pointer) AutomationEventList {
-	return *(*AutomationEventList)(ptr)
+func newAutomationEventListFromPointer(ptr *C.AutomationEventList) *AutomationEventList {
+	return (*AutomationEventList)(unsafe.Pointer(ptr))
 }
 
 // cptr returns C pointer
@@ -520,9 +520,7 @@ func LoadShader(vsFileName string, fsFileName string) Shader {
 	}
 
 	ret := C.LoadShader(cvsFileName, cfsFileName)
-	v := newShaderFromPointer(unsafe.Pointer(&ret))
-
-	return v
+	return *newShaderFromPointer(&ret)
 }
 
 // LoadShaderFromMemory - Load shader from code strings and bind default locations
@@ -542,9 +540,7 @@ func LoadShaderFromMemory(vsCode string, fsCode string) Shader {
 	}
 
 	ret := C.LoadShaderFromMemory(cvsCode, cfsCode)
-	v := newShaderFromPointer(unsafe.Pointer(&ret))
-
-	return v
+	return *newShaderFromPointer(&ret)
 }
 
 // IsShaderReady - Check if a shader is ready
@@ -623,24 +619,21 @@ func GetMouseRay(mousePosition Vector2, camera Camera) Ray {
 	cmousePosition := cvec2ptr(&mousePosition)
 	ccamera := camera.cptr()
 	ret := C.GetMouseRay(*cmousePosition, *ccamera)
-	v := newRayFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newRayFromPointer(&ret)
 }
 
 // GetCameraMatrix - Returns camera transform matrix (view matrix)
 func GetCameraMatrix(camera Camera) Matrix {
 	ccamera := camera.cptr()
 	ret := C.GetCameraMatrix(*ccamera)
-	v := newMatrixFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMatrixFromPointer(&ret)
 }
 
 // GetCameraMatrix2D - Returns camera 2d transform matrix
 func GetCameraMatrix2D(camera Camera2D) Matrix {
 	ccamera := camera.cptr()
 	ret := C.GetCameraMatrix2D(*ccamera)
-	v := newMatrixFromPointer(unsafe.Pointer(&ret))
-	return v
+	return *newMatrixFromPointer(&ret)
 }
 
 // GetWorldToScreen - Returns the screen space position from a 3d world space position
@@ -879,9 +872,7 @@ func LoadAutomationEventList(fileName string) AutomationEventList {
 	defer C.free(unsafe.Pointer(cfileName))
 
 	ret := C.LoadAutomationEventList(cfileName)
-	v := newAutomationEventListFromPointer(unsafe.Pointer(&ret))
-
-	return v
+	return *newAutomationEventListFromPointer(&ret)
 }
 
 // UnloadAutomationEventList - Unload automation events list from file
