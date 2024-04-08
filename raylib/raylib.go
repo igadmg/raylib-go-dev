@@ -1170,16 +1170,6 @@ func (t *Texture2D) DrawEx(position Vector2, rotation, scale float32, tint color
 	DrawTextureEx(t, position, rotation, scale, tint)
 }
 
-func (t *Texture2D) DrawMaskedEx(mask *Texture2D, position Vector2, rotation, scale float32, tint color.RGBA) {
-	BeginBlendCustomSeparateMode(BlendZero, BlendOne, BlendSrcColor, BlendZero, BlendFuncAdd, BlendFuncAdd)
-	mask.DrawEx(position, rotation, scale, tint)
-
-	BeginBlendCustomSeparateMode(BlendDstAlpha, BlendOneMinusDstAlpha, BlendSrcAlpha, BlendZero, BlendFuncAdd, BlendFuncAdd)
-	t.DrawEx(position, rotation, scale, tint)
-
-	EndBlendMode()
-}
-
 func (t *Texture2D) DrawRec(sourceRec Rectangle, position Vector2, tint color.RGBA) {
 	DrawTextureRec(t, sourceRec, position, tint)
 }
