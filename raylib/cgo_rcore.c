@@ -1,1 +1,1 @@
-#include "rcore.c"
+#include "../external/raylib/src/rcore.c"

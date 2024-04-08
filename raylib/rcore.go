@@ -1,6 +1,7 @@
 package rl
 
 /*
+#cgo CFLAGS: -I${SRCDIR}/../external/raylib/src -I${SRCDIR}/../external/raylib/src/external/glfw/include -std=gnu99 -Wno-missing-braces -Wno-unused-result -Wno-implicit-function-declaration
 #include "raylib.h"
 #include <stdlib.h>
 */
@@ -962,6 +963,12 @@ func IsKeyUp[KT IntegerT](key KT) bool {
 	ckey := (C.int)(key)
 	ret := C.IsKeyUp(ckey)
 	v := bool(ret)
+	return v
+}
+
+func GetKeyDownCount() int {
+	ret := C.GetKeyDownCount()
+	v := (int)(ret)
 	return v
 }
 

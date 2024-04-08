@@ -1188,6 +1188,10 @@ func (t *Texture2D) DrawPro(sourceRec, destRec Rectangle, origin Vector2, rotati
 	DrawTexturePro(t, sourceRec, destRec, origin, rotation, tint)
 }
 
+func (t *Texture2D) DrawProDef(destRec Rectangle) {
+	DrawTexturePro(t, t.GetRect(), destRec, NewVector2(0, 0), 0, White)
+}
+
 func (t *Texture2D) DrawTiled(source, dest Rectangle, origin Vector2, rotation, scale float32, tint color.RGBA) {
 	DrawTextureTiled(t, source, dest, origin, rotation, scale, tint)
 }

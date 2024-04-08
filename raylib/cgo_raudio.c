@@ -1,4 +1,4 @@
 //go:build !noaudio
 // +build !noaudio
 
-#include "raudio.c"
+#include "../external/raylib/src/raudio.c"

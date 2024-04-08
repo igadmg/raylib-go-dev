@@ -1,6 +1,8 @@
 package raygui
 
 /*
+#cgo CFLAGS: -I${SRCDIR}/../external/raylib/src -I${SRCDIR}/../external/raygui/src -std=gnu99 -Wno-unused-result
+
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 #include <stdlib.h>
@@ -285,6 +287,13 @@ func crect2ptr(r *rl.Rectangle) *C.Rectangle {
 	return (*C.Rectangle)(unsafe.Pointer(r))
 }
 
+func GetTextSize(text string) rl.Vector2 {
+	ctext := C.CString(text)
+	defer C.free(unsafe.Pointer(ctext))
+	ret := C.GetTextSize(ctext)
+	return *govec2ptr(&ret)
+}
+
 // GuiEnable - Enable gui controls (global state)
 func Enable() {
 	C.GuiEnable()
@@ -565,12 +574,8 @@ func Grid(bounds rl.Rectangle, text string, spacing float32, subdivs int32, mous
 	defer C.free(unsafe.Pointer(ctext))
 	cspacing := C.float(spacing)
 	csubdivs := C.int(subdivs)
-	var cmouseCell C.struct_Vector2
-	cmouseCell.x = C.float(mouseCell.X)
-	cmouseCell.y = C.float(mouseCell.Y)
-	res := C.GuiGrid(*cbounds, ctext, cspacing, csubdivs, &cmouseCell)
-	mouseCell.X = float32(cmouseCell.x)
-	mouseCell.Y = float32(cmouseCell.y)
+	cmouseCell := cvec2ptr(mouseCell)
+	res := C.GuiGrid(*cbounds, ctext, cspacing, csubdivs, cmouseCell)
 	return int32(res)
 }
 
@@ -1115,8 +1120,48 @@ func ListViewEx(bounds rl.Rectangle, text []string, focus, scrollIndex *int32, a
 
 	cactive := C.int(active)
 
-	C.GuiListViewEx(*cbounds, (**C.char)(ctext.Pointer), count, &cfocus, &cscrollIndex, &cactive)
+	C.GuiListViewEx(*cbounds, (**C.char)(ctext.Pointer), count, &cscrollIndex, &cactive, &cfocus)
 	return int32(cactive)
+}
+
+type ListViewState[T any] struct {
+	items           []T
+	citemNames      CStringArray
+	focusIndex      int32
+	scrollIndex     int32
+	activeItemIndex int32
+}
+
+func (s *ListViewState[T]) Free() {
+	if !s.citemNames.IsNil() {
+		s.citemNames.Free()
+	}
+}
+
+func (s *ListViewState[T]) SetItems(items []T, nameFn func(i T) string) {
+	s.items = items
+	itemNames := make([]string, len(s.items))
+	for i, v := range s.items {
+		itemNames[i] = nameFn(v)
+	}
+	if !s.citemNames.IsNil() {
+		s.citemNames.Free()
+	}
+	s.citemNames = NewCStringArrayFromSlice(itemNames)
+}
+
+func (s *ListViewState[T]) ActiveItem() T {
+	return s.items[s.activeItemIndex]
+}
+
+func (s *ListViewState[T]) ListView(bounds rl.Rectangle) {
+	cbounds := crect2ptr(&bounds)
+	count := C.int(len(s.items))
+	cfocus := (*C.int)(&s.focusIndex)
+	cscrollIndex := (*C.int)(&s.scrollIndex)
+	cactive := (*C.int)(&s.activeItemIndex)
+
+	C.GuiListViewEx(*cbounds, (**C.char)(s.citemNames.Pointer), count, cscrollIndex, cactive, cfocus)
 }
 
 // TabBar control
