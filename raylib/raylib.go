@@ -1118,6 +1118,10 @@ func NewImage(data []byte, width, height, mipmaps int32, format PixelFormat) *Im
 	return &Image{d, width, height, mipmaps, format}
 }
 
+func (i *Image) Unload() {
+	UnloadImage(i)
+}
+
 // Texture2D type, bpp always RGBA (32bit)
 // NOTE: Data stored in GPU memory
 type Texture2D struct {
@@ -1136,6 +1140,10 @@ type Texture2D struct {
 // NewTexture2D - Returns new Texture2D
 func NewTexture2D(id uint32, width, height, mipmaps int32, format PixelFormat) *Texture2D {
 	return &Texture2D{id, width, height, mipmaps, format}
+}
+
+func (t *Texture2D) Unload() {
+	UnloadTexture(t)
 }
 
 func (t *Texture2D) IsReady() bool {
@@ -1180,6 +1188,10 @@ func (t *Texture2D) DrawPro(sourceRec, destRec Rectangle, origin Vector2, rotati
 
 func (t *Texture2D) DrawProDef(destRec Rectangle) {
 	DrawTexturePro(t, t.GetRect(), destRec, NewVector2(0, 0), 0, White)
+}
+
+func (t *Texture2D) DrawProFlippedDef(destRec Rectangle) {
+	DrawTexturePro(t, t.GetRect().ScaleByVectorF(NewVector2(1, -1)), destRec, NewVector2(0, 0), 0, White)
 }
 
 func (t *Texture2D) DrawTiled(source, dest Rectangle, origin Vector2, rotation, scale float32, tint color.RGBA) {
