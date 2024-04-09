@@ -180,18 +180,6 @@ func LoadTextureFromImage(image *Image) Texture2D {
 	return *newTexture2DFromPointer(&ret)
 }
 
-// ReloadTextureFromImage - Load a texture from image data
-func ReloadTextureFromImage(image *Image, texture *Texture2D) *Texture2D {
-	if texture == nil {
-		return ptr(LoadTextureFromImage(image))
-	}
-
-	cimage := image.cptr()
-	ctexture := texture.cptr()
-	ret := C.ReloadTextureFromImage(cimage, ctexture)
-	return newTexture2DFromPointer(ret)
-}
-
 // LoadRenderTexture - Load a texture to be used for rendering
 func LoadRenderTexture[WT, HT IntegerT](width WT, height HT) RenderTexture2D {
 	cwidth := (C.int)(width)
@@ -255,10 +243,15 @@ func UnloadImageColors(cols []color.RGBA) {
 }
 
 // UpdateTexture - Update GPU texture with new data
-func UpdateTexture(texture Texture2D, pixels []color.RGBA) {
+func UpdateTexture(texture *Texture2D, pixels []color.RGBA) {
 	ctexture := texture.cptr()
 	cpixels := unsafe.Pointer(&pixels[0])
 	C.UpdateTexture(*ctexture, cpixels)
+}
+
+func UpdateTextureFromImage(texture *Texture2D, image *Image) {
+	ctexture := texture.cptr()
+	C.UpdateTexture(*ctexture, image.data)
 }
 
 // UpdateTextureRec - Update GPU texture rectangle with new data
