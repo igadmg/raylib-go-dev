@@ -180,6 +180,14 @@ func LoadTextureFromImage(image *Image) Texture2D {
 	return *newTexture2DFromPointer(&ret)
 }
 
+func ReloadTextureFromImage(image *Image, texture *Texture2D) *Texture2D {
+	if texture == nil {
+		return ptr(LoadTextureFromImage(image))
+	}
+	UpdateTextureFromImage(texture, image)
+	return texture
+}
+
 // LoadRenderTexture - Load a texture to be used for rendering
 func LoadRenderTexture[WT, HT IntegerT](width WT, height HT) RenderTexture2D {
 	cwidth := (C.int)(width)
