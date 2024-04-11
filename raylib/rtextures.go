@@ -56,14 +56,14 @@ func NewImageFromImage(img image.Image) Image {
 
 // LoadImage - Load an image into CPU memory (RAM)
 func LoadImage(fileName string) Image {
-	cfileName := TextAlloc(fileName)
+	cfileName := textAlloc(fileName)
 	ret := C.LoadImage(cfileName)
 	return *newImageFromPointer(&ret)
 }
 
 // LoadImageRaw - Load image data from RAW file
 func LoadImageRaw(fileName string, width, height int32, format PixelFormat, headerSize int32) Image {
-	cfileName := TextAlloc(fileName)
+	cfileName := textAlloc(fileName)
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	cformat := (C.int)(format)
@@ -74,7 +74,7 @@ func LoadImageRaw(fileName string, width, height int32, format PixelFormat, head
 
 // LoadImageSvg - Load image from SVG file data or string with specified size
 func LoadImageSvg(fileNameOrString string, width, height int32) Image {
-	cfileNameOrString := TextAlloc(fileNameOrString)
+	cfileNameOrString := textAlloc(fileNameOrString)
 	//defer C.free(unsafe.Pointer(cfileNameOrString))  TODO: possible svg code truncation
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
@@ -84,7 +84,7 @@ func LoadImageSvg(fileNameOrString string, width, height int32) Image {
 
 // LoadImageAnim - Load image sequence from file (frames appended to image.data)
 func LoadImageAnim(fileName string, frames *int32) Image {
-	cfileName := TextAlloc(fileName)
+	cfileName := textAlloc(fileName)
 	cframes := (*C.int)(frames)
 	ret := C.LoadImageAnim(cfileName, cframes)
 	return *newImageFromPointer(&ret)
@@ -92,7 +92,7 @@ func LoadImageAnim(fileName string, frames *int32) Image {
 
 // LoadImageFromMemory - Load image from memory buffer, fileType refers to extension: i.e. ".png"
 func LoadImageFromMemory(fileType string, fileData []byte, dataSize int32) Image {
-	cfileType := TextAlloc(fileType)
+	cfileType := textAlloc(fileType)
 	cfileData := (*C.uchar)(unsafe.Pointer(&fileData[0]))
 	cdataSize := (C.int)(dataSize)
 	ret := C.LoadImageFromMemory(cfileType, cfileData, cdataSize)
@@ -133,7 +133,7 @@ func IsImageReady(image *Image) bool {
 
 // LoadTexture - Load an image as texture into GPU memory
 func LoadTexture(fileName string) Texture2D {
-	cfileName := TextAlloc(fileName)
+	cfileName := textAlloc(fileName)
 	ret := C.LoadTexture(cfileName)
 	return *newTexture2DFromPointer(&ret)
 }
@@ -237,14 +237,14 @@ func UpdateTextureRec(texture Texture2D, rec Rectangle, pixels []color.RGBA) {
 
 // ExportImage - Export image as a PNG file
 func ExportImage(image *Image, fileName string) bool {
-	cfileName := TextAlloc(fileName)
+	cfileName := textAlloc(fileName)
 	cimage := image.cptr()
 	return bool(C.ExportImage(*cimage, cfileName))
 }
 
 // ExportImageToMemory - Export image to memory buffer
 func ExportImageToMemory(image *Image, fileType string) []byte {
-	cfileType := TextAlloc(fileType)
+	cfileType := textAlloc(fileType)
 	cimage := image.cptr()
 
 	var size C.int
@@ -270,7 +270,7 @@ func ImageFromImage(image *Image, rec Rectangle) Image {
 
 // ImageText - Create an image from text (default font)
 func ImageText(text string, fontSize int32, col color.RGBA) Image {
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cfontSize := (C.int)(fontSize)
 	ccolor := ccolorptr(&col)
 	ret := C.ImageText(ctext, cfontSize, *ccolor)
@@ -280,7 +280,7 @@ func ImageText(text string, fontSize int32, col color.RGBA) Image {
 // ImageTextEx - Create an image from text (custom sprite font)
 func ImageTextEx(font Font, text string, fontSize, spacing float32, tint color.RGBA) Image {
 	cfont := font.cptr()
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cfontSize := (C.float)(fontSize)
 	cspacing := (C.float)(spacing)
 	ctint := ccolorptr(&tint)
@@ -603,7 +603,7 @@ func ImageDrawText(dst *Image, posX, posY int32, text string, fontSize int32, co
 	cdst := dst.cptr()
 	posx := (C.int)(posX)
 	posy := (C.int)(posY)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cfontSize := (C.int)(fontSize)
 	ccolor := ccolorptr(&col)
 	C.ImageDrawText(cdst, ctext, posx, posy, cfontSize, *ccolor)
@@ -614,7 +614,7 @@ func ImageDrawTextEx(dst *Image, position Vector2, font Font, text string, fontS
 	cdst := dst.cptr()
 	cposition := cvec2ptr(&position)
 	cfont := font.cptr()
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cfontSize := (C.float)(fontSize)
 	cspacing := (C.float)(spacing)
 	ccolor := ccolorptr(&col)
@@ -716,7 +716,7 @@ func GenImageCellular(width, height, tileSize int) Image {
 func GenImageText(width, height int, text string) Image {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 
 	ret := C.GenImageText(cwidth, cheight, ctext)
 	return *newImageFromPointer(&ret)

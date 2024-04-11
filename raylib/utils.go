@@ -31,7 +31,7 @@ func SetTraceLogLevel(logLevel TraceLogLevel) {
 
 // TraceLog - Show trace log messages (LOG_DEBUG, LOG_INFO, LOG_WARNING, LOG_ERROR...)
 func TraceLog(logLevel TraceLogLevel, text string, v ...interface{}) {
-	ctext := TextAlloc(fmt.Sprintf(text, v...))
+	ctext := textAlloc(fmt.Sprintf(text, v...))
 	clogLevel := (C.int)(logLevel)
 	C.TraceLogWrapper(clogLevel, ctext)
 }

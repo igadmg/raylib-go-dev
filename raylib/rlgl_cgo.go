@@ -624,17 +624,27 @@ func UnloadFramebuffer(id uint32) {
 
 // LoadShaderCode - Load shader from code strings
 func LoadShaderCode(vsCode string, fsCode string) uint32 {
-	cvsCode := TextAlloc(vsCode)
-	//defer C.free(unsafe.Pointer(cvsCode)) TODO: possible shader code truncation
-	cfsCode := TextAlloc(fsCode)
-	//defer C.free(unsafe.Pointer(cfsCode)) TODO: possible shader code truncation
+	var cvsCode *C.char = nil
+	var cfsCode *C.char = nil
+
+	if vsCode != "" {
+		cvsCode = C.CString(vsCode)
+		defer C.free(unsafe.Pointer(cvsCode))
+	}
+	if fsCode != "" {
+		cfsCode = C.CString(fsCode)
+		defer C.free(unsafe.Pointer(cfsCode))
+	}
 	return uint32(C.rlLoadShaderCode(cvsCode, cfsCode))
 }
 
 // CompileShader - Compile custom shader and return shader id (type: VERTEX_SHADER, FRAGMENT_SHADER, COMPUTE_SHADER)
 func CompileShader(shaderCode string, type_ int32) uint32 {
-	cshaderCode := TextAlloc(shaderCode)
-	//defer C.free(unsafe.Pointer(cshaderCode)) TODO: possible shader code truncation
+	var cshaderCode *C.char = nil
+	if shaderCode != "" {
+		cshaderCode = C.CString(shaderCode)
+		defer C.free(unsafe.Pointer(cshaderCode))
+	}
 	ctype_ := C.int(type_)
 	return uint32(C.rlCompileShader(cshaderCode, ctype_))
 }
@@ -655,14 +665,14 @@ func UnloadShaderProgram(id uint32) {
 // GetLocationUniform - Get shader location uniform
 func GetLocationUniform(shaderId uint32, uniformName string) int32 {
 	cshaderId := C.uint(shaderId)
-	cuniformName := TextAlloc(uniformName)
+	cuniformName := textAlloc(uniformName)
 	return int32(C.rlGetLocationUniform(cshaderId, cuniformName))
 }
 
 // GetLocationAttrib - Get shader location attribute
 func GetLocationAttrib(shaderId uint32, attribName string) int32 {
 	cshaderId := C.uint(shaderId)
-	cattribName := TextAlloc(attribName)
+	cattribName := textAlloc(attribName)
 	return int32(C.rlGetLocationAttrib(cshaderId, cattribName))
 }
 
