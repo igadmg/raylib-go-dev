@@ -293,3 +293,9 @@ func newMusicFromPointer(ptr *C.Music) *Music {
 func (s *Music) cptr() *C.Music {
 	return (*C.Music)(unsafe.Pointer(s))
 }
+
+func textAlloc(text string) *C.char {
+	ctext := (*C.char)(unsafe.Pointer(unsafe.StringData(text)))
+	clen := (C.int)(len(text))
+	return C.TextAlloc(ctext, &clen)
+}

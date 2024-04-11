@@ -246,7 +246,7 @@ const (
 type GuiColorPickerProperty = int32
 
 func GetTextSize(text string) rl.Vector2 {
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	ret := C.GetTextSize(ctext)
 	return *govec2ptr(&ret)
 }
@@ -312,28 +312,28 @@ func GetStyle(control int32, property int32) int32 {
 // GuiWindowBox - Window Box control, shows a window that can be closed
 func WindowBox(bounds rl.Rectangle, title string) bool {
 	cbounds := crect2ptr(&bounds)
-	ctitle := TextAlloc(title)
+	ctitle := textAlloc(title)
 	return C.GuiWindowBox(*cbounds, ctitle) != 0
 }
 
 // GuiGroupBox - Group Box control with text name
 func GroupBox(bounds rl.Rectangle, text string) {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	C.GuiGroupBox(*cbounds, ctext)
 }
 
 // GuiLine - Line separator control, could contain text
 func Line(bounds rl.Rectangle, text string) {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	C.GuiLine(*cbounds, ctext)
 }
 
 // Panel - Panel control, useful to group controls
 func Panel(bounds rl.Rectangle, text string) {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	C.GuiPanel(*cbounds, ctext)
 }
 
@@ -344,7 +344,7 @@ func PanelEx(bounds rl.Rectangle, text string, fn func(bounds rl.Rectangle)) {
 
 // ScrollPanel control - Scroll Panel control
 func ScrollPanel(bounds rl.Rectangle, text string, content rl.Rectangle, scroll *rl.Vector2, view *rl.Rectangle) int32 {
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cbounds := crect2ptr(&bounds)
 	ccontent := crect2ptr(&content)
 	cscroll := cvec2ptr(scroll)
@@ -368,28 +368,28 @@ func ScrollBar(bounds rl.Rectangle, value, minValue, maxValue int32) int32 {
 // Label control, shows text
 func Label(bounds rl.Rectangle, text string) {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	C.GuiLabel(*cbounds, ctext)
 }
 
 // Button control, returns true when clicked
 func Button(bounds rl.Rectangle, text string) bool {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	return C.GuiButton(*cbounds, ctext) != 0
 }
 
 // LabelButton control, show true when clicked
 func LabelButton(bounds rl.Rectangle, text string) bool {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	return C.GuiLabelButton(*cbounds, ctext) != 0
 }
 
 // Toggle control, returns true when active
 func Toggle(bounds rl.Rectangle, text string, active bool) bool {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cactive := C.bool(active)
 	C.GuiToggle(*cbounds, ctext, &cactive)
 	return bool(cactive)
@@ -398,7 +398,7 @@ func Toggle(bounds rl.Rectangle, text string, active bool) bool {
 // ToggleGroup control, returns active toggle index
 func ToggleGroup(bounds rl.Rectangle, text string, active int32) int32 {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cactive := C.int(active)
 	C.GuiToggleGroup(*cbounds, ctext, &cactive)
 	return int32(cactive)
@@ -407,7 +407,7 @@ func ToggleGroup(bounds rl.Rectangle, text string, active int32) int32 {
 // ToggleSlider control, returns true when clicked
 func ToggleSlider(bounds rl.Rectangle, text string, active int32) int32 {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cactive := C.int(active)
 	C.GuiToggleSlider(*cbounds, ctext, &cactive)
 	return int32(cactive)
@@ -416,7 +416,7 @@ func ToggleSlider(bounds rl.Rectangle, text string, active int32) int32 {
 // CheckBox control, returns true when active
 func CheckBox(bounds rl.Rectangle, text string, checked bool) bool {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cchecked := C.bool(checked)
 	C.GuiCheckBox(*cbounds, ctext, &cchecked)
 	return bool(cchecked)
@@ -425,7 +425,7 @@ func CheckBox(bounds rl.Rectangle, text string, checked bool) bool {
 // ComboBox control, returns selected item index
 func ComboBox(bounds rl.Rectangle, text string, active int32) int32 {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cactive := C.int(active)
 	C.GuiComboBox(*cbounds, ctext, &cactive)
 	return int32(cactive)
@@ -434,7 +434,7 @@ func ComboBox(bounds rl.Rectangle, text string, active int32) int32 {
 // Spinner control, returns selected value
 func Spinner(bounds rl.Rectangle, text string, value *int32, minValue, maxValue int, editMode bool) int32 {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 
 	if value == nil {
 		value = new(int32)
@@ -455,8 +455,8 @@ func Spinner(bounds rl.Rectangle, text string, value *int32, minValue, maxValue 
 // Slider control
 func Slider(bounds rl.Rectangle, textLeft string, textRight string, value float32, minValue float32, maxValue float32) float32 {
 	cbounds := crect2ptr(&bounds)
-	ctextLeft := TextAlloc(textLeft)
-	ctextRight := TextAlloc(textRight)
+	ctextLeft := textAlloc(textLeft)
+	ctextRight := textAlloc(textRight)
 	cvalue := C.float(value)
 	cminValue := C.float(minValue)
 	cmaxValue := C.float(maxValue)
@@ -467,8 +467,8 @@ func Slider(bounds rl.Rectangle, textLeft string, textRight string, value float3
 // SliderBar control, returns selected value
 func SliderBar(bounds rl.Rectangle, textLeft string, textRight string, value float32, minValue float32, maxValue float32) float32 {
 	cbounds := crect2ptr(&bounds)
-	ctextLeft := TextAlloc(textLeft)
-	ctextRight := TextAlloc(textRight)
+	ctextLeft := textAlloc(textLeft)
+	ctextRight := textAlloc(textRight)
 	cvalue := C.float(value)
 	cminValue := C.float(minValue)
 	cmaxValue := C.float(maxValue)
@@ -479,8 +479,8 @@ func SliderBar(bounds rl.Rectangle, textLeft string, textRight string, value flo
 // ProgressBar control, shows current progress value
 func ProgressBar(bounds rl.Rectangle, textLeft string, textRight string, value float32, minValue float32, maxValue float32) float32 {
 	cbounds := crect2ptr(&bounds)
-	ctextLeft := TextAlloc(textLeft)
-	ctextRight := TextAlloc(textRight)
+	ctextLeft := textAlloc(textLeft)
+	ctextRight := textAlloc(textRight)
 	cvalue := C.float(value)
 	cminValue := C.float(minValue)
 	cmaxValue := C.float(maxValue)
@@ -491,21 +491,21 @@ func ProgressBar(bounds rl.Rectangle, textLeft string, textRight string, value f
 // StatusBar control, shows info text
 func StatusBar(bounds rl.Rectangle, text string) {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	C.GuiStatusBar(*cbounds, ctext)
 }
 
 // DummyRec control for placeholders
 func DummyRec(bounds rl.Rectangle, text string) {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	C.GuiDummyRec(*cbounds, ctext)
 }
 
 // Grid control, returns mouse cell position
 func Grid(bounds rl.Rectangle, text string, spacing float32, subdivs int32, mouseCell *rl.Vector2) int32 {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cspacing := C.float(spacing)
 	csubdivs := C.int(subdivs)
 	cmouseCell := cvec2ptr(mouseCell)
@@ -516,7 +516,7 @@ func Grid(bounds rl.Rectangle, text string, spacing float32, subdivs int32, mous
 // ListView control, returns selected list item index
 func ListView(bounds rl.Rectangle, text string, scrollIndex *int32, active int32) int32 {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 
 	if scrollIndex == nil {
 		scrollIndex = new(int32)
@@ -535,16 +535,16 @@ func ListView(bounds rl.Rectangle, text string, scrollIndex *int32, active int32
 // MessageBox control, displays a message
 func MessageBox(bounds rl.Rectangle, title string, message string, buttons string) int32 {
 	cbounds := crect2ptr(&bounds)
-	ctitle := TextAlloc(title)
-	cmessage := TextAlloc(message)
-	cbuttons := TextAlloc(buttons)
+	ctitle := textAlloc(title)
+	cmessage := textAlloc(message)
+	cbuttons := textAlloc(buttons)
 	return int32(C.GuiMessageBox(*cbounds, ctitle, cmessage, cbuttons))
 }
 
 // ColorPicker control (multiple color controls)
 func ColorPicker(bounds rl.Rectangle, text string, color rl.Color) rl.Color {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	var ccolor C.struct_Color
 	ccolor.r = C.uchar(color.R)
 	ccolor.g = C.uchar(color.G)
@@ -562,7 +562,7 @@ func ColorPicker(bounds rl.Rectangle, text string, color rl.Color) rl.Color {
 // ColorPanel control
 func ColorPanel(bounds rl.Rectangle, text string, color rl.Color) rl.Color {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	var ccolor C.struct_Color
 	ccolor.b = C.uchar(color.B)
 	ccolor.a = C.uchar(color.A)
@@ -580,7 +580,7 @@ func ColorPanel(bounds rl.Rectangle, text string, color rl.Color) rl.Color {
 // ColorBarAlpha control
 func ColorBarAlpha(bounds rl.Rectangle, text string, alpha float32) float32 {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	calpha := C.float(alpha)
 	C.GuiColorBarAlpha(*cbounds, ctext, &calpha)
 	return float32(calpha)
@@ -589,7 +589,7 @@ func ColorBarAlpha(bounds rl.Rectangle, text string, alpha float32) float32 {
 // ColorBarHue control
 func ColorBarHue(bounds rl.Rectangle, text string, value float32) float32 {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cvalue := C.float(value)
 	C.GuiColorBarHue(*cbounds, ctext, &cvalue)
 	return float32(cvalue)
@@ -599,7 +599,7 @@ func ColorBarHue(bounds rl.Rectangle, text string, value float32) float32 {
 func ColorPickerHSV(bounds rl.Rectangle, text string, colorHSV *rl.Vector3) int32 {
 	cbounds := crect2ptr(&bounds)
 
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 
 	var ccolorHSV C.struct_Vector3
 	ccolorHSV.x = C.float(colorHSV.X)
@@ -618,7 +618,7 @@ func ColorPickerHSV(bounds rl.Rectangle, text string, colorHSV *rl.Vector3) int3
 func ColorPanelHSV(bounds rl.Rectangle, text string, colorHSV *rl.Vector3) int32 {
 	cbounds := crect2ptr(&bounds)
 
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 
 	var ccolorHSV C.struct_Vector3
 	ccolorHSV.x = C.float(colorHSV.X)
@@ -636,7 +636,7 @@ func ColorPanelHSV(bounds rl.Rectangle, text string, colorHSV *rl.Vector3) int32
 // DropdownBox control
 func DropdownBox(bounds rl.Rectangle, text string, active *int32, editMode bool) bool {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 
 	if active == nil {
 		active = new(int32)
@@ -654,7 +654,7 @@ func DropdownBox(bounds rl.Rectangle, text string, active *int32, editMode bool)
 // ValueBox control, updates input text with numbers
 func ValueBox(bounds rl.Rectangle, text string, value *int32, minValue, maxValue int, editMode bool) bool {
 	cbounds := crect2ptr(&bounds)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 
 	if value == nil {
 		value = new(int32)
@@ -696,7 +696,7 @@ func TextBox(bounds rl.Rectangle, text *string, textSize int, editMode bool) boo
 
 // LoadStyle file over global style variable (.rgs)
 func LoadStyle(fileName string) {
-	cfileName := TextAlloc(fileName)
+	cfileName := textAlloc(fileName)
 	C.GuiLoadStyle(cfileName)
 }
 
@@ -713,7 +713,7 @@ func LoadStyleFromMemory(data []byte) {
 // IconText gets text with icon id prepended (if supported)
 func IconText(iconId int32, text string) string {
 	ciconId := C.int(iconId)
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	return C.GoString(C.GuiIconText(ciconId, ctext))
 }
 
@@ -981,9 +981,9 @@ const (
 func TextInputBox(bounds rl.Rectangle, title, message, buttons string, text *string, textMaxSize int32, secretViewActive *bool) int32 {
 	cbounds := crect2ptr(&bounds)
 
-	ctitle := TextAlloc(title)
-	cmessage := TextAlloc(message)
-	cbuttons := TextAlloc(buttons)
+	ctitle := textAlloc(title)
+	cmessage := textAlloc(message)
+	cbuttons := textAlloc(buttons)
 
 	bs := []byte(*text)
 	if len(bs) == 0 {

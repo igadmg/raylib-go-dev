@@ -69,14 +69,14 @@ func GetMasterVolume() float32 {
 
 // LoadWave - Load wave data from file into RAM
 func LoadWave(fileName string) Wave {
-	cfileName := TextAlloc(fileName)
+	cfileName := textAlloc(fileName)
 	ret := C.LoadWave(cfileName)
 	return *newWaveFromPointer(&ret)
 }
 
 // LoadWaveFromMemory - Load wave from memory buffer, fileType refers to extension: i.e. ".wav"
 func LoadWaveFromMemory(fileType string, fileData []byte, dataSize int32) Wave {
-	cfileType := TextAlloc(fileType)
+	cfileType := textAlloc(fileType)
 	cfileData := (*C.uchar)(unsafe.Pointer(&fileData[0]))
 	cdataSize := (C.int)(dataSize)
 	ret := C.LoadWaveFromMemory(cfileType, cfileData, cdataSize)
@@ -93,7 +93,7 @@ func IsWaveReady(wave *Wave) bool {
 
 // LoadSound - Load sound to memory
 func LoadSound(fileName string) Sound {
-	cfileName := TextAlloc(fileName)
+	cfileName := textAlloc(fileName)
 	ret := C.LoadSound(cfileName)
 	return *newSoundFromPointer(&ret)
 }
@@ -143,7 +143,7 @@ func UnloadSound(sound *Sound) {
 // ExportWave - Export wave data to file
 func ExportWave(wave Wave, fileName string) {
 	cwave := wave.cptr()
-	cfileName := TextAlloc(fileName)
+	cfileName := textAlloc(fileName)
 	C.ExportWave(*cwave, cfileName)
 }
 
@@ -239,14 +239,14 @@ func UnloadWaveSamples(samples []float32) {
 
 // LoadMusicStream - Load music stream from file
 func LoadMusicStream(fileName string) Music {
-	cfileName := TextAlloc(fileName)
+	cfileName := textAlloc(fileName)
 	ret := C.LoadMusicStream(cfileName)
 	return *newMusicFromPointer(&ret)
 }
 
 // LoadMusicStreamFromMemory - Load music stream from data
 func LoadMusicStreamFromMemory(fileType string, fileData []byte, dataSize int32) Music {
-	cfileType := TextAlloc(fileType)
+	cfileType := textAlloc(fileType)
 	cfileData := (*C.uchar)(unsafe.Pointer(&fileData[0]))
 	cdataSize := (C.int)(dataSize)
 	ret := C.LoadMusicStreamFromMemory(cfileType, cfileData, cdataSize)

@@ -55,8 +55,8 @@ func crect2ptr(r *rl.Rectangle) *C.Rectangle {
 	return (*C.Rectangle)(unsafe.Pointer(r))
 }
 
-func TextAlloc(text string) *C.char {
+func textAlloc(text string) *C.char {
 	ctext := (*C.char)(unsafe.Pointer(unsafe.StringData(text)))
 	clen := (C.int)(len(text))
-	return C.TextAlloc(ctext, clen)
+	return C.TextAlloc(ctext, &clen)
 }

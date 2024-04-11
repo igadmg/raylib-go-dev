@@ -24,7 +24,7 @@ func GetFontDefault() *Font {
 
 // LoadFont - Load a Font image into GPU memory (VRAM)
 func LoadFont(fileName string) Font {
-	cfileName := TextAlloc(fileName)
+	cfileName := textAlloc(fileName)
 	ret := C.LoadFont(cfileName)
 	return *newFontFromPointer(&ret)
 }
@@ -34,7 +34,7 @@ func LoadFontEx(fileName string, fontSize int32, fontChars []rune, runesNumber .
 	var cfontChars *C.int
 	var ccharsCount C.int
 
-	cfileName := TextAlloc(fileName)
+	cfileName := textAlloc(fileName)
 	cfontSize := (C.int)(fontSize)
 	if fontChars != nil {
 		cfontChars = (*C.int)(unsafe.Pointer(&fontChars[0]))
@@ -60,7 +60,7 @@ func LoadFontFromImage(image Image, key color.RGBA, firstChar int32) Font {
 
 // LoadFontFromMemory - Load font from memory buffer, fileType refers to extension: i.e. ".ttf"
 func LoadFontFromMemory(fileType string, fileData []byte, fontSize int32, codepoints []rune) Font {
-	cfileType := TextAlloc(fileType)
+	cfileType := textAlloc(fileType)
 	cfileData := (*C.uchar)(unsafe.Pointer(&fileData[0]))
 	cdataSize := (C.int)(len(fileData))
 	cfontSize := (C.int)(fontSize)
@@ -112,7 +112,7 @@ func DrawFPS[XT, YT CoordinateT](posX XT, posY YT) {
 
 // DrawText - Draw text (using default font)
 func DrawText[XT, YT CoordinateT](text string, posX XT, posY YT, fontSize int32, col color.RGBA) {
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cposX := (C.int)(posX)
 	cposY := (C.int)(posY)
 	cfontSize := (C.int)(fontSize)
@@ -123,7 +123,7 @@ func DrawText[XT, YT CoordinateT](text string, posX XT, posY YT, fontSize int32,
 // DrawTextEx - Draw text using Font and additional parameters
 func DrawTextEx(font *Font, text string, position Vector2, fontSize float32, spacing float32, tint color.RGBA) {
 	cfont := font.cptr()
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cposition := cvec2ptr(&position)
 	cfontSize := (C.float)(fontSize)
 	cspacing := (C.float)(spacing)
@@ -144,7 +144,7 @@ func SetTextLineSpacing(spacing int) {
 
 // MeasureText - Measure string width for default font
 func MeasureText(text string, fontSize int32) int32 {
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cfontSize := (C.int)(fontSize)
 	ret := C.MeasureText(ctext, cfontSize)
 	v := (int32)(ret)
@@ -154,7 +154,7 @@ func MeasureText(text string, fontSize int32) int32 {
 // MeasureTextEx - Measure string size for Font
 func MeasureTextEx(font *Font, text string, fontSize float32, spacing float32) Vector2 {
 	cfont := font.cptr()
-	ctext := TextAlloc(text)
+	ctext := textAlloc(text)
 	cfontSize := (C.float)(fontSize)
 	cspacing := (C.float)(spacing)
 	ret := C.MeasureTextEx(*cfont, ctext, cfontSize, cspacing)
@@ -184,10 +184,4 @@ func GetGlyphAtlasRec(font Font, codepoint int32) Rectangle {
 	ccodepoint := (C.int)(codepoint)
 	ret := C.GetGlyphAtlasRec(*cfont, ccodepoint)
 	return *gorec2ptr(&ret)
-}
-
-func TextAlloc(text string) *C.char {
-	ctext := (*C.char)(unsafe.Pointer(unsafe.StringData(text)))
-	clen := (C.int)(len(text))
-	return C.TextAlloc(ctext, clen)
 }
