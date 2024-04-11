@@ -10,30 +10,16 @@ import (
 	"unsafe"
 )
 
-// newGlyphInfoFromPointer - Returns new GlyphInfo from pointer
-func newGlyphInfoFromPointer(ptr *C.GlyphInfo) *GlyphInfo {
-	return (*GlyphInfo)(unsafe.Pointer(ptr))
-}
-
-// cptr returns C pointer
-func (c *GlyphInfo) cptr() *C.GlyphInfo {
-	return (*C.GlyphInfo)(unsafe.Pointer(c))
-}
-
-// newFontFromPointer - Returns new Font from pointer
-func newFontFromPointer(ptr *C.Font) *Font {
-	return (*Font)(unsafe.Pointer(ptr))
-}
-
-// cptr returns C pointer
-func (s *Font) cptr() *C.Font {
-	return (*C.Font)(unsafe.Pointer(s))
-}
+var defaultFont Font
 
 // GetFontDefault - Get the default Font
-func GetFontDefault() Font {
-	ret := C.GetFontDefault()
-	return *newFontFromPointer(&ret)
+func GetFontDefault() *Font {
+	if !defaultFont.IsReady() {
+		ret := C.GetFontDefault()
+		defaultFont = *newFontFromPointer(&ret)
+	}
+
+	return &defaultFont
 }
 
 // LoadFont - Load a Font image into GPU memory (VRAM)
@@ -205,4 +191,9 @@ func GetGlyphAtlasRec(font Font, codepoint int32) Rectangle {
 	ccodepoint := (C.int)(codepoint)
 	ret := C.GetGlyphAtlasRec(*cfont, ccodepoint)
 	return *gorec2ptr(&ret)
+}
+
+func TextAlloc(text string) *C.char {
+	ctext := (*C.char)(unsafe.Pointer(unsafe.StringData(text)))
+	return C.TextAlloc(ctext, (C.int)(len(text)))
 }

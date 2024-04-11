@@ -37,44 +37,6 @@ func internalAudioStreamCallbackGo(data unsafe.Pointer, frames C.int) {
 	}
 }
 
-// newWaveFromPointer - Returns new Wave from pointer
-func newWaveFromPointer(ptr *C.Wave) *Wave {
-	return (*Wave)(unsafe.Pointer(ptr))
-}
-
-// cptr returns C pointer
-func (w *Wave) cptr() *C.Wave {
-	return (*C.Wave)(unsafe.Pointer(w))
-}
-
-// newSoundFromPointer - Returns new Sound from pointer
-func newSoundFromPointer(ptr *C.Sound) *Sound {
-	return (*Sound)(unsafe.Pointer(ptr))
-}
-
-func (s *Sound) cptr() *C.Sound {
-	return (*C.Sound)(unsafe.Pointer(s))
-}
-
-// newAudioStreamFromPointer - Returns new AudioStream from pointer
-func newAudioStreamFromPointer(ptr *C.AudioStream) *AudioStream {
-	return (*AudioStream)(unsafe.Pointer(ptr))
-}
-
-// cptr returns C pointer
-func (a *AudioStream) cptr() *C.AudioStream {
-	return (*C.AudioStream)(unsafe.Pointer(a))
-}
-
-// newMusicFromPointer - Returns new Music from pointer
-func newMusicFromPointer(ptr *C.Music) *Music {
-	return (*Music)(unsafe.Pointer(ptr))
-}
-
-func (s *Music) cptr() *C.Music {
-	return (*C.Music)(unsafe.Pointer(s))
-}
-
 // InitAudioDevice - Initialize audio device and context
 func InitAudioDevice() {
 	C.InitAudioDevice()
