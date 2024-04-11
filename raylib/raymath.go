@@ -6,11 +6,6 @@ import (
 	"github.com/EliCDavis/vector/mathex"
 )
 
-// FloatEquals - Check whether two given floats are almost equal
-func FloatEquals[FT FloatT](x, y FT) bool {
-	return (math.Abs(float64(x-y)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(x)), math.Abs(float64(y)))))
-}
-
 // Vector2Zero - Vector with components value 0.0
 func Vector2Zero() Vector2 {
 	return NewVector2(0.0, 0.0)
@@ -167,7 +162,7 @@ func Vector2MoveTowards(v Vector2, target Vector2, maxDistance float32) Vector2 
 		return target
 	}
 
-	dist := float32(math.Sqrt(float64(value)))
+	dist := mathex.Sqrt(value)
 
 	result.X = v.X + dx/dist*maxDistance
 	result.Y = v.Y + dy/dist*maxDistance
@@ -178,12 +173,6 @@ func Vector2MoveTowards(v Vector2, target Vector2, maxDistance float32) Vector2 
 // Vector2Invert - Invert the given vector
 func Vector2Invert(v Vector2) Vector2 {
 	return NewVector2(1.0/v.X, 1.0/v.Y)
-}
-
-// Vector2Equals - Check whether two given vectors are almost equal
-func Vector2Equals(p Vector2, q Vector2) bool {
-	return (math.Abs(float64(p.X-q.X)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.X)), math.Abs(float64(q.X)))) &&
-		math.Abs(float64(p.Y-q.Y)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.Y)), math.Abs(float64(q.Y)))))
 }
 
 // Vector2CrossProduct - Calculate two vectors cross product
@@ -260,15 +249,15 @@ func Vector3CrossProduct(v1, v2 Vector3) Vector3 {
 
 // Vector3Perpendicular - Calculate one vector perpendicular vector
 func Vector3Perpendicular(v Vector3) Vector3 {
-	min := math.Abs(float64(v.X))
+	min := mathex.Abs(v.X)
 	cardinalAxis := NewVector3(1.0, 0.0, 0.0)
 
-	if math.Abs(float64(v.Y)) < min {
-		min = math.Abs(float64(v.Y))
+	if mathex.Abs(v.Y) < min {
+		min = mathex.Abs(v.Y)
 		cardinalAxis = NewVector3(0.0, 1.0, 0.0)
 	}
 
-	if math.Abs(float64(v.Z)) < min {
+	if mathex.Abs(v.Z) < min {
 		cardinalAxis = NewVector3(0.0, 0.0, 1.0)
 	}
 
@@ -279,7 +268,7 @@ func Vector3Perpendicular(v Vector3) Vector3 {
 
 // Vector3Length - Calculate vector length
 func Vector3Length(v Vector3) float32 {
-	return float32(math.Sqrt(float64(v.X*v.X + v.Y*v.Y + v.Z*v.Z)))
+	return mathex.Sqrt(v.X*v.X + v.Y*v.Y + v.Z*v.Z)
 }
 
 // Vector3LengthSqr - Calculate vector square length
@@ -298,7 +287,7 @@ func Vector3Distance(v1, v2 Vector3) float32 {
 	dy := v2.Y - v1.Y
 	dz := v2.Z - v1.Z
 
-	return float32(math.Sqrt(float64(dx*dx + dy*dy + dz*dz)))
+	return mathex.Sqrt(dx*dx + dy*dy + dz*dz)
 }
 
 // Vector3DistanceSqr - Calculate square distance between two vectors
@@ -318,7 +307,7 @@ func Vector3Angle(v1 Vector3, v2 Vector3) float32 {
 	var result float32
 
 	cross := Vector3{X: v1.Y*v2.Z - v1.Z*v2.Y, Y: v1.Z*v2.X - v1.X*v2.Z, Z: v1.X*v2.Y - v1.Y*v2.X}
-	length := float32(math.Sqrt(float64(cross.X*cross.X + cross.Y*cross.Y + cross.Z*cross.Z)))
+	length := mathex.Sqrt(cross.X*cross.X + cross.Y*cross.Y + cross.Z*cross.Z)
 	dot := v1.X*v2.X + v1.Y*v2.Y + v1.Z*v2.Z
 	result = float32(math.Atan2(float64(length), float64(dot)))
 
@@ -435,7 +424,7 @@ func Vector3RotateByAxisAngle(v Vector3, axis Vector3, angle float32) Vector3 {
 	result := v
 
 	// Vector3Normalize(axis);
-	length := float32(math.Sqrt(float64(axis.X*axis.X + axis.Y*axis.Y + axis.Z*axis.Z)))
+	length := mathex.Sqrt(axis.X*axis.X + axis.Y*axis.Y + axis.Z*axis.Z)
 	if length == 0.0 {
 		length = 1.0
 	}
@@ -663,13 +652,6 @@ func Vector3Invert(v Vector3) Vector3 {
 	return NewVector3(1.0/v.X, 1.0/v.Y, 1.0/v.Z)
 }
 
-// Vector3Equals - Check whether two given vectors are almost equal
-func Vector3Equals(p Vector3, q Vector3) bool {
-	return (math.Abs(float64(p.X-q.X)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.X)), math.Abs(float64(q.X)))) &&
-		math.Abs(float64(p.Y-q.Y)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.Y)), math.Abs(float64(q.Y)))) &&
-		math.Abs(float64(p.Z-q.Z)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.Z)), math.Abs(float64(q.Z)))))
-}
-
 // Vector3Refract - Compute the direction of a refracted ray
 //
 // v: normalized direction of the incoming ray
@@ -682,7 +664,7 @@ func Vector3Refract(v Vector3, n Vector3, r float32) Vector3 {
 	d := 1.0 - r*r*(1.0-dot*dot)
 
 	if d >= 0.0 {
-		d = float32(math.Sqrt(float64(d)))
+		d = mathex.Sqrt(d)
 		v.X = r*v.X - (r*dot+d)*n.X
 		v.Y = r*v.Y - (r*dot+d)*n.Y
 		v.Z = r*v.Z - (r*dot+d)*n.Z
@@ -965,7 +947,7 @@ func MatrixRotate(axis Vector3, angle float32) Matrix {
 	y := axis.Y
 	z := axis.Z
 
-	length := float32(math.Sqrt(float64(x*x + y*y + z*z)))
+	length := mathex.Sqrt(x*x + y*y + z*z)
 
 	if length != 1.0 && length != 0.0 {
 		length = 1.0 / length
@@ -1300,7 +1282,7 @@ func QuaternionIdentity() Quaternion {
 
 // QuaternionLength - Compute the length of a quaternion
 func QuaternionLength(quat Quaternion) float32 {
-	return float32(math.Sqrt(float64(quat.X*quat.X + quat.Y*quat.Y + quat.Z*quat.Z + quat.W*quat.W)))
+	return mathex.Sqrt(quat.X*quat.X + quat.Y*quat.Y + quat.Z*quat.Z + quat.W*quat.W)
 }
 
 // QuaternionNormalize - Normalize provided quaternion
@@ -1402,7 +1384,7 @@ func QuaternionNlerp(q1 Quaternion, q2 Quaternion, amount float32) Quaternion {
 
 	// QuaternionNormalize(q);
 	q := result
-	length := float32(math.Sqrt(float64(q.X*q.X + q.Y*q.Y + q.Z*q.Z + q.W*q.W)))
+	length := mathex.Sqrt(q.X*q.X + q.Y*q.Y + q.Z*q.Z + q.W*q.W)
 	if length == 0.0 {
 		length = 1.0
 	}
@@ -1422,13 +1404,13 @@ func QuaternionSlerp(q1, q2 Quaternion, amount float32) Quaternion {
 
 	cosHalfTheta := q1.X*q2.X + q1.Y*q2.Y + q1.Z*q2.Z + q1.W*q2.W
 
-	if math.Abs(float64(cosHalfTheta)) >= 1.0 {
+	if mathex.Abs(cosHalfTheta) >= 1.0 {
 		result = q1
 	} else {
 		halfTheta := float32(math.Acos(float64(cosHalfTheta)))
-		sinHalfTheta := float32(math.Sqrt(float64(1.0 - cosHalfTheta*cosHalfTheta)))
+		sinHalfTheta := mathex.Sqrt(1.0 - cosHalfTheta*cosHalfTheta)
 
-		if math.Abs(float64(sinHalfTheta)) < 0.001 {
+		if mathex.Abs(sinHalfTheta) < 0.001 {
 			result.X = q1.X*0.5 + q2.X*0.5
 			result.Y = q1.Y*0.5 + q2.Y*0.5
 			result.Z = q1.Z*0.5 + q2.Z*0.5
@@ -1462,7 +1444,7 @@ func QuaternionFromVector3ToVector3(from Vector3, to Vector3) Quaternion {
 	// QuaternionNormalize(q);
 	// NOTE: Normalize to essentially nlerp the original and identity to 0.5
 	q := result
-	length := float32(math.Sqrt(float64(q.X*q.X + q.Y*q.Y + q.Z*q.Z + q.W*q.W)))
+	length := mathex.Sqrt(q.X*q.X + q.Y*q.Y + q.Z*q.Z + q.W*q.W)
 	if length == 0.0 {
 		length = 1.0
 	}
@@ -1483,7 +1465,7 @@ func QuaternionFromMatrix(matrix Matrix) Quaternion {
 	trace := MatrixTrace(matrix)
 
 	if trace > 0.0 {
-		s := float32(math.Sqrt(float64(trace+1)) * 2.0)
+		s := mathex.Sqrt(trace+1) * 2.0
 		invS := 1.0 / s
 
 		result.W = s * 0.25
@@ -1496,7 +1478,7 @@ func QuaternionFromMatrix(matrix Matrix) Quaternion {
 		m22 := matrix.M10
 
 		if m00 > m11 && m00 > m22 {
-			s := float32(math.Sqrt(float64(1.0+m00-m11-m22)) * 2.0)
+			s := mathex.Sqrt(1.0+m00-m11-m22) * 2.0
 			invS := 1.0 / s
 
 			result.W = (matrix.M6 - matrix.M9) * invS
@@ -1504,7 +1486,7 @@ func QuaternionFromMatrix(matrix Matrix) Quaternion {
 			result.Y = (matrix.M4 + matrix.M1) * invS
 			result.Z = (matrix.M8 + matrix.M2) * invS
 		} else if m11 > m22 {
-			s := float32(math.Sqrt(float64(1.0+m11-m00-m22)) * 2.0)
+			s := mathex.Sqrt(1.0+m11-m00-m22) * 2.0
 			invS := 1.0 / s
 
 			result.W = (matrix.M8 - matrix.M2) * invS
@@ -1512,7 +1494,7 @@ func QuaternionFromMatrix(matrix Matrix) Quaternion {
 			result.Y = s * 0.25
 			result.Z = (matrix.M9 + matrix.M6) * invS
 		} else {
-			s := float32(math.Sqrt(float64(1.0+m22-m00-m11)) * 2.0)
+			s := mathex.Sqrt(1.0+m22-m00-m11) * 2.0
 			invS := 1.0 / s
 
 			result.W = (matrix.M1 - matrix.M4) * invS
@@ -1595,14 +1577,14 @@ func QuaternionFromAxisAngle(axis Vector3, angle float32) Quaternion {
 
 // QuaternionToAxisAngle - Returns the rotation angle and axis for a given quaternion
 func QuaternionToAxisAngle(q Quaternion, outAxis *Vector3, outAngle *float32) {
-	if math.Abs(float64(q.W)) > 1.0 {
+	if mathex.Abs(q.W) > 1.0 {
 		q = QuaternionNormalize(q)
 	}
 
 	resAxis := NewVector3(0.0, 0.0, 0.0)
 
 	resAngle := 2.0 * float32(math.Acos(float64(q.W)))
-	den := float32(math.Sqrt(float64(1.0 - q.W*q.W)))
+	den := mathex.Sqrt(1.0 - q.W*q.W)
 
 	if den > 0.0001 {
 		resAxis.X = q.X / den
@@ -1676,16 +1658,4 @@ func QuaternionTransform(q Quaternion, mat Matrix) Quaternion {
 	result.W = mat.M3*x + mat.M7*y + mat.M11*z + mat.M15*w
 
 	return result
-}
-
-// QuaternionEquals - Check whether two given quaternions are almost equal
-func QuaternionEquals(p, q Quaternion) bool {
-	return (math.Abs(float64(p.X-q.X)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.X)), math.Abs(float64(q.X)))) &&
-		math.Abs(float64(p.Y-q.Y)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.Y)), math.Abs(float64(q.Y)))) &&
-		math.Abs(float64(p.Z-q.Z)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.Z)), math.Abs(float64(q.Z)))) &&
-		math.Abs(float64(p.W-q.W)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.W)), math.Abs(float64(q.W)))) ||
-		math.Abs(float64(p.X+q.X)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.X)), math.Abs(float64(q.X)))) &&
-			math.Abs(float64(p.Y+q.Y)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.Y)), math.Abs(float64(q.Y)))) &&
-			math.Abs(float64(p.Z+q.Z)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.Z)), math.Abs(float64(q.Z)))) &&
-			math.Abs(float64(p.W+q.W)) <= 0.000001*math.Max(1.0, math.Max(math.Abs(float64(p.W)), math.Abs(float64(q.W)))))
 }
