@@ -16,16 +16,6 @@ func ptr[T any](x T) *T {
 	return &x
 }
 
-// newImageFromPointer - Returns new Image from pointer
-func newImageFromPointer(ptr *C.Image) *Image {
-	return (*Image)(unsafe.Pointer(ptr))
-}
-
-// cptr returns C pointer
-func (i *Image) cptr() *C.Image {
-	return (*C.Image)(unsafe.Pointer(i))
-}
-
 // ToImage converts a Image to Go image.Image
 func (i *Image) ToImage() image.Image {
 	img := image.NewRGBA(image.Rect(0, 0, int(i.Width), int(i.Height)))
@@ -38,26 +28,6 @@ func (i *Image) ToImage() image.Image {
 	img.Pix = pixels
 
 	return img
-}
-
-// newTexture2DFromPointer - Returns new Texture2D from pointer
-func newTexture2DFromPointer(ptr *C.Texture2D) *Texture2D {
-	return (*Texture2D)(unsafe.Pointer(ptr))
-}
-
-// cptr returns C pointer
-func (t *Texture2D) cptr() *C.Texture2D {
-	return (*C.Texture2D)(unsafe.Pointer(t))
-}
-
-// newRenderTexture2DFromPointer - Returns new RenderTexture2D from pointer
-func newRenderTexture2DFromPointer(ptr *C.RenderTexture2D) *RenderTexture2D {
-	return (*RenderTexture2D)(unsafe.Pointer(ptr))
-}
-
-// cptr returns C pointer
-func (r *RenderTexture2D) cptr() *C.RenderTexture2D {
-	return (*C.RenderTexture2D)(unsafe.Pointer(r))
 }
 
 // NewImageFromImage - Returns new Image from Go image.Image
@@ -840,11 +810,6 @@ func DrawTextureTiled(texture *Texture2D, source, dest Rectangle, origin Vector2
 	cscale := (C.float)(scale)
 	ctint := ccolorptr(&tint)
 	C.DrawTextureTiled(*ctexture, *csource, *cdest, *corigin, crotation, cscale, *ctint)
-}
-
-// cptr returns C pointer
-func (n *NPatchInfo) cptr() *C.NPatchInfo {
-	return (*C.NPatchInfo)(unsafe.Pointer(n))
 }
 
 // DrawTextureNPatch - Draws a texture (or part of it) that stretches or shrinks nicely using n-patch info

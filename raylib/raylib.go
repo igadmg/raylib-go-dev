@@ -979,15 +979,23 @@ type Font struct {
 	// Base size (default chars height)
 	BaseSize int32
 	// Number of characters
-	CharsCount int32
+	GlyphCount int32
 	// Padding around the chars
-	CharsPadding int32
+	GlyphPadding int32
 	// Characters texture atlas
 	Texture Texture2D
 	// Characters rectangles in texture
 	Recs *Rectangle
 	// Characters info data
-	Chars *GlyphInfo
+	Glyphs *GlyphInfo
+}
+
+func (f *Font) IsReady() bool {
+	return f.Texture.IsReady() && // Validate OpenGL id fot font texture atlas
+		f.BaseSize != 0 && // Validate font size
+		f.GlyphCount != 0 && // Validate font contains some glyph
+		f.Recs != nil && // Validate font recs defining glyphs on texture atlas
+		f.Glyphs != nil // Validate glyph data is loaded
 }
 
 // DrawTextEx - Draw text using Font and additional parameters
@@ -1147,7 +1155,11 @@ func (t *Texture2D) Unload() {
 }
 
 func (t *Texture2D) IsReady() bool {
-	return IsTextureReady(t)
+	return t.ID > 0 && // Validate OpenGL id
+		t.Width > 0 &&
+		t.Height > 0 && // Validate texture size
+		t.Format > 0 && // Validate texture pixel format
+		t.Mipmaps > 0
 }
 
 func (t *Texture2D) GetSize() Vector2 {

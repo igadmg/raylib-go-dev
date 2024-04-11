@@ -11,15 +11,19 @@ const (
 	JustifyCenter
 	JustifyBottom
 	JustifyFill
+	JustifyLeft
+	JustifyRight
 )
 
 func (j Justyfy) Justyfy(v, max float32) (nv, dv float32) {
 	switch j {
 	case JustifyTop:
+	case JustifyLeft:
 		return v, 0
 	case JustifyCenter:
 		return v, (max - v) / 2
 	case JustifyBottom:
+	case JustifyRight:
 		return v, max - v
 	case JustifyFill:
 		return max, 0

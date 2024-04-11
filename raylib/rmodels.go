@@ -13,61 +13,6 @@ import (
 	"unsafe"
 )
 
-// newMeshFromPointer - Returns new Mesh from pointer
-func newMeshFromPointer(ptr *C.Mesh) *Mesh {
-	return (*Mesh)(unsafe.Pointer(ptr))
-}
-
-// cptr returns C pointer
-func (m *Mesh) cptr() *C.Mesh {
-	return (*C.Mesh)(unsafe.Pointer(m))
-}
-
-// newMaterialFromPointer - Returns new Material from pointer
-func newMaterialFromPointer(ptr *C.Material) *Material {
-	return (*Material)(unsafe.Pointer(ptr))
-}
-
-// cptr returns C pointer
-func (m *Material) cptr() *C.Material {
-	return (*C.Material)(unsafe.Pointer(m))
-}
-
-// newModelFromPointer - Returns new Model from pointer
-func newModelFromPointer(ptr *C.Model) *Model {
-	return (*Model)(unsafe.Pointer(ptr))
-}
-
-// cptr returns C pointer
-func (m *Model) cptr() *C.Model {
-	return (*C.Model)(unsafe.Pointer(m))
-}
-
-// newRayFromPointer - Returns new Ray from pointer
-func newRayFromPointer(ptr *C.Ray) *Ray {
-	return (*Ray)(unsafe.Pointer(ptr))
-}
-
-// cptr returns C pointer
-func (r *Ray) cptr() *C.Ray {
-	return (*C.Ray)(unsafe.Pointer(r))
-}
-
-// newModelAnimationFromPointer - Returns new ModelAnimation from pointer
-func newModelAnimationFromPointer(ptr *C.ModelAnimation) *ModelAnimation {
-	return (*ModelAnimation)(unsafe.Pointer(ptr))
-}
-
-// cptr returns C pointer
-func (r *ModelAnimation) cptr() *C.ModelAnimation {
-	return (*C.ModelAnimation)(unsafe.Pointer(r))
-}
-
-// newRayCollisionFromPointer - Returns new RayCollision from pointer
-func newRayCollisionFromPointer(ptr *C.RayCollision) *RayCollision {
-	return (*RayCollision)(unsafe.Pointer(ptr))
-}
-
 // DrawLine3D - Draw a line in 3D world space
 func DrawLine3D(startPos Vector3, endPos Vector3, col color.RGBA) {
 	cstartPos := cvec3ptr(&startPos)
