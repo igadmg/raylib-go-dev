@@ -2,43 +2,9 @@ package rl
 
 import (
 	"math"
+
+	"github.com/EliCDavis/vector/mathex"
 )
-
-// Clamp - Clamp float value
-func Clamp[VT, MINT, MAXT NumberT](value VT, min MAXT, max MINT) VT {
-	var res VT
-	if value < VT(min) {
-		res = VT(min)
-	} else {
-		res = value
-	}
-
-	if res > VT(max) {
-		return VT(max)
-	}
-
-	return res
-}
-
-// Lerp - Calculate linear interpolation between two floats
-func Lerp[NT NumberT](start, end, amount NT) NT {
-	return start + amount*(end-start)
-}
-
-// Normalize - Normalize input value within input range
-func Normalize[NT NumberT](value, start, end NT) NT {
-	return (value - start) / (end - start)
-}
-
-// Remap - Remap input value within input range to output range
-func Remap[NT NumberT](value, inputStart, inputEnd, outputStart, outputEnd NT) NT {
-	return (value-inputStart)/(inputEnd-inputStart)*(outputEnd-outputStart) + outputStart
-}
-
-// Wrap - Wrap input value from min to max
-func Wrap[NT NumberT](value, min, max NT) NT {
-	return NT(float64(value) - float64(max-min)*math.Floor(float64((value-min)/(max-min))))
-}
 
 // FloatEquals - Check whether two given floats are almost equal
 func FloatEquals[FT FloatT](x, y FT) bool {
@@ -212,38 +178,6 @@ func Vector2MoveTowards(v Vector2, target Vector2, maxDistance float32) Vector2 
 // Vector2Invert - Invert the given vector
 func Vector2Invert(v Vector2) Vector2 {
 	return NewVector2(1.0/v.X, 1.0/v.Y)
-}
-
-// Vector2Clamp - Clamp the components of the vector between min and max values specified by the given vectors
-func Vector2Clamp(v Vector2, min Vector2, max Vector2) Vector2 {
-	var result = Vector2{}
-
-	result.X = float32(math.Min(float64(max.X), math.Max(float64(min.X), float64(v.X))))
-	result.Y = float32(math.Min(float64(max.Y), math.Max(float64(min.Y), float64(v.Y))))
-
-	return result
-}
-
-// Vector2ClampValue - Clamp the magnitude of the vector between two min and max values
-func Vector2ClampValue(v Vector2, min float32, max float32) Vector2 {
-	var result = v
-
-	length := v.X*v.X + v.Y*v.Y
-	if length > 0.0 {
-		length = float32(math.Sqrt(float64(length)))
-
-		if length < min {
-			scale := min / length
-			result.X = v.X * scale
-			result.Y = v.Y * scale
-		} else if length > max {
-			scale := max / length
-			result.X = v.X * scale
-			result.Y = v.Y * scale
-		}
-	}
-
-	return result
 }
 
 // Vector2Equals - Check whether two given vectors are almost equal
@@ -578,9 +512,9 @@ func Vector3Reflect(vector, normal Vector3) Vector3 {
 func Vector3Min(vec1, vec2 Vector3) Vector3 {
 	result := Vector3{}
 
-	result.X = float32(math.Min(float64(vec1.X), float64(vec2.X)))
-	result.Y = float32(math.Min(float64(vec1.Y), float64(vec2.Y)))
-	result.Z = float32(math.Min(float64(vec1.Z), float64(vec2.Z)))
+	result.X = min(vec1.X, vec2.X)
+	result.Y = min(vec1.Y, vec2.Y)
+	result.Z = min(vec1.Z, vec2.Z)
 
 	return result
 }
@@ -589,9 +523,9 @@ func Vector3Min(vec1, vec2 Vector3) Vector3 {
 func Vector3Max(vec1, vec2 Vector3) Vector3 {
 	result := Vector3{}
 
-	result.X = float32(math.Max(float64(vec1.X), float64(vec2.X)))
-	result.Y = float32(math.Max(float64(vec1.Y), float64(vec2.Y)))
-	result.Z = float32(math.Max(float64(vec1.Z), float64(vec2.Z)))
+	result.X = max(vec1.X, vec2.X)
+	result.Y = max(vec1.Y, vec2.Y)
+	result.Z = max(vec1.Z, vec2.Z)
 
 	return result
 }
@@ -727,41 +661,6 @@ func Vector3ToFloatV(v Vector3) [3]float32 {
 // Vector3Invert - Invert the given vector
 func Vector3Invert(v Vector3) Vector3 {
 	return NewVector3(1.0/v.X, 1.0/v.Y, 1.0/v.Z)
-}
-
-// Vector3Clamp - Clamp the components of the vector between min and max values specified by the given vectors
-func Vector3Clamp(v Vector3, min Vector3, max Vector3) Vector3 {
-	var result = Vector3{}
-
-	result.X = float32(math.Min(float64(max.X), math.Max(float64(min.X), float64(v.X))))
-	result.Y = float32(math.Min(float64(max.Y), math.Max(float64(min.Y), float64(v.Y))))
-	result.Z = float32(math.Min(float64(max.Z), math.Max(float64(min.Z), float64(v.Z))))
-
-	return result
-}
-
-// Vector3ClampValue - Clamp the magnitude of the vector between two values
-func Vector3ClampValue(v Vector3, min float32, max float32) Vector3 {
-	var result = v
-
-	length := v.X*v.X + v.Y*v.Y + v.Z*v.Z
-	if length > 0.0 {
-		length = float32(math.Sqrt(float64(length)))
-
-		if length < min {
-			scale := min / length
-			result.X = v.X * scale
-			result.Y = v.Y * scale
-			result.Z = v.Z * scale
-		} else if length > max {
-			scale := max / length
-			result.X = v.X * scale
-			result.Y = v.Y * scale
-			result.Z = v.Z * scale
-		}
-	}
-
-	return result
 }
 
 // Vector3Equals - Check whether two given vectors are almost equal
@@ -1751,7 +1650,7 @@ func QuaternionToEuler(q Quaternion) Vector3 {
 
 	// Pitch (y-axis rotation)
 	y0 := 2.0 * (q.W*q.Y - q.Z*q.X)
-	y0 = Clamp(y0, -1.0, 1.0)
+	y0 = mathex.Clamp(y0, -1.0, 1.0)
 	result.Y = float32(math.Asin(float64(y0)))
 
 	// Yaw (z-axis rotation)
