@@ -201,8 +201,7 @@ func DrawGrid(slices int32, spacing float32) {
 
 // LoadModel - Load model from file
 func LoadModel(fileName string) Model {
-	cfileName := C.CString(fileName)
-	defer C.free(unsafe.Pointer(cfileName))
+	cfileName := TextAlloc(fileName)
 	ret := C.LoadModel(cfileName)
 	return *newModelFromPointer(&ret)
 }
@@ -420,8 +419,7 @@ func DrawMeshInstanced(mesh Mesh, material Material, transforms []Matrix, instan
 
 // ExportMesh - Export mesh as an OBJ file
 func ExportMesh(mesh Mesh, fileName string) {
-	cfileName := C.CString(fileName)
-	defer C.free(unsafe.Pointer(cfileName))
+	cfileName := TextAlloc(fileName)
 	cmesh := mesh.cptr()
 	C.ExportMesh(*cmesh, cfileName)
 }
@@ -545,8 +543,7 @@ func GenMeshCubicmap(cubicmap Image, size Vector3) Mesh {
 
 // LoadMaterials - Load material data (.MTL)
 func LoadMaterials(fileName string) []Material {
-	cfileName := C.CString(fileName)
-	defer C.free(unsafe.Pointer(cfileName))
+	cfileName := TextAlloc(fileName)
 	ccount := C.int(0)
 	ret := C.LoadMaterials(cfileName, &ccount)
 	v := (*[1 << 24]Material)(unsafe.Pointer(ret))[:int(ccount)]
@@ -591,8 +588,7 @@ func SetModelMeshMaterial(model *Model, meshId int32, materialId int32) {
 
 // LoadModelAnimations - Load model animations from file
 func LoadModelAnimations(fileName string) []ModelAnimation {
-	cfileName := C.CString(fileName)
-	defer C.free(unsafe.Pointer(cfileName))
+	cfileName := TextAlloc(fileName)
 	ccount := C.int(0)
 	ret := C.LoadModelAnimations(cfileName, &ccount)
 	v := (*[1 << 24]ModelAnimation)(unsafe.Pointer(ret))[:int(ccount)]

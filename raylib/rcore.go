@@ -132,8 +132,7 @@ func SetWindowIcons(images []Image, count int32) {
 
 // SetWindowTitle - Set title for window (only PLATFORM_DESKTOP)
 func SetWindowTitle(title string) {
-	ctitle := C.CString(title)
-	defer C.free(unsafe.Pointer(ctitle))
+	ctitle := TextAlloc(title)
 	C.SetWindowTitle(ctitle)
 }
 
@@ -294,8 +293,7 @@ func GetMonitorName(monitor int) string {
 
 // SetClipboardText - Set clipboard text content
 func SetClipboardText(data string) {
-	cdata := C.CString(data)
-	defer C.free(unsafe.Pointer(cdata))
+	cdata := TextAlloc(data)
 	C.SetClipboardText(cdata)
 }
 
@@ -381,11 +379,8 @@ func EndScissorMode() {
 
 // LoadShader - Load a custom shader and bind default locations
 func LoadShader(vsFileName string, fsFileName string) Shader {
-	cvsFileName := C.CString(vsFileName)
-	defer C.free(unsafe.Pointer(cvsFileName))
-
-	cfsFileName := C.CString(fsFileName)
-	defer C.free(unsafe.Pointer(cfsFileName))
+	cvsFileName := TextAlloc(vsFileName)
+	cfsFileName := TextAlloc(fsFileName)
 
 	if vsFileName == "" {
 		cvsFileName = nil
@@ -401,11 +396,10 @@ func LoadShader(vsFileName string, fsFileName string) Shader {
 
 // LoadShaderFromMemory - Load shader from code strings and bind default locations
 func LoadShaderFromMemory(vsCode string, fsCode string) Shader {
-	cvsCode := C.CString(vsCode)
-	defer C.free(unsafe.Pointer(cvsCode))
-
-	cfsCode := C.CString(fsCode)
-	defer C.free(unsafe.Pointer(cfsCode))
+	cvsCode := TextAlloc(vsCode)
+	//defer C.free(unsafe.Pointer(cvsCode)) TODO: possible shader code truncation
+	cfsCode := TextAlloc(fsCode)
+	//defer C.free(unsafe.Pointer(cfsCode)) TODO: possible shader code truncation
 
 	if vsCode == "" {
 		cvsCode = nil
@@ -430,8 +424,7 @@ func IsShaderReady(shader *Shader) bool {
 // GetShaderLocation - Get shader uniform location
 func GetShaderLocation(shader Shader, uniformName string) int32 {
 	cshader := shader.cptr()
-	cuniformName := C.CString(uniformName)
-	defer C.free(unsafe.Pointer(cuniformName))
+	cuniformName := TextAlloc(uniformName)
 
 	ret := C.GetShaderLocation(*cshader, cuniformName)
 	v := (int32)(ret)
@@ -441,8 +434,7 @@ func GetShaderLocation(shader Shader, uniformName string) int32 {
 // GetShaderLocationAttrib - Get shader attribute location
 func GetShaderLocationAttrib(shader Shader, attribName string) int32 {
 	cshader := shader.cptr()
-	cuniformName := C.CString(attribName)
-	defer C.free(unsafe.Pointer(cuniformName))
+	cuniformName := TextAlloc(attribName)
 
 	ret := C.GetShaderLocationAttrib(*cshader, cuniformName)
 	v := (int32)(ret)
@@ -724,8 +716,7 @@ func GetRandomValue(min, max int32) int32 {
 
 // OpenURL - Open URL with default system browser (if available)
 func OpenURL(url string) {
-	curl := C.CString(url)
-	defer C.free(unsafe.Pointer(curl))
+	curl := TextAlloc(url)
 	C.OpenURL(curl)
 }
 
@@ -737,15 +728,13 @@ func SetConfigFlags(flags uint32) {
 
 // TakeScreenshot - Takes a screenshot of current screen (saved a .png)
 func TakeScreenshot(name string) {
-	cname := C.CString(name)
-	defer C.free(unsafe.Pointer(cname))
+	cname := TextAlloc(name)
 	C.TakeScreenshot(cname)
 }
 
 // LoadAutomationEventList - Load automation events list from file, NULL for empty list, capacity = MAX_AUTOMATION_EVENTS
 func LoadAutomationEventList(fileName string) AutomationEventList {
-	cfileName := C.CString(fileName)
-	defer C.free(unsafe.Pointer(cfileName))
+	cfileName := TextAlloc(fileName)
 
 	ret := C.LoadAutomationEventList(cfileName)
 	return *newAutomationEventListFromPointer(&ret)
@@ -758,8 +747,7 @@ func UnloadAutomationEventList(list *AutomationEventList) {
 
 // ExportAutomationEventList - Export automation events list as text file
 func ExportAutomationEventList(list AutomationEventList, fileName string) bool {
-	cfileName := C.CString(fileName)
-	defer C.free(unsafe.Pointer(cfileName))
+	cfileName := TextAlloc(fileName)
 
 	ret := C.ExportAutomationEventList(*list.cptr(), cfileName)
 	v := bool(ret)
@@ -937,8 +925,8 @@ func GetGamepadAxisMovement[GT, AT IntegerT](gamepad GT, axis AT) float32 {
 
 // SetGamepadMappings - Set internal gamepad mappings (SDL_GameControllerDB)
 func SetGamepadMappings(mappings string) int32 {
-	cmappings := C.CString(mappings)
-	defer C.free(unsafe.Pointer(cmappings))
+	cmappings := TextAlloc(mappings)
+	//defer C.free(unsafe.Pointer(cmappings))  TODO: possible mappings truncation
 	ret := C.SetGamepadMappings(cmappings)
 	v := (int32)(ret)
 	return v
