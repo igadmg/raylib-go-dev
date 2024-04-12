@@ -372,6 +372,14 @@ func BeginScissorMode(x, y, width, height int32) {
 	C.BeginScissorMode(cx, cy, cwidth, cheight)
 }
 
+func BeginScissorModeRec(r RectangleInt32) {
+	cx := (C.int)(r.XY.X)
+	cy := (C.int)(r.XY.Y)
+	cwidth := (C.int)(r.WH.X)
+	cheight := (C.int)(r.WH.Y)
+	C.BeginScissorMode(cx, cy, cwidth, cheight)
+}
+
 // EndScissorMode - Ends scissor mode
 func EndScissorMode() {
 	C.EndScissorMode()

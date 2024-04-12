@@ -10,6 +10,8 @@ import (
 	"image"
 	"image/color"
 	"unsafe"
+
+	"github.com/EliCDavis/vector/vector2"
 )
 
 func ptr[T any](x T) *T {
@@ -159,6 +161,10 @@ func LoadRenderTexture[WT, HT IntegerT](width WT, height HT) RenderTexture2D {
 	cheight := (C.int)(height)
 	ret := C.LoadRenderTexture(cwidth, cheight)
 	return *newRenderTexture2DFromPointer(&ret)
+}
+
+func LoadRenderTextureV[T IntegerT](wh vector2.Vector[T]) RenderTexture2D {
+	return LoadRenderTexture(wh.X, wh.Y)
 }
 
 // LoadTextureCubemap - Loads a texture for a cubemap using given layout
