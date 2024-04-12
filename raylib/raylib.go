@@ -1190,6 +1190,10 @@ func (t *Texture2D) DrawEx(position Vector2, rotation, scale float32, tint color
 	DrawTextureEx(t, position, rotation, scale, tint)
 }
 
+func (t *Texture2D) DrawExDef(position Vector2) {
+	DrawTextureEx(t, position, 0, 1, White)
+}
+
 func (t *Texture2D) DrawRec(sourceRec Rectangle, position Vector2, tint color.RGBA) {
 	DrawTextureRec(t, sourceRec, position, tint)
 }
