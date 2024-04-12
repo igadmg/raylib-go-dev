@@ -1239,6 +1239,10 @@ func NewRenderTexture2D(id uint32, texture, depth Texture2D) *RenderTexture2D {
 	return &RenderTexture2D{id, texture, depth}
 }
 
+func (r *RenderTexture2D) Unload() {
+	UnloadRenderTexture(r)
+}
+
 // TraceLogCallbackFun - function that will recive the trace log messages
 type TraceLogCallbackFun func(int, string)
 
