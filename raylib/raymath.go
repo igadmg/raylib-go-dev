@@ -11,6 +11,10 @@ func Vector2Zero() Vector2 {
 	return NewVector2(0.0, 0.0)
 }
 
+func Vector2IntZero() Vector2Int {
+	return NewVector2Int(0, 0)
+}
+
 // Vector2One - Vector with components value 1.0
 func Vector2One() Vector2 {
 	return NewVector2(1.0, 1.0)
