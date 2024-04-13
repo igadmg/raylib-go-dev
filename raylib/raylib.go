@@ -14,6 +14,7 @@ import (
 	"runtime"
 	"unsafe"
 
+	"github.com/EliCDavis/vector"
 	"github.com/EliCDavis/vector/rect2"
 	"github.com/EliCDavis/vector/vector2"
 	"github.com/EliCDavis/vector/vector3"
@@ -592,12 +593,12 @@ func NewRectangle[XT, YT, WT, HT CoordinateT](x XT, y YT, width WT, height HT) R
 	return rect2.New(vector2.New(float32(x), float32(y)), vector2.New(float32(width), float32(height)))
 }
 
-func NewRectangleV(xy, wh Vector2) Rectangle {
-	return rect2.New(vector2.New(xy.X, xy.Y), vector2.New(wh.X, wh.Y))
+func NewRectangleV[XYT, WHT vector.Number](xy vector2.Vector[XYT], wh vector2.Vector[WHT]) Rectangle {
+	return rect2.New(xy.ToFloat32(), wh.ToFloat32())
 }
 
-func NewRectangleWHV(wh Vector2) Rectangle {
-	return rect2.New(vector2.Zero[float32](), vector2.New(wh.X, wh.Y))
+func NewRectangleWHV[WHT vector.Number](wh vector2.Vector[WHT]) Rectangle {
+	return rect2.New(vector2.Zero[float32](), wh.ToFloat32())
 }
 
 // Camera3D type, defines a camera position/orientation in 3d space
