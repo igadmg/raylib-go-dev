@@ -1131,6 +1131,18 @@ func (i *Image) Unload() {
 	UnloadImage(i)
 }
 
+func (i *Image) GetSize() Vector2 {
+	return NewVector2(i.Width, i.Height)
+}
+
+func (i *Image) GetRect() Rectangle {
+	return NewRectangle(0, 0, i.Width, i.Height)
+}
+
+func (i *Image) DrawDef(dst *Image, dstRect Rectangle) {
+	ImageDraw(dst, i, i.GetRect(), dstRect, White)
+}
+
 // Texture2D type, bpp always RGBA (32bit)
 // NOTE: Data stored in GPU memory
 type Texture2D struct {
@@ -1210,11 +1222,11 @@ func (t *Texture2D) DrawFlippedPro(sourceRec, destRec Rectangle, origin Vector2,
 }
 
 func (t *Texture2D) DrawProDef(destRec Rectangle) {
-	DrawTexturePro(t, t.GetRect(), destRec, NewVector2(0, 0), 0, White)
+	DrawTexturePro(t, t.GetRect(), destRec, Vector2Zero(), 0, White)
 }
 
 func (t *Texture2D) DrawProFlippedDef(destRec Rectangle) {
-	DrawTexturePro(t, t.GetRect().ScaleByVectorF(NewVector2(1, -1)), destRec, NewVector2(0, 0), 0, White)
+	DrawTexturePro(t, t.GetRect().ScaleByVectorF(NewVector2(1, -1)), destRec, Vector2Zero(), 0, White)
 }
 
 func (t *Texture2D) DrawTiled(source, dest Rectangle, origin Vector2, rotation, scale float32, tint color.RGBA) {
