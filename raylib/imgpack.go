@@ -8,6 +8,7 @@ package rl
 import "C"
 import (
 	"fmt"
+	"image/color"
 	"runtime"
 	"unsafe"
 )
@@ -175,6 +176,10 @@ func (t TextureAtlasItem) DrawProDef(destRec Rectangle) {
 	DrawTexturePro(t.Texture, t.Rect, destRec, Vector2Zero(), 0, White)
 }
 
+func (t TextureAtlasItem) DrawProTintedDef(destRec Rectangle, tint color.RGBA) {
+	DrawTexturePro(t.Texture, t.Rect, destRec, Vector2Zero(), 0, tint)
+}
+
 type TextureAtlas struct {
 	Texture Texture2D
 	Atlas   []Rectangle
@@ -225,6 +230,17 @@ func (t *TextureAtlas) GetItemSet(ids ...int) []TextureAtlasItem {
 	itemSet := make([]TextureAtlasItem, len(ids))
 	for i, id := range ids {
 		itemSet[i] = t.GetItem(id)
+	}
+	return itemSet
+}
+
+func (t *TextureAtlas) ToItemSet() []TextureAtlasItem {
+	itemSet := make([]TextureAtlasItem, len(t.Atlas))
+	for i, item := range t.Atlas {
+		itemSet[i] = TextureAtlasItem{
+			Texture: &t.Texture,
+			Rect:    item,
+		}
 	}
 	return itemSet
 }

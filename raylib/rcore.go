@@ -790,7 +790,7 @@ func PlayAutomationEvent(event AutomationEvent) {
 }
 
 // IsKeyPressed - Detect if a key has been pressed once
-func IsKeyPressed[KT IntegerT](key KT) bool {
+func IsKeyPressed(key KeyType) bool {
 	ckey := (C.int)(key)
 	ret := C.IsKeyPressed(ckey)
 	v := bool(ret)
@@ -798,7 +798,7 @@ func IsKeyPressed[KT IntegerT](key KT) bool {
 }
 
 // IsKeyPressedRepeat - Detect if a key has been pressed again (Only PLATFORM_DESKTOP)
-func IsKeyPressedRepeat[KT IntegerT](key KT) bool {
+func IsKeyPressedRepeat(key KeyType) bool {
 	ckey := (C.int)(key)
 	ret := C.IsKeyPressedRepeat(ckey)
 	v := bool(ret)
@@ -806,7 +806,7 @@ func IsKeyPressedRepeat[KT IntegerT](key KT) bool {
 }
 
 // IsKeyDown - Detect if a key is being pressed
-func IsKeyDown[KT IntegerT](key KT) bool {
+func IsKeyDown(key KeyType) bool {
 	ckey := (C.int)(key)
 	ret := C.IsKeyDown(ckey)
 	v := bool(ret)
@@ -814,7 +814,7 @@ func IsKeyDown[KT IntegerT](key KT) bool {
 }
 
 // IsKeyReleased - Detect if a key has been released once
-func IsKeyReleased[KT IntegerT](key KT) bool {
+func IsKeyReleased(key KeyType) bool {
 	ckey := (C.int)(key)
 	ret := C.IsKeyReleased(ckey)
 	v := bool(ret)
@@ -822,7 +822,7 @@ func IsKeyReleased[KT IntegerT](key KT) bool {
 }
 
 // IsKeyUp - Detect if a key is NOT being pressed
-func IsKeyUp[KT IntegerT](key KT) bool {
+func IsKeyUp(key KeyType) bool {
 	ckey := (C.int)(key)
 	ret := C.IsKeyUp(ckey)
 	v := bool(ret)
@@ -836,21 +836,21 @@ func GetKeyDownCount() int {
 }
 
 // GetKeyPressed - Get latest key pressed
-func GetKeyPressed() int32 {
+func GetKeyPressed() KeyType {
 	ret := C.GetKeyPressed()
-	v := (int32)(ret)
+	v := (KeyType)(ret)
 	return v
 }
 
 // GetCharPressed - Get the last char pressed
-func GetCharPressed() int32 {
+func GetCharPressed() KeyType {
 	ret := C.GetCharPressed()
-	v := (int32)(ret)
+	v := (KeyType)(ret)
 	return v
 }
 
 // SetExitKey - Set a custom key to exit program (default is ESC)
-func SetExitKey[KT IntegerT](key KT) {
+func SetExitKey(key KeyType) {
 	ckey := (C.int)(key)
 	C.SetExitKey(ckey)
 }
@@ -872,7 +872,7 @@ func GetGamepadName[GT IntegerT](gamepad GT) string {
 }
 
 // IsGamepadButtonPressed - Detect if a gamepad button has been pressed once
-func IsGamepadButtonPressed[GT, BT IntegerT](gamepad GT, button BT) bool {
+func IsGamepadButtonPressed[GT IntegerT](gamepad GT, button GamepadButtonType) bool {
 	cgamepad := (C.int)(gamepad)
 	cbutton := (C.int)(button)
 	ret := C.IsGamepadButtonPressed(cgamepad, cbutton)
@@ -881,7 +881,7 @@ func IsGamepadButtonPressed[GT, BT IntegerT](gamepad GT, button BT) bool {
 }
 
 // IsGamepadButtonDown - Detect if a gamepad button is being pressed
-func IsGamepadButtonDown[GT, BT IntegerT](gamepad GT, button BT) bool {
+func IsGamepadButtonDown[GT IntegerT](gamepad GT, button GamepadButtonType) bool {
 	cgamepad := (C.int)(gamepad)
 	cbutton := (C.int)(button)
 	ret := C.IsGamepadButtonDown(cgamepad, cbutton)
@@ -890,7 +890,7 @@ func IsGamepadButtonDown[GT, BT IntegerT](gamepad GT, button BT) bool {
 }
 
 // IsGamepadButtonReleased - Detect if a gamepad button has been released once
-func IsGamepadButtonReleased[GT, BT IntegerT](gamepad GT, button BT) bool {
+func IsGamepadButtonReleased[GT IntegerT](gamepad GT, button GamepadButtonType) bool {
 	cgamepad := (C.int)(gamepad)
 	cbutton := (C.int)(button)
 	ret := C.IsGamepadButtonReleased(cgamepad, cbutton)
@@ -899,7 +899,7 @@ func IsGamepadButtonReleased[GT, BT IntegerT](gamepad GT, button BT) bool {
 }
 
 // IsGamepadButtonUp - Detect if a gamepad button is NOT being pressed
-func IsGamepadButtonUp[GT, BT IntegerT](gamepad GT, button BT) bool {
+func IsGamepadButtonUp[GT IntegerT](gamepad GT, button GamepadButtonType) bool {
 	cgamepad := (C.int)(gamepad)
 	cbutton := (C.int)(button)
 	ret := C.IsGamepadButtonUp(cgamepad, cbutton)
@@ -923,7 +923,7 @@ func GetGamepadAxisCount[GT IntegerT](gamepad GT) int32 {
 }
 
 // GetGamepadAxisMovement - Return axis movement value for a gamepad axis
-func GetGamepadAxisMovement[GT, AT IntegerT](gamepad GT, axis AT) float32 {
+func GetGamepadAxisMovement[GT IntegerT](gamepad GT, axis GamepadAxisType) float32 {
 	cgamepad := (C.int)(gamepad)
 	caxis := (C.int)(axis)
 	ret := C.GetGamepadAxisMovement(cgamepad, caxis)
@@ -941,7 +941,7 @@ func SetGamepadMappings(mappings string) int32 {
 }
 
 // IsMouseButtonPressed - Detect if a mouse button has been pressed once
-func IsMouseButtonPressed[BT IntegerT](button BT) bool {
+func IsMouseButtonPressed(button MouseButtonType) bool {
 	cbutton := (C.int)(button)
 	ret := C.IsMouseButtonPressed(cbutton)
 	v := bool(ret)
@@ -949,7 +949,7 @@ func IsMouseButtonPressed[BT IntegerT](button BT) bool {
 }
 
 // IsMouseButtonDown - Detect if a mouse button is being pressed
-func IsMouseButtonDown[BT IntegerT](button BT) bool {
+func IsMouseButtonDown(button MouseButtonType) bool {
 	cbutton := (C.int)(button)
 	ret := C.IsMouseButtonDown(cbutton)
 	v := bool(ret)
@@ -957,7 +957,7 @@ func IsMouseButtonDown[BT IntegerT](button BT) bool {
 }
 
 // IsMouseButtonReleased - Detect if a mouse button has been released once
-func IsMouseButtonReleased[BT IntegerT](button BT) bool {
+func IsMouseButtonReleased(button MouseButtonType) bool {
 	cbutton := (C.int)(button)
 	ret := C.IsMouseButtonReleased(cbutton)
 	v := bool(ret)
@@ -965,7 +965,7 @@ func IsMouseButtonReleased[BT IntegerT](button BT) bool {
 }
 
 // IsMouseButtonUp - Detect if a mouse button is NOT being pressed
-func IsMouseButtonUp[BT IntegerT](button BT) bool {
+func IsMouseButtonUp(button MouseButtonType) bool {
 	cbutton := (C.int)(button)
 	ret := C.IsMouseButtonUp(cbutton)
 	v := bool(ret)
@@ -1033,7 +1033,7 @@ func GetMouseWheelMoveV() Vector2 {
 }
 
 // SetMouseCursor - Set mouse cursor
-func SetMouseCursor(cursor int32) {
+func SetMouseCursor(cursor MouseCursorType) {
 	ccursor := (C.int)(cursor)
 	C.SetMouseCursor(ccursor)
 }
