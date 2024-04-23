@@ -525,9 +525,28 @@ func NewVector2[XT, YT CoordinateT](x XT, y YT) Vector2 {
 	return vector2.New(float32(x), float32(y))
 }
 
+// Vector2Zero - Vector with components value 0.0
+func Vector2Zero() Vector2 {
+	return NewVector2(0.0, 0.0)
+}
+
+// Vector2One - Vector with components value 1.0
+func Vector2One() Vector2 {
+	return NewVector2(1.0, 1.0)
+}
+
 // NewVector2 - Returns new Vector2
 func NewVector2Int[XT, YT CoordinateT](x XT, y YT) Vector2Int {
 	return vector2.New(int(x), int(y))
+}
+
+func Vector2IntZero() Vector2Int {
+	return NewVector2Int(0, 0)
+}
+
+// Vector2One - Vector with components value 1.0
+func Vector2IntOne() Vector2Int {
+	return NewVector2Int(1, 1)
 }
 
 // Vector3 type
@@ -1230,7 +1249,7 @@ func (t *Texture2D) DrawPro(sourceRec, destRec Rectangle, origin Vector2, rotati
 
 func (t *Texture2D) DrawFlippedPro(sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint color.RGBA) {
 	sourceRec = sourceRec.ScaleByVectorF(NewVector2(1, -1))
-	sourceRec.XY.Y = float32(t.Height) + sourceRec.WH.Y
+	sourceRec = sourceRec.SetXY(sourceRec.XY().SetY(float32(t.Height) + sourceRec.WH().Y()))
 	DrawTexturePro(t, sourceRec, destRec, origin, rotation, tint)
 }
 

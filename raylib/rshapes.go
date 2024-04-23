@@ -285,13 +285,22 @@ func DrawRectangleRounded(rec Rectangle, roundness float32, segments int32, col 
 }
 
 // DrawRectangleRoundedLines - Draw rectangle with rounded edges outline
-func DrawRectangleRoundedLines(rec Rectangle, roundness float32, segments, lineThick float32, col color.RGBA) {
+func DrawRectangleRoundedLines(rec Rectangle, roundness float32, segments float32, col color.RGBA) {
+	crec := crect2ptr(&rec)
+	croundness := (C.float)(roundness)
+	csegments := (C.int)(segments)
+	ccolor := ccolorptr(&col)
+	C.DrawRectangleRoundedLines(*crec, croundness, csegments, *ccolor)
+}
+
+// DrawRectangleRoundedLines - Draw rectangle with rounded edges outline
+func DrawRectangleRoundedLinesEx(rec Rectangle, roundness float32, segments, lineThick float32, col color.RGBA) {
 	crec := crect2ptr(&rec)
 	croundness := (C.float)(roundness)
 	csegments := (C.int)(segments)
 	clineThick := (C.float)(lineThick)
 	ccolor := ccolorptr(&col)
-	C.DrawRectangleRoundedLines(*crec, croundness, csegments, clineThick, *ccolor)
+	C.DrawRectangleRoundedLinesEx(*crec, croundness, csegments, clineThick, *ccolor)
 }
 
 // DrawTriangle - Draw a color-filled triangle
