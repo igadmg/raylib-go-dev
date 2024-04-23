@@ -1,9 +1,9 @@
 package rl
 
 /*
-#cgo CFLAGS: -I${SRCDIR}/../external/raylib/src/external -std=gnu99 -Wno-missing-braces -Wno-unused-result -Wno-implicit-function-declaration
+#cgo CFLAGS: -I${SRCDIR}/../external/raylib/src -std=gnu99 -Wno-missing-braces -Wno-unused-result -Wno-implicit-function-declaration
 
-#include "stb_rect_pack.h"
+#include "external/stb_rect_pack.h"
 */
 import "C"
 import (
