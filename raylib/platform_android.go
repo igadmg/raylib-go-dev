@@ -7,7 +7,6 @@ package rl
 #include "raylib.h"
 #include <stdlib.h>
 #include <android/asset_manager.h>
-#include <android_native_app_glue.h>
 
 extern void android_init();
 

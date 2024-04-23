@@ -373,10 +373,10 @@ func BeginScissorMode(x, y, width, height int32) {
 }
 
 func BeginScissorModeRec(r RectangleInt32) {
-	cx := (C.int)(r.XY.X)
-	cy := (C.int)(r.XY.Y)
-	cwidth := (C.int)(r.WH.X)
-	cheight := (C.int)(r.WH.Y)
+	cx := (C.int)(r.XY().X())
+	cy := (C.int)(r.XY().Y())
+	cwidth := (C.int)(r.WH().X())
+	cheight := (C.int)(r.WH().Y())
 	C.BeginScissorMode(cx, cy, cwidth, cheight)
 }
 
@@ -591,14 +591,11 @@ func ColorToInt(col color.RGBA) int32 {
 
 // ColorNormalize - Returns color normalized as float [0..1]
 func ColorNormalize(col color.RGBA) Vector4 {
-	result := Vector4{}
-	r, g, b, a := col.R, col.G, col.B, col.A
-	result.X = float32(r) / 255
-	result.Y = float32(g) / 255
-	result.Z = float32(b) / 255
-	result.W = float32(a) / 255
-
-	return result
+	return NewVector4(
+		float32(col.R)/255,
+		float32(col.G)/255,
+		float32(col.B)/255,
+		float32(col.A)/255)
 }
 
 // ColorFromNormalized - Returns Color from normalized values [0..1]
@@ -682,9 +679,9 @@ func GetPixelDataSize(width, height, format int32) int32 {
 // Vector3ToFloat - Converts Vector3 to float32 slice
 func Vector3ToFloat(vec Vector3) []float32 {
 	data := make([]float32, 0)
-	data[0] = vec.X
-	data[1] = vec.Y
-	data[2] = vec.Z
+	data[0] = vec.X()
+	data[1] = vec.Y()
+	data[2] = vec.Z()
 
 	return data
 }

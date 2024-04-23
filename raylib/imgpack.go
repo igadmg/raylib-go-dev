@@ -99,8 +99,8 @@ func LoadImageAtlas(width, height int, fileNames ...string) (ImageAtlas, error) 
 	rect := make([]PackRect, len(images))
 	for i, img := range images {
 		img_size := img.GetSize().AddXY(2, 2)
-		rect[i].w = C.int(img_size.X)
-		rect[i].h = C.int(img_size.Y)
+		rect[i].w = C.int(img_size.X())
+		rect[i].h = C.int(img_size.Y())
 	}
 	icons, err := PackRects(width, height, rect...)
 	if err != nil {
@@ -135,8 +135,8 @@ func LoadImageAtlasEx(width, height int, imgFn func(path string) Image, fileName
 	rect := make([]PackRect, len(images))
 	for i, img := range images {
 		img_size := img.GetSize().AddXY(2, 2)
-		rect[i].w = C.int(img_size.X)
-		rect[i].h = C.int(img_size.Y)
+		rect[i].w = C.int(img_size.X())
+		rect[i].h = C.int(img_size.Y())
 	}
 	icons, err := PackRects(width, height, rect...)
 	if err != nil {
@@ -169,7 +169,7 @@ type TextureAtlasItem struct {
 }
 
 func (t TextureAtlasItem) DrawExDef(position Vector2) {
-	DrawTexturePro(t.Texture, t.Rect, NewRectangleV(position, t.Rect.WH), Vector2Zero(), 0, White)
+	DrawTexturePro(t.Texture, t.Rect, NewRectangleV(position, t.Rect.WH()), Vector2Zero(), 0, White)
 }
 
 func (t TextureAtlasItem) DrawProDef(destRec Rectangle) {
