@@ -46,10 +46,10 @@ func CanvasLayout(bounds rl.Rectangle) canvasLayout {
 	}
 }
 
-func (cl *canvasLayout) Layout(anchor rl.Vector2, pivot rl.Vector2, rect rl.Rectangle) rl.Rectangle {
+func (cl *canvasLayout) Layout(anchor rl.Vector2, pivot rl.Vector2, wh rl.Vector2) rl.Rectangle {
 	anchorp := anchor.MultByVector(cl.Bounds.WH())
-	pivotp := pivot.MultByVector(rect.WH())
-	return rl.NewRectangleV(cl.Bounds.XY().Add(anchorp).Add(rect.XY()).Sub(pivotp), rect.WH())
+	pivotp := pivot.MultByVector(wh)
+	return rl.NewRectangleV(cl.Bounds.XY().Add(anchorp).Sub(pivotp), wh)
 }
 
 type horizontalLayout struct {
@@ -80,6 +80,13 @@ func (hl *horizontalLayout) Fill(wh rl.Vector2, justify Justyfy) rl.Rectangle {
 	return r
 }
 
+func (hl *horizontalLayout) Pie(percent float32) rl.Rectangle {
+	r := hl.Bounds.ShrinkXYWH(float32(hl.position), 0, 0, 0)
+	r = r.ShrinkXYWH(0, 0, r.Width()*(1-percent), 0).Round()
+	hl.position += int(r.Width())
+	return r
+}
+
 type verticalLayout struct {
 	layout
 	spacing  int
@@ -105,5 +112,12 @@ func (vl *verticalLayout) Fill(wh rl.Vector2, justify Justyfy) rl.Rectangle {
 	whX, dx := justify.Justyfy(wh.X(), vl.Bounds.Width())
 	r := rl.NewRectangle(vl.Bounds.X()+dx, vl.Bounds.Y()+float32(vl.position), whX, vl.Bounds.Height()-float32(vl.position))
 	vl.position = int(vl.Bounds.Height())
+	return r
+}
+
+func (vl *verticalLayout) Pie(percent float32) rl.Rectangle {
+	r := vl.Bounds.ShrinkXYWH(0, float32(vl.position), 0, 0)
+	r = r.ShrinkXYWH(0, 0, 0, r.Height()*(1-percent)).Round()
+	vl.position += int(r.Height())
 	return r
 }
