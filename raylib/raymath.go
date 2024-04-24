@@ -1,5 +1,4 @@
 //go:build RAY_MATH
-
 package rl
 
 import (
@@ -7,13 +6,6 @@ import (
 
 	"github.com/EliCDavis/vector/mathex"
 )
-
-// Vector2Angle - Calculate angle from two vectors in radians
-func Vector2Angle(v1, v2 Vector2) float32 {
-	result := math.Atan2(float64(v2.Y()), float64(v2.X())) - math.Atan2(float64(v1.Y()), float64(v1.X()))
-
-	return float32(result)
-}
 
 // Vector2LineAngle - Calculate angle defined by a two vectors line
 // NOTE: Parameters need to be normalized. Current implementation should be aligned with glm::angle
@@ -30,11 +22,6 @@ func Vector2Transform(v Vector2, mat Matrix) Vector2 {
 	return NewVector2(
 		mat.M0*x+mat.M4*y+mat.M8*z+mat.M12,
 		mat.M1*x+mat.M5*y+mat.M9*z+mat.M13)
-}
-
-// Vector2Lerp - Calculate linear interpolation between two vectors
-func Vector2Lerp(v1, v2 Vector2, amount float32) Vector2 {
-	return NewVector2(v1.X()+amount*(v2.X()-v1.X()), v1.Y()+amount*(v2.Y()-v1.Y()))
 }
 
 // Vector2Reflect - Calculate reflected vector to normal
@@ -73,21 +60,6 @@ func Vector2MoveTowards(v Vector2, target Vector2, maxDistance float32) Vector2 
 		v.Y()+dy/dist*maxDistance)
 }
 
-// Vector2Cross - Calculate the cross product of a vector and a value
-func Vector2Cross(value float32, vector Vector2) Vector2 {
-	return NewVector2(-value*vector.Y(), value*vector.X())
-}
-
-// Vector3Zero - Vector with components value 0.0
-func Vector3Zero() Vector3 {
-	return NewVector3(0.0, 0.0, 0.0)
-}
-
-// Vector3One - Vector with components value 1.0
-func Vector3One() Vector3 {
-	return NewVector3(1.0, 1.0, 1.0)
-}
-
 // Vector3Perpendicular - Calculate one vector perpendicular vector
 func Vector3Perpendicular(v Vector3) Vector3 {
 	min := mathex.Abs(v.X())
@@ -103,50 +75,6 @@ func Vector3Perpendicular(v Vector3) Vector3 {
 	}
 
 	result := Vector3CrossProduct(v, cardinalAxis)
-
-	return result
-}
-
-// Vector3Angle - Calculate angle between two vectors
-func Vector3Angle(v1 Vector3, v2 Vector3) float32 {
-	var result float32
-
-	cross := Vector3{X: v1.Y()*v2.Z() - v1.Z()*v2.Y(), Y: v1.Z()*v2.X() - v1.X()*v2.Z(), Z: v1.X()*v2.Y() - v1.Y()*v2.X()}
-	length := mathex.Sqrt(cross.X()*cross.X() + cross.Y()*cross.Y() + cross.Z()*cross.Z())
-	dot := v1.X()*v2.X() + v1.Y()*v2.Y() + v1.Z()*v2.Z()
-	result = float32(math.Atan2(float64(length), float64(dot)))
-
-	return result
-}
-
-// Vector3Project - Calculate the projection of the vector v1 on to v2
-func Vector3Project(v1, v2 Vector3) Vector3 {
-	result := Vector3{}
-
-	v1dv2 := (v1.X()*v2.X() + v1.Y()*v2.Y() + v1.Z()*v2.Z())
-	v2dv2 := (v2.X()*v2.X() + v2.Y()*v2.Y() + v2.Z()*v2.Z())
-
-	mag := v1dv2 / v2dv2
-
-	result.X() = v2.X() * mag
-	result.Y() = v2.Y() * mag
-	result.Z() = v2.Z() * mag
-
-	return result
-}
-
-// Vector3Reject - Calculate the rejection of the vector v1 on to v2
-func Vector3Reject(v1, v2 Vector3) Vector3 {
-	result := Vector3{}
-
-	v1dv2 := (v1.X()*v2.X() + v1.Y()*v2.Y() + v1.Z()*v2.Z())
-	v2dv2 := (v2.X()*v2.X() + v2.Y()*v2.Y() + v2.Z()*v2.Z())
-
-	mag := v1dv2 / v2dv2
-
-	result.X() = v1.X() - (v2.X() * mag)
-	result.Y() = v1.Y() - (v2.Y() * mag)
-	result.Z() = v1.Z() - (v2.Z() * mag)
 
 	return result
 }
@@ -250,45 +178,6 @@ func Vector3Lerp(v1, v2 Vector3, amount float32) Vector3 {
 	result.X() = v1.X() + amount*(v2.X()-v1.X())
 	result.Y() = v1.Y() + amount*(v2.Y()-v1.Y())
 	result.Z() = v1.Z() + amount*(v2.Z()-v1.Z())
-
-	return result
-}
-
-// Vector3Reflect - Calculate reflected vector to normal
-func Vector3Reflect(vector, normal Vector3) Vector3 {
-	// I is the original vector
-	// N is the normal of the incident plane
-	// R = I - (2*N*( DotProduct[ I,N] ))
-
-	result := Vector3{}
-
-	dotProduct := Vector3DotProduct(vector, normal)
-
-	result.X() = vector.X() - (2.0*normal.X())*dotProduct
-	result.Y() = vector.Y() - (2.0*normal.Y())*dotProduct
-	result.Z() = vector.Z() - (2.0*normal.Z())*dotProduct
-
-	return result
-}
-
-// Vector3Min - Return min value for each pair of components
-func Vector3Min(vec1, vec2 Vector3) Vector3 {
-	result := Vector3{}
-
-	result.X() = min(vec1.X(), vec2.X())
-	result.Y() = min(vec1.Y(), vec2.Y())
-	result.Z() = min(vec1.Z(), vec2.Z())
-
-	return result
-}
-
-// Vector3Max - Return max value for each pair of components
-func Vector3Max(vec1, vec2 Vector3) Vector3 {
-	result := Vector3{}
-
-	result.X() = max(vec1.X(), vec2.X())
-	result.Y() = max(vec1.Y(), vec2.Y())
-	result.Z() = max(vec1.Z(), vec2.Z())
 
 	return result
 }

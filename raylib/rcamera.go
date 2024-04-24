@@ -1,5 +1,4 @@
 //go:build RAY_MATH
-
 package rl
 
 // GetCameraForward - Returns the cameras forward vector (normalized)
@@ -125,14 +124,14 @@ func CameraPitch(camera *Camera, angle float32, lockView uint8, rotateAroundTarg
 		// to allow only viewing straight up or down.
 
 		// Clamp view up
-		maxAngleUp := Vector3Angle(up, targetPosition)
+		maxAngleUp := up.Angle(targetPosition)
 		maxAngleUp = maxAngleUp - 0.001 // avoid numerical errors
 		if angle > maxAngleUp {
 			angle = maxAngleUp
 		}
 
 		// Clamp view down
-		maxAngleDown := Vector3Angle(Vector3Negate(up), targetPosition)
+		maxAngleDown := up.ScaleF(-1).Angle(targetPosition)
 		maxAngleDown = maxAngleDown * -1.0  // downwards angle is negative
 		maxAngleDown = maxAngleDown + 0.001 // avoid numerical errors
 		if angle < maxAngleDown {

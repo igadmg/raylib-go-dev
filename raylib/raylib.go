@@ -1249,7 +1249,7 @@ func (t *Texture2D) DrawPro(sourceRec, destRec Rectangle, origin Vector2, rotati
 
 func (t *Texture2D) DrawFlippedPro(sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint color.RGBA) {
 	sourceRec = sourceRec.ScaleByVectorF(NewVector2(1, -1))
-	sourceRec = sourceRec.SetXY(sourceRec.XY().SetY(float32(t.Height) + sourceRec.WH().Y()))
+	sourceRec = sourceRec.SetY(float32(t.Height) + sourceRec.Height())
 	DrawTexturePro(t, sourceRec, destRec, origin, rotation, tint)
 }
 
