@@ -486,6 +486,6 @@ func GetCipherPassword() string {
 // This is an approach but no guarantee
 func WipeCipherPassword() {
 	cpass := C.rresGetCipherPassword()
-	C.explicit_bzero(unsafe.Pointer(cpass), C.strlen(cpass))
+	C.memset(unsafe.Pointer(cpass), 0, C.strlen(cpass))
 	C.free(unsafe.Pointer(cpass))
 }
