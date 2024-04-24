@@ -16,6 +16,8 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+type BoundsFn func(bounds rl.Rectangle)
+
 const (
 	SCROLLBAR_LEFT_SIDE = iota
 	SCROLLBAR_RIGHT_SIDE
@@ -323,6 +325,11 @@ func GroupBox(bounds rl.Rectangle, text string) {
 	C.GuiGroupBox(*cbounds, ctext)
 }
 
+func GroupBoxEx(bounds rl.Rectangle, text string, fn BoundsFn) {
+	GroupBox(bounds, text)
+	fn(bounds.ShrinkXYWH(8, 8, 8, 8))
+}
+
 // GuiLine - Line separator control, could contain text
 func Line(bounds rl.Rectangle, text string) {
 	cbounds := crect2ptr(&bounds)
@@ -337,9 +344,9 @@ func Panel(bounds rl.Rectangle, text string) {
 	C.GuiPanel(*cbounds, ctext)
 }
 
-func PanelEx(bounds rl.Rectangle, text string, fn func(bounds rl.Rectangle)) {
+func PanelEx(bounds rl.Rectangle, text string, fn BoundsFn) {
 	Panel(bounds, text)
-	fn(bounds.DeltaXYWH(0, 24, 0, -24))
+	fn(bounds.ShrinkXYWH(0, 24, 0, 0))
 }
 
 // ScrollPanel control - Scroll Panel control
