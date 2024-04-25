@@ -689,6 +689,17 @@ func NewBoundingBox(min, max Vector3) BoundingBox {
 type Asset interface {
 	io.ReadSeeker
 	io.Closer
+
+	Size() int64
+}
+
+func ReadAll(a Asset) ([]byte, error) {
+	b := make([]byte, a.Size())
+	if _, err := a.Read(b); err != nil {
+		return nil, err
+	}
+
+	return b, nil
 }
 
 // Gestures type
