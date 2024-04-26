@@ -698,7 +698,7 @@ type Gestures uint32
 const (
 	GestureNone       Gestures = 0
 	GestureTap        Gestures = 1
-	GestureDoubletap  Gestures = 2
+	GestureDoubleTap  Gestures = 2
 	GestureHold       Gestures = 4
 	GestureDrag       Gestures = 8
 	GestureSwipeRight Gestures = 16
