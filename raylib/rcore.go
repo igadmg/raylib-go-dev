@@ -196,6 +196,13 @@ func GetScreenHeight() int {
 	return v
 }
 
+func GetScreenSize() Vector2Int {
+	return NewVector2Int(
+		GetScreenWidth(),
+		GetScreenHeight(),
+	)
+}
+
 // GetRenderWidth - Get current render width (it considers HiDPI)
 func GetRenderWidth() int {
 	ret := C.GetRenderWidth()
@@ -208,6 +215,13 @@ func GetRenderHeight() int {
 	ret := C.GetRenderHeight()
 	v := (int)(ret)
 	return v
+}
+
+func GetRenderSize() Vector2Int {
+	return NewVector2Int(
+		GetRenderWidth(),
+		GetRenderHeight(),
+	)
 }
 
 // GetMonitorCount - Get number of connected monitors
