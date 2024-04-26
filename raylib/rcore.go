@@ -740,7 +740,7 @@ func OpenURL(url string) {
 }
 
 // SetConfigFlags - Setup some window configuration flags
-func SetConfigFlags(flags uint32) {
+func SetConfigFlags(flags ConfigFlags) {
 	cflags := (C.uint)(flags)
 	C.SetConfigFlags(cflags)
 }

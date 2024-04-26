@@ -217,41 +217,29 @@ const (
 	Pi      = 3.1415927
 	Deg2rad = 0.017453292
 	Rad2deg = 57.295776
+)
 
-	// Raylib Config Flags
+// Raylib Config Flags
 
-	// Set to try enabling V-Sync on GPU
-	FlagVsyncHint = 0x00000040
-	// Set to run program in fullscreen
-	FlagFullscreenMode = 0x00000002
-	// Set to allow resizable window
-	FlagWindowResizable = 0x00000004
-	// Set to disable window decoration (frame and buttons)
-	FlagWindowUndecorated = 0x00000008
-	// Set to hide window
-	FlagWindowHidden = 0x00000080
-	// Set to minimize window (iconify)
-	FlagWindowMinimized = 0x00000200
-	// Set to maximize window (expanded to monitor)
-	FlagWindowMaximized = 0x00000400
-	// Set to window non focused
-	FlagWindowUnfocused = 0x00000800
-	// Set to window always on top
-	FlagWindowTopmost = 0x00001000
-	// Set to allow windows running while minimized
-	FlagWindowAlwaysRun = 0x00000100
-	// Set to allow transparent window
-	FlagWindowTransparent = 0x00000010
-	// Set to support HighDPI
-	FlagWindowHighdpi = 0x00002000
-	// Set to support mouse passthrough, only supported when FLAG_WINDOW_UNDECORATED
-	FlagWindowMousePassthrough = 0x00004000
-	// Set to run program in borderless windowed mode
-	FlagBorderlessWindowedMode = 0x00008000
-	// Set to try enabling MSAA 4X
-	FlagMsaa4xHint = 0x00000020
-	// Set to try enabling interlaced video format (for V3D)
-	FlagInterlacedHint = 0x00010000
+type ConfigFlags = uint32
+
+const (
+	FlagVsyncHint              ConfigFlags = 0x00000040 // Set to try enabling V-Sync on GPU
+	FlagFullscreenMode         ConfigFlags = 0x00000002 // Set to run program in fullscreen
+	FlagWindowResizable        ConfigFlags = 0x00000004 // Set to allow resizable window
+	FlagWindowUndecorated      ConfigFlags = 0x00000008 // Set to disable window decoration (frame and buttons)
+	FlagWindowHidden           ConfigFlags = 0x00000080 // Set to hide window
+	FlagWindowMinimized        ConfigFlags = 0x00000200 // Set to minimize window (iconify)
+	FlagWindowMaximized        ConfigFlags = 0x00000400 // Set to maximize window (expanded to monitor)
+	FlagWindowUnfocused        ConfigFlags = 0x00000800 // Set to window non focused
+	FlagWindowTopmost          ConfigFlags = 0x00001000 // Set to window always on top
+	FlagWindowAlwaysRun        ConfigFlags = 0x00000100 // Set to allow windows running while minimized
+	FlagWindowTransparent      ConfigFlags = 0x00000010 // Set to allow transparent window
+	FlagWindowHighdpi          ConfigFlags = 0x00002000 // Set to support HighDPI
+	FlagWindowMousePassthrough ConfigFlags = 0x00004000 // Set to support mouse passthrough, only supported when FLAG_WINDOW_UNDECORATED
+	FlagBorderlessWindowedMode ConfigFlags = 0x00008000 // Set to run program in borderless windowed mode
+	FlagMsaa4xHint             ConfigFlags = 0x00000020 // Set to try enabling MSAA 4X
+	FlagInterlacedHint         ConfigFlags = 0x00010000 // Set to try enabling interlaced video format (for V3D)
 )
 
 type KeyType int32
