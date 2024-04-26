@@ -703,7 +703,7 @@ func ReadAll(a Asset) ([]byte, error) {
 }
 
 // Gestures type
-type Gestures int32
+type Gestures uint32
 
 // Gestures types
 // NOTE: It could be used as flags to enable only some gestures
