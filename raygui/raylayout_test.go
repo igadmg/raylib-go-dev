@@ -31,3 +31,43 @@ func TestCanvasLayout(t *testing.T) {
 		test.AssertRectangleInDelta(t, r, rl.NewRectangle(130, 130, 20, 20), 0.00001)
 	}
 }
+
+func TestVerticalLayout(t *testing.T) {
+	vl := rg.VerticalLayout(rl.NewRectangle(-50, -50, 200, 200), 0)
+	{
+		r := vl.Layout(rl.NewVector2(100, 10), rg.JustifyLeft)
+		test.AssertRectangleInDelta(t, r, rl.NewRectangle(-50, -50, 100, 10), 0.00001)
+	}
+	{
+		r := vl.Layout(rl.NewVector2(100, 15), rg.JustifyRight)
+		test.AssertRectangleInDelta(t, r, rl.NewRectangle(50, -40, 100, 15), 0.00001)
+	}
+	{
+		r := vl.Layout(rl.NewVector2(100, 20), rg.JustifyCenter)
+		test.AssertRectangleInDelta(t, r, rl.NewRectangle(0, -25, 100, 20), 0.00001)
+	}
+	{
+		r := vl.Layout(rl.NewVector2(100, 25), rg.JustifyFill)
+		test.AssertRectangleInDelta(t, r, rl.NewRectangle(-50, -5, 200, 25), 0.00001)
+	}
+}
+
+func TestVerticalLayoutSpacing5(t *testing.T) {
+	vl := rg.VerticalLayout(rl.NewRectangle(-50, -50, 200, 200), 5)
+	{
+		r := vl.Layout(rl.NewVector2(100, 10), rg.JustifyLeft)
+		test.AssertRectangleInDelta(t, r, rl.NewRectangle(-50, -50, 100, 10), 0.00001)
+	}
+	{
+		r := vl.Layout(rl.NewVector2(100, 15), rg.JustifyRight)
+		test.AssertRectangleInDelta(t, r, rl.NewRectangle(50, -35, 100, 15), 0.00001)
+	}
+	{
+		r := vl.Layout(rl.NewVector2(100, 20), rg.JustifyCenter)
+		test.AssertRectangleInDelta(t, r, rl.NewRectangle(0, -15, 100, 20), 0.00001)
+	}
+	{
+		r := vl.Layout(rl.NewVector2(100, 25), rg.JustifyFill)
+		test.AssertRectangleInDelta(t, r, rl.NewRectangle(-50, 10, 200, 25), 0.00001)
+	}
+}
