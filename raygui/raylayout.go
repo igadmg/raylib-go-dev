@@ -61,7 +61,7 @@ type horizontalLayout struct {
 func HorizontalLayout(bounds rl.Rectangle, spacing int) horizontalLayout {
 	return horizontalLayout{
 		layout:   layout{Bounds: bounds},
-		spacing:  spacing + 1, // +1 compensate for rects are inclusive, so new rect will not overlap with previous
+		spacing:  spacing,
 		position: 0,
 	}
 }
@@ -69,15 +69,15 @@ func HorizontalLayout(bounds rl.Rectangle, spacing int) horizontalLayout {
 func (hl *horizontalLayout) Layout(wh rl.Vector2, justify Justyfy) rl.Rectangle {
 	whY, dy := justify.Justyfy(wh.Y(), hl.Bounds.Height())
 	if wh.X() < 0 {
-		wh = wh.SetX(hl.Bounds.Width() - float32(hl.position) + wh.X() - float32(hl.spacing) + 1) // +1 remove rect overlap compenstaion
+		wh = wh.SetX(hl.Bounds.Width() - float32(hl.position) + wh.X() - float32(hl.spacing))
 	}
 	r := rl.NewRectangle(hl.Bounds.X()+float32(hl.position), hl.Bounds.Y()+dy, wh.X(), whY)
 	hl.position += int(wh.X()) + hl.spacing
 	return r
 }
 
-func (hl *horizontalLayout) Fill(wh rl.Vector2, justify Justyfy) rl.Rectangle {
-	whY, dy := justify.Justyfy(wh.Y(), hl.Bounds.Height())
+func (hl *horizontalLayout) Fill(height float32, justify Justyfy) rl.Rectangle {
+	whY, dy := justify.Justyfy(height, hl.Bounds.Height())
 	r := rl.NewRectangle(hl.Bounds.X()+float32(hl.position), hl.Bounds.Y()+dy, hl.Bounds.Width()-float32(hl.position), whY)
 	hl.position = int(hl.Bounds.Width())
 	return r
@@ -99,7 +99,7 @@ type verticalLayout struct {
 func VerticalLayout(bounds rl.Rectangle, spacing int) verticalLayout {
 	return verticalLayout{
 		layout:   layout{Bounds: bounds},
-		spacing:  spacing + 1, // +1 compensate for rects are inclusive, so new rect will not overlap with previous
+		spacing:  spacing,
 		position: 0,
 	}
 }
@@ -107,15 +107,15 @@ func VerticalLayout(bounds rl.Rectangle, spacing int) verticalLayout {
 func (vl *verticalLayout) Layout(wh rl.Vector2, justify Justyfy) rl.Rectangle {
 	whX, dx := justify.Justyfy(wh.X(), vl.Bounds.Width())
 	if wh.Y() < 0 {
-		wh = wh.SetY(vl.Bounds.Height() - float32(vl.position) + wh.Y() - float32(vl.spacing) + 0) // +1 remove rect overlap compenstaion
+		wh = wh.SetY(vl.Bounds.Height() - float32(vl.position) + wh.Y() - float32(vl.spacing))
 	}
 	r := rl.NewRectangle(vl.Bounds.X()+dx, vl.Bounds.Y()+float32(vl.position), whX, wh.Y())
 	vl.position += int(wh.Y()) + vl.spacing
 	return r
 }
 
-func (vl *verticalLayout) Fill(wh rl.Vector2, justify Justyfy) rl.Rectangle {
-	whX, dx := justify.Justyfy(wh.X(), vl.Bounds.Width())
+func (vl *verticalLayout) Fill(width float32, justify Justyfy) rl.Rectangle {
+	whX, dx := justify.Justyfy(width, vl.Bounds.Width())
 	r := rl.NewRectangle(vl.Bounds.X()+dx, vl.Bounds.Y()+float32(vl.position), whX, vl.Bounds.Height()-float32(vl.position))
 	vl.position = int(vl.Bounds.Height())
 	return r
