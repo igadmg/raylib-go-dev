@@ -1097,3 +1097,13 @@ func GetFont() rl.Font {
 	ptr := unsafe.Pointer(&ret)
 	return *(*rl.Font)(ptr)
 }
+
+// SetAlpha - set alpha (global state)
+func SetAlpha(alpha float32) {
+	C.GuiSetAlpha((C.float)(alpha))
+}
+
+// SetScale - set scale (global state)
+func SetScale(alpha float32) {
+	C.GuiSetScale((C.float)(alpha))
+}
