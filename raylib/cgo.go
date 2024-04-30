@@ -298,5 +298,5 @@ func (s *Music) cptr() *C.Music {
 func textAlloc(text string) *C.char {
 	ctext := (*C.char)(unsafe.Pointer(unsafe.StringData(text)))
 	clen := (C.int)(len(text))
-	return C.TextAlloc(ctext, &clen)
+	return C.TextAlloc(ctext, (*C.int)(unsafe.Pointer(&clen)))
 }

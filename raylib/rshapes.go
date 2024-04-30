@@ -50,17 +50,14 @@ func DrawLineV(startPos, endPos Vector2, col color.RGBA) {
 	C.DrawLineV(*cstartPos, *cendPos, *ccolor)
 }
 
-func DrawLineAB(ab ...Vector2) func(col color.RGBA) {
-	if len(ab) == 2 {
-		return func(col color.RGBA) {
-			cstartPos := cvec2ptr(&ab[0])
-			cendPos := cvec2ptr(&ab[1])
-			ccolor := ccolorptr(&col)
-			C.DrawLineV(*cstartPos, *cendPos, *ccolor)
-		}
+func DrawLineAB(a, b Vector2) func(col color.RGBA) {
+	return func(col color.RGBA) {
+		la, lb := a, b
+		cstartPos := cvec2ptr(&la)
+		cendPos := cvec2ptr(&lb)
+		ccolor := ccolorptr(&col)
+		C.DrawLineV(*cstartPos, *cendPos, *ccolor)
 	}
-
-	return func(col color.RGBA) { DrawLineStrip(ab, col) }
 }
 
 // DrawLineEx - Draw a line defining thickness

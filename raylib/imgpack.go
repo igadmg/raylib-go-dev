@@ -169,7 +169,7 @@ type TextureAtlasItem struct {
 }
 
 func (t TextureAtlasItem) DrawExDef(position Vector2) {
-	DrawTexturePro(t.Texture, t.Rect, NewRectangleV(position, t.Rect.WH()), Vector2Zero(), 0, White)
+	DrawTexturePro(t.Texture, t.Rect, NewRectangleV(position, t.Rect.Size()), Vector2Zero(), 0, White)
 }
 
 func (t TextureAtlasItem) DrawProDef(destRec Rectangle) {

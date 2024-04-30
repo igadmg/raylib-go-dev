@@ -47,9 +47,9 @@ func CanvasLayout(bounds rl.Rectangle) canvasLayout {
 }
 
 func (cl *canvasLayout) Layout(anchor rl.Vector2, pivot rl.Vector2, wh rl.Vector2) rl.Rectangle {
-	anchorp := anchor.MultByVector(cl.Bounds.WH())
+	anchorp := anchor.MultByVector(cl.Bounds.Size())
 	pivotp := pivot.MultByVector(wh)
-	return rl.NewRectangleV(cl.Bounds.XY().Add(anchorp).Sub(pivotp), wh)
+	return rl.NewRectangleV(cl.Bounds.Position().Add(anchorp).Sub(pivotp), wh)
 }
 
 type horizontalLayout struct {
