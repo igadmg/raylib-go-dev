@@ -35,6 +35,12 @@ func GetGestureHoldDuration() float32 {
 	return (float32)(ret)
 }
 
+func GetGestureSwipeData() (distance, intensity, angle float32) {
+	return GetGestureSwipeDistance(),
+		GetGestureSwipeIntensity(),
+		GetGestureSwipeAngle()
+}
+
 // GetGestureSwipeDistance - Get gesture swipe angle
 func GetGestureSwipeDistance() float32 {
 	ret := C.GetGestureSwipeDistance()
