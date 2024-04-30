@@ -1052,6 +1052,10 @@ func (s *ListViewState[T]) SetItems(items []T, nameFn func(i T) string) {
 	s.citemNames = NewCStringArrayFromSlice(itemNames)
 }
 
+func (s *ListViewState[T]) IsActiveItem() bool {
+	return s.activeItemIndex != -1
+}
+
 func (s *ListViewState[T]) ActiveItem() T {
 	return s.items[s.activeItemIndex]
 }
