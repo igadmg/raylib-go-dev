@@ -30,16 +30,15 @@ type GuiStyleProp struct {
 	propertyValue uint32
 }
 
-// Gui control state
+// GuiState .
+type GuiState int32
+
 const (
-	STATE_NORMAL int32 = iota
+	STATE_NORMAL GuiState = iota
 	STATE_FOCUSED
 	STATE_PRESSED
 	STATE_DISABLED
 )
-
-// GuiState .
-type GuiState = int32
 
 // Gui control text alignment
 const (
@@ -286,14 +285,14 @@ func Fade(color rl.Color, alpha float32) {
 }
 
 // GuiSetState - Set gui state (global state)
-func SetState(state int32) {
+func SetState(state GuiState) {
 	cstate := C.int(state)
 	C.GuiSetState(cstate)
 }
 
 // GuiGetState - Get gui state (global state)
-func GetState() int32 {
-	return int32(C.GuiGetState())
+func GetState() GuiState {
+	return GuiState(C.GuiGetState())
 }
 
 // GuiSetStyle .
