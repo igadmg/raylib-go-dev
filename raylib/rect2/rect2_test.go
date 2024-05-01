@@ -3,9 +3,10 @@ package rect2_test
 import (
 	"testing"
 
-	"github.com/EliCDavis/vector/test"
+	//. "github.com/EliCDavis/vector/test"
 	"github.com/EliCDavis/vector/vector2"
 	"github.com/gen2brain/raylib-go/raylib/rect2"
+	. "github.com/gen2brain/raylib-go/raylib/test"
 )
 
 func TestOperations(t *testing.T) {
@@ -64,7 +65,7 @@ func TestOperations(t *testing.T) {
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			test.AssertRectangle2InDelta(t, tc.want, tc.got, 0.00001)
+			AssertRectangle2InDelta(t, tc.want, tc.got, 0.00001)
 		})
 	}
 }
