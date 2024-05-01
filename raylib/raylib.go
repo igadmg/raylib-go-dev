@@ -15,10 +15,10 @@ import (
 	"unsafe"
 
 	"github.com/EliCDavis/vector"
-	"github.com/EliCDavis/vector/rect2"
 	"github.com/EliCDavis/vector/vector2"
 	"github.com/EliCDavis/vector/vector3"
 	"github.com/EliCDavis/vector/vector4"
+	"github.com/gen2brain/raylib-go/raylib/rect2"
 )
 
 func init() {
