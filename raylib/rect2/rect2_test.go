@@ -3,9 +3,9 @@ package rect2_test
 import (
 	"testing"
 
-	"github.com/EliCDavis/vector/rect2"
 	"github.com/EliCDavis/vector/test"
 	"github.com/EliCDavis/vector/vector2"
+	"github.com/gen2brain/raylib-go/raylib/rect2"
 )
 
 func TestOperations(t *testing.T) {
