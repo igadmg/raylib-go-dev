@@ -15,6 +15,19 @@ const (
 	JustifyRight
 )
 
+// Justify a segment of width v in a segment of width max
+// returns new segmend width amd distance from start
+//
+//	/--------max-------------/
+//	/-----v----/
+//	JustifyTop, JustifyLeft:
+//	/-----v----/                 (v, 0)
+//	JustifyCenter:
+//	        /-----v----/         (v, (max - v) / 2)
+//	JustifyBottom, JustifyRight:
+//	              /-----v----/   (v, max - v)
+//	JustifyFill:
+//	/---------v--------------/   (max, 0)
 func (j Justyfy) Justyfy(v, max float32) (nv, dv float32) {
 	switch j {
 	case JustifyTop:
