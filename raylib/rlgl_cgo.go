@@ -482,6 +482,14 @@ func SetBlendFactorsSeparate(glSrcRGB, glDstRGB, glSrcAlpha, glDstAlpha BlendFac
 	C.rlSetBlendFactorsSeparate(cglSrcRGB, cglDstRGB, cglSrcAlpha, cglDstAlpha, cglEqRGB, cglEqAlpha)
 }
 
+func SetBlendColor(c Color) {
+	cr := C.uchar(c.R)
+	cg := C.uchar(c.G)
+	cb := C.uchar(c.B)
+	ca := C.uchar(c.A)
+	C.rlSetBlendColor(cr, cg, cb, ca)
+}
+
 // GlInit - Initialize rlgl (buffers, shaders, textures, states)
 func GlInit(width int32, height int32) {
 	cwidth := C.int(width)
