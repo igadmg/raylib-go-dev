@@ -11,6 +11,9 @@ import (
 	"image/color"
 	"runtime"
 	"unsafe"
+
+	"github.com/igadmg/raylib-go/raymath/rect2"
+	"github.com/igadmg/raylib-go/raymath/vector2"
 )
 
 type PackContext struct {
@@ -169,15 +172,15 @@ type TextureAtlasItem struct {
 }
 
 func (t TextureAtlasItem) DrawExDef(position Vector2) {
-	DrawTexturePro(t.Texture, t.Rect, NewRectangleV(position, t.Rect.Size()), Vector2Zero(), 0, White)
+	DrawTexturePro(t.Texture, t.Rect, rect2.NewFloat32(position, t.Rect.Size()), vector2.Zero[float32](), 0, White)
 }
 
 func (t TextureAtlasItem) DrawProDef(destRec Rectangle) {
-	DrawTexturePro(t.Texture, t.Rect, destRec, Vector2Zero(), 0, White)
+	DrawTexturePro(t.Texture, t.Rect, destRec, vector2.Zero[float32](), 0, White)
 }
 
 func (t TextureAtlasItem) DrawProTintedDef(destRec Rectangle, tint color.RGBA) {
-	DrawTexturePro(t.Texture, t.Rect, destRec, Vector2Zero(), 0, tint)
+	DrawTexturePro(t.Texture, t.Rect, destRec, vector2.Zero[float32](), 0, tint)
 }
 
 type TextureAtlas struct {

@@ -27,6 +27,41 @@ func New[T rm.SignedNumber](position vector2.Vector[T], size vector2.Vector[T]) 
 	}
 }
 
+func NewT[T rm.SignedNumber, PT, ST rm.SignedNumber](position vector2.Vector[PT], size vector2.Vector[ST]) Rectangle[T] {
+	return Rectangle[T]{
+		position: vector2.To[T](position),
+		size:     vector2.To[T](size),
+	}
+}
+
+func NewFloat64[PT, ST rm.SignedNumber](position vector2.Vector[PT], size vector2.Vector[ST]) Float64 {
+	return NewT[float64](position, size)
+}
+
+func NewFloat32[PT, ST rm.SignedNumber](position vector2.Vector[PT], size vector2.Vector[ST]) Float32 {
+	return NewT[float32](position, size)
+}
+
+func NewInt[PT, ST rm.SignedNumber](position vector2.Vector[PT], size vector2.Vector[ST]) Int {
+	return NewT[int](position, size)
+}
+
+func NewInt64[PT, ST rm.SignedNumber](position vector2.Vector[PT], size vector2.Vector[ST]) Int64 {
+	return NewT[int64](position, size)
+}
+
+func NewInt32[PT, ST rm.SignedNumber](position vector2.Vector[PT], size vector2.Vector[ST]) Int32 {
+	return NewT[int32](position, size)
+}
+
+func NewInt16[PT, ST rm.SignedNumber](position vector2.Vector[PT], size vector2.Vector[ST]) Int16 {
+	return NewT[int16](position, size)
+}
+
+func NewInt8[PT, ST rm.SignedNumber](position vector2.Vector[PT], size vector2.Vector[ST]) Int8 {
+	return NewT[int8](position, size)
+}
+
 func Zero[T rm.SignedNumber]() Rectangle[T] {
 	return Rectangle[T]{
 		position: vector2.Zero[T](),

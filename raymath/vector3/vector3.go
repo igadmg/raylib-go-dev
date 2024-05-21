@@ -37,6 +37,42 @@ func New[T rm.SignedNumber](x T, y T, z T) Vector[T] {
 	}
 }
 
+func NewT[T rm.SignedNumber, XT, YT, ZT rm.Number](x XT, y YT, z ZT) Vector[T] {
+	return Vector[T]{
+		x: T(x),
+		y: T(y),
+		z: T(z),
+	}
+}
+
+func NewFloat64[XT, YT, ZT rm.Number](x XT, y YT, z ZT) Float64 {
+	return NewT[float64](x, y, z)
+}
+
+func NewFloat32[XT, YT, ZT rm.Number](x XT, y YT, z ZT) Float32 {
+	return NewT[float32](x, y, z)
+}
+
+func NewInt[XT, YT, ZT rm.Number](x XT, y YT, z ZT) Int {
+	return NewT[int](x, y, z)
+}
+
+func NewInt64[XT, YT, ZT rm.Number](x XT, y YT, z ZT) Int64 {
+	return NewT[int64](x, y, z)
+}
+
+func NewInt32[XT, YT, ZT rm.Number](x XT, y YT, z ZT) Int32 {
+	return NewT[int32](x, y, z)
+}
+
+func NewInt16[XT, YT, ZT rm.Number](x XT, y YT, z ZT) Int16 {
+	return NewT[int16](x, y, z)
+}
+
+func NewInt8[XT, YT, ZT rm.Number](x XT, y YT, z ZT) Int8 {
+	return NewT[int8](x, y, z)
+}
+
 // Fill creates a vector where each component is equal to v
 func Fill[T rm.SignedNumber](v T) Vector[T] {
 	return Vector[T]{
@@ -248,36 +284,40 @@ func (v Vector[T]) MaxComponent() T {
 	return max(v.x, v.y, v.z)
 }
 
-func (v Vector[T]) ToInt() Vector[int] {
-	return Vector[int]{
-		x: int(v.x),
-		y: int(v.y),
-		z: int(v.z),
+func To[T, OT rm.SignedNumber](v Vector[OT]) Vector[T] {
+	return Vector[T]{
+		x: T(v.x),
+		y: T(v.y),
+		z: T(v.z),
 	}
 }
 
 func (v Vector[T]) ToFloat64() Vector[float64] {
-	return Vector[float64]{
-		x: float64(v.x),
-		y: float64(v.y),
-		z: float64(v.z),
-	}
+	return To[float64](v)
 }
 
 func (v Vector[T]) ToFloat32() Vector[float32] {
-	return Vector[float32]{
-		x: float32(v.x),
-		y: float32(v.y),
-		z: float32(v.z),
-	}
+	return To[float32](v)
+}
+
+func (v Vector[T]) ToInt() Vector[int] {
+	return To[int](v)
 }
 
 func (v Vector[T]) ToInt64() Vector[int64] {
-	return Vector[int64]{
-		x: int64(v.x),
-		y: int64(v.y),
-		z: int64(v.z),
-	}
+	return To[int64](v)
+}
+
+func (v Vector[T]) ToInt32() Vector[int32] {
+	return To[int32](v)
+}
+
+func (v Vector[T]) ToInt16() Vector[int16] {
+	return To[int16](v)
+}
+
+func (v Vector[T]) ToInt8() Vector[int8] {
+	return To[int8](v)
 }
 
 // X returns the x component
