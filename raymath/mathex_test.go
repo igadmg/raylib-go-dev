@@ -3,7 +3,7 @@ package raymath_test
 import (
 	"testing"
 
-	"github.com/igadmg/raylib-go/raymath/mathex"
+	rm "github.com/igadmg/raylib-go/raymath"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -21,7 +21,7 @@ func TestLerp(t *testing.T) {
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			got := mathex.Lerp(tc.t, tc.left, tc.right)
+			got := rm.Lerp(tc.t, tc.left, tc.right)
 
 			assert.InDelta(t, tc.want, got, 0.000001)
 		})
@@ -42,7 +42,7 @@ func TestLerpInt(t *testing.T) {
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			got := mathex.Lerp(tc.t, tc.left, tc.right)
+			got := rm.Lerp(tc.t, tc.left, tc.right)
 
 			assert.InDelta(t, tc.want, got, 0.000001)
 		})
@@ -63,7 +63,7 @@ func TestNormalize(t *testing.T) {
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			got := mathex.Normalize(tc.t, tc.left, tc.right)
+			got := rm.Normalize(tc.t, tc.left, tc.right)
 
 			assert.InDelta(t, tc.want, got, 0.000001)
 		})
@@ -84,7 +84,7 @@ func TestNormalizeInt(t *testing.T) {
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			got := mathex.Normalize(tc.t, tc.left, tc.right)
+			got := rm.Normalize(tc.t, tc.left, tc.right)
 
 			assert.InDelta(t, tc.want, got, 0.000001)
 		})
@@ -107,7 +107,7 @@ func TestRemap(t *testing.T) {
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			got := mathex.Remap(tc.t, tc.left, tc.right, tc.left2, tc.right2)
+			got := rm.Remap(tc.t, tc.left, tc.right, tc.left2, tc.right2)
 
 			assert.InDelta(t, tc.want, got, 0.000001)
 		})
@@ -130,7 +130,7 @@ func TestRemapInt(t *testing.T) {
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			got := mathex.Remap(tc.t, tc.left, tc.right, tc.left2, tc.right2)
+			got := rm.Remap(tc.t, tc.left, tc.right, tc.left2, tc.right2)
 
 			assert.InDelta(t, tc.want, got, 0.000001)
 		})
@@ -151,7 +151,7 @@ func TestWrap(t *testing.T) {
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			got := mathex.Wrap(tc.t, tc.left, tc.right)
+			got := rm.Wrap(tc.t, tc.left, tc.right)
 
 			assert.InDelta(t, tc.want, got, 0.000001)
 		})

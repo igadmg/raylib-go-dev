@@ -3,8 +3,7 @@ package rect2_test
 import (
 	"testing"
 
-	//. "github.com/igadmg/raylib-go/raymath/test"
-	. "github.com/igadmg/raylib-go/raylib/test"
+	. "github.com/igadmg/raylib-go/raymath/test"
 	"github.com/igadmg/raylib-go/raymath/rect2"
 	"github.com/igadmg/raylib-go/raymath/vector2"
 )
