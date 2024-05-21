@@ -8,8 +8,8 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/EliCDavis/vector/mathex"
-	rl "github.com/gen2brain/raylib-go/raylib"
+	rl "github.com/igadmg/raylib-go/raylib"
+	rm "github.com/igadmg/raylib-go/raymath"
 )
 
 // ShapeType type
@@ -945,7 +945,7 @@ func solveCircleToCircle(manifold *Manifold) {
 		return
 	}
 
-	distance := mathex.Sqrt(distSqr)
+	distance := rm.Sqrt(distSqr)
 	manifold.ContactsCount = 1
 	if distance == 0 {
 		manifold.Penetration = bodyA.Shape.Radius
@@ -1227,9 +1227,9 @@ func initializeManifolds(manifold *Manifold) {
 	}
 
 	// // Calculate average restitution, static and dynamic friction
-	manifold.Restitution = mathex.Sqrt(bodyA.Restitution * bodyB.Restitution)
-	manifold.StaticFriction = mathex.Sqrt(bodyA.StaticFriction * bodyB.StaticFriction)
-	manifold.DynamicFriction = mathex.Sqrt(bodyA.DynamicFriction * bodyB.DynamicFriction)
+	manifold.Restitution = rm.Sqrt(bodyA.Restitution * bodyB.Restitution)
+	manifold.StaticFriction = rm.Sqrt(bodyA.StaticFriction * bodyB.StaticFriction)
+	manifold.DynamicFriction = rm.Sqrt(bodyA.DynamicFriction * bodyB.DynamicFriction)
 
 	for i := 0; i < manifold.ContactsCount; i++ {
 		// Caculate radius from center of mass to contact
@@ -1262,7 +1262,7 @@ func integrateImpulses(manifold *Manifold) {
 	}
 
 	// Early out and positional correct if both objects have infinite mass
-	if mathex.Abs(bodyA.InverseMass+bodyB.InverseMass) <= epsilon {
+	if rm.Abs(bodyA.InverseMass+bodyB.InverseMass) <= epsilon {
 		bodyA.Velocity = rl.Vector2{}
 		bodyB.Velocity = rl.Vector2{}
 		return
@@ -1341,7 +1341,7 @@ func integrateImpulses(manifold *Manifold) {
 		impulseTangent /= inverseMassSum
 		impulseTangent /= float32(manifold.ContactsCount)
 
-		absImpulseTangent := mathex.Abs(impulseTangent)
+		absImpulseTangent := rm.Abs(impulseTangent)
 
 		// Don't apply tiny friction impulses
 		if absImpulseTangent <= epsilon {
@@ -1579,7 +1579,7 @@ func getCurrentTime() float32 {
 // normalize - Returns the normalized values of a vector
 func normalize(vector *rl.Vector2) {
 	aux := *vector
-	length := mathex.Sqrt(aux.X*aux.X + aux.Y*aux.Y)
+	length := rm.Sqrt(aux.X*aux.X + aux.Y*aux.Y)
 	if length == 0 {
 		length = 1.0
 	}

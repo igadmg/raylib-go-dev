@@ -4,7 +4,7 @@ package rl
 import (
 	"math"
 
-	"github.com/EliCDavis/vector/mathex"
+	mathex "github.com/igadmg/raylib-go/raymath"
 )
 
 // Vector2LineAngle - Calculate angle defined by a two vectors line

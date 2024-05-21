@@ -14,11 +14,11 @@ import (
 	"runtime"
 	"unsafe"
 
-	"github.com/EliCDavis/vector"
-	"github.com/EliCDavis/vector/vector2"
-	"github.com/EliCDavis/vector/vector3"
-	"github.com/EliCDavis/vector/vector4"
-	"github.com/gen2brain/raylib-go/raylib/rect2"
+	rm "github.com/igadmg/raylib-go/raymath"
+	"github.com/igadmg/raylib-go/raymath/rect2"
+	"github.com/igadmg/raylib-go/raymath/vector2"
+	"github.com/igadmg/raylib-go/raymath/vector3"
+	"github.com/igadmg/raylib-go/raymath/vector4"
 )
 
 func init() {
@@ -601,23 +601,16 @@ func NewColor(r, g, b, a uint8) color.RGBA {
 type Rectangle = rect2.Float32
 type RectangleInt32 = rect2.Int32
 
-//type Rectangle struct {
-//	X      float32
-//	Y      float32
-//	Width  float32
-//	Height float32
-//}
-
 // NewRectangle - Returns new Rectangle
 func NewRectangle[XT, YT, WT, HT CoordinateT](x XT, y YT, width WT, height HT) Rectangle {
 	return rect2.New(vector2.New(float32(x), float32(y)), vector2.New(float32(width), float32(height)))
 }
 
-func NewRectangleV[XYT, WHT vector.Number](xy vector2.Vector[XYT], wh vector2.Vector[WHT]) Rectangle {
+func NewRectangleV[XYT, WHT rm.SignedNumber](xy vector2.Vector[XYT], wh vector2.Vector[WHT]) Rectangle {
 	return rect2.New(xy.ToFloat32(), wh.ToFloat32())
 }
 
-func NewRectangleWHV[WHT vector.Number](wh vector2.Vector[WHT]) Rectangle {
+func NewRectangleWHV[WHT rm.SignedNumber](wh vector2.Vector[WHT]) Rectangle {
 	return rect2.New(vector2.Zero[float32](), wh.ToFloat32())
 }
 

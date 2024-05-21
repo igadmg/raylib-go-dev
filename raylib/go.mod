@@ -1,11 +1,11 @@
-module github.com/gen2brain/raylib-go/raylib
+module github.com/igadmg/raylib-go/raylib
 
 go 1.21
 
-replace github.com/EliCDavis/vector => ../vector
+replace github.com/igadmg/raylib-go/raymath => ../raymath
 
 require (
-	github.com/EliCDavis/vector v1.6.0
+	github.com/igadmg/raylib-go/raymath v1.6.0
 	github.com/ebitengine/purego v0.7.1
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/sys v0.19.0

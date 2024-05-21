@@ -3,10 +3,10 @@ package raygui_test
 import (
 	"testing"
 
-	//. "github.com/EliCDavis/vector/test"
-	rg "github.com/gen2brain/raylib-go/raygui"
-	rl "github.com/gen2brain/raylib-go/raylib"
-	. "github.com/gen2brain/raylib-go/raylib/test"
+	//. "github.com/igadmg/raylib-go/raymath/test"
+	rg "github.com/igadmg/raylib-go/raygui"
+	rl "github.com/igadmg/raylib-go/raylib"
+	. "github.com/igadmg/raylib-go/raylib/test"
 )
 
 func TestCanvasLayout(t *testing.T) {

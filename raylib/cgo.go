@@ -12,9 +12,9 @@ import (
 	"image/color"
 	"unsafe"
 
-	"github.com/EliCDavis/vector/vector2"
-	"github.com/EliCDavis/vector/vector3"
-	"github.com/EliCDavis/vector/vector4"
+	"github.com/igadmg/raylib-go/raymath/vector2"
+	"github.com/igadmg/raylib-go/raymath/vector3"
+	"github.com/igadmg/raylib-go/raymath/vector4"
 )
 
 // core
