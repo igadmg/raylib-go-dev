@@ -1,11 +1,11 @@
-# github.com/gen2brain/raylib-go/raylib
+# github.com/igadmg/raylib-go/raylib
 In file included from ../external/raylib/src/rcore.c:114,
                  from cgo_rcore.c:1:
 ../external/raylib/src/rlgl.h: In function 'rlSetVertexAttribute':
 ../external/raylib/src/rlgl.h:4008:70: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
  4008 |     glVertexAttribPointer(index, compSize, type, normalized, stride, (void *)offset);
       |                                                                      ^
-# github.com/gen2brain/raylib-go/raylib
+# github.com/igadmg/raylib-go/raylib
 ./raylib.go:596:6: can inline NewColor with cost 10 as: func(uint8, uint8, uint8, uint8) color.RGBA { return color.RGBA{...} }
 ../vector/vector2/vector2.go:28:6: can inline vector2.New[go.shape.float32] with cost 6 as: func(*[2]uintptr, go.shape.float32, go.shape.float32) vector2.Vector[go.shape.float32] { return vector2.Vector[go.shape.float32]{...} }
 ./raylib.go:512:6: can inline NewVector2[go.shape.int,go.shape.int] with cost 15 as: func(*[4]uintptr, go.shape.int, go.shape.int) vector2.Vector[float32] { return vector2.New[go.shape.float32](&vector2..dict.New[float32], float32(x), float32(y)) }
@@ -2195,11 +2195,11 @@ C:\Program Files\Go\src\slices\slices.go:235:16: inlining call to slices.IndexFu
 ./rtextures.go:105:6: can inline LoadImageFromTexture with cost 80 as: func(*Texture2D) Image { ctexture := (*Texture2D).cptr(texture); ret := _Cfunc_LoadImageFromTexture(ctexture); return *newImageFromPointer(&ret) }
 ./rtextures.go:106:26: inlining call to (*Texture2D).cptr
 ./rtextures.go:108:29: inlining call to newImageFromPointer
-./rtextures.go:17:6: can inline ptr[go.shape.struct { github.com/gen2brain/raylib-go/raylib.data unsafe.Pointer; Width int32; Height int32; Mipmaps int32; Format github.com/gen2brain/raylib-go/raylib.PixelFormat }] with cost 3 as: func(*[2]uintptr, go.shape.struct { github.com/gen2brain/raylib-go/raylib.data unsafe.Pointer; Width int32; Height int32; Mipmaps int32; Format github.com/gen2brain/raylib-go/raylib.PixelFormat }) *go.shape.struct { github.com/gen2brain/raylib-go/raylib.data unsafe.Pointer; Width int32; Height int32; Mipmaps int32; Format github.com/gen2brain/raylib-go/raylib.PixelFormat } { return &x }
+./rtextures.go:17:6: can inline ptr[go.shape.struct { github.com/igadmg/raylib-go/raylib.data unsafe.Pointer; Width int32; Height int32; Mipmaps int32; Format github.com/igadmg/raylib-go/raylib.PixelFormat }] with cost 3 as: func(*[2]uintptr, go.shape.struct { github.com/igadmg/raylib-go/raylib.data unsafe.Pointer; Width int32; Height int32; Mipmaps int32; Format github.com/igadmg/raylib-go/raylib.PixelFormat }) *go.shape.struct { github.com/igadmg/raylib-go/raylib.data unsafe.Pointer; Width int32; Height int32; Mipmaps int32; Format github.com/igadmg/raylib-go/raylib.PixelFormat } { return &x }
 ./rtextures.go:118:9: cannot inline ReloadImageFromTexture.func1: function too complex: cost 134 exceeds budget 80
 ./rtextures.go:111:6: cannot inline ReloadImageFromTexture: function too complex: cost 195 exceeds budget 80
 ./rtextures.go:113:34: inlining call to LoadImageFromTexture
-./rtextures.go:113:13: inlining call to ptr[go.shape.struct { github.com/gen2brain/raylib-go/raylib.data unsafe.Pointer; Width int32; Height int32; Mipmaps int32; Format github.com/gen2brain/raylib-go/raylib.PixelFormat }]
+./rtextures.go:113:13: inlining call to ptr[go.shape.struct { github.com/igadmg/raylib-go/raylib.data unsafe.Pointer; Width int32; Height int32; Mipmaps int32; Format github.com/igadmg/raylib-go/raylib.PixelFormat }]
 ./rtextures.go:116:26: inlining call to (*Texture2D).cptr
 ./rtextures.go:117:22: inlining call to (*Image).cptr
 ./rtextures.go:119:28: inlining call to newImageFromPointer
@@ -2213,12 +2213,12 @@ C:\Program Files\Go\src\slices\slices.go:235:16: inlining call to slices.IndexFu
 ./rtextures.go:137:6: cannot inline LoadTexture: function too complex: cost 155 exceeds budget 80
 ./rtextures.go:138:24: inlining call to textAlloc
 ./rtextures.go:140:33: inlining call to newTexture2DFromPointer
-./rtextures.go:17:6: can inline ptr[go.shape.struct { ID uint32; Width int32; Height int32; Mipmaps int32; Format github.com/gen2brain/raylib-go/raylib.PixelFormat }] with cost 3 as: func(*[2]uintptr, go.shape.struct { ID uint32; Width int32; Height int32; Mipmaps int32; Format github.com/gen2brain/raylib-go/raylib.PixelFormat }) *go.shape.struct { ID uint32; Width int32; Height int32; Mipmaps int32; Format github.com/gen2brain/raylib-go/raylib.PixelFormat } { return &x }
+./rtextures.go:17:6: can inline ptr[go.shape.struct { ID uint32; Width int32; Height int32; Mipmaps int32; Format github.com/igadmg/raylib-go/raylib.PixelFormat }] with cost 3 as: func(*[2]uintptr, go.shape.struct { ID uint32; Width int32; Height int32; Mipmaps int32; Format github.com/igadmg/raylib-go/raylib.PixelFormat }) *go.shape.struct { ID uint32; Width int32; Height int32; Mipmaps int32; Format github.com/igadmg/raylib-go/raylib.PixelFormat } { return &x }
 ./rtextures.go:233:2: cannot inline UpdateTextureFromImage.func1: function too complex: cost 135 exceeds budget 80
 ./rtextures.go:231:6: cannot inline UpdateTextureFromImage: function too complex: cost 82 exceeds budget 80
 ./rtextures.go:232:26: inlining call to (*Texture2D).cptr
 ./rtextures.go:150:6: cannot inline ReloadTextureFromImage: function too complex: cost 135 exceeds budget 80
-./rtextures.go:152:13: inlining call to ptr[go.shape.struct { ID uint32; Width int32; Height int32; Mipmaps int32; Format github.com/gen2brain/raylib-go/raylib.PixelFormat }]
+./rtextures.go:152:13: inlining call to ptr[go.shape.struct { ID uint32; Width int32; Height int32; Mipmaps int32; Format github.com/igadmg/raylib-go/raylib.PixelFormat }]
 ./rtextures.go:174:9: cannot inline LoadTextureCubemap.func1: function too complex: cost 134 exceeds budget 80
 ./rtextures.go:171:6: cannot inline LoadTextureCubemap: function too complex: cost 99 exceeds budget 80
 ./rtextures.go:172:22: inlining call to (*Image).cptr
@@ -9729,10 +9729,10 @@ C:\Program Files\Go\src\slices\slices.go:235:16: inlining call to slices.IndexFu
 ../vector/vector2/rw.go:19:47: inlining call to math.Float64bits
 ../vector/vector2/rw.go:24:43: inlining call to math.Float32bits
 ../vector/vector2/rw.go:25:47: inlining call to math.Float32bits
-./rtextures.go:17:6: can inline ptr[github.com/gen2brain/raylib-go/raylib.Texture2D] with cost 9 as: func(Texture2D) *Texture2D { return ptr[go.shape.struct { ID uint32; Width int32; Height int32; Mipmaps int32; Format github.com/gen2brain/raylib-go/raylib.PixelFormat }](&.dict.ptr[github.com/gen2brain/raylib-go/raylib.Texture2D], x) }
-./rtextures.go:17:6: inlining call to ptr[go.shape.struct { ID uint32; Width int32; Height int32; Mipmaps int32; Format github.com/gen2brain/raylib-go/raylib.PixelFormat }]
-./rtextures.go:17:6: can inline ptr[github.com/gen2brain/raylib-go/raylib.Image] with cost 9 as: func(Image) *Image { return ptr[go.shape.struct { github.com/gen2brain/raylib-go/raylib.data unsafe.Pointer; Width int32; Height int32; Mipmaps int32; Format github.com/gen2brain/raylib-go/raylib.PixelFormat }](&.dict.ptr[github.com/gen2brain/raylib-go/raylib.Image], x) }
-./rtextures.go:17:6: inlining call to ptr[go.shape.struct { github.com/gen2brain/raylib-go/raylib.data unsafe.Pointer; Width int32; Height int32; Mipmaps int32; Format github.com/gen2brain/raylib-go/raylib.PixelFormat }]
+./rtextures.go:17:6: can inline ptr[github.com/igadmg/raylib-go/raylib.Texture2D] with cost 9 as: func(Texture2D) *Texture2D { return ptr[go.shape.struct { ID uint32; Width int32; Height int32; Mipmaps int32; Format github.com/igadmg/raylib-go/raylib.PixelFormat }](&.dict.ptr[github.com/igadmg/raylib-go/raylib.Texture2D], x) }
+./rtextures.go:17:6: inlining call to ptr[go.shape.struct { ID uint32; Width int32; Height int32; Mipmaps int32; Format github.com/igadmg/raylib-go/raylib.PixelFormat }]
+./rtextures.go:17:6: can inline ptr[github.com/igadmg/raylib-go/raylib.Image] with cost 9 as: func(Image) *Image { return ptr[go.shape.struct { github.com/igadmg/raylib-go/raylib.data unsafe.Pointer; Width int32; Height int32; Mipmaps int32; Format github.com/igadmg/raylib-go/raylib.PixelFormat }](&.dict.ptr[github.com/igadmg/raylib-go/raylib.Image], x) }
+./rtextures.go:17:6: inlining call to ptr[go.shape.struct { github.com/igadmg/raylib-go/raylib.data unsafe.Pointer; Width int32; Height int32; Mipmaps int32; Format github.com/igadmg/raylib-go/raylib.PixelFormat }]
 C:\Program Files\Go\src\slices\slices.go:234:6: can inline slices.DeleteFunc[[]uint32,uint32] with cost 64 as: func([]uint32, func(uint32) bool) []uint32 { return slices.DeleteFunc[go.shape.[]uint32,go.shape.uint32](&slices..dict.DeleteFunc[[]uint32,uint32], slices.s, slices.del) }
 C:\Program Files\Go\src\slices\slices.go:115:6: can inline slices.Contains[[]uint32,uint32] with cost 33 as: func([]uint32, uint32) bool { return slices.Contains[go.shape.[]uint32,go.shape.uint32](&slices..dict.Contains[[]uint32,uint32], slices.s, slices.v) }
 C:\Program Files\Go\src\slices\slices.go:115:6: inlining call to slices.Contains[go.shape.[]uint32,go.shape.uint32]
@@ -33008,7 +33008,7 @@ C:\Program Files\Go\src\slices\slices.go:234:32:     from return slices.s (retur
 ./rtextures.go:17:6:     from return ~r0 (return) at ./rtextures.go:17:6
 ./rtextures.go:17:17: parameter x leaks to x with derefs=0:
 ./rtextures.go:17:17:   flow: x = x:
-./rtextures.go:17:17:     from .dict, x := &.dict.ptr[github.com/gen2brain/raylib-go/raylib.Image], x (assign-pair) at ./rtextures.go:17:6
+./rtextures.go:17:17:     from .dict, x := &.dict.ptr[github.com/igadmg/raylib-go/raylib.Image], x (assign-pair) at ./rtextures.go:17:6
 ./rtextures.go:17:6: moved to heap: x
 C:\Program Files\Go\src\slices\slices.go:234:32: parameter slices.s leaks to slices.~r0 with derefs=0:
 C:\Program Files\Go\src\slices\slices.go:234:32:   flow: {temp} = slices.s:

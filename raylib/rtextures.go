@@ -11,7 +11,7 @@ import (
 	"image/color"
 	"unsafe"
 
-	"github.com/EliCDavis/vector/vector2"
+	"github.com/igadmg/raylib-go/raymath/vector2"
 )
 
 func ptr[T any](x T) *T {
