@@ -31,6 +31,41 @@ func New[T rm.SignedNumber](x T, y T) Vector[T] {
 	}
 }
 
+func NewT[T rm.SignedNumber, XT, YT rm.Number](x XT, y YT) Vector[T] {
+	return Vector[T]{
+		x: T(x),
+		y: T(y),
+	}
+}
+
+func NewFloat64[XT, YT rm.Number](x XT, y YT) Float64 {
+	return NewT[float64](x, y)
+}
+
+func NewFloat32[XT, YT rm.Number](x XT, y YT) Float32 {
+	return NewT[float32](x, y)
+}
+
+func NewInt[XT, YT rm.Number](x XT, y YT) Int {
+	return NewT[int](x, y)
+}
+
+func NewInt64[XT, YT rm.Number](x XT, y YT) Int64 {
+	return NewT[int64](x, y)
+}
+
+func NewInt32[XT, YT rm.Number](x XT, y YT) Int32 {
+	return NewT[int32](x, y)
+}
+
+func NewInt16[XT, YT rm.Number](x XT, y YT) Int16 {
+	return NewT[int16](x, y)
+}
+
+func NewInt8[XT, YT rm.Number](x XT, y YT) Int8 {
+	return NewT[int8](x, y)
+}
+
 // Fill creates a vector where each component is equal to v
 func Fill[T rm.SignedNumber](v T) Vector[T] {
 	return Vector[T]{
@@ -246,39 +281,39 @@ func (v Vector[T]) ToNpot() Vector[T] {
 	}
 }
 
-func (v Vector[T]) ToFloat64() Vector[float64] {
-	return Vector[float64]{
-		x: float64(v.x),
-		y: float64(v.y),
+func To[T, OT rm.SignedNumber](v Vector[OT]) Vector[T] {
+	return Vector[T]{
+		x: T(v.x),
+		y: T(v.y),
 	}
+}
+
+func (v Vector[T]) ToFloat64() Vector[float64] {
+	return To[float64](v)
 }
 
 func (v Vector[T]) ToFloat32() Vector[float32] {
-	return Vector[float32]{
-		x: float32(v.x),
-		y: float32(v.y),
-	}
+	return To[float32](v)
 }
 
 func (v Vector[T]) ToInt() Vector[int] {
-	return Vector[int]{
-		x: int(v.x),
-		y: int(v.y),
-	}
-}
-
-func (v Vector[T]) ToInt32() Vector[int32] {
-	return Vector[int32]{
-		x: int32(v.x),
-		y: int32(v.y),
-	}
+	return To[int](v)
 }
 
 func (v Vector[T]) ToInt64() Vector[int64] {
-	return Vector[int64]{
-		x: int64(v.x),
-		y: int64(v.y),
-	}
+	return To[int64](v)
+}
+
+func (v Vector[T]) ToInt32() Vector[int32] {
+	return To[int32](v)
+}
+
+func (v Vector[T]) ToInt16() Vector[int16] {
+	return To[int16](v)
+}
+
+func (v Vector[T]) ToInt8() Vector[int8] {
+	return To[int8](v)
 }
 
 func (v Vector[T]) X() T {

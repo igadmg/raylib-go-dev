@@ -10,6 +10,9 @@ import "C"
 import (
 	"image/color"
 	"unsafe"
+
+	"github.com/igadmg/raylib-go/raymath/vector2"
+	"github.com/igadmg/raylib-go/raymath/vector4"
 )
 
 // AutomationEvent - Automation event
@@ -197,7 +200,7 @@ func GetScreenHeight() int {
 }
 
 func GetScreenSize() Vector2Int {
-	return NewVector2Int(
+	return vector2.NewInt(
 		GetScreenWidth(),
 		GetScreenHeight(),
 	)
@@ -218,7 +221,7 @@ func GetRenderHeight() int {
 }
 
 func GetRenderSize() Vector2Int {
-	return NewVector2Int(
+	return vector2.NewInt(
 		GetRenderWidth(),
 		GetRenderHeight(),
 	)
@@ -605,7 +608,7 @@ func ColorToInt(col color.RGBA) int32 {
 
 // ColorNormalize - Returns color normalized as float [0..1]
 func ColorNormalize(col color.RGBA) Vector4 {
-	return NewVector4(
+	return vector4.NewFloat32(
 		float32(col.R)/255,
 		float32(col.G)/255,
 		float32(col.B)/255,

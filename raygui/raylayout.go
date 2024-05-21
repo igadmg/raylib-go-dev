@@ -2,6 +2,7 @@ package raygui
 
 import (
 	rl "github.com/igadmg/raylib-go/raylib"
+	"github.com/igadmg/raylib-go/raymath/rect2"
 )
 
 type Justyfy int
@@ -62,7 +63,7 @@ func CanvasLayout(bounds rl.Rectangle) canvasLayout {
 func (cl *canvasLayout) Layout(anchor rl.Vector2, pivot rl.Vector2, wh rl.Vector2) rl.Rectangle {
 	anchorp := anchor.MultByVector(cl.Bounds.Size())
 	pivotp := pivot.MultByVector(wh)
-	return rl.NewRectangleV(cl.Bounds.Position().Add(anchorp).Sub(pivotp), wh)
+	return rect2.NewFloat32(cl.Bounds.Position().Add(anchorp).Sub(pivotp), wh)
 }
 
 type horizontalLayout struct {

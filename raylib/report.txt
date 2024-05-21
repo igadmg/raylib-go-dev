@@ -56,7 +56,7 @@ In file included from ../external/raylib/src/rcore.c:114,
 ./raylib.go:508:33: inlining call to vector2.New[go.shape.float32]
 ./raylib.go:24:6: can inline init.0 with cost 59 as: func() { runtime.LockOSThread() }
 ./raylib.go:64:6: can inline NewWave with cost 20 as: func(uint32, uint32, uint32, uint32, []byte) Wave { d := unsafe.Pointer(&data[0]); return Wave{...} }
-./raylib.go:517:6: can inline Vector2Zero with cost 22 as: func() vector2.Vector[float32] { return NewVector2[go.shape.float64,go.shape.float64](&.dict.NewVector2[float64,float64], 0, 0) }
+./raylib.go:517:6: can inline vector2.Zero[float32] with cost 22 as: func() vector2.Vector[float32] { return NewVector2[go.shape.float64,go.shape.float64](&.dict.NewVector2[float64,float64], 0, 0) }
 ./raylib.go:518:19: inlining call to NewVector2[go.shape.float64,go.shape.float64]
 ./raylib.go:518:19: inlining call to vector2.New[go.shape.float32]
 ./raylib.go:522:6: can inline Vector2One with cost 22 as: func() vector2.Vector[float32] { return NewVector2[go.shape.float64,go.shape.float64](&.dict.NewVector2[float64,float64], 1, 1) }
@@ -74,10 +74,10 @@ In file included from ../external/raylib/src/rcore.c:114,
 ./raylib.go:566:6: can inline NewMatrix with cost 34 as: func(float32, float32, float32, float32, float32, float32, float32, float32, float32, float32, float32, float32, float32, float32, float32, float32) Matrix { return Matrix{...} }
 ./raylib.go:579:6: can inline NewMat2 with cost 10 as: func(float32, float32, float32, float32) Mat2 { return Mat2{...} }
 ../vector/vector4/vector4.go:34:6: can inline vector4.New[go.shape.float32] with cost 10 as: func(*[2]uintptr, go.shape.float32, go.shape.float32, go.shape.float32, go.shape.float32) vector4.Vector[go.shape.float32] { return vector4.Vector[go.shape.float32]{...} }
-./raylib.go:553:6: can inline NewVector4[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32] with cost 23 as: func(*[8]uintptr, go.shape.float32, go.shape.float32, go.shape.float32, go.shape.float32) vector4.Vector[float32] { return vector4.New[go.shape.float32](&vector4..dict.New[float32], float32(x), float32(y), float32(z), float32(w)) }
+./raylib.go:553:6: can inline vector4.NewFloat32[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32] with cost 23 as: func(*[8]uintptr, go.shape.float32, go.shape.float32, go.shape.float32, go.shape.float32) vector4.Vector[float32] { return vector4.New[go.shape.float32](&vector4..dict.New[float32], float32(x), float32(y), float32(z), float32(w)) }
 ./raylib.go:554:20: inlining call to vector4.New[go.shape.float32]
-./raylib.go:587:6: can inline NewQuaternion with cost 32 as: func(float32, float32, float32, float32) vector4.Vector[float32] { return NewVector4[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32](&.dict.NewVector4[float32,float32,float32,float32], x, y, z, w) }
-./raylib.go:588:19: inlining call to NewVector4[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32]
+./raylib.go:587:6: can inline NewQuaternion with cost 32 as: func(float32, float32, float32, float32) vector4.Vector[float32] { return vector4.NewFloat32[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32](&.dict.vector4.NewFloat32[float32,float32,float32,float32], x, y, z, w) }
+./raylib.go:588:19: inlining call to vector4.NewFloat32[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32]
 ./raylib.go:588:19: inlining call to vector4.New[go.shape.float32]
 ./raylib.go:642:6: can inline NewCamera3D with cost 12 as: func(vector3.Vector[float32], vector3.Vector[float32], vector3.Vector[float32], float32, CameraProjection) Camera3D { return Camera3D{...} }
 ./raylib.go:659:6: can inline NewCamera2D with cost 10 as: func(vector2.Vector[float32], vector2.Vector[float32], float32, float32) Camera2D { return Camera2D{...} }
@@ -233,7 +233,7 @@ _cgo_gotypes.go:2245:6: cannot inline _Cfunc_DrawTexturePro: marked go:cgo_unsaf
 ./raylib.go:1251:28: inlining call to vector2.Vector[go.shape.float32].SetY
 ./raylib.go:1255:6: cannot inline (*Texture2D).DrawProDef: function too complex: cost 139 exceeds budget 80
 ./raylib.go:1256:29: inlining call to (*Texture2D).GetRect
-./raylib.go:1256:53: inlining call to Vector2Zero
+./raylib.go:1256:53: inlining call to vector2.Zero[float32]
 ./raylib.go:1256:29: inlining call to NewRectangle[go.shape.int,go.shape.int,go.shape.int32,go.shape.int32]
 ./raylib.go:1256:53: inlining call to NewVector2[go.shape.float64,go.shape.float64]
 ./raylib.go:1256:29: inlining call to vector2.New[go.shape.float32]
@@ -244,7 +244,7 @@ _cgo_gotypes.go:2245:6: cannot inline _Cfunc_DrawTexturePro: marked go:cgo_unsaf
 ./raylib.go:1260:29: inlining call to (*Texture2D).GetRect
 ./raylib.go:1260:57: inlining call to NewVector2[go.shape.int,go.shape.int]
 ./raylib.go:1260:46: inlining call to rect2.Rectangle[go.shape.float32].ScaleByVectorF
-./raylib.go:1260:87: inlining call to Vector2Zero
+./raylib.go:1260:87: inlining call to vector2.Zero[float32]
 ./raylib.go:1260:29: inlining call to NewRectangle[go.shape.int,go.shape.int,go.shape.int32,go.shape.int32]
 ./raylib.go:1260:57: inlining call to vector2.New[go.shape.float32]
 ./raylib.go:1260:29: inlining call to vector2.New[go.shape.float32]
@@ -1002,18 +1002,18 @@ _cgo_gotypes.go:8849:6: cannot inline _cgoexp_da8dc6cb3afe_internalLoadFileTextC
 ./imgpack.go:171:6: cannot inline TextureAtlasItem.DrawExDef: function too complex: cost 145 exceeds budget 80
 ./imgpack.go:172:69: inlining call to rect2.Rectangle[go.shape.float32].WH
 ./imgpack.go:172:49: inlining call to NewRectangleV[go.shape.float32,go.shape.float32]
-./imgpack.go:172:85: inlining call to Vector2Zero
+./imgpack.go:172:85: inlining call to vector2.Zero[float32]
 ./imgpack.go:172:49: inlining call to vector2.Vector[go.shape.float32].ToFloat32
 ./imgpack.go:172:49: inlining call to vector2.Vector[go.shape.float32].ToFloat32
 ./imgpack.go:172:49: inlining call to rect2.New[go.shape.float32]
 ./imgpack.go:172:85: inlining call to NewVector2[go.shape.float64,go.shape.float64]
 ./imgpack.go:172:85: inlining call to vector2.New[go.shape.float32]
 ./imgpack.go:175:6: cannot inline TextureAtlasItem.DrawProDef: function too complex: cost 90 exceeds budget 80
-./imgpack.go:176:56: inlining call to Vector2Zero
+./imgpack.go:176:56: inlining call to vector2.Zero[float32]
 ./imgpack.go:176:56: inlining call to NewVector2[go.shape.float64,go.shape.float64]
 ./imgpack.go:176:56: inlining call to vector2.New[go.shape.float32]
 ./imgpack.go:179:6: cannot inline TextureAtlasItem.DrawProTintedDef: function too complex: cost 90 exceeds budget 80
-./imgpack.go:180:56: inlining call to Vector2Zero
+./imgpack.go:180:56: inlining call to vector2.Zero[float32]
 ./imgpack.go:180:56: inlining call to NewVector2[go.shape.float64,go.shape.float64]
 ./imgpack.go:180:56: inlining call to vector2.New[go.shape.float32]
 ./rtextures.go:146:9: cannot inline LoadTextureFromImage.func1: function too complex: cost 128 exceeds budget 80
@@ -1392,8 +1392,8 @@ _cgo_gotypes.go:8849:6: cannot inline _cgoexp_da8dc6cb3afe_internalLoadFileTextC
 ./rcore.go:595:20: inlining call to gocolorptr
 ./rcore.go:599:6: cannot inline ColorToInt: function too complex: cost 82 exceeds budget 80
 ./rcore.go:600:21: inlining call to ccolorptr
-./rcore.go:607:6: can inline ColorNormalize with cost 48 as: func(color.RGBA) vector4.Vector[float32] { return NewVector4[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32](&.dict.NewVector4[float32,float32,float32,float32], float32(col.R) / float32(255), float32(col.G) / float32(255), float32(col.B) / float32(255), float32(col.A) / float32(255)) }
-./rcore.go:608:19: inlining call to NewVector4[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32]
+./rcore.go:607:6: can inline ColorNormalize with cost 48 as: func(color.RGBA) vector4.Vector[float32] { return vector4.NewFloat32[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32](&.dict.vector4.NewFloat32[float32,float32,float32,float32], float32(col.R) / float32(255), float32(col.G) / float32(255), float32(col.B) / float32(255), float32(col.A) / float32(255)) }
+./rcore.go:608:19: inlining call to vector4.NewFloat32[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32]
 ./rcore.go:608:19: inlining call to vector4.New[go.shape.float32]
 ./rcore.go:616:6: cannot inline ColorFromNormalized: function too complex: cost 83 exceeds budget 80
 ./rcore.go:617:25: inlining call to cvec4ptr
@@ -9739,8 +9739,8 @@ C:\Program Files\Go\src\slices\slices.go:115:6: inlining call to slices.Contains
 C:\Program Files\Go\src\slices\slices.go:115:6: inlining call to slices.Index[go.shape.[]uint32,go.shape.uint32]
 ../vector/vector4/vector4.go:34:6: can inline vector4.New[float32] with cost 19 as: func(float32, float32, float32, float32) vector4.Vector[float32] { return vector4.New[go.shape.float32](&vector4..dict.New[float32], vector4.x, vector4.y, vector4.z, vector4.w) }
 ../vector/vector4/vector4.go:34:6: inlining call to vector4.New[go.shape.float32]
-./raylib.go:553:6: can inline NewVector4[float32,float32,float32,float32] with cost 32 as: func(float32, float32, float32, float32) vector4.Vector[float32] { return NewVector4[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32](&.dict.NewVector4[float32,float32,float32,float32], x, y, z, w) }
-./raylib.go:553:6: inlining call to NewVector4[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32]
+./raylib.go:553:6: can inline vector4.NewFloat32[float32,float32,float32,float32] with cost 32 as: func(float32, float32, float32, float32) vector4.Vector[float32] { return vector4.NewFloat32[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32](&.dict.vector4.NewFloat32[float32,float32,float32,float32], x, y, z, w) }
+./raylib.go:553:6: inlining call to vector4.NewFloat32[go.shape.float32,go.shape.float32,go.shape.float32,go.shape.float32]
 ./raylib.go:553:6: inlining call to vector4.New[go.shape.float32]
 ./raylib.go:527:6: can inline NewVector2Int[int,int] with cost 20 as: func(int, int) vector2.Vector[int] { return NewVector2Int[go.shape.int,go.shape.int](&.dict.NewVector2Int[int,int], x, y) }
 ./raylib.go:527:6: inlining call to NewVector2Int[go.shape.int,go.shape.int]

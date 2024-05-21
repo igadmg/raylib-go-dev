@@ -497,62 +497,19 @@ var (
 // Vector2 type
 type Vector2 = vector2.Float32
 type Vector2Int = vector2.Int
-
-var (
-	AnchorTopLeft      = NewVector2(0, 0)
-	AnchorTopRight     = NewVector2(1, 0)
-	AnchorTopCenter    = NewVector2(0.5, 0)
-	AnchorCenter       = NewVector2(0.5, 0.5)
-	AnchorBottomCenter = NewVector2(0.5, 1)
-	AnchorBottomLeft   = NewVector2(0, 1)
-	AnchorBottomRight  = NewVector2(1, 1)
-)
-
-// NewVector2 - Returns new Vector2
-func NewVector2[XT, YT CoordinateT](x XT, y YT) Vector2 {
-	return vector2.New(float32(x), float32(y))
-}
-
-// Vector2Zero - Vector with components value 0.0
-func Vector2Zero() Vector2 {
-	return NewVector2(0.0, 0.0)
-}
-
-// Vector2One - Vector with components value 1.0
-func Vector2One() Vector2 {
-	return NewVector2(1.0, 1.0)
-}
-
-// NewVector2 - Returns new Vector2
-func NewVector2Int[XT, YT CoordinateT](x XT, y YT) Vector2Int {
-	return vector2.New(int(x), int(y))
-}
-
-func Vector2IntZero() Vector2Int {
-	return NewVector2Int(0, 0)
-}
-
-// Vector2One - Vector with components value 1.0
-func Vector2IntOne() Vector2Int {
-	return NewVector2Int(1, 1)
-}
-
-// Vector3 type
 type Vector3 = vector3.Float32
 type Vector3Int = vector3.Int
-
-// NewVector3 - Returns new Vector3
-func NewVector3[XT, YT, ZT CoordinateT](x XT, y YT, z ZT) Vector3 {
-	return vector3.New(float32(x), float32(y), float32(z))
-}
-
-// Vector4 type
 type Vector4 = vector4.Float32
 
-// NewVector4 - Returns new Vector4
-func NewVector4[XT, YT, ZT, WT CoordinateT](x XT, y YT, z ZT, w WT) Vector4 {
-	return vector4.New(float32(x), float32(y), float32(z), float32(w))
-}
+var (
+	AnchorTopLeft      = vector2.NewFloat32(0, 0)
+	AnchorTopRight     = vector2.NewFloat32(1, 0)
+	AnchorTopCenter    = vector2.NewFloat32(0.5, 0)
+	AnchorCenter       = vector2.NewFloat32(0.5, 0.5)
+	AnchorBottomCenter = vector2.NewFloat32(0.5, 1)
+	AnchorBottomLeft   = vector2.NewFloat32(0, 1)
+	AnchorBottomRight  = vector2.NewFloat32(1, 1)
+)
 
 // Matrix type (OpenGL style 4x4 - right handed, column major)
 type Matrix struct {
@@ -585,7 +542,7 @@ type Quaternion = Vector4
 
 // NewQuaternion - Returns new Quaternion
 func NewQuaternion(x, y, z, w float32) Quaternion {
-	return NewVector4(x, y, z, w)
+	return vector4.NewFloat32(x, y, z, w)
 }
 
 // Color type, RGBA (32bit)
@@ -603,11 +560,7 @@ type RectangleInt32 = rect2.Int32
 
 // NewRectangle - Returns new Rectangle
 func NewRectangle[XT, YT, WT, HT CoordinateT](x XT, y YT, width WT, height HT) Rectangle {
-	return rect2.New(vector2.New(float32(x), float32(y)), vector2.New(float32(width), float32(height)))
-}
-
-func NewRectangleV[XYT, WHT rm.SignedNumber](xy vector2.Vector[XYT], wh vector2.Vector[WHT]) Rectangle {
-	return rect2.New(xy.ToFloat32(), wh.ToFloat32())
+	return rect2.New(vector2.NewFloat32(x, y), vector2.NewFloat32(width, height))
 }
 
 func NewRectangleWHV[WHT rm.SignedNumber](wh vector2.Vector[WHT]) Rectangle {
@@ -1156,7 +1109,7 @@ func (i *Image) Unload() {
 }
 
 func (i *Image) GetSize() Vector2 {
-	return NewVector2(i.Width, i.Height)
+	return vector2.NewFloat32(i.Width, i.Height)
 }
 
 func (i *Image) GetRect() Rectangle {
@@ -1200,7 +1153,7 @@ func (t *Texture2D) IsReady() bool {
 }
 
 func (t *Texture2D) GetSize() Vector2 {
-	return NewVector2(t.Width, t.Height)
+	return vector2.NewFloat32(t.Width, t.Height)
 }
 
 func (t *Texture2D) GetRect() Rectangle {
@@ -1240,17 +1193,17 @@ func (t *Texture2D) DrawPro(sourceRec, destRec Rectangle, origin Vector2, rotati
 }
 
 func (t *Texture2D) DrawFlippedPro(sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint color.RGBA) {
-	sourceRec = sourceRec.ScaleByVectorF(NewVector2(1, -1))
+	sourceRec = sourceRec.ScaleByVectorF(vector2.NewFloat32(1, -1))
 	sourceRec = sourceRec.SetY(float32(t.Height) + sourceRec.Height())
 	DrawTexturePro(t, sourceRec, destRec, origin, rotation, tint)
 }
 
 func (t *Texture2D) DrawProDef(destRec Rectangle) {
-	DrawTexturePro(t, t.GetRect(), destRec, Vector2Zero(), 0, White)
+	DrawTexturePro(t, t.GetRect(), destRec, vector2.Zero[float32](), 0, White)
 }
 
 func (t *Texture2D) DrawProFlippedDef(destRec Rectangle) {
-	DrawTexturePro(t, t.GetRect().ScaleByVectorF(NewVector2(1, -1)), destRec, Vector2Zero(), 0, White)
+	DrawTexturePro(t, t.GetRect().ScaleByVectorF(vector2.NewFloat32(1, -1)), destRec, vector2.Zero[float32](), 0, White)
 }
 
 func (t *Texture2D) DrawTiled(source, dest Rectangle, origin Vector2, rotation, scale float32, tint color.RGBA) {
