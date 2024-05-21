@@ -5,7 +5,7 @@ import (
 	"encoding/binary"
 	"testing"
 
-	"github.com/igadmg/raylib-go/raymath"
+	rm "github.com/igadmg/raylib-go/raymath"
 	"github.com/igadmg/raylib-go/raymath/vector4"
 	"github.com/stretchr/testify/assert"
 )
@@ -14,7 +14,7 @@ type testCaseI interface {
 	test(t *testing.T)
 }
 
-type readWriteTestCase[T vector.Number] struct {
+type readWriteTestCase[T rm.SignedNumber] struct {
 	val vector4.Vector[T]
 }
 
