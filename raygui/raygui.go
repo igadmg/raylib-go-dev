@@ -40,19 +40,22 @@ const (
 	STATE_DISABLED
 )
 
+// GuiTextAlignment .
+type GuiTextAlignment = int32
+
 // Gui control text alignment
 const (
-	TEXT_ALIGN_LEFT int32 = iota
+	TEXT_ALIGN_LEFT GuiTextAlignment = iota
 	TEXT_ALIGN_CENTER
 	TEXT_ALIGN_RIGHT
 )
 
-// GuiTextAlignment .
-type GuiTextAlignment = int32
+// GuiTextAlignmentVertical .
+type GuiTextAlignmentVertical = int32
 
 // Gui control text alignment vertical
 const (
-	TEXT_ALIGN_TOP int32 = iota
+	TEXT_ALIGN_TOP GuiTextAlignmentVertical = iota
 	TEXT_ALIGN_MIDDLE
 	TEXT_ALIGN_BOTTOM
 )
@@ -63,17 +66,17 @@ type GuiTextWrapMode = int32
 // Gui control text wrap mode
 // NOTE: Useful for multiline text
 const (
-	TEXT_WRAP_NONE int32 = iota
+	TEXT_WRAP_NONE GuiTextWrapMode = iota
 	TEXT_WRAP_CHAR
 	TEXT_WRAP_WORD
 )
 
-// GuiTextAlignmentVertical .
-type GuiTextAlignmentVertical = int32
+// GuiControl .
+type GuiControl = int32
 
 // DEFAULT - Gui controls
 const (
-	DEFAULT int32 = iota
+	DEFAULT GuiControl = iota
 	LABEL
 	BUTTON
 	TOGGLE
@@ -91,13 +94,13 @@ const (
 	STATUSBAR
 )
 
-// GuiControl .
-type GuiControl = int32
+// GuiControlProperty .
+type GuiControlProperty = int32
 
 // Gui base properties for every control
 // NOTE: RAYGUI_MAX_PROPS_BASE properties (by default 16 properties)
 const (
-	BORDER_COLOR_NORMAL int32 = iota
+	BORDER_COLOR_NORMAL GuiControlProperty = iota
 	BASE_COLOR_NORMAL
 	TEXT_COLOR_NORMAL
 	BORDER_COLOR_FOCUSED
@@ -114,13 +117,13 @@ const (
 	TEXT_ALIGNMENT
 )
 
-// GuiControlProperty .
-type GuiControlProperty = int32
+// GuiDefaultProperty .
+type GuiDefaultProperty = int32
 
 // DEFAULT extended properties
 // NOTE: Those properties are common to all controls or global
 const (
-	TEXT_SIZE int32 = iota + 16
+	TEXT_SIZE GuiDefaultProperty = iota + 16
 	TEXT_SPACING
 	LINE_COLOR
 	BACKGROUND_COLOR
@@ -128,9 +131,6 @@ const (
 	TEXT_ALIGNMENT_VERTICAL
 	TEXT_WRAP_MODE
 )
-
-// GuiDefaultProperty .
-type GuiDefaultProperty = int32
 
 // GROUP_PADDING .
 const (
@@ -437,6 +437,51 @@ func ComboBox(bounds rl.Rectangle, text string, active int32) int32 {
 	return int32(cactive)
 }
 
+type ComboBoxState[T any] struct {
+	items           []T
+	citemNames      *C.char
+	activeItemIndex int32
+}
+
+func (s *ComboBoxState[T]) Free() {
+	if s.citemNames != nil {
+		C.free(unsafe.Pointer(s.citemNames))
+	}
+}
+
+func (s *ComboBoxState[T]) SetItems(items []T, nameFn func(i T) string) {
+	s.items = items
+	itemNames := ""
+	for i, v := range s.items {
+		if i != 0 {
+			itemNames += ";"
+		}
+		itemNames += nameFn(v)
+	}
+
+	s.Free()
+	s.citemNames = C.CString(itemNames)
+}
+
+func (s *ComboBoxState[T]) IsActiveItem() bool {
+	return s.activeItemIndex != -1
+}
+
+func (s *ComboBoxState[T]) ActiveItem() T {
+	return s.items[s.activeItemIndex]
+}
+
+func (s *ComboBoxState[T]) SetActiveItemIndex(i int32) {
+	s.activeItemIndex = i
+}
+
+func (s *ComboBoxState[T]) ComboBox(bounds rl.Rectangle) {
+	cbounds := crect2ptr(&bounds)
+	cactive := (*C.int)(&s.activeItemIndex)
+
+	C.GuiComboBox(*cbounds, s.citemNames, cactive)
+}
+
 // Spinner control, returns selected value
 func Spinner(bounds rl.Rectangle, text string, value *int32, minValue, maxValue int, editMode bool) int32 {
 	cbounds := crect2ptr(&bounds)
@@ -635,6 +680,55 @@ func DropdownBox(bounds rl.Rectangle, text string, active *int32, editMode bool)
 	ceditMode := C.bool(editMode)
 
 	return C.GuiDropdownBox(*cbounds, ctext, &cactive, ceditMode) != 0
+}
+
+type DropdownBoxState[T any] struct {
+	items           []T
+	citemNames      *C.char
+	activeItemIndex int32
+	edit            bool
+}
+
+func (s *DropdownBoxState[T]) Free() {
+	if s.citemNames != nil {
+		C.free(unsafe.Pointer(s.citemNames))
+	}
+}
+
+func (s *DropdownBoxState[T]) SetItems(items []T, nameFn func(i T) string) {
+	s.items = items
+	itemNames := ""
+	for i, v := range s.items {
+		if i != 0 {
+			itemNames += ";"
+		}
+		itemNames += nameFn(v)
+	}
+
+	s.Free()
+	s.citemNames = C.CString(itemNames)
+}
+
+func (s *DropdownBoxState[T]) IsActiveItem() bool {
+	return s.activeItemIndex != -1
+}
+
+func (s *DropdownBoxState[T]) ActiveItem() T {
+	return s.items[s.activeItemIndex]
+}
+
+func (s *DropdownBoxState[T]) SetActiveItemIndex(i int32) {
+	s.activeItemIndex = i
+}
+
+func (s *DropdownBoxState[T]) DropdownBox(bounds rl.Rectangle) {
+	cbounds := crect2ptr(&bounds)
+	cactive := (*C.int)(&s.activeItemIndex)
+	cedit := (C.bool)(s.edit)
+
+	if C.GuiDropdownBox(*cbounds, s.citemNames, cactive, cedit) != 0 {
+		s.edit = !s.edit
+	}
 }
 
 // ValueBox control, updates input text with numbers
@@ -1045,9 +1139,8 @@ func (s *ListViewState[T]) SetItems(items []T, nameFn func(i T) string) {
 	for i, v := range s.items {
 		itemNames[i] = nameFn(v)
 	}
-	if !s.citemNames.IsNil() {
-		s.citemNames.Free()
-	}
+
+	s.Free()
 	s.citemNames = NewCStringArrayFromSlice(itemNames)
 }
 
