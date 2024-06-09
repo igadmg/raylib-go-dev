@@ -34,6 +34,11 @@ func Lerp[T Number](time float64, start, end T) T {
 }
 
 // Normalize - Normalize input value within input range
+func NormalizeF[T Number](value, start, end T) float32 {
+	return float32(value-start) / float32(end-start)
+}
+
+// Normalize - Normalize input value within input range
 func Normalize[T Number](value, start, end T) float64 {
 	return float64(value-start) / float64(end-start)
 }

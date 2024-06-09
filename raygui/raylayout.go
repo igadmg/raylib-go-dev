@@ -50,6 +50,10 @@ type layout struct {
 	Bounds rl.Rectangle
 }
 
+func (l *layout) Anchor(xy rl.Vector2) rl.Vector2 {
+	return l.Bounds.Size().NormalizeF(xy.Sub(l.Bounds.A()))
+}
+
 type canvasLayout struct {
 	layout
 }
