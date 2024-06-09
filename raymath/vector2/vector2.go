@@ -463,6 +463,20 @@ func (v Vector[T]) Normalized() Vector[T] {
 	return v.DivByConstant(v.Length())
 }
 
+func (v Vector[T]) NormalizeF(a Vector[T]) Float32 {
+	return Float32{
+		x: rm.NormalizeF(a.x, 0, v.x),
+		y: rm.NormalizeF(a.y, 0, v.y),
+	}
+}
+
+func (v Vector[T]) Normalize(a Vector[T]) Float64 {
+	return Float64{
+		x: rm.Normalize(a.x, 0, v.x),
+		y: rm.Normalize(a.y, 0, v.y),
+	}
+}
+
 func (v Vector[T]) Negated() Vector[T] {
 	return Vector[T]{
 		x: -v.x,
