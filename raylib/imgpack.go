@@ -9,10 +9,10 @@ import "C"
 import (
 	"fmt"
 	"image/color"
-	"iter"
 	"runtime"
 	"unsafe"
 
+	"github.com/DeedleFake/xiter"
 	"github.com/igadmg/raylib-go/raymath/rect2"
 	"github.com/igadmg/raylib-go/raymath/vector2"
 )
@@ -238,7 +238,7 @@ func (t *TextureAtlas) GetItemSet(ids ...int) []TextureAtlasItem {
 	return itemSet
 }
 
-func (t *TextureAtlas) GetItemSetIter(ids iter.Seq[int]) iter.Seq[TextureAtlasItem] {
+func (t *TextureAtlas) GetItemSetIter(ids xiter.Seq[int]) xiter.Seq[TextureAtlasItem] {
 	return func(yield func(TextureAtlasItem) bool) {
 		for id := range ids {
 			if !yield(t.GetItem(id)) {
