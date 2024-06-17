@@ -453,6 +453,14 @@ func (r Rectangle[T]) ZoomByXYF(x, y float32) Rectangle[T] {
 	}
 }
 
+func (r Rectangle[T]) Lerp(t vector2.Float64) vector2.Vector[T] {
+	return r.position.Add(r.Size().ScaleByVector(t))
+}
+
+func (r Rectangle[T]) LerpF(t vector2.Float32) vector2.Vector[T] {
+	return r.position.Add(r.Size().ScaleByVectorF(t))
+}
+
 func (r Rectangle[T]) Contains(v vector2.Vector[T]) bool {
 	return vector2.GreaterEq(v, r.A()) && vector2.LessEq(v, r.B())
 }
