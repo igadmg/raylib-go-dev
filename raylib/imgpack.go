@@ -9,6 +9,7 @@ import "C"
 import (
 	"fmt"
 	"image/color"
+	"iter"
 	"runtime"
 	"unsafe"
 
@@ -235,6 +236,16 @@ func (t *TextureAtlas) GetItemSet(ids ...int) []TextureAtlasItem {
 		itemSet[i] = t.GetItem(id)
 	}
 	return itemSet
+}
+
+func (t *TextureAtlas) GetItemSetIter(ids iter.Seq[int]) iter.Seq[TextureAtlasItem] {
+	return func(yield func(TextureAtlasItem) bool) {
+		for id := range ids {
+			if !yield(t.GetItem(id)) {
+				return
+			}
+		}
+	}
 }
 
 func (t *TextureAtlas) ToItemSet() []TextureAtlasItem {
