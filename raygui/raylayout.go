@@ -1,7 +1,10 @@
 package raygui
 
 import (
+	"iter"
+
 	rl "github.com/igadmg/raylib-go/raylib"
+	rm "github.com/igadmg/raylib-go/raymath"
 	"github.com/igadmg/raylib-go/raymath/rect2"
 )
 
@@ -44,6 +47,33 @@ func (j Justyfy) Justyfy(v, max float32) (nv, dv float32) {
 	}
 
 	return v, 0
+}
+
+func Spread[S ~[]E, E any](s S, a, b rl.Vector2, maxd, mind float32, justify Justyfy) iter.Seq2[rl.Vector2, E] {
+	count := len(s)
+	if count == 0 {
+		return func(yield func(rl.Vector2, E) bool) {}
+	} else if count == 1 {
+		return func(yield func(rl.Vector2, E) bool) { yield(a, s[0]) }
+	}
+
+	return func(yield func(rl.Vector2, E) bool) {
+		ab := b.Sub(a)
+		ab_length := ab.LengthF()
+		direction := ab.Normalized()
+		distance := rm.Clamp(ab_length/(float32(count)-1), mind, maxd)
+
+		_, dv := justify.Justyfy(min(distance*(float32(count)-1), ab_length), ab_length)
+		position := a.Add(direction.ScaleF(dv))
+		delta := direction.ScaleF(distance)
+		for _, e := range s {
+			if !yield(position, e) {
+				return
+			}
+
+			position = position.Add(delta)
+		}
+	}
 }
 
 type layout struct {
