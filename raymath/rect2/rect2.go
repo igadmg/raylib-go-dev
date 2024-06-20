@@ -231,6 +231,14 @@ func (r Rectangle[T]) Position() vector2.Vector[T] {
 	return r.position
 }
 
+// ResetPosition zero the xy component of the rectangle
+func (r Rectangle[T]) ResetPosition() Rectangle[T] {
+	return Rectangle[T]{
+		position: vector2.Zero[T](),
+		size:     r.size,
+	}
+}
+
 // SetPosition changes the xy component of the rectangle
 func (r Rectangle[T]) SetPosition(newXY vector2.Vector[T]) Rectangle[T] {
 	return Rectangle[T]{
@@ -463,4 +471,11 @@ func (r Rectangle[T]) LerpF(t vector2.Float32) vector2.Vector[T] {
 
 func (r Rectangle[T]) Contains(v vector2.Vector[T]) bool {
 	return vector2.GreaterEq(v, r.A()) && vector2.LessEq(v, r.B())
+}
+
+func (r Rectangle[T]) Pivot(anchor vector2.Vector[T], xy vector2.Vector[T]) Rectangle[T] {
+	return Rectangle[T]{
+		position: xy.Sub(anchor.MultByVector(r.size)),
+		size:     r.size,
+	}
 }
