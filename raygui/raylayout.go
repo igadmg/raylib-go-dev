@@ -81,7 +81,7 @@ type layout struct {
 }
 
 func (l *layout) Anchor(xy rl.Vector2) rl.Vector2 {
-	return l.Bounds.Size().NormalizeF(xy.Sub(l.Bounds.A()))
+	return l.Bounds.Size().NormalizeF(xy)
 }
 
 type canvasLayout struct {
