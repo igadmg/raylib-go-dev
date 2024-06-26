@@ -10,6 +10,7 @@ package raygui
 import "C"
 
 import (
+	"slices"
 	"strings"
 	"unsafe"
 
@@ -715,6 +716,10 @@ func (s *DropdownBoxState[T]) IsActiveItem() bool {
 
 func (s *DropdownBoxState[T]) ActiveItem() T {
 	return s.items[s.activeItemIndex]
+}
+
+func (s *DropdownBoxState[T]) SetActiveItem(fn func(T) bool) {
+	s.activeItemIndex = (int32)(slices.IndexFunc(s.items, fn))
 }
 
 func (s *DropdownBoxState[T]) SetActiveItemIndex(i int32) {
