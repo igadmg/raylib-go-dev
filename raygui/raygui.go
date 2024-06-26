@@ -721,14 +721,18 @@ func (s *DropdownBoxState[T]) SetActiveItemIndex(i int32) {
 	s.activeItemIndex = i
 }
 
-func (s *DropdownBoxState[T]) DropdownBox(bounds rl.Rectangle) {
+func (s *DropdownBoxState[T]) DropdownBox(bounds rl.Rectangle) bool {
 	cbounds := crect2ptr(&bounds)
 	cactive := (*C.int)(&s.activeItemIndex)
 	cedit := (C.bool)(s.edit)
 
 	if C.GuiDropdownBox(*cbounds, s.citemNames, cactive, cedit) != 0 {
 		s.edit = !s.edit
+
+		return !s.edit
 	}
+
+	return false
 }
 
 // ValueBox control, updates input text with numbers
