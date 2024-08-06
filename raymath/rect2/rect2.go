@@ -370,6 +370,13 @@ func (r Rectangle[T]) AddXYWH(x, y, w, h T) Rectangle[T] {
 	}
 }
 
+func (r Rectangle[T]) GrowXYWH(left, top, right, bottom T) Rectangle[T] {
+	return Rectangle[T]{
+		position: r.position.AddXY(-left, -top),
+		size:     r.size.AddXY(left+right, top+bottom),
+	}
+}
+
 func (r Rectangle[T]) ShrinkXYWH(left, top, right, bottom T) Rectangle[T] {
 	return Rectangle[T]{
 		position: r.position.AddXY(left, top),
