@@ -1,8 +1,6 @@
 module github.com/igadmg/raylib-go/easings
 
-go 1.22
-
-toolchain go1.22.3
+go 1.23.0
 
 replace github.com/igadmg/raylib-go/raymath => ../raymath
 

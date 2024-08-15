@@ -1,8 +1,6 @@
 module github.com/igadmg/raylib-go/raylib
 
-go 1.22.2
-
-toolchain go1.22.4
+go 1.23.0
 
 replace github.com/igadmg/raylib-go/raymath => ../raymath
 
