@@ -74,6 +74,7 @@ func LoadImageRaw(fileName string, width, height int32, format PixelFormat, head
 	return *newImageFromPointer(&ret)
 }
 
+/*
 // LoadImageSvg - Load image from SVG file data or string with specified size
 func LoadImageSvg(fileNameOrString string, width, height int32) Image {
 	cfileNameOrString := textAlloc(fileNameOrString)
@@ -83,6 +84,7 @@ func LoadImageSvg(fileNameOrString string, width, height int32) Image {
 	ret := C.LoadImageSvg(cfileNameOrString, cwidth, cheight)
 	return *newImageFromPointer(&ret)
 }
+*/
 
 // LoadImageAnim - Load image sequence from file (frames appended to image.data)
 func LoadImageAnim(fileName string, frames *int32) Image {
@@ -125,10 +127,10 @@ func LoadImageFromScreen() Image {
 	return *newImageFromPointer(&ret)
 }
 
-// IsImageReady - Check if an image is ready
-func IsImageReady(image *Image) bool {
+// IsImageValid - Check if an image is valid
+func IsImageValid(image *Image) bool {
 	cimage := image.cptr()
-	ret := C.IsImageReady(cimage)
+	ret := C.IsImageValid(cimage)
 	v := bool(ret)
 	return v
 }
@@ -181,10 +183,10 @@ func UnloadImage(image *Image) {
 	C.UnloadImage(cimage)
 }
 
-// IsTextureReady - Check if a texture is ready
-func IsTextureReady(texture *Texture2D) bool {
+// IsTextureValid - Check if a texture is valid
+func IsTextureValid(texture *Texture2D) bool {
 	ctexture := texture.cptr()
-	ret := C.IsTextureReady(ctexture)
+	ret := C.IsTextureValid(ctexture)
 	v := bool(ret)
 	return v
 }
@@ -195,10 +197,10 @@ func UnloadTexture(texture *Texture2D) {
 	C.UnloadTexture(ctexture)
 }
 
-// IsRenderTextureReady - Check if a render texture is ready
-func IsRenderTextureReady(target *RenderTexture2D) bool {
+// IsRenderTextureValid - Check if a render texture is valid
+func IsRenderTextureValid(target *RenderTexture2D) bool {
 	ctarget := target.cptr()
-	ret := C.IsRenderTextureReady(ctarget)
+	ret := C.IsRenderTextureValid(ctarget)
 	v := bool(ret)
 	return v
 }

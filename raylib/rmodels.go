@@ -213,10 +213,10 @@ func LoadModelFromMesh(data Mesh) Model {
 	return *newModelFromPointer(&ret)
 }
 
-// IsModelReady - Check if a model is ready
-func IsModelReady(model *Model) bool {
+// IsModelValid - Check if a model is valid
+func IsModelValid(model *Model) bool {
 	cmodel := model.cptr()
-	ret := C.IsModelReady(cmodel)
+	ret := C.IsModelValid(cmodel)
 	v := bool(ret)
 	return v
 }
@@ -556,10 +556,10 @@ func LoadMaterialDefault() Material {
 	return *newMaterialFromPointer(&ret)
 }
 
-// IsMaterialReady - Check if a material is ready
-func IsMaterialReady(material *Material) bool {
+// IsMaterialValid - Check if a material is valid
+func IsMaterialValid(material *Material) bool {
 	cmaterial := material.cptr()
-	ret := C.IsMaterialReady(cmaterial)
+	ret := C.IsMaterialValid(cmaterial)
 	v := bool(ret)
 	return v
 }

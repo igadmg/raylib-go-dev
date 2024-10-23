@@ -438,10 +438,10 @@ func LoadShaderFromMemory(vsCode string, fsCode string) Shader {
 	return *newShaderFromPointer(&ret)
 }
 
-// IsShaderReady - Check if a shader is ready
-func IsShaderReady(shader *Shader) bool {
+// IsShaderValid - Check if a shader is valid
+func IsShaderValid(shader *Shader) bool {
 	cshader := shader.cptr()
-	ret := C.IsShaderReady(cshader)
+	ret := C.IsShaderValid(cshader)
 	v := bool(ret)
 	return v
 }
