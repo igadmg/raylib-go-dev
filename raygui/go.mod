@@ -10,8 +10,6 @@ replace github.com/DeedleFake/xiter => ../../xiter
 
 require github.com/igadmg/raylib-go/raylib v0.0.0-20240518160852-5314a4a2099a
 
-require github.com/DeedleFake/xiter v0.0.0-20240215152241-9fc873aaff80 // indirect
-
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/ebitengine/purego v0.7.1 // indirect
