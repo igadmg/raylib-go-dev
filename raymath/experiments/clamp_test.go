@@ -7,7 +7,6 @@ import (
 
 	rm "github.com/igadmg/raylib-go/raymath"
 	"github.com/igadmg/raylib-go/raymath/vector2"
-	"golang.org/x/exp/constraints"
 )
 
 var r = rand.New(rand.NewSource(99))
@@ -49,7 +48,7 @@ func BenchmarkClampMathEx(b *testing.B) {
 	b.ResetTimer()
 
 	for n := 0; n < b.N; n++ {
-		res += mathex.Clamp(i, imin, imax)
+		res += rm.Clamp(i, imin, imax)
 	}
 	runtime.KeepAlive(res)
 }
