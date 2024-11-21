@@ -216,7 +216,7 @@ func LoadModelFromMesh(data Mesh) Model {
 // IsModelValid - Check if a model is valid
 func IsModelValid(model *Model) bool {
 	cmodel := model.cptr()
-	ret := C.IsModelValid(cmodel)
+	ret := C.IsModelValid(*cmodel)
 	v := bool(ret)
 	return v
 }
@@ -559,7 +559,7 @@ func LoadMaterialDefault() Material {
 // IsMaterialValid - Check if a material is valid
 func IsMaterialValid(material *Material) bool {
 	cmaterial := material.cptr()
-	ret := C.IsMaterialValid(cmaterial)
+	ret := C.IsMaterialValid(*cmaterial)
 	v := bool(ret)
 	return v
 }

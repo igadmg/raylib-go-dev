@@ -73,7 +73,7 @@ func LoadFontFromMemory(fileType string, fileData []byte, fontSize int32, codepo
 // IsFontValid - Check if a font is valid
 func IsFontValid(font *Font) bool {
 	cfont := font.cptr()
-	ret := C.IsFontValid(cfont)
+	ret := C.IsFontValid(*cfont)
 	v := bool(ret)
 	return v
 }

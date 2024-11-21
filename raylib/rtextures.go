@@ -106,7 +106,7 @@ func LoadImageFromMemory(fileType string, fileData []byte, dataSize int32) Image
 // LoadImageFromTexture - Get pixel data from GPU texture and return an Image
 func LoadImageFromTexture(texture *Texture2D) Image {
 	ctexture := texture.cptr()
-	ret := C.LoadImageFromTexture(ctexture)
+	ret := C.LoadImageFromTexture(*ctexture)
 	return *newImageFromPointer(&ret)
 }
 
@@ -117,7 +117,7 @@ func ReloadImageFromTexture(texture *Texture2D, image *Image) *Image {
 
 	ctexture := texture.cptr()
 	cimage := image.cptr()
-	ret := C.ReloadImageFromTexture(ctexture, cimage)
+	ret := C.ReloadImageFromTexture(*ctexture, cimage)
 	return newImageFromPointer(ret)
 }
 
@@ -130,7 +130,7 @@ func LoadImageFromScreen() Image {
 // IsImageValid - Check if an image is valid
 func IsImageValid(image *Image) bool {
 	cimage := image.cptr()
-	ret := C.IsImageValid(cimage)
+	ret := C.IsImageValid(*cimage)
 	v := bool(ret)
 	return v
 }
@@ -145,7 +145,7 @@ func LoadTexture(fileName string) Texture2D {
 // LoadTextureFromImage - Load a texture from image data
 func LoadTextureFromImage(image *Image) Texture2D {
 	cimage := image.cptr()
-	ret := C.LoadTextureFromImage(cimage)
+	ret := C.LoadTextureFromImage(*cimage)
 	return *newTexture2DFromPointer(&ret)
 }
 
@@ -173,7 +173,7 @@ func LoadRenderTextureV[T IntegerT](wh vector2.Vector[T]) RenderTexture2D {
 func LoadTextureCubemap(image *Image, layout int32) Texture2D {
 	cimage := image.cptr()
 	clayout := (C.int)(layout)
-	ret := C.LoadTextureCubemap(cimage, clayout)
+	ret := C.LoadTextureCubemap(*cimage, clayout)
 	return *newTexture2DFromPointer(&ret)
 }
 
@@ -186,7 +186,7 @@ func UnloadImage(image *Image) {
 // IsTextureValid - Check if a texture is valid
 func IsTextureValid(texture *Texture2D) bool {
 	ctexture := texture.cptr()
-	ret := C.IsTextureValid(ctexture)
+	ret := C.IsTextureValid(*ctexture)
 	v := bool(ret)
 	return v
 }
@@ -200,7 +200,7 @@ func UnloadTexture(texture *Texture2D) {
 // IsRenderTextureValid - Check if a render texture is valid
 func IsRenderTextureValid(target *RenderTexture2D) bool {
 	ctarget := target.cptr()
-	ret := C.IsRenderTextureValid(ctarget)
+	ret := C.IsRenderTextureValid(*ctarget)
 	v := bool(ret)
 	return v
 }
@@ -264,7 +264,7 @@ func ExportImageToMemory(image *Image, fileType string) []byte {
 // ImageCopy - Create an image duplicate (useful for transformations)
 func ImageCopy(image *Image) Image {
 	cimage := image.cptr()
-	ret := C.ImageCopy(cimage)
+	ret := C.ImageCopy(*cimage)
 	return *newImageFromPointer(&ret)
 }
 
@@ -272,7 +272,7 @@ func ImageCopy(image *Image) Image {
 func ImageFromImage(image *Image, rec Rectangle) Image {
 	cimage := image.cptr()
 	crec := crect2ptr(&rec)
-	ret := C.ImageFromImage(cimage, *crec)
+	ret := C.ImageFromImage(*cimage, *crec)
 	return *newImageFromPointer(&ret)
 }
 
