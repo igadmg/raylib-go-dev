@@ -2,7 +2,7 @@ package experiments_test
 
 import "github.com/igadmg/raylib-go/raymath"
 
-type MVector[T vector.Number] struct {
+type MVector[T raymath.Number] struct {
 	X T
 	Y T
 	Z T

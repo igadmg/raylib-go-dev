@@ -27,6 +27,13 @@ func New[T rm.SignedNumber](position vector2.Vector[T], size vector2.Vector[T]) 
 	}
 }
 
+func NewSize[T rm.SignedNumber](size vector2.Vector[T]) Rectangle[T] {
+	return Rectangle[T]{
+		position: vector2.Zero[T](),
+		size:     size,
+	}
+}
+
 func NewT[T rm.SignedNumber, PT, ST rm.SignedNumber](position vector2.Vector[PT], size vector2.Vector[ST]) Rectangle[T] {
 	return Rectangle[T]{
 		position: vector2.To[T](position),
