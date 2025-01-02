@@ -497,3 +497,105 @@ func TestValues(t *testing.T) {
 	assert.Equal(t, x, 1)
 	assert.Equal(t, y, 2)
 }
+
+func TestGreaterEq(t *testing.T) {
+	tests := map[string]struct {
+		a        vector2.Float64
+		b        vector2.Float64
+		expected bool
+	}{
+		"a > b": {
+			a:        vector2.New(3.0, 4.0),
+			b:        vector2.New(2.0, 3.0),
+			expected: true,
+		},
+		"a == b": {
+			a:        vector2.New(3.0, 4.0),
+			b:        vector2.New(3.0, 4.0),
+			expected: true,
+		},
+		"a < b": {
+			a:        vector2.New(2.0, 3.0),
+			b:        vector2.New(3.0, 4.0),
+			expected: false,
+		},
+		"a.x > b.x, a.y == b.y": {
+			a:        vector2.New(4.0, 3.0),
+			b:        vector2.New(3.0, 3.0),
+			expected: true,
+		},
+		"a.x == b.x, a.y > b.y": {
+			a:        vector2.New(3.0, 4.0),
+			b:        vector2.New(3.0, 3.0),
+			expected: true,
+		},
+		"a.x < b.x, a.y == b.y": {
+			a:        vector2.New(2.0, 3.0),
+			b:        vector2.New(3.0, 3.0),
+			expected: false,
+		},
+		"a.x == b.x, a.y < b.y": {
+			a:        vector2.New(3.0, 2.0),
+			b:        vector2.New(3.0, 3.0),
+			expected: false,
+		},
+	}
+
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
+			result := vector2.GreaterEq(tc.a, tc.b)
+			assert.Equal(t, tc.expected, result)
+		})
+	}
+}
+
+func TestLessEq(t *testing.T) {
+	tests := map[string]struct {
+		a        vector2.Float64
+		b        vector2.Float64
+		expected bool
+	}{
+		"a < b": {
+			a:        vector2.New(1.0, 1.0),
+			b:        vector2.New(2.0, 2.0),
+			expected: true,
+		},
+		"a == b": {
+			a:        vector2.New(2.0, 2.0),
+			b:        vector2.New(2.0, 2.0),
+			expected: true,
+		},
+		"a > b": {
+			a:        vector2.New(3.0, 3.0),
+			b:        vector2.New(2.0, 2.0),
+			expected: false,
+		},
+		"a.x < b.x, a.y == b.y": {
+			a:        vector2.New(1.0, 2.0),
+			b:        vector2.New(2.0, 2.0),
+			expected: true,
+		},
+		"a.x == b.x, a.y < b.y": {
+			a:        vector2.New(2.0, 1.0),
+			b:        vector2.New(2.0, 2.0),
+			expected: true,
+		},
+		"a.x > b.x, a.y == b.y": {
+			a:        vector2.New(3.0, 2.0),
+			b:        vector2.New(2.0, 2.0),
+			expected: false,
+		},
+		"a.x == b.x, a.y > b.y": {
+			a:        vector2.New(2.0, 3.0),
+			b:        vector2.New(2.0, 2.0),
+			expected: false,
+		},
+	}
+
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
+			result := vector2.LessEq(tc.a, tc.b)
+			assert.Equal(t, tc.expected, result)
+		})
+	}
+}

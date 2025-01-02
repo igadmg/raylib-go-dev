@@ -3,8 +3,8 @@ package rect2_test
 import (
 	"testing"
 
-	. "github.com/igadmg/raylib-go/raymath/test"
 	"github.com/igadmg/raylib-go/raymath/rect2"
+	. "github.com/igadmg/raylib-go/raymath/test"
 	"github.com/igadmg/raylib-go/raymath/vector2"
 )
 
@@ -65,6 +65,54 @@ func TestOperations(t *testing.T) {
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
 			AssertRectangle2InDelta(t, tc.want, tc.got, 0.00001)
+		})
+	}
+}
+
+func TestContains(t *testing.T) {
+	tests := map[string]struct {
+		rect     rect2.Float64
+		point    vector2.Float64
+		expected bool
+	}{
+		"point inside rectangle": {
+			rect:     rect2.New(vector2.New(1.0, 1.0), vector2.New(4.0, 4.0)),
+			point:    vector2.New(2.0, 2.0),
+			expected: true,
+		},
+		"point on edge of rectangle": {
+			rect:     rect2.New(vector2.New(1.0, 1.0), vector2.New(4.0, 4.0)),
+			point:    vector2.New(1.0, 1.0),
+			expected: true,
+		},
+		"point outside rectangle": {
+			rect:     rect2.New(vector2.New(1.0, 1.0), vector2.New(4.0, 4.0)),
+			point:    vector2.New(6.0, 5.0),
+			expected: false,
+		},
+		"point on opposite edge of rectangle": {
+			rect:     rect2.New(vector2.New(1.0, 1.0), vector2.New(4.0, 4.0)),
+			point:    vector2.New(4.0, 4.0),
+			expected: true,
+		},
+		"point outside negative coordinates": {
+			rect:     rect2.New(vector2.New(-5.0, -5.0), vector2.New(10.0, 10.0)),
+			point:    vector2.New(-6.0, -6.0),
+			expected: false,
+		},
+		"point inside negative coordinates": {
+			rect:     rect2.New(vector2.New(-5.0, -5.0), vector2.New(10.0, 10.0)),
+			point:    vector2.New(-4.0, -4.0),
+			expected: true,
+		},
+	}
+
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
+			result := tc.rect.Contains(tc.point)
+			if result != tc.expected {
+				t.Errorf("expected %v, got %v", tc.expected, result)
+			}
 		})
 	}
 }
