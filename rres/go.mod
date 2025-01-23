@@ -6,7 +6,7 @@ replace github.com/igadmg/raylib-go/raylib => ../raylib
 
 replace github.com/igadmg/raylib-go/raymath => ../raymath
 
-replace github.com/DeedleFake/xiter => ../../xiter
+replace deedles.dev/xiter => ../../xiter
 
 require github.com/igadmg/raylib-go/raylib v0.0.0-20240518160852-5314a4a2099a
 

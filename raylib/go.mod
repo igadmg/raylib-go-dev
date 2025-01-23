@@ -6,7 +6,7 @@ replace github.com/igadmg/raylib-go/raymath => ../raymath
 
 replace github.com/igadmg/goex => ../../goex
 
-replace github.com/DeedleFake/xiter => ../../xiter
+replace deedles.dev/xiter => ../../xiter
 
 require (
 	github.com/ebitengine/purego v0.7.1
