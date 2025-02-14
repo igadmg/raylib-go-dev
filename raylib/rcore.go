@@ -16,8 +16,8 @@ import (
 )
 
 // AutomationEvent - Automation event
-type AutomationEvent = C.AutomationEvent
-type AutomationEventList = C.AutomationEventList
+type AutomationEvent C.AutomationEvent
+type AutomationEventList C.AutomationEventList
 
 // WindowShouldClose - Check if KeyEscape pressed or Close icon pressed
 func WindowShouldClose() bool {
@@ -764,7 +764,7 @@ func LoadAutomationEventList(fileName string) AutomationEventList {
 
 // UnloadAutomationEventList - Unload automation events list from file
 func UnloadAutomationEventList(list *AutomationEventList) {
-	C.UnloadAutomationEventList(list)
+	C.UnloadAutomationEventList((*C.AutomationEventList)(list))
 }
 
 // ExportAutomationEventList - Export automation events list as text file

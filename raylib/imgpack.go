@@ -22,7 +22,7 @@ type PackContext struct {
 	nodes   []C.stbrp_node
 }
 
-type PackRect = C.stbrp_rect
+type PackRect C.stbrp_rect
 
 func (r PackRect) Id() int {
 	return int(r.id)
@@ -76,7 +76,7 @@ func (ctx *PackContext) PackRects(rects ...PackRect) ([]PackRect, error) {
 	crects := unsafe.SliceData(rects)
 	p.Pin(ctx.context.active_head)
 	p.Pin(ctx.context.free_head)
-	res := C.stbrp_pack_rects(&ctx.context, crects, C.int(len(rects)))
+	res := C.stbrp_pack_rects(&ctx.context, (*C.stbrp_rect)(crects), C.int(len(rects)))
 
 	if res == 0 {
 		return nil, fmt.Errorf("failed to pack rects")
