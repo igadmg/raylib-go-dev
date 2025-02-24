@@ -181,6 +181,13 @@ func Midpoint[T rm.SignedNumber](a, b Vector[T]) Vector[T] {
 	}
 }
 
+func Index(xy Int, i int) Int {
+	return Int{
+		i % xy.X(),
+		i / xy.X(),
+	}
+}
+
 // Builds a vector from the data found from the passed in array to the best of
 // it's ability. If the length of the array is smaller than the vector itself,
 // only those values will be used to build the vector, and the remaining vector
