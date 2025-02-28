@@ -1,6 +1,6 @@
 module github.com/igadmg/raylib-go/rres
 
-go 1.23.0
+go 1.24
 
 replace github.com/igadmg/raylib-go/raylib => ../raylib
 
