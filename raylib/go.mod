@@ -9,9 +9,9 @@ replace github.com/igadmg/goex => ../../goex
 replace deedles.dev/xiter => ../../xiter
 
 require (
-	github.com/ebitengine/purego v0.7.1
+	github.com/ebitengine/purego v0.8.2
 	github.com/igadmg/raylib-go/raymath v1.6.0
-	golang.org/x/sys v0.22.0
+	golang.org/x/sys v0.30.0
 )
 
-require golang.org/x/exp v0.0.0-20240613232115-7f521ea00fb8 // indirect
+require golang.org/x/exp v0.0.0-20250228200357-dead58393ab7 // indirect
