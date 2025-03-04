@@ -786,6 +786,8 @@ func DrawTextureRec(texture *Texture2D, sourceRec Rectangle, position Vector2, t
 	C.DrawTextureRec(*ctexture, *csourceRec, *cposition, *ctint)
 }
 
+// #cgo noescape DrawTexturePro
+// #cgo nocallback DrawTexturePro
 // DrawTexturePro - Draw a part of a texture defined by a rectangle with 'pro' parameters
 func DrawTexturePro(texture *Texture2D, sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint color.RGBA) {
 	ctexture := texture.cptr()
