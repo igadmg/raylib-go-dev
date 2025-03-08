@@ -1239,7 +1239,8 @@ func NewRenderTexture2D(id uint32, texture, depth Texture2D) *RenderTexture2D {
 
 func (r RenderTexture2D) IsNull() bool {
 	return r.ID == 0 ||
-		r.Texture.IsReady()
+		r.Texture.IsNull() ||
+		r.Depth.IsNull()
 }
 
 func (r *RenderTexture2D) Unload() {
