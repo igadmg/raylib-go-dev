@@ -1144,7 +1144,15 @@ func (t *Texture2D) Unload() {
 	UnloadTexture(t)
 }
 
-func (t *Texture2D) IsReady() bool {
+func (t Texture2D) IsNull() bool {
+	return t.ID == 0 || // Validate OpenGL id
+		t.Width == 0 ||
+		t.Height == 0 || // Validate texture size
+		t.Format == 0 || // Validate texture pixel format
+		t.Mipmaps == 0
+}
+
+func (t Texture2D) IsReady() bool {
 	return t.ID > 0 && // Validate OpenGL id
 		t.Width > 0 &&
 		t.Height > 0 && // Validate texture size
@@ -1152,11 +1160,11 @@ func (t *Texture2D) IsReady() bool {
 		t.Mipmaps > 0
 }
 
-func (t *Texture2D) GetSize() Vector2 {
+func (t Texture2D) GetSize() Vector2 {
 	return vector2.NewFloat32(t.Width, t.Height)
 }
 
-func (t *Texture2D) GetRect() Rectangle {
+func (t Texture2D) GetRect() Rectangle {
 	return NewRectangle(0, 0, t.Width, t.Height)
 }
 
@@ -1227,6 +1235,11 @@ type RenderTexture2D struct {
 // NewRenderTexture2D - Returns new RenderTexture2D
 func NewRenderTexture2D(id uint32, texture, depth Texture2D) *RenderTexture2D {
 	return &RenderTexture2D{id, texture, depth}
+}
+
+func (r RenderTexture2D) IsNull() bool {
+	return r.ID == 0 ||
+		r.Texture.IsReady()
 }
 
 func (r *RenderTexture2D) Unload() {

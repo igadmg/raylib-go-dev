@@ -369,8 +369,10 @@ func EndMode3D() {
 	C.EndMode3D()
 }
 
+// #cgo noescape BeginTextureMode
+// #cgo nocallback BeginTextureMode
 // BeginTextureMode - Initializes render texture for drawing
-func BeginTextureMode(target *RenderTexture2D) {
+func BeginTextureMode(target RenderTexture2D) {
 	ctarget := target.cptr()
 	C.BeginTextureMode(*ctarget)
 }
