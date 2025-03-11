@@ -198,7 +198,7 @@ func LoadTextureAtlas(width, height int, fileNames ...string) (TextureAtlas, err
 
 	iaImage := ia.Image
 	return TextureAtlas{
-		Texture: LoadTextureFromImage(&iaImage),
+		Texture: LoadTextureFromImage(iaImage),
 		Atlas:   ia.Atlas,
 	}, nil
 }
@@ -212,7 +212,7 @@ func LoadTextureAtlasEx(width, height int, imgFn func(path string) Image, fileNa
 
 	iaImage := ia.Image
 	return TextureAtlas{
-		Texture: LoadTextureFromImage(&iaImage),
+		Texture: LoadTextureFromImage(iaImage),
 		Atlas:   ia.Atlas,
 	}, nil
 }

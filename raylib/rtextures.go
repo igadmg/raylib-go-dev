@@ -14,10 +14,6 @@ import (
 	"github.com/igadmg/raylib-go/raymath/vector2"
 )
 
-func ptr[T any](x T) *T {
-	return &x
-}
-
 // ToImage converts a Image to Go image.Image
 func (i *Image) ToImage() image.Image {
 	img := image.NewRGBA(image.Rect(0, 0, int(i.Width), int(i.Height)))
@@ -103,22 +99,26 @@ func LoadImageFromMemory(fileType string, fileData []byte, dataSize int32) Image
 	return *newImageFromPointer(&ret)
 }
 
+// #cgo noescape LoadImageFromTexture
+// #cgo nocallback LoadImageFromTexture
 // LoadImageFromTexture - Get pixel data from GPU texture and return an Image
-func LoadImageFromTexture(texture *Texture2D) Image {
+func LoadImageFromTexture(texture Texture2D) Image {
 	ctexture := texture.cptr()
 	ret := C.LoadImageFromTexture(*ctexture)
 	return *newImageFromPointer(&ret)
 }
 
-func ReloadImageFromTexture(texture *Texture2D, image *Image) *Image {
-	if image == nil {
-		return ptr(LoadImageFromTexture(texture))
+// #cgo noescape ReloadImageFromTexture
+// #cgo nocallback ReloadImageFromTexture
+func ReloadImageFromTexture(texture Texture2D, image Image) Image {
+	if image.IsNull() {
+		return LoadImageFromTexture(texture)
 	}
 
 	ctexture := texture.cptr()
 	cimage := image.cptr()
 	ret := C.ReloadImageFromTexture(*ctexture, cimage)
-	return newImageFromPointer(ret)
+	return *newImageFromPointer(ret)
 }
 
 // LoadImageFromScreen - Load image from screen buffer (screenshot)
@@ -142,16 +142,18 @@ func LoadTexture(fileName string) Texture2D {
 	return *newTexture2DFromPointer(&ret)
 }
 
+// #cgo noescape LoadTextureFromImage
+// #cgo nocallback LoadTextureFromImage
 // LoadTextureFromImage - Load a texture from image data
-func LoadTextureFromImage(image *Image) Texture2D {
+func LoadTextureFromImage(image Image) Texture2D {
 	cimage := image.cptr()
 	ret := C.LoadTextureFromImage(*cimage)
 	return *newTexture2DFromPointer(&ret)
 }
 
-func ReloadTextureFromImage(image *Image, texture *Texture2D) *Texture2D {
-	if texture == nil {
-		return ptr(LoadTextureFromImage(image))
+func ReloadTextureFromImage(image Image, texture Texture2D) Texture2D {
+	if texture.IsNull() {
+		return LoadTextureFromImage(image)
 	}
 	UpdateTextureFromImage(texture, image)
 	return texture
@@ -230,7 +232,9 @@ func UpdateTexture(texture *Texture2D, pixels []color.RGBA) {
 	C.UpdateTexture(*ctexture, cpixels)
 }
 
-func UpdateTextureFromImage(texture *Texture2D, image *Image) {
+// #cgo noescape UpdateTexture
+// #cgo nocallback UpdateTexture
+func UpdateTextureFromImage(texture Texture2D, image Image) {
 	ctexture := texture.cptr()
 	C.UpdateTexture(*ctexture, image.data)
 }

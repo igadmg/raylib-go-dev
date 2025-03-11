@@ -1108,11 +1108,19 @@ func (i *Image) Unload() {
 	UnloadImage(i)
 }
 
-func (i *Image) GetSize() Vector2 {
+func (t Image) IsNull() bool {
+	return t.cptr().data == nil
+}
+
+func (t Image) IsReady() bool {
+	return !t.IsNull()
+}
+
+func (i Image) GetSize() Vector2 {
 	return vector2.NewFloat32(i.Width, i.Height)
 }
 
-func (i *Image) GetRect() Rectangle {
+func (i Image) GetRect() Rectangle {
 	return NewRectangle(0, 0, i.Width, i.Height)
 }
 
