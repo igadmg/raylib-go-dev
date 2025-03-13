@@ -228,6 +228,10 @@ func Midpoint[T rm.SignedNumber](a, b Vector[T]) Vector[T] {
 	}
 }
 
+func (v Vector[T]) String() string {
+	return fmt.Sprintf("X: %v; Y: %v; Z: %v; W: %v;", v.x, v.y, v.z, v.w)
+}
+
 // Builds a vector from the data found from the passed in array to the best of
 // it's ability. If the length of the array is smaller than the vector itself,
 // only those values will be used to build the vector, and the remaining vector

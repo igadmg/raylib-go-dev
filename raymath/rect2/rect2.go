@@ -1,6 +1,8 @@
 package rect2
 
 import (
+	"fmt"
+
 	rm "github.com/igadmg/raylib-go/raymath"
 	"github.com/igadmg/raylib-go/raymath/vector2"
 )
@@ -81,6 +83,10 @@ func One[T rm.SignedNumber]() Rectangle[T] {
 		position: vector2.Zero[T](),
 		size:     vector2.One[T](),
 	}
+}
+
+func (r Rectangle[T]) String() string {
+	return fmt.Sprintf("Position: %v; Size: %v;", r.position, r.size)
 }
 
 func (r Rectangle[T]) A() vector2.Vector[T] {
