@@ -81,7 +81,7 @@ type layout struct {
 }
 
 func (l *layout) Anchor(xy rl.Vector2) rl.Vector2 {
-	return l.Bounds.Size().NormalizeF(xy)
+	return l.Bounds.Size.NormalizeF(xy)
 }
 
 type canvasLayout struct {
@@ -95,9 +95,9 @@ func CanvasLayout(bounds rl.Rectangle) canvasLayout {
 }
 
 func (cl *canvasLayout) Layout(anchor rl.Vector2, pivot rl.Vector2, wh rl.Vector2) rl.Rectangle {
-	anchorp := anchor.MultByVector(cl.Bounds.Size())
+	anchorp := anchor.MultByVector(cl.Bounds.Size)
 	pivotp := pivot.MultByVector(wh)
-	return rect2.NewFloat32(cl.Bounds.Position().Add(anchorp).Sub(pivotp), wh)
+	return rect2.NewFloat32(cl.Bounds.Position.Add(anchorp).Sub(pivotp), wh)
 }
 
 type horizontalLayout struct {
