@@ -13,9 +13,9 @@ import (
 
 // Vector contains 3 components
 type Vector[T rm.SignedNumber] struct {
-	x T
-	y T
-	z T
+	X T
+	Y T
+	Z T
 }
 
 type (
@@ -31,17 +31,17 @@ type (
 // New creates a new vector with corresponding 3 components
 func New[T rm.SignedNumber](x T, y T, z T) Vector[T] {
 	return Vector[T]{
-		x: x,
-		y: y,
-		z: z,
+		X: x,
+		Y: y,
+		Z: z,
 	}
 }
 
 func NewT[T rm.SignedNumber, XT, YT, ZT rm.Number](x XT, y YT, z ZT) Vector[T] {
 	return Vector[T]{
-		x: T(x),
-		y: T(y),
-		z: T(z),
+		X: T(x),
+		Y: T(y),
+		Z: T(z),
 	}
 }
 
@@ -76,9 +76,9 @@ func NewInt8[XT, YT, ZT rm.Number](x XT, y YT, z ZT) Int8 {
 // Fill creates a vector where each component is equal to v
 func Fill[T rm.SignedNumber](v T) Vector[T] {
 	return Vector[T]{
-		x: v,
-		y: v,
-		z: v,
+		X: v,
+		Y: v,
+		Z: v,
 	}
 }
 
@@ -140,50 +140,50 @@ func Average[T rm.SignedNumber](vectors []Vector[T]) Vector[T] {
 // Lerp linearly interpolates between a and b by t
 func Lerp[T rm.SignedNumber](t float64, a, b Vector[T]) Vector[T] {
 	return Vector[T]{
-		x: rm.Lerp(t, a.x, b.x),
-		y: rm.Lerp(t, a.y, b.y),
-		z: rm.Lerp(t, a.z, b.z),
+		X: rm.Lerp(t, a.X, b.X),
+		Y: rm.Lerp(t, a.Y, b.Y),
+		Z: rm.Lerp(t, a.Z, b.Z),
 	}
 }
 
 func Min[T rm.SignedNumber](a, b Vector[T]) Vector[T] {
 	return New(
-		min(a.x, b.x),
-		min(a.y, b.y),
-		min(a.z, b.z),
+		min(a.X, b.X),
+		min(a.Y, b.Y),
+		min(a.Z, b.Z),
 	)
 }
 
 func Max[T rm.SignedNumber](a, b Vector[T]) Vector[T] {
 	return New(
-		max(a.x, b.x),
-		max(a.y, b.y),
-		max(a.z, b.z),
+		max(a.X, b.X),
+		max(a.Y, b.Y),
+		max(a.Z, b.Z),
 	)
 }
 
 func MaxX[T rm.SignedNumber](a, b Vector[T]) T {
-	return max(a.x, b.x)
+	return max(a.X, b.X)
 }
 
 func MaxY[T rm.SignedNumber](a, b Vector[T]) T {
-	return max(a.y, b.y)
+	return max(a.Y, b.Y)
 }
 
 func MaxZ[T rm.SignedNumber](a, b Vector[T]) T {
-	return max(a.z, b.z)
+	return max(a.Z, b.Z)
 }
 
 func MinX[T rm.SignedNumber](a, b Vector[T]) T {
-	return min(a.x, b.x)
+	return min(a.X, b.X)
 }
 
 func MinY[T rm.SignedNumber](a, b Vector[T]) T {
-	return min(a.y, b.y)
+	return min(a.Y, b.Y)
 }
 
 func MinZ[T rm.SignedNumber](a, b Vector[T]) T {
-	return min(a.z, b.z)
+	return min(a.Z, b.Z)
 }
 
 func Midpoint[T rm.SignedNumber](a, b Vector[T]) Vector[T] {
@@ -192,14 +192,14 @@ func Midpoint[T rm.SignedNumber](a, b Vector[T]) Vector[T] {
 	// center = b0.5 + a0.5
 	// center = 0.5(b + a)
 	return Vector[T]{
-		x: T(float64(a.x+b.x) * 0.5),
-		y: T(float64(a.y+b.y) * 0.5),
-		z: T(float64(a.z+b.z) * 0.5),
+		X: T(float64(a.X+b.X) * 0.5),
+		Y: T(float64(a.Y+b.Y) * 0.5),
+		Z: T(float64(a.Z+b.Z) * 0.5),
 	}
 }
 
 func (v Vector[T]) String() string {
-	return fmt.Sprintf("X: %v; Y: %v; Z: %v;", v.x, v.y, v.z)
+	return fmt.Sprintf("X: %v; Y: %v; Z: %v;", v.X, v.Y, v.Z)
 }
 
 // Builds a vector from the data found from the passed in array to the best of
@@ -211,22 +211,22 @@ func FromArray[T rm.SignedNumber](data []T) Vector[T] {
 	v := Vector[T]{}
 
 	if len(data) > 0 {
-		v.x = data[0]
+		v.X = data[0]
 	}
 
 	if len(data) > 1 {
-		v.y = data[1]
+		v.Y = data[1]
 	}
 
 	if len(data) > 2 {
-		v.z = data[2]
+		v.Z = data[2]
 	}
 
 	return v
 }
 
 func (v Vector[T]) ToArr() []T {
-	return []T{v.x, v.y, v.z}
+	return []T{v.X, v.Y, v.Z}
 }
 
 func (v Vector[T]) MarshalJSON() ([]byte, error) {
@@ -235,9 +235,9 @@ func (v Vector[T]) MarshalJSON() ([]byte, error) {
 		Y float64 `json:"y"`
 		Z float64 `json:"z"`
 	}{
-		X: float64(v.x),
-		Y: float64(v.y),
-		Z: float64(v.z),
+		X: float64(v.X),
+		Y: float64(v.Y),
+		Z: float64(v.Z),
 	})
 }
 
@@ -254,22 +254,22 @@ func (v *Vector[T]) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &aux); err != nil {
 		return err
 	}
-	v.x = T(aux.X)
-	v.y = T(aux.Y)
-	v.z = T(aux.Z)
+	v.X = T(aux.X)
+	v.Y = T(aux.Y)
+	v.Z = T(aux.Z)
 	return nil
 }
 
 func (v Vector[T]) ContainsNaN() bool {
-	if math.IsNaN(float64(v.x)) {
+	if math.IsNaN(float64(v.X)) {
 		return true
 	}
 
-	if math.IsNaN(float64(v.y)) {
+	if math.IsNaN(float64(v.Y)) {
 		return true
 	}
 
-	if math.IsNaN(float64(v.z)) {
+	if math.IsNaN(float64(v.Z)) {
 		return true
 	}
 
@@ -277,22 +277,22 @@ func (v Vector[T]) ContainsNaN() bool {
 }
 
 func (v Vector[T]) Format(format string) string {
-	return fmt.Sprintf(format, v.x, v.y, v.z)
+	return fmt.Sprintf(format, v.X, v.Y, v.Z)
 }
 
 func (v Vector[T]) MinComponent() T {
-	return min(v.x, v.y, v.z)
+	return min(v.X, v.Y, v.Z)
 }
 
 func (v Vector[T]) MaxComponent() T {
-	return max(v.x, v.y, v.z)
+	return max(v.X, v.Y, v.Z)
 }
 
 func To[T, OT rm.SignedNumber](v Vector[OT]) Vector[T] {
 	return Vector[T]{
-		x: T(v.x),
-		y: T(v.y),
-		z: T(v.z),
+		X: T(v.X),
+		Y: T(v.Y),
+		Z: T(v.Z),
 	}
 }
 
@@ -324,148 +324,133 @@ func (v Vector[T]) ToInt8() Vector[int8] {
 	return To[int8](v)
 }
 
-// X returns the x component
-func (v Vector[T]) X() T {
-	return v.x
-}
-
 // SetX changes the x component of the vector
 func (v Vector[T]) SetX(newX T) Vector[T] {
 	return Vector[T]{
-		x: newX,
-		y: v.y,
-		z: v.z,
+		X: newX,
+		Y: v.Y,
+		Z: v.Z,
 	}
 }
 
 func (v Vector[T]) AddX(dX T) Vector[T] {
 	return Vector[T]{
-		x: v.x + dX,
-		y: v.y,
-		z: v.z,
+		X: v.X + dX,
+		Y: v.Y,
+		Z: v.Z,
 	}
-}
-
-// Y returns the y component
-func (v Vector[T]) Y() T {
-	return v.y
 }
 
 // SetY changes the y component of the vector
 func (v Vector[T]) SetY(newY T) Vector[T] {
 	return Vector[T]{
-		x: v.x,
-		y: newY,
-		z: v.z,
+		X: v.X,
+		Y: newY,
+		Z: v.Z,
 	}
 }
 
 func (v Vector[T]) AddY(dY T) Vector[T] {
 	return Vector[T]{
-		x: v.x,
-		y: v.y + dY,
-		z: v.z,
+		X: v.X,
+		Y: v.Y + dY,
+		Z: v.Z,
 	}
-}
-
-// Z returns the z component
-func (v Vector[T]) Z() T {
-	return v.z
 }
 
 // SetZ changes the z component of the vector
 func (v Vector[T]) SetZ(newZ T) Vector[T] {
 	return Vector[T]{
-		x: v.x,
-		y: v.y,
-		z: newZ,
+		X: v.X,
+		Y: v.Y,
+		Z: newZ,
 	}
 }
 
 func (v Vector[T]) AddZ(dZ T) Vector[T] {
 	return Vector[T]{
-		x: v.x,
-		y: v.y,
-		z: v.z + dZ,
+		X: v.X,
+		Y: v.Y,
+		Z: v.Z + dZ,
 	}
 }
 
 func (v Vector[T]) XZY() Vector[T] {
 	return Vector[T]{
-		x: v.x,
-		y: v.z,
-		z: v.y,
+		X: v.X,
+		Y: v.Z,
+		Z: v.Y,
 	}
 }
 
 func (v Vector[T]) ZXY() Vector[T] {
 	return Vector[T]{
-		x: v.z,
-		y: v.x,
-		z: v.y,
+		X: v.Z,
+		Y: v.X,
+		Z: v.Y,
 	}
 }
 
 func (v Vector[T]) ZYX() Vector[T] {
 	return Vector[T]{
-		x: v.z,
-		y: v.y,
-		z: v.x,
+		X: v.Z,
+		Y: v.Y,
+		Z: v.X,
 	}
 }
 
 func (v Vector[T]) YXZ() Vector[T] {
 	return Vector[T]{
-		x: v.y,
-		y: v.x,
-		z: v.z,
+		X: v.Y,
+		Y: v.X,
+		Z: v.Z,
 	}
 }
 
 func (v Vector[T]) YZX() Vector[T] {
 	return Vector[T]{
-		x: v.y,
-		y: v.z,
-		z: v.x,
+		X: v.Y,
+		Y: v.Z,
+		Z: v.X,
 	}
 }
 
 // XY returns vector2 with the x and y components
 func (v Vector[T]) XY() vector2.Vector[T] {
-	return vector2.New(v.x, v.y)
+	return vector2.New(v.X, v.Y)
 }
 
 // XZ returns vector2 with the x and z components
 func (v Vector[T]) XZ() vector2.Vector[T] {
-	return vector2.New(v.x, v.z)
+	return vector2.New(v.X, v.Z)
 }
 
 // YZ returns vector2 with the y and z components
 func (v Vector[T]) YZ() vector2.Vector[T] {
-	return vector2.New(v.y, v.z)
+	return vector2.New(v.Y, v.Z)
 }
 
 // YX returns vector2 with the y and x components
 func (v Vector[T]) YX() vector2.Vector[T] {
-	return vector2.New(v.y, v.x)
+	return vector2.New(v.Y, v.X)
 }
 
 // ZX returns vector2 with the z and x components
 func (v Vector[T]) ZX() vector2.Vector[T] {
-	return vector2.New(v.z, v.x)
+	return vector2.New(v.Z, v.X)
 }
 
 // ZY returns vector2 with the z and y components
 func (v Vector[T]) ZY() vector2.Vector[T] {
-	return vector2.New(v.z, v.y)
+	return vector2.New(v.Z, v.Y)
 }
 
 // Midpoint returns the midpoint between this vector and the vector passed in.
 func (v Vector[T]) Midpoint(o Vector[T]) Vector[T] {
 	return Vector[T]{
-		x: T(float64(o.x+v.x) * 0.5),
-		y: T(float64(o.y+v.y) * 0.5),
-		z: T(float64(o.z+v.z) * 0.5),
+		X: T(float64(o.X+v.X) * 0.5),
+		Y: T(float64(o.Y+v.Y) * 0.5),
+		Z: T(float64(o.Z+v.Z) * 0.5),
 	}
 }
 
@@ -473,7 +458,7 @@ func (v Vector[T]) Midpoint(o Vector[T]) Vector[T] {
 // https://stackoverflow.com/a/11132720/4974261
 func (v Vector[T]) Perpendicular() Vector[T] {
 	var c Vector[T]
-	if v.y != 0 || v.z != 0 {
+	if v.Y != 0 || v.Z != 0 {
 		c = Right[T]()
 	} else {
 		c = Up[T]()
@@ -485,9 +470,9 @@ func (v Vector[T]) Perpendicular() Vector[T] {
 // number
 func (v Vector[T]) Round() Vector[T] {
 	return New(
-		rm.Round(v.x),
-		rm.Round(v.y),
-		rm.Round(v.z),
+		rm.Round(v.X),
+		rm.Round(v.Y),
+		rm.Round(v.Z),
 	)
 }
 
@@ -495,18 +480,18 @@ func (v Vector[T]) Round() Vector[T] {
 // whole number, and then casts it to a int
 func (v Vector[T]) RoundToInt() Vector[int] {
 	return New(
-		int(rm.Round(v.x)),
-		int(rm.Round(v.y)),
-		int(rm.Round(v.z)),
+		int(rm.Round(v.X)),
+		int(rm.Round(v.Y)),
+		int(rm.Round(v.Z)),
 	)
 }
 
 // Floor applies the floor math operation to each component of the vector
 func (v Vector[T]) Floor() Vector[T] {
 	return New(
-		rm.Floor(v.x),
-		rm.Floor(v.y),
-		rm.Floor(v.z),
+		rm.Floor(v.X),
+		rm.Floor(v.Y),
+		rm.Floor(v.Z),
 	)
 }
 
@@ -514,18 +499,18 @@ func (v Vector[T]) Floor() Vector[T] {
 // and then casts it to a int
 func (v Vector[T]) FloorToInt() Vector[int] {
 	return New(
-		int(rm.Floor(v.x)),
-		int(rm.Floor(v.y)),
-		int(rm.Floor(v.z)),
+		int(rm.Floor(v.X)),
+		int(rm.Floor(v.Y)),
+		int(rm.Floor(v.Z)),
 	)
 }
 
 // Ceil applies the ceil math operation to each component of the vector
 func (v Vector[T]) Ceil() Vector[T] {
 	return New(
-		rm.Ceil(v.x),
-		rm.Ceil(v.y),
-		rm.Ceil(v.z),
+		rm.Ceil(v.X),
+		rm.Ceil(v.Y),
+		rm.Ceil(v.Z),
 	)
 }
 
@@ -533,35 +518,35 @@ func (v Vector[T]) Ceil() Vector[T] {
 // and then casts it to a int
 func (v Vector[T]) CeilToInt() Vector[int] {
 	return New(
-		int(rm.Ceil(v.x)),
-		int(rm.Ceil(v.y)),
-		int(rm.Ceil(v.z)),
+		int(rm.Ceil(v.X)),
+		int(rm.Ceil(v.Y)),
+		int(rm.Ceil(v.Z)),
 	)
 }
 
 // Sqrt applies the math.Sqrt to each component of the vector
 func (v Vector[T]) Sqrt() Vector[T] {
 	return New(
-		rm.Sqrt(v.x),
-		rm.Sqrt(v.y),
-		rm.Sqrt(v.z),
+		rm.Sqrt(v.X),
+		rm.Sqrt(v.Y),
+		rm.Sqrt(v.Z),
 	)
 }
 
 // Abs applies the Abs math operation to each component of the vector
 func (v Vector[T]) Abs() Vector[T] {
 	return New(
-		T(rm.Abs(v.x)),
-		T(rm.Abs(v.y)),
-		T(rm.Abs(v.z)),
+		T(rm.Abs(v.X)),
+		T(rm.Abs(v.Y)),
+		T(rm.Abs(v.Z)),
 	)
 }
 
 func (v Vector[T]) Clamp(vmin, vmax T) Vector[T] {
 	return Vector[T]{
-		x: rm.Clamp(v.x, vmin, vmax),
-		y: rm.Clamp(v.y, vmin, vmax),
-		z: rm.Clamp(v.z, vmin, vmax),
+		X: rm.Clamp(v.X, vmin, vmax),
+		Y: rm.Clamp(v.Y, vmin, vmax),
+		Z: rm.Clamp(v.Z, vmin, vmax),
 	}
 }
 
@@ -569,49 +554,49 @@ func (v Vector[T]) Clamp(vmin, vmax T) Vector[T] {
 // in, returning a resulting vector
 func (v Vector[T]) Add(other Vector[T]) Vector[T] {
 	return Vector[T]{
-		x: v.x + other.x,
-		y: v.y + other.y,
-		z: v.z + other.z,
+		X: v.X + other.X,
+		Y: v.Y + other.Y,
+		Z: v.Z + other.Z,
 	}
 }
 
 func (v Vector[T]) Sub(other Vector[T]) Vector[T] {
 	return Vector[T]{
-		x: v.x - other.x,
-		y: v.y - other.y,
-		z: v.z - other.z,
+		X: v.X - other.X,
+		Y: v.Y - other.Y,
+		Z: v.Z - other.Z,
 	}
 }
 
 func (v Vector[T]) ReciprocalF() Vector[float32] {
 	return Vector[float32]{
-		x: 1.0 / float32(v.x),
-		y: 1.0 / float32(v.y),
-		z: 1.0 / float32(v.z),
+		X: 1.0 / float32(v.X),
+		Y: 1.0 / float32(v.Y),
+		Z: 1.0 / float32(v.Z),
 	}
 }
 
 func (v Vector[T]) Reciprocal() Vector[float64] {
 	return Vector[float64]{
-		x: 1.0 / float64(v.x),
-		y: 1.0 / float64(v.y),
-		z: 1.0 / float64(v.z),
+		X: 1.0 / float64(v.X),
+		Y: 1.0 / float64(v.Y),
+		Z: 1.0 / float64(v.Z),
 	}
 }
 
 func (v Vector[T]) Product() T {
-	return v.x * v.y * v.z
+	return v.X * v.Y * v.Z
 }
 
 func (v Vector[T]) Dot(other Vector[T]) T {
-	return (v.x * other.x) + (v.y * other.y) + (v.z * other.z)
+	return (v.X * other.X) + (v.Y * other.Y) + (v.Z * other.Z)
 }
 
 func (v Vector[T]) Cross(other Vector[T]) Vector[T] {
 	return Vector[T]{
-		x: (v.y * other.z) - (v.z * other.y),
-		y: (v.z * other.x) - (v.x * other.z),
-		z: (v.x * other.y) - (v.y * other.x),
+		X: (v.Y * other.Z) - (v.Z * other.Y),
+		Y: (v.Z * other.X) - (v.X * other.Z),
+		Z: (v.X * other.Y) - (v.Y * other.X),
 	}
 }
 
@@ -622,9 +607,9 @@ func (v Vector[T]) Normalized() Vector[T] {
 // Rand returns a vector with each component being a random value between [0.0, 1.0)
 func Rand(r *rand.Rand) Vector[float64] {
 	return Vector[float64]{
-		x: r.Float64(),
-		y: r.Float64(),
-		z: r.Float64(),
+		X: r.Float64(),
+		Y: r.Float64(),
+		Z: r.Float64(),
 	}
 }
 
@@ -633,9 +618,9 @@ func Rand(r *rand.Rand) Vector[float64] {
 func RandRange[T rm.SignedNumber](r *rand.Rand, min, max T) Vector[T] {
 	dist := float64(max - min)
 	return Vector[T]{
-		x: T(r.Float64()*dist) + min,
-		y: T(r.Float64()*dist) + min,
-		z: T(r.Float64()*dist) + min,
+		X: T(r.Float64()*dist) + min,
+		Y: T(r.Float64()*dist) + min,
+		Z: T(r.Float64()*dist) + min,
 	}
 }
 
@@ -652,33 +637,33 @@ func RandInUnitSphere(r *rand.Rand) Vector[float64] {
 // RandNormal returns a random normal
 func RandNormal(r *rand.Rand) Vector[float64] {
 	return Vector[float64]{
-		x: -1. + (r.Float64() * 2.),
-		y: -1. + (r.Float64() * 2.),
-		z: -1. + (r.Float64() * 2.),
+		X: -1. + (r.Float64() * 2.),
+		Y: -1. + (r.Float64() * 2.),
+		Z: -1. + (r.Float64() * 2.),
 	}.Normalized()
 }
 
 func (v Vector[T]) Negated() Vector[T] {
 	return Vector[T]{
-		x: -v.x,
-		y: -v.y,
-		z: -v.z,
+		X: -v.X,
+		Y: -v.Y,
+		Z: -v.Z,
 	}
 }
 
 func (v Vector[T]) Scale(t float64) Vector[T] {
 	return Vector[T]{
-		x: T(float64(v.x) * t),
-		y: T(float64(v.y) * t),
-		z: T(float64(v.z) * t),
+		X: T(float64(v.X) * t),
+		Y: T(float64(v.Y) * t),
+		Z: T(float64(v.Z) * t),
 	}
 }
 
 func (v Vector[T]) ScaleF(t float32) Vector[T] {
 	return Vector[T]{
-		x: T(float32(v.x) * t),
-		y: T(float32(v.y) * t),
-		z: T(float32(v.z) * t),
+		X: T(float32(v.X) * t),
+		Y: T(float32(v.Y) * t),
+		Z: T(float32(v.Z) * t),
 	}
 }
 
@@ -707,17 +692,17 @@ func (v Vector[T]) Refract(normal Vector[T], etaiOverEtat float64) Vector[T] {
 // MultByVector is component wise multiplication, also known as Hadamard product.
 func (v Vector[T]) MultByVector(o Vector[T]) Vector[T] {
 	return Vector[T]{
-		x: v.x * o.x,
-		y: v.y * o.y,
-		z: v.z * o.z,
+		X: v.X * o.X,
+		Y: v.Y * o.Y,
+		Z: v.Z * o.Z,
 	}
 }
 
 func (v Vector[T]) DivByConstant(t float64) Vector[T] {
 	return Vector[T]{
-		x: T(float64(v.x) / t),
-		y: T(float64(v.y) / t),
-		z: T(float64(v.z) / t),
+		X: T(float64(v.X) / t),
+		Y: T(float64(v.Y) / t),
+		Z: T(float64(v.Z) / t),
 	}
 }
 
@@ -730,13 +715,13 @@ func (v Vector[T]) LengthF() float32 {
 }
 
 func (v Vector[T]) LengthSquared() T {
-	return (v.x * v.x) + (v.y * v.y) + (v.z * v.z)
+	return (v.X * v.X) + (v.Y * v.Y) + (v.Z * v.Z)
 }
 
 func (v Vector[T]) DistanceSquared(other Vector[T]) T {
-	xDist := other.x - v.x
-	yDist := other.y - v.y
-	zDist := other.z - v.z
+	xDist := other.X - v.X
+	yDist := other.Y - v.Y
+	zDist := other.Z - v.Z
 	return T((xDist * xDist) + (yDist * yDist) + (zDist * zDist))
 }
 
@@ -761,95 +746,95 @@ func (v Vector[T]) AngleF(other Vector[T]) float32 {
 }
 
 func (v Vector[T]) NearZero() bool {
-	return rm.NearZero(v.x) && rm.NearZero(v.y) && rm.NearZero(v.z)
+	return rm.NearZero(v.X) && rm.NearZero(v.Y) && rm.NearZero(v.Z)
 }
 
 func (v Vector[T]) Flip() Vector[T] {
 	return Vector[T]{
-		x: v.x * -1,
-		y: v.y * -1,
-		z: v.z * -1,
+		X: v.X * -1,
+		Y: v.Y * -1,
+		Z: v.Z * -1,
 	}
 }
 
 func (v Vector[T]) FlipX() Vector[T] {
 	return Vector[T]{
-		x: v.x * -1,
-		y: v.y,
-		z: v.z,
+		X: v.X * -1,
+		Y: v.Y,
+		Z: v.Z,
 	}
 }
 
 func (v Vector[T]) FlipY() Vector[T] {
 	return Vector[T]{
-		x: v.x,
-		y: v.y * -1,
-		z: v.z,
+		X: v.X,
+		Y: v.Y * -1,
+		Z: v.Z,
 	}
 }
 
 func (v Vector[T]) FlipZ() Vector[T] {
 	return Vector[T]{
-		x: v.x,
-		y: v.y,
-		z: v.z * -1,
+		X: v.X,
+		Y: v.Y,
+		Z: v.Z * -1,
 	}
 }
 
 // Log returns the natural logarithm for each component
 func (v Vector[T]) Log() Vector[T] {
 	return Vector[T]{
-		x: T(math.Log(float64(v.x))),
-		y: T(math.Log(float64(v.y))),
-		z: T(math.Log(float64(v.z))),
+		X: T(math.Log(float64(v.X))),
+		Y: T(math.Log(float64(v.Y))),
+		Z: T(math.Log(float64(v.Z))),
 	}
 }
 
 // Log10 returns the decimal logarithm for each component.
 func (v Vector[T]) Log10() Vector[T] {
 	return Vector[T]{
-		x: T(math.Log10(float64(v.x))),
-		y: T(math.Log10(float64(v.y))),
-		z: T(math.Log10(float64(v.z))),
+		X: T(math.Log10(float64(v.X))),
+		Y: T(math.Log10(float64(v.Y))),
+		Z: T(math.Log10(float64(v.Z))),
 	}
 }
 
 // Log2 returns the binary logarithm for each component
 func (v Vector[T]) Log2() Vector[T] {
 	return Vector[T]{
-		x: T(math.Log2(float64(v.x))),
-		y: T(math.Log2(float64(v.y))),
-		z: T(math.Log2(float64(v.z))),
+		X: T(math.Log2(float64(v.X))),
+		Y: T(math.Log2(float64(v.Y))),
+		Z: T(math.Log2(float64(v.Z))),
 	}
 }
 
 // Exp2 returns 2**x, the base-2 exponential for each component
 func (v Vector[T]) Exp2() Vector[T] {
 	return Vector[T]{
-		x: T(math.Exp2(float64(v.x))),
-		y: T(math.Exp2(float64(v.y))),
-		z: T(math.Exp2(float64(v.z))),
+		X: T(math.Exp2(float64(v.X))),
+		Y: T(math.Exp2(float64(v.Y))),
+		Z: T(math.Exp2(float64(v.Z))),
 	}
 }
 
 // Exp returns e**x, the base-e exponential for each component
 func (v Vector[T]) Exp() Vector[T] {
 	return Vector[T]{
-		x: T(math.Exp(float64(v.x))),
-		y: T(math.Exp(float64(v.y))),
-		z: T(math.Exp(float64(v.z))),
+		X: T(math.Exp(float64(v.X))),
+		Y: T(math.Exp(float64(v.Y))),
+		Z: T(math.Exp(float64(v.Z))),
 	}
 }
 
 // Expm1 returns e**x - 1, the base-e exponential for each component minus 1. It is more accurate than Exp(x) - 1 when the component is near zero
 func (v Vector[T]) Expm1() Vector[T] {
 	return Vector[T]{
-		x: T(math.Expm1(float64(v.x))),
-		y: T(math.Expm1(float64(v.y))),
-		z: T(math.Expm1(float64(v.z))),
+		X: T(math.Expm1(float64(v.X))),
+		Y: T(math.Expm1(float64(v.Y))),
+		Z: T(math.Expm1(float64(v.Z))),
 	}
 }
 
 func (v Vector[T]) Values() (T, T, T) {
-	return v.x, v.y, v.z
+	return v.X, v.Y, v.Z
 }

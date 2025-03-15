@@ -115,12 +115,12 @@ func HorizontalLayout(bounds rl.Rectangle, spacing int) horizontalLayout {
 }
 
 func (hl *horizontalLayout) Layout(wh rl.Vector2, justify Justyfy) rl.Rectangle {
-	whY, dy := justify.Justyfy(wh.Y(), hl.Bounds.Height())
-	if wh.X() < 0 {
-		wh = wh.SetX(hl.Bounds.Width() - float32(hl.position) + wh.X() - float32(hl.spacing))
+	whY, dy := justify.Justyfy(wh.Y, hl.Bounds.Height())
+	if wh.X < 0 {
+		wh = wh.SetX(hl.Bounds.Width() - float32(hl.position) + wh.X - float32(hl.spacing))
 	}
-	r := rl.NewRectangle(hl.Bounds.X()+float32(hl.position), hl.Bounds.Y()+dy, wh.X(), whY)
-	hl.position += int(wh.X()) + hl.spacing
+	r := rl.NewRectangle(hl.Bounds.X()+float32(hl.position), hl.Bounds.Y()+dy, wh.X, whY)
+	hl.position += int(wh.X) + hl.spacing
 	return r
 }
 
@@ -153,12 +153,12 @@ func VerticalLayout(bounds rl.Rectangle, spacing int) verticalLayout {
 }
 
 func (vl *verticalLayout) Layout(wh rl.Vector2, justify Justyfy) rl.Rectangle {
-	whX, dx := justify.Justyfy(wh.X(), vl.Bounds.Width())
-	if wh.Y() < 0 {
-		wh = wh.SetY(vl.Bounds.Height() - float32(vl.position) + wh.Y() - float32(vl.spacing))
+	whX, dx := justify.Justyfy(wh.X, vl.Bounds.Width())
+	if wh.Y < 0 {
+		wh = wh.SetY(vl.Bounds.Height() - float32(vl.position) + wh.Y - float32(vl.spacing))
 	}
-	r := rl.NewRectangle(vl.Bounds.X()+dx, vl.Bounds.Y()+float32(vl.position), whX, wh.Y())
-	vl.position += int(wh.Y()) + vl.spacing
+	r := rl.NewRectangle(vl.Bounds.X()+dx, vl.Bounds.Y()+float32(vl.position), whX, wh.Y)
+	vl.position += int(wh.Y) + vl.spacing
 	return r
 }
 

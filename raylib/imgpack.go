@@ -103,8 +103,8 @@ func LoadImageAtlas(width, height int, fileNames ...string) (ImageAtlas, error) 
 	rect := make([]PackRect, len(images))
 	for i, img := range images {
 		img_size := img.GetSize().AddXY(2, 2)
-		rect[i].w = C.int(img_size.X())
-		rect[i].h = C.int(img_size.Y())
+		rect[i].w = C.int(img_size.X)
+		rect[i].h = C.int(img_size.Y)
 	}
 	icons, err := PackRects(width, height, rect...)
 	if err != nil {
@@ -139,8 +139,8 @@ func LoadImageAtlasEx(width, height int, imgFn func(path string) Image, fileName
 	rect := make([]PackRect, len(images))
 	for i, img := range images {
 		img_size := img.GetSize().AddXY(2, 2)
-		rect[i].w = C.int(img_size.X())
-		rect[i].h = C.int(img_size.Y())
+		rect[i].w = C.int(img_size.X)
+		rect[i].h = C.int(img_size.Y)
 	}
 	icons, err := PackRects(width, height, rect...)
 	if err != nil {

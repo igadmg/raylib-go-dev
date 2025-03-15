@@ -113,11 +113,11 @@ func (r Rectangle[T]) SetB(b vector2.Vector[T]) Rectangle[T] {
 }
 
 func (r Rectangle[T]) HorizontalLine(y T) (vector2.Vector[T], vector2.Vector[T]) {
-	return vector2.New(r.A().X(), y), vector2.New(r.B().X(), y)
+	return vector2.New(r.A().X, y), vector2.New(r.B().X, y)
 }
 
 func (r Rectangle[T]) VerticalLine(x T) (vector2.Vector[T], vector2.Vector[T]) {
-	return vector2.New(x, r.A().Y()), vector2.New(x, r.B().Y())
+	return vector2.New(x, r.A().Y), vector2.New(x, r.B().Y)
 }
 
 func (r Rectangle[T]) Center() vector2.Vector[T] {
@@ -161,7 +161,7 @@ func (v Rectangle[T]) ToInt64() Rectangle[int64] {
 
 // X returns the x of the xy component
 func (r Rectangle[T]) X() T {
-	return r.position.X()
+	return r.position.X
 }
 
 // SetX changes the x of the xy component of the rectangle
@@ -181,7 +181,7 @@ func (r Rectangle[T]) AddX(dX T) Rectangle[T] {
 
 // Y returns the y of the xy component
 func (r Rectangle[T]) Y() T {
-	return r.position.Y()
+	return r.position.Y
 }
 
 // SetY changes the y of the xy component of the rectangle
@@ -201,7 +201,7 @@ func (r Rectangle[T]) AddY(dY T) Rectangle[T] {
 
 // Width returns the x of the wh component
 func (r Rectangle[T]) Width() T {
-	return r.size.X()
+	return r.size.X
 }
 
 // SetWidth changes the x of the wh component of the rectangle
@@ -221,7 +221,7 @@ func (r Rectangle[T]) AddWidth(dW T) Rectangle[T] {
 
 // Y returns the y of the wh component
 func (r Rectangle[T]) Height() T {
-	return r.size.Y()
+	return r.size.Y
 }
 
 // SetHeight changes the y of the wh component of the rectangle

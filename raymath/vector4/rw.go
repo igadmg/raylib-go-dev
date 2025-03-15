@@ -15,55 +15,55 @@ func (v Vector[T]) Write(out io.Writer, endian binary.ByteOrder) (err error) {
 	switch vv := any(v).(type) {
 	case Float64:
 		bytes := make([]byte, 8*componentCount)
-		endian.PutUint64(bytes, math.Float64bits(vv.x))
-		endian.PutUint64(bytes[8:], math.Float64bits(vv.y))
-		endian.PutUint64(bytes[16:], math.Float64bits(vv.z))
-		endian.PutUint64(bytes[24:], math.Float64bits(vv.w))
+		endian.PutUint64(bytes, math.Float64bits(vv.X))
+		endian.PutUint64(bytes[8:], math.Float64bits(vv.Y))
+		endian.PutUint64(bytes[16:], math.Float64bits(vv.Z))
+		endian.PutUint64(bytes[24:], math.Float64bits(vv.W))
 		_, err = out.Write(bytes)
 		return
 
 	case Float32:
 		bytes := make([]byte, 4*componentCount)
-		endian.PutUint32(bytes, math.Float32bits(vv.x))
-		endian.PutUint32(bytes[4:], math.Float32bits(vv.y))
-		endian.PutUint32(bytes[8:], math.Float32bits(vv.z))
-		endian.PutUint32(bytes[12:], math.Float32bits(vv.w))
+		endian.PutUint32(bytes, math.Float32bits(vv.X))
+		endian.PutUint32(bytes[4:], math.Float32bits(vv.Y))
+		endian.PutUint32(bytes[8:], math.Float32bits(vv.Z))
+		endian.PutUint32(bytes[12:], math.Float32bits(vv.W))
 		_, err = out.Write(bytes)
 		return
 
 	case Int8:
 		_, err = out.Write([]byte{
-			byte(vv.x),
-			byte(vv.y),
-			byte(vv.z),
-			byte(vv.w),
+			byte(vv.X),
+			byte(vv.Y),
+			byte(vv.Z),
+			byte(vv.W),
 		})
 		return
 
 	case Int16:
 		bytes := make([]byte, 2*componentCount)
-		endian.PutUint16(bytes, uint16(vv.x))
-		endian.PutUint16(bytes[2:], uint16(vv.y))
-		endian.PutUint16(bytes[4:], uint16(vv.z))
-		endian.PutUint16(bytes[6:], uint16(vv.w))
+		endian.PutUint16(bytes, uint16(vv.X))
+		endian.PutUint16(bytes[2:], uint16(vv.Y))
+		endian.PutUint16(bytes[4:], uint16(vv.Z))
+		endian.PutUint16(bytes[6:], uint16(vv.W))
 		_, err = out.Write(bytes)
 		return
 
 	case Int32:
 		bytes := make([]byte, 4*componentCount)
-		endian.PutUint32(bytes, uint32(vv.x))
-		endian.PutUint32(bytes[4:], uint32(vv.y))
-		endian.PutUint32(bytes[8:], uint32(vv.z))
-		endian.PutUint32(bytes[12:], uint32(vv.w))
+		endian.PutUint32(bytes, uint32(vv.X))
+		endian.PutUint32(bytes[4:], uint32(vv.Y))
+		endian.PutUint32(bytes[8:], uint32(vv.Z))
+		endian.PutUint32(bytes[12:], uint32(vv.W))
 		_, err = out.Write(bytes)
 		return
 
 	case Int64:
 		bytes := make([]byte, 8*componentCount)
-		endian.PutUint64(bytes, uint64(vv.x))
-		endian.PutUint64(bytes[8:], uint64(vv.y))
-		endian.PutUint64(bytes[16:], uint64(vv.z))
-		endian.PutUint64(bytes[24:], uint64(vv.w))
+		endian.PutUint64(bytes, uint64(vv.X))
+		endian.PutUint64(bytes[8:], uint64(vv.Y))
+		endian.PutUint64(bytes[16:], uint64(vv.Z))
+		endian.PutUint64(bytes[24:], uint64(vv.W))
 		_, err = out.Write(bytes)
 		return
 	}
@@ -105,10 +105,10 @@ func ReadFloat64(in io.Reader, endian binary.ByteOrder) (Vector[float64], error)
 	buf := make([]byte, componentCount*8)
 	_, err := io.ReadFull(in, buf)
 	return Vector[float64]{
-		x: math.Float64frombits(endian.Uint64(buf)),
-		y: math.Float64frombits(endian.Uint64(buf[8:])),
-		z: math.Float64frombits(endian.Uint64(buf[16:])),
-		w: math.Float64frombits(endian.Uint64(buf[24:])),
+		X: math.Float64frombits(endian.Uint64(buf)),
+		Y: math.Float64frombits(endian.Uint64(buf[8:])),
+		Z: math.Float64frombits(endian.Uint64(buf[16:])),
+		W: math.Float64frombits(endian.Uint64(buf[24:])),
 	}, err
 }
 
@@ -116,10 +116,10 @@ func ReadFloat32(in io.Reader, endian binary.ByteOrder) (Vector[float32], error)
 	buf := make([]byte, componentCount*4)
 	_, err := io.ReadFull(in, buf)
 	return Vector[float32]{
-		x: math.Float32frombits(endian.Uint32(buf)),
-		y: math.Float32frombits(endian.Uint32(buf[4:])),
-		z: math.Float32frombits(endian.Uint32(buf[8:])),
-		w: math.Float32frombits(endian.Uint32(buf[12:])),
+		X: math.Float32frombits(endian.Uint32(buf)),
+		Y: math.Float32frombits(endian.Uint32(buf[4:])),
+		Z: math.Float32frombits(endian.Uint32(buf[8:])),
+		W: math.Float32frombits(endian.Uint32(buf[12:])),
 	}, err
 }
 
@@ -127,10 +127,10 @@ func ReadInt8(in io.Reader) (Vector[int8], error) {
 	buf := make([]byte, componentCount)
 	_, err := io.ReadFull(in, buf)
 	return Vector[int8]{
-		x: int8(buf[0]),
-		y: int8(buf[1]),
-		z: int8(buf[2]),
-		w: int8(buf[3]),
+		X: int8(buf[0]),
+		Y: int8(buf[1]),
+		Z: int8(buf[2]),
+		W: int8(buf[3]),
 	}, err
 }
 
@@ -138,10 +138,10 @@ func ReadInt16(in io.Reader, endian binary.ByteOrder) (Vector[int16], error) {
 	buf := make([]byte, componentCount*2)
 	_, err := io.ReadFull(in, buf)
 	return Vector[int16]{
-		x: int16(endian.Uint16(buf)),
-		y: int16(endian.Uint16(buf[2:])),
-		z: int16(endian.Uint16(buf[4:])),
-		w: int16(endian.Uint16(buf[6:])),
+		X: int16(endian.Uint16(buf)),
+		Y: int16(endian.Uint16(buf[2:])),
+		Z: int16(endian.Uint16(buf[4:])),
+		W: int16(endian.Uint16(buf[6:])),
 	}, err
 }
 
@@ -149,10 +149,10 @@ func ReadInt32(in io.Reader, endian binary.ByteOrder) (Vector[int32], error) {
 	buf := make([]byte, componentCount*4)
 	_, err := io.ReadFull(in, buf)
 	return Vector[int32]{
-		x: int32(endian.Uint32(buf)),
-		y: int32(endian.Uint32(buf[4:])),
-		z: int32(endian.Uint32(buf[8:])),
-		w: int32(endian.Uint32(buf[12:])),
+		X: int32(endian.Uint32(buf)),
+		Y: int32(endian.Uint32(buf[4:])),
+		Z: int32(endian.Uint32(buf[8:])),
+		W: int32(endian.Uint32(buf[12:])),
 	}, err
 }
 
@@ -160,9 +160,9 @@ func ReadInt64(in io.Reader, endian binary.ByteOrder) (Vector[int64], error) {
 	buf := make([]byte, componentCount*8)
 	_, err := io.ReadFull(in, buf)
 	return Vector[int64]{
-		x: int64(endian.Uint64(buf)),
-		y: int64(endian.Uint64(buf[8:])),
-		z: int64(endian.Uint64(buf[16:])),
-		w: int64(endian.Uint64(buf[24:])),
+		X: int64(endian.Uint64(buf)),
+		Y: int64(endian.Uint64(buf[8:])),
+		Z: int64(endian.Uint64(buf[16:])),
+		W: int64(endian.Uint64(buf[24:])),
 	}, err
 }
