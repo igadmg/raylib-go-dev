@@ -547,7 +547,7 @@ func NewQuaternion(x, y, z, w float32) Quaternion {
 
 // NewColor - Returns new Color
 func NewColor(r, g, b, a uint8) colorex.RGBA {
-	return colorex.RGBA{r, g, b, a}
+	return colorex.RGBA{R: r, G: g, B: b, A: a}
 }
 
 // Rectangle type
