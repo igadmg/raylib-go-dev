@@ -117,7 +117,7 @@ func One[T rm.SignedNumber]() Vector[T] {
 }
 
 // Lerp linearly interpolates between a and b by t
-func Lerp[T rm.SignedNumber](t float64, a, b Vector[T]) Vector[T] {
+func Lerp[T rm.SignedNumber](t float32, a, b Vector[T]) Vector[T] {
 	return Vector[T]{
 		X: rm.Lerp(t, a.X, b.X),
 		Y: rm.Lerp(t, a.Y, b.Y),
@@ -256,7 +256,7 @@ func (v Vector[T]) Format(format string) string {
 	return fmt.Sprintf(format, v.X, v.Y)
 }
 
-// Sqrt applies the math.Sqrt to each component of the vector
+// Sqrt applies the Sqrt to each component of the vector
 func (v Vector[T]) Sqrt() Vector[T] {
 	return New(
 		rm.Sqrt(v.X),
@@ -455,7 +455,7 @@ func (v Vector[T]) LengthSquared() T {
 }
 
 func (v Vector[T]) Length() float64 {
-	return math.Sqrt((float64)(v.LengthSquared()))
+	return rm.Sqrt((float64)(v.LengthSquared()))
 }
 
 func (v Vector[T]) LengthF() float32 {
@@ -475,8 +475,8 @@ func (v Vector[T]) NormalizeF(a Vector[T]) Float32 {
 
 func (v Vector[T]) Normalize(a Vector[T]) Float64 {
 	return Float64{
-		X: rm.Normalize(a.X, 0, v.X),
-		Y: rm.Normalize(a.Y, 0, v.Y),
+		X: float64(rm.Normalize(a.X, 0, v.X)),
+		Y: float64(rm.Normalize(a.Y, 0, v.Y)),
 	}
 }
 
@@ -584,7 +584,7 @@ func (v Vector[T]) DistanceSquared(other Vector[T]) T {
 
 // Distance is the euclidean distance between two points
 func (v Vector[T]) Distance(other Vector[T]) float64 {
-	return math.Sqrt((float64)(v.DistanceSquared(other)))
+	return rm.Sqrt((float64)(v.DistanceSquared(other)))
 }
 
 // Round takes each component of the vector and rounds it to the nearest whole
@@ -693,48 +693,48 @@ func (v Vector[T]) Pivot(anchor Vector[T], wh Vector[T]) Vector[T] {
 // Log returns the natural logarithm for each component
 func (v Vector[T]) Log() Vector[T] {
 	return Vector[T]{
-		X: T(math.Log(float64(v.X))),
-		Y: T(math.Log(float64(v.Y))),
+		X: rm.Log(v.X),
+		Y: rm.Log(v.Y),
 	}
 }
 
 // Log10 returns the decimal logarithm for each component.
 func (v Vector[T]) Log10() Vector[T] {
 	return Vector[T]{
-		X: T(math.Log10(float64(v.X))),
-		Y: T(math.Log10(float64(v.Y))),
+		X: rm.Log10(v.X),
+		Y: rm.Log10(v.Y),
 	}
 }
 
 // Log2 returns the binary logarithm for each component
 func (v Vector[T]) Log2() Vector[T] {
 	return Vector[T]{
-		X: T(math.Log2(float64(v.X))),
-		Y: T(math.Log2(float64(v.Y))),
+		X: rm.Log2(v.X),
+		Y: rm.Log2(v.Y),
 	}
 }
 
 // Exp2 returns 2**x, the base-2 exponential for each component
 func (v Vector[T]) Exp2() Vector[T] {
 	return Vector[T]{
-		X: T(math.Exp2(float64(v.X))),
-		Y: T(math.Exp2(float64(v.Y))),
+		X: rm.Exp2(v.X),
+		Y: rm.Exp2(v.Y),
 	}
 }
 
 // Exp returns e**x, the base-e exponential for each component
 func (v Vector[T]) Exp() Vector[T] {
 	return Vector[T]{
-		X: T(math.Exp(float64(v.X))),
-		Y: T(math.Exp(float64(v.Y))),
+		X: rm.Exp(v.X),
+		Y: rm.Exp(v.Y),
 	}
 }
 
 // Expm1 returns e**x - 1, the base-e exponential for each component minus 1. It is more accurate than Exp(x) - 1 when the component is near zero
 func (v Vector[T]) Expm1() Vector[T] {
 	return Vector[T]{
-		X: T(math.Expm1(float64(v.X))),
-		Y: T(math.Expm1(float64(v.Y))),
+		X: rm.Expm1(v.X),
+		Y: rm.Expm1(v.Y),
 	}
 }
 

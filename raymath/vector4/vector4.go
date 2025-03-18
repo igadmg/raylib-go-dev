@@ -482,7 +482,7 @@ func (v Vector[T]) LengthSquared() T {
 	return (v.X * v.X) + (v.Y * v.Y) + (v.Z * v.Z) + (v.W * v.W)
 }
 
-// Sqrt applies the math.Sqrt to each component of the vector
+// Sqrt applies the Sqrt to each component of the vector
 func (v Vector[T]) Sqrt() Vector[T] {
 	return New(
 		rm.Sqrt(v.X),
@@ -655,7 +655,7 @@ func (v Vector[T]) FlipW() Vector[T] {
 }
 
 func (v Vector[T]) XYZ() vector3.Vector[T] {
-	return vector3.New[T](v.X, v.Y, v.Z)
+	return vector3.New(v.X, v.Y, v.Z)
 }
 
 // XY returns vector2 with the x and y components
@@ -691,60 +691,60 @@ func (v Vector[T]) ZY() vector2.Vector[T] {
 // Log returns the natural logarithm for each component
 func (v Vector[T]) Log() Vector[T] {
 	return Vector[T]{
-		X: T(math.Log(float64(v.X))),
-		Y: T(math.Log(float64(v.Y))),
-		Z: T(math.Log(float64(v.Z))),
-		W: T(math.Log(float64(v.W))),
+		X: rm.Log(v.X),
+		Y: rm.Log(v.Y),
+		Z: rm.Log(v.Z),
+		W: rm.Log(v.W),
 	}
 }
 
 // Log10 returns the decimal logarithm for each component.
 func (v Vector[T]) Log10() Vector[T] {
 	return Vector[T]{
-		X: T(math.Log10(float64(v.X))),
-		Y: T(math.Log10(float64(v.Y))),
-		Z: T(math.Log10(float64(v.Z))),
-		W: T(math.Log10(float64(v.W))),
+		X: rm.Log10(v.X),
+		Y: rm.Log10(v.Y),
+		Z: rm.Log10(v.Z),
+		W: rm.Log10(v.W),
 	}
 }
 
 // Log2 returns the binary logarithm for each component
 func (v Vector[T]) Log2() Vector[T] {
 	return Vector[T]{
-		X: T(math.Log2(float64(v.X))),
-		Y: T(math.Log2(float64(v.Y))),
-		Z: T(math.Log2(float64(v.Z))),
-		W: T(math.Log2(float64(v.W))),
+		X: rm.Log2(v.X),
+		Y: rm.Log2(v.Y),
+		Z: rm.Log2(v.Z),
+		W: rm.Log2(v.W),
 	}
 }
 
 // Exp2 returns 2**x, the base-2 exponential for each component
 func (v Vector[T]) Exp2() Vector[T] {
 	return Vector[T]{
-		X: T(math.Exp2(float64(v.X))),
-		Y: T(math.Exp2(float64(v.Y))),
-		Z: T(math.Exp2(float64(v.Z))),
-		W: T(math.Exp2(float64(v.W))),
+		X: rm.Exp2(v.X),
+		Y: rm.Exp2(v.Y),
+		Z: rm.Exp2(v.Z),
+		W: rm.Exp2(v.W),
 	}
 }
 
 // Exp returns e**x, the base-e exponential for each component
 func (v Vector[T]) Exp() Vector[T] {
 	return Vector[T]{
-		X: T(math.Exp(float64(v.X))),
-		Y: T(math.Exp(float64(v.Y))),
-		Z: T(math.Exp(float64(v.Z))),
-		W: T(math.Exp(float64(v.W))),
+		X: rm.Exp(v.X),
+		Y: rm.Exp(v.Y),
+		Z: rm.Exp(v.Z),
+		W: rm.Exp(v.W),
 	}
 }
 
 // Expm1 returns e**x - 1, the base-e exponential for each component minus 1. It is more accurate than Exp(x) - 1 when the component is near zero
 func (v Vector[T]) Expm1() Vector[T] {
 	return Vector[T]{
-		X: T(math.Expm1(float64(v.X))),
-		Y: T(math.Expm1(float64(v.Y))),
-		Z: T(math.Expm1(float64(v.Z))),
-		W: T(math.Expm1(float64(v.W))),
+		X: rm.Expm1(v.X),
+		Y: rm.Expm1(v.Y),
+		Z: rm.Expm1(v.Z),
+		W: rm.Expm1(v.W),
 	}
 }
 

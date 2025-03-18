@@ -1,8 +1,7 @@
 package raymath
 
 import (
-	"math"
-
+	math "github.com/chewxy/math32"
 	"golang.org/x/exp/constraints"
 )
 
@@ -16,7 +15,7 @@ type Number interface {
 
 func NearZero[T Number](v T) bool {
 	const s = 1e-8
-	return math.Abs(float64(v)) < s
+	return math.Abs(float32(v)) < s
 }
 
 // Npot - Find neares power of two greater than v
@@ -29,8 +28,8 @@ func Npot[T Number](v T) T {
 }
 
 // Lerp - Calculate linear interpolation between two floats
-func Lerp[T Number](time float64, start, end T) T {
-	return T(float64(start) + time*float64(end-start))
+func Lerp[T Number](time float32, start, end T) T {
+	return T(float32(start) + time*float32(end-start))
 }
 
 // Normalize - Normalize input value within input range
@@ -39,8 +38,8 @@ func NormalizeF[T Number](value, start, end T) float32 {
 }
 
 // Normalize - Normalize input value within input range
-func Normalize[T Number](value, start, end T) float64 {
-	return float64(value-start) / float64(end-start)
+func Normalize[T Number](value, start, end T) float32 {
+	return float32(value-start) / float32(end-start)
 }
 
 // Remap - Remap input value within input range to output range
@@ -62,37 +61,61 @@ func Clamp0[T Number](f, vmax T) T {
 }
 
 func Abs[T Number](v T) T {
-	return T(math.Abs(float64(v)))
+	return T(math.Abs(float32(v)))
 }
 
 func Round[T Number](v T) T {
-	return T(math.Round(float64(v)))
+	return T(math.Round(float32(v)))
 }
 
 func Ceil[T Number](v T) T {
-	return T(math.Ceil(float64(v)))
+	return T(math.Ceil(float32(v)))
 }
 
 func Floor[T Number](v T) T {
-	return T(math.Floor(float64(v)))
+	return T(math.Floor(float32(v)))
 }
 
 func Sqrt[T Number](v T) T {
-	return T(math.Sqrt(float64(v)))
+	return T(math.Sqrt(float32(v)))
 }
 
 func Cos[T constraints.Float](v T) T {
-	return T(math.Cos(float64(v)))
+	return T(math.Cos(float32(v)))
 }
 
 func Sin[T constraints.Float](v T) T {
-	return T(math.Sin(float64(v)))
+	return T(math.Sin(float32(v)))
 }
 
 func Acos[T constraints.Float](v T) T {
-	return T(math.Acos(float64(v)))
+	return T(math.Acos(float32(v)))
 }
 
 func Asin[T constraints.Float](v T) T {
-	return T(math.Asin(float64(v)))
+	return T(math.Asin(float32(v)))
+}
+
+func Log[T Number](v T) T {
+	return T(math.Log(float32(v)))
+}
+
+func Log10[T Number](v T) T {
+	return T(math.Log10(float32(v)))
+}
+
+func Log2[T Number](v T) T {
+	return T(math.Log2(float32(v)))
+}
+
+func Exp2[T Number](v T) T {
+	return T(math.Exp2(float32(v)))
+}
+
+func Exp[T Number](v T) T {
+	return T(math.Exp(float32(v)))
+}
+
+func Expm1[T Number](v T) T {
+	return T(math.Expm1(float32(v)))
 }
