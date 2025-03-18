@@ -8,11 +8,11 @@ package rl
 import "C"
 import (
 	"fmt"
-	"image/color"
 	"iter"
 	"runtime"
 	"unsafe"
 
+	"github.com/igadmg/goex/image/colorex"
 	"github.com/igadmg/raylib-go/raymath/rect2"
 	"github.com/igadmg/raylib-go/raymath/vector2"
 )
@@ -180,7 +180,7 @@ func (t TextureAtlasItem) DrawProDef(destRec Rectangle) {
 	DrawTexturePro(t.Texture, t.Rect, destRec, vector2.Zero[float32](), 0, White)
 }
 
-func (t TextureAtlasItem) DrawProTintedDef(destRec Rectangle, tint color.RGBA) {
+func (t TextureAtlasItem) DrawProTintedDef(destRec Rectangle, tint colorex.RGBA) {
 	DrawTexturePro(t.Texture, t.Rect, destRec, vector2.Zero[float32](), 0, tint)
 }
 

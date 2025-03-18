@@ -8,9 +8,9 @@ package rl
 import "C"
 
 import (
-	"image/color"
 	"unsafe"
 
+	"github.com/igadmg/goex/image/colorex"
 	"github.com/igadmg/raylib-go/raymath/vector2"
 	"github.com/igadmg/raylib-go/raymath/vector4"
 )
@@ -332,7 +332,7 @@ func DisableEventWaiting() {
 }
 
 // ClearBackground - Sets Background Color
-func ClearBackground(col color.RGBA) {
+func ClearBackground(col colorex.RGBA) {
 	ccolor := ccolorptr(&col)
 	C.ClearBackground(*ccolor)
 }
@@ -593,7 +593,7 @@ func GetTime() float64 {
 }
 
 // Fade - Returns color with alpha applied, alpha goes from 0.0f to 1.0f
-func Fade(col color.RGBA, alpha float32) color.RGBA {
+func Fade(col colorex.RGBA, alpha float32) colorex.RGBA {
 	ccolor := ccolorptr(&col)
 	calpha := (C.float)(alpha)
 	ret := C.Fade(*ccolor, calpha)
@@ -601,7 +601,7 @@ func Fade(col color.RGBA, alpha float32) color.RGBA {
 }
 
 // ColorToInt - Returns hexadecimal value for a Color
-func ColorToInt(col color.RGBA) int32 {
+func ColorToInt(col colorex.RGBA) int32 {
 	ccolor := ccolorptr(&col)
 	ret := C.ColorToInt(*ccolor)
 	v := (int32)(ret)
@@ -609,7 +609,7 @@ func ColorToInt(col color.RGBA) int32 {
 }
 
 // ColorNormalize - Returns color normalized as float [0..1]
-func ColorNormalize(col color.RGBA) Vector4 {
+func ColorNormalize(col colorex.RGBA) Vector4 {
 	return vector4.NewFloat32(
 		float32(col.R)/255,
 		float32(col.G)/255,
@@ -618,21 +618,21 @@ func ColorNormalize(col color.RGBA) Vector4 {
 }
 
 // ColorFromNormalized - Returns Color from normalized values [0..1]
-func ColorFromNormalized(normalized Vector4) color.RGBA {
+func ColorFromNormalized(normalized Vector4) colorex.RGBA {
 	cnormalized := cvec4ptr(&normalized)
 	ret := C.ColorFromNormalized(*cnormalized)
 	return *gocolorptr(&ret)
 }
 
 // ColorToHSV - Returns HSV values for a Color, hue [0..360], saturation/value [0..1]
-func ColorToHSV(col color.RGBA) Vector3 {
+func ColorToHSV(col colorex.RGBA) Vector3 {
 	ccolor := ccolorptr(&col)
 	ret := C.ColorToHSV(*ccolor)
 	return *govec3ptr(&ret)
 }
 
 // ColorFromHSV - Returns a Color from HSV values, hue [0..360], saturation/value [0..1]
-func ColorFromHSV(hue, saturation, value float32) color.RGBA {
+func ColorFromHSV(hue, saturation, value float32) colorex.RGBA {
 	chue := (C.float)(hue)
 	csaturation := (C.float)(saturation)
 	cvalue := (C.float)(value)
@@ -641,7 +641,7 @@ func ColorFromHSV(hue, saturation, value float32) color.RGBA {
 }
 
 // ColorTint - Get color multiplied with another color
-func ColorTint(col color.RGBA, tint color.RGBA) color.RGBA {
+func ColorTint(col colorex.RGBA, tint colorex.RGBA) colorex.RGBA {
 	ccolor := ccolorptr(&col)
 	ctint := ccolorptr(&tint)
 	ret := C.ColorTint(*ccolor, *ctint)
@@ -649,7 +649,7 @@ func ColorTint(col color.RGBA, tint color.RGBA) color.RGBA {
 }
 
 // ColorBrightness - Get color with brightness correction, brightness factor goes from -1.0f to 1.0f
-func ColorBrightness(col color.RGBA, factor float32) color.RGBA {
+func ColorBrightness(col colorex.RGBA, factor float32) colorex.RGBA {
 	ccolor := ccolorptr(&col)
 	cfactor := C.float(factor)
 	ret := C.ColorBrightness(*ccolor, cfactor)
@@ -657,7 +657,7 @@ func ColorBrightness(col color.RGBA, factor float32) color.RGBA {
 }
 
 // ColorContrast - Get color with contrast correction, contrast values between -1.0f and 1.0f
-func ColorContrast(col color.RGBA, contrast float32) color.RGBA {
+func ColorContrast(col colorex.RGBA, contrast float32) colorex.RGBA {
 	ccolor := ccolorptr(&col)
 	ccontrast := C.float(contrast)
 	ret := C.ColorContrast(*ccolor, ccontrast)
@@ -665,12 +665,12 @@ func ColorContrast(col color.RGBA, contrast float32) color.RGBA {
 }
 
 // ColorAlpha - Returns color with alpha applied, alpha goes from 0.0f to 1.0f
-func ColorAlpha(col color.RGBA, alpha float32) color.RGBA {
+func ColorAlpha(col colorex.RGBA, alpha float32) colorex.RGBA {
 	return Fade(col, alpha)
 }
 
 // ColorAlphaBlend - Returns src alpha-blended into dst color with tint
-func ColorAlphaBlend(src, dst, tint color.RGBA) color.RGBA {
+func ColorAlphaBlend(src, dst, tint colorex.RGBA) colorex.RGBA {
 	csrc := ccolorptr(&src)
 	cdst := ccolorptr(&dst)
 	ctint := ccolorptr(&tint)
@@ -679,7 +679,7 @@ func ColorAlphaBlend(src, dst, tint color.RGBA) color.RGBA {
 }
 
 // GetColor - Returns a Color struct from hexadecimal value
-func GetColor(hexValue uint) color.RGBA {
+func GetColor(hexValue uint) colorex.RGBA {
 	chexValue := (C.uint)(hexValue)
 	ret := C.GetColor(chexValue)
 	return *gocolorptr(&ret)

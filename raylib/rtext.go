@@ -6,8 +6,9 @@ package rl
 */
 import "C"
 import (
-	"image/color"
 	"unsafe"
+
+	"github.com/igadmg/goex/image/colorex"
 )
 
 var defaultFont Font
@@ -50,7 +51,7 @@ func LoadFontEx(fileName string, fontSize int32, fontChars []rune, runesNumber .
 }
 
 // LoadFontFromImage - Loads an Image font file (XNA style)
-func LoadFontFromImage(image Image, key color.RGBA, firstChar int32) Font {
+func LoadFontFromImage(image Image, key colorex.RGBA, firstChar int32) Font {
 	cimage := image.cptr()
 	ckey := ccolorptr(&key)
 	cfirstChar := (C.int)(firstChar)
@@ -111,7 +112,7 @@ func DrawFPS[XT, YT CoordinateT](posX XT, posY YT) {
 }
 
 // DrawText - Draw text (using default font)
-func DrawText[XT, YT CoordinateT](text string, posX XT, posY YT, fontSize int32, col color.RGBA) {
+func DrawText[XT, YT CoordinateT](text string, posX XT, posY YT, fontSize int32, col colorex.RGBA) {
 	ctext := textAlloc(text)
 	cposX := (C.int)(posX)
 	cposY := (C.int)(posY)
@@ -121,7 +122,7 @@ func DrawText[XT, YT CoordinateT](text string, posX XT, posY YT, fontSize int32,
 }
 
 // DrawTextEx - Draw text using Font and additional parameters
-func DrawTextEx(font *Font, text string, position Vector2, fontSize float32, spacing float32, tint color.RGBA) {
+func DrawTextEx(font *Font, text string, position Vector2, fontSize float32, spacing float32, tint colorex.RGBA) {
 	cfont := font.cptr()
 	ctext := textAlloc(text)
 	cposition := cvec2ptr(&position)
@@ -131,7 +132,7 @@ func DrawTextEx(font *Font, text string, position Vector2, fontSize float32, spa
 	C.DrawTextEx(*cfont, ctext, *cposition, cfontSize, cspacing, *ctint)
 }
 
-func DrawTextLayout(font *Font, text string, fontSize float32, spacing float32, tint color.RGBA, layoutFn func(wh Vector2) Rectangle) {
+func DrawTextLayout(font *Font, text string, fontSize float32, spacing float32, tint colorex.RGBA, layoutFn func(wh Vector2) Rectangle) {
 	rect := layoutFn(MeasureTextEx(font, text, fontSize, spacing))
 	DrawTextEx(font, text, rect.Position, fontSize, spacing, tint)
 }

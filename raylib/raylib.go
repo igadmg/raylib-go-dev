@@ -9,11 +9,11 @@ NOTE for ADVENTURERS: raylib is a programming library to learn videogames progra
 package rl
 
 import (
-	"image/color"
 	"io"
 	"runtime"
 	"unsafe"
 
+	"github.com/igadmg/goex/image/colorex"
 	rm "github.com/igadmg/raylib-go/raymath"
 	"github.com/igadmg/raylib-go/raymath/rect2"
 	"github.com/igadmg/raylib-go/raymath/vector2"
@@ -545,13 +545,9 @@ func NewQuaternion(x, y, z, w float32) Quaternion {
 	return vector4.NewFloat32(x, y, z, w)
 }
 
-// Color type, RGBA (32bit)
-// TODO remove later, keep type for now to not break code
-type Color = color.RGBA
-
 // NewColor - Returns new Color
-func NewColor(r, g, b, a uint8) color.RGBA {
-	return color.RGBA{r, g, b, a}
+func NewColor(r, g, b, a uint8) colorex.RGBA {
+	return colorex.RGBA{r, g, b, a}
 }
 
 // Rectangle type
@@ -785,7 +781,7 @@ type MaterialMap struct {
 	// Texture
 	Texture Texture2D
 	// Color
-	Color color.RGBA
+	Color colorex.RGBA
 	// Value
 	Value float32
 }
@@ -977,11 +973,11 @@ func (f *Font) IsReady() bool {
 }
 
 // DrawTextEx - Draw text using Font and additional parameters
-func (f *Font) DrawEx(text string, position Vector2, fontSize float32, spacing float32, tint color.RGBA) {
+func (f *Font) DrawEx(text string, position Vector2, fontSize float32, spacing float32, tint colorex.RGBA) {
 	DrawTextEx(f, text, position, fontSize, spacing, tint)
 }
 
-func (f *Font) DrawLayout(text string, fontSize float32, spacing float32, tint color.RGBA, layoutFn func(wh Vector2) Rectangle) {
+func (f *Font) DrawLayout(text string, fontSize float32, spacing float32, tint colorex.RGBA, layoutFn func(wh Vector2) Rectangle) {
 	DrawTextLayout(f, text, fontSize, spacing, tint, layoutFn)
 }
 
@@ -1176,7 +1172,7 @@ func (t Texture2D) GetRect() Rectangle {
 	return NewRectangle(0, 0, t.Width, t.Height)
 }
 
-func (t *Texture2D) Draw(posX int, posY int, tint color.RGBA) {
+func (t *Texture2D) Draw(posX int, posY int, tint colorex.RGBA) {
 	DrawTexture(t, posX, posY, tint)
 }
 
@@ -1184,7 +1180,7 @@ func (t *Texture2D) DrawDef(posX int, posY int) {
 	DrawTexture(t, posX, posY, White)
 }
 
-func (t *Texture2D) DrawV(position Vector2, tint color.RGBA) {
+func (t *Texture2D) DrawV(position Vector2, tint colorex.RGBA) {
 	DrawTextureV(t, position, tint)
 }
 
@@ -1192,7 +1188,7 @@ func (t *Texture2D) DrawVDef(position Vector2) {
 	DrawTextureV(t, position, White)
 }
 
-func (t *Texture2D) DrawEx(position Vector2, rotation, scale float32, tint color.RGBA) {
+func (t *Texture2D) DrawEx(position Vector2, rotation, scale float32, tint colorex.RGBA) {
 	DrawTextureEx(t, position, rotation, scale, tint)
 }
 
@@ -1200,15 +1196,15 @@ func (t *Texture2D) DrawExDef(position Vector2) {
 	DrawTextureEx(t, position, 0, 1, White)
 }
 
-func (t *Texture2D) DrawRec(sourceRec Rectangle, position Vector2, tint color.RGBA) {
+func (t *Texture2D) DrawRec(sourceRec Rectangle, position Vector2, tint colorex.RGBA) {
 	DrawTextureRec(t, sourceRec, position, tint)
 }
 
-func (t *Texture2D) DrawPro(sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint color.RGBA) {
+func (t *Texture2D) DrawPro(sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint colorex.RGBA) {
 	DrawTexturePro(t, sourceRec, destRec, origin, rotation, tint)
 }
 
-func (t *Texture2D) DrawFlippedPro(sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint color.RGBA) {
+func (t *Texture2D) DrawFlippedPro(sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint colorex.RGBA) {
 	sourceRec = sourceRec.ScaleByVectorF(vector2.NewFloat32(1, -1))
 	sourceRec = sourceRec.SetY(float32(t.Height) + sourceRec.Height())
 	DrawTexturePro(t, sourceRec, destRec, origin, rotation, tint)
@@ -1222,7 +1218,7 @@ func (t *Texture2D) DrawProFlippedDef(destRec Rectangle) {
 	DrawTexturePro(t, t.GetRect().ScaleByVectorF(vector2.NewFloat32(1, -1)), destRec, vector2.Zero[float32](), 0, White)
 }
 
-func (t *Texture2D) DrawTiled(source, dest Rectangle, origin Vector2, rotation, scale float32, tint color.RGBA) {
+func (t *Texture2D) DrawTiled(source, dest Rectangle, origin Vector2, rotation, scale float32, tint colorex.RGBA) {
 	DrawTextureTiled(t, source, dest, origin, rotation, scale, tint)
 }
 

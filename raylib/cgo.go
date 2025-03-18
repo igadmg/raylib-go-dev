@@ -9,9 +9,9 @@ package rl
 */
 import "C"
 import (
-	"image/color"
 	"unsafe"
 
+	"github.com/igadmg/goex/image/colorex"
 	"github.com/igadmg/raylib-go/raymath/vector2"
 	"github.com/igadmg/raylib-go/raymath/vector3"
 	"github.com/igadmg/raylib-go/raymath/vector4"
@@ -60,12 +60,12 @@ func (m *Matrix) cptr() *C.Matrix {
 }
 
 // gocolorptr - Returns new Color from pointer
-func gocolorptr(ptr *C.Color) *color.RGBA {
-	return (*color.RGBA)(unsafe.Pointer(ptr))
+func gocolorptr(ptr *C.Color) *colorex.RGBA {
+	return (*colorex.RGBA)(unsafe.Pointer(ptr))
 }
 
 // ccolorptr returns color C pointer
-func ccolorptr(col *color.RGBA) *C.Color {
+func ccolorptr(col *colorex.RGBA) *C.Color {
 	return (*C.Color)(unsafe.Pointer(col))
 }
 

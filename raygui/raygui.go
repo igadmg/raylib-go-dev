@@ -14,6 +14,7 @@ import (
 	"strings"
 	"unsafe"
 
+	"github.com/igadmg/goex/image/colorex"
 	rl "github.com/igadmg/raylib-go/raylib"
 )
 
@@ -234,13 +235,13 @@ type GuiListViewProperty = int32
 
 const (
 	COLOR_SELECTOR_SIZE int32 = 16
-	// rl.ColorPicker right hue bar width
+	// colorex.RGBA right hue bar width
 	HUEBAR_WIDTH = 17
-	// rl.ColorPicker right hue bar separation from panel
+	// colorex.RGBA right hue bar separation from panel
 	HUEBAR_PADDING = 18
-	// rl.ColorPicker right hue bar selector height
+	// colorex.RGBA right hue bar selector height
 	HUEBAR_SELECTOR_HEIGHT = 19
-	// rl.ColorPicker right hue bar selector overflow
+	// colorex.RGBA right hue bar selector overflow
 	HUEBAR_SELECTOR_OVERFLOW = 20
 )
 
@@ -279,7 +280,7 @@ func IsLocked() bool {
 }
 
 // GuiFade - Set gui controls alpha (global state), alpha goes from 0.0f to 1.0f
-func Fade(color rl.Color, alpha float32) {
+func Fade(color colorex.RGBA, alpha float32) {
 	ccolor := (*C.Color)(unsafe.Pointer(&color))
 	calpha := C.float(alpha)
 	C.GuiFade(*ccolor, calpha)
@@ -594,7 +595,7 @@ func MessageBox(bounds rl.Rectangle, title string, message string, buttons strin
 }
 
 // ColorPicker control (multiple color controls)
-func ColorPicker(bounds rl.Rectangle, text string, color rl.Color) rl.Color {
+func ColorPicker(bounds rl.Rectangle, text string, color colorex.RGBA) colorex.RGBA {
 	cbounds := crect2ptr(&bounds)
 	ctext := textAlloc(text)
 	var ccolor C.struct_Color
@@ -603,7 +604,7 @@ func ColorPicker(bounds rl.Rectangle, text string, color rl.Color) rl.Color {
 	ccolor.b = C.uchar(color.B)
 	ccolor.a = C.uchar(color.A)
 	C.GuiColorPicker(*cbounds, ctext, &ccolor)
-	var goRes rl.Color
+	var goRes colorex.RGBA
 	goRes.A = byte(ccolor.a)
 	goRes.R = byte(ccolor.r)
 	goRes.G = byte(ccolor.g)
@@ -612,7 +613,7 @@ func ColorPicker(bounds rl.Rectangle, text string, color rl.Color) rl.Color {
 }
 
 // ColorPanel control
-func ColorPanel(bounds rl.Rectangle, text string, color rl.Color) rl.Color {
+func ColorPanel(bounds rl.Rectangle, text string, color colorex.RGBA) colorex.RGBA {
 	cbounds := crect2ptr(&bounds)
 	ctext := textAlloc(text)
 	var ccolor C.struct_Color
@@ -621,7 +622,7 @@ func ColorPanel(bounds rl.Rectangle, text string, color rl.Color) rl.Color {
 	ccolor.r = C.uchar(color.R)
 	ccolor.g = C.uchar(color.G)
 	C.GuiColorPanel(*cbounds, ctext, &ccolor)
-	var goRes rl.Color
+	var goRes colorex.RGBA
 	goRes.A = byte(ccolor.a)
 	goRes.R = byte(ccolor.r)
 	goRes.G = byte(ccolor.g)
