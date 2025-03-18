@@ -964,7 +964,7 @@ type Font struct {
 	Glyphs *GlyphInfo
 }
 
-func (f *Font) IsReady() bool {
+func (f Font) IsReady() bool {
 	return f.Texture.IsReady() && // Validate OpenGL id fot font texture atlas
 		f.BaseSize != 0 && // Validate font size
 		f.GlyphCount != 0 && // Validate font contains some glyph
@@ -973,17 +973,38 @@ func (f *Font) IsReady() bool {
 }
 
 // DrawTextEx - Draw text using Font and additional parameters
-func (f *Font) DrawEx(text string, position Vector2, fontSize float32, spacing float32, tint colorex.RGBA) {
+func (f Font) DrawEx(text string, position Vector2, fontSize float32, spacing float32, tint colorex.RGBA) {
 	DrawTextEx(f, text, position, fontSize, spacing, tint)
 }
 
-func (f *Font) DrawLayout(text string, fontSize float32, spacing float32, tint colorex.RGBA, layoutFn func(wh Vector2) Rectangle) {
+func (f Font) DrawLayout(text string, fontSize float32, spacing float32, tint colorex.RGBA, layoutFn func(wh Vector2) Rectangle) {
 	DrawTextLayout(f, text, fontSize, spacing, tint, layoutFn)
 }
 
 // MeasureTextEx - Measure string size for Font
-func (f *Font) MeasureEx(text string, fontSize float32, spacing float32) Vector2 {
+func (f Font) MeasureEx(text string, fontSize float32, spacing float32) Vector2 {
 	return MeasureTextEx(f, text, fontSize, spacing)
+}
+
+// Font type, includes texture and charSet array data
+type FontPreset struct {
+	Font
+
+	FontSize float32
+	Spacing  float32
+}
+
+func (f FontPreset) DrawEx(text string, position Vector2, tint colorex.RGBA) {
+	DrawTextEx(f.Font, text, position, f.FontSize, f.Spacing, tint)
+}
+
+func (f FontPreset) DrawLayout(text string, tint colorex.RGBA, layoutFn func(wh Vector2) Rectangle) {
+	DrawTextLayout(f.Font, text, f.FontSize, f.Spacing, tint, layoutFn)
+}
+
+// MeasureTextEx - Measure string size for Font
+func (f FontPreset) MeasureEx(text string) Vector2 {
+	return MeasureTextEx(f.Font, text, f.FontSize, f.Spacing)
 }
 
 // PixelFormat - Texture format
