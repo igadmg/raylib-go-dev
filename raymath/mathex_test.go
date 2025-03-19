@@ -11,7 +11,7 @@ func TestLerp(t *testing.T) {
 	tests := map[string]struct {
 		left  float64
 		right float64
-		t     float64
+		t     float32
 		want  float64
 	}{
 		"0 = 0 => 1 = 0":     {left: 0., right: 1., t: 0, want: 0.},
@@ -32,7 +32,7 @@ func TestLerpInt(t *testing.T) {
 	tests := map[string]struct {
 		left  int
 		right int
-		t     float64
+		t     float32
 		want  int
 	}{
 		"1 = 0 => 3 = 1":   {left: 1, right: 3, t: 0, want: 1},

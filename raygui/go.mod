@@ -14,6 +14,8 @@ require github.com/igadmg/raylib-go/raylib v0.0.0-20240518160852-5314a4a2099a
 
 require github.com/igadmg/goex v0.0.0-20250312230527-f6fa5b3c2d75
 
+require github.com/chewxy/math32 v1.11.1 // indirect
+
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/ebitengine/purego v0.8.2 // indirect

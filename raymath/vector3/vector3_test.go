@@ -242,7 +242,7 @@ func TestLerp(t *testing.T) {
 	tests := map[string]struct {
 		left  vector3.Float64
 		right vector3.Float64
-		t     float64
+		t     float32
 		want  vector3.Float64
 	}{
 		"(0, 0, 0) =(0)=> (0, 0, 0) = (0, 0, 0)":       {left: vector3.New(0., 0., 0.), right: vector3.New(0., 0., 0.), t: 0, want: vector3.New(0., 0., 0.)},
