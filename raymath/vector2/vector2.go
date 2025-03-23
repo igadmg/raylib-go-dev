@@ -370,15 +370,21 @@ func (v Vector[T]) Axis(i int) T {
 	return 0
 }
 
-func (v Vector[T]) AxisPtr(i int) *T {
+func (v Vector[T]) SetAxis(i int, a T) Vector[T] {
 	switch i {
 	case 0:
-		return &v.X
+		return Vector[T]{
+			X: a,
+			Y: v.Y,
+		}
 	case 1:
-		return &v.Y
+		return Vector[T]{
+			X: v.X,
+			Y: a,
+		}
 	}
 
-	return nil
+	return v
 }
 
 func (v Vector[T]) YX() Vector[T] {
