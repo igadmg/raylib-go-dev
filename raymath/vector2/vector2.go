@@ -359,6 +359,28 @@ func (v Vector[T]) AddY(dY T) Vector[T] {
 	}
 }
 
+func (v Vector[T]) Axis(i int) T {
+	switch i {
+	case 0:
+		return v.X
+	case 1:
+		return v.Y
+	}
+
+	return 0
+}
+
+func (v Vector[T]) AxisPtr(i int) *T {
+	switch i {
+	case 0:
+		return &v.X
+	case 1:
+		return &v.Y
+	}
+
+	return nil
+}
+
 func (v Vector[T]) YX() Vector[T] {
 	return Vector[T]{
 		X: v.Y,
