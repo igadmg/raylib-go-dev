@@ -2,17 +2,16 @@ module github.com/igadmg/raylib-go/raygui
 
 go 1.24
 
-replace github.com/igadmg/raylib-go/raylib => ../raylib
-
-replace github.com/igadmg/raylib-go/raymath => ../raymath
-
-replace github.com/igadmg/goex => ../../goex
-
-replace deedles.dev/xiter => ../../xiter
+replace (
+	deedles.dev/xiter => ../../xiter
+	github.com/igadmg/goex => ../../goex
+	github.com/igadmg/raylib-go/raylib => ../raylib
+	github.com/igadmg/raylib-go/raymath => ../raymath
+)
 
 require github.com/igadmg/raylib-go/raylib v0.0.0-20240518160852-5314a4a2099a
 
-require github.com/igadmg/goex v0.0.0-20250312230527-f6fa5b3c2d75
+require github.com/igadmg/goex v0.0.0-20250321131421-ccb743b21181
 
 require github.com/chewxy/math32 v1.11.1 // indirect
 
