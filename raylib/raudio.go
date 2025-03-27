@@ -138,14 +138,6 @@ func LoadWaveFromMemory(fileType string, fileData []byte, dataSize int32) Wave {
 	return *newWaveFromPointer(&ret)
 }
 
-// IsWaveValid - Checks if wave data is valid (data loaded and parameters)
-func IsWaveValid(wave Wave) bool {
-	cwave := wave.cptr()
-	ret := C.IsWaveValid(*cwave)
-	v := bool(ret)
-	return v
-}
-
 // LoadSound - Load sound to memory
 func LoadSound(fileName string) Sound {
 	cfileName := textAlloc(fileName)
@@ -165,14 +157,6 @@ func LoadSoundAlias(source Sound) Sound {
 	csound := source.cptr()
 	ret := C.LoadSoundAlias(*csound)
 	return *newSoundFromPointer(&ret)
-}
-
-// IsSoundValid - Checks if a sound is valid (data loaded and buffers initialized)
-func IsSoundValid(sound Sound) bool {
-	csound := sound.cptr()
-	ret := C.IsSoundValid(*csound)
-	v := bool(ret)
-	return v
 }
 
 // UpdateSound - Update sound buffer with new data
@@ -308,14 +292,6 @@ func LoadMusicStreamFromMemory(fileType string, fileData []byte, dataSize int32)
 	return *newMusicFromPointer(&ret)
 }
 
-// IsMusicValid - Checks if a music stream is valid (context and buffers initialized)
-func IsMusicValid(music Music) bool {
-	cmusic := *(*C.Music)(unsafe.Pointer(&music))
-	ret := C.IsMusicValid(cmusic)
-	v := bool(ret)
-	return v
-}
-
 // UnloadMusicStream - Unload music stream
 func UnloadMusicStream(music *Music) {
 	cmusic := music.cptr()
@@ -411,14 +387,6 @@ func LoadAudioStream(sampleRate uint32, sampleSize uint32, channels uint32) Audi
 	cchannels := (C.uint)(channels)
 	ret := C.LoadAudioStream(csampleRate, csampleSize, cchannels)
 	return *newAudioStreamFromPointer(&ret)
-}
-
-// IsAudioStreamValid - Checks if an audio stream is valid (buffers initialized)
-func IsAudioStreamValid(stream AudioStream) bool {
-	cstream := stream.cptr()
-	ret := C.IsAudioStreamValid(*cstream)
-	v := bool(ret)
-	return v
 }
 
 // UnloadAudioStream - Unload audio stream and free memory

@@ -67,6 +67,15 @@ func NewWave(sampleCount, sampleRate, sampleSize, channels uint32, data []byte) 
 	return Wave{sampleCount, sampleRate, sampleSize, channels, d}
 }
 
+// Checks if wave data is valid (data loaded and parameters)
+func (w Wave) IsValid() bool {
+	return w.Data != nil && // Validate wave data available
+		w.FrameCount > 0 && // Validate frame count
+		w.SampleRate > 0 && // Validate sample rate is supported
+		w.SampleSize > 0 && // Validate sample size is supported
+		w.Channels > 0 // Validate number of channels supported
+}
+
 // AudioCallback function.
 type AudioCallback func(data []float32, frames int)
 
@@ -77,6 +86,12 @@ type Sound struct {
 	_          [4]byte
 }
 
+// Checks if a sound is valid (data loaded and buffers initialized)
+func (s Sound) IsValid() bool {
+	return s.FrameCount > 0 && // Validate frame count
+		s.Stream.IsValid() // Validate stream buffer
+}
+
 // Music type (file streaming from memory)
 // NOTE: Anything longer than ~10 seconds should be streamed
 type Music struct {
@@ -85,6 +100,13 @@ type Music struct {
 	Looping    bool
 	CtxType    int32
 	CtxData    unsafe.Pointer
+}
+
+// Checks if a music stream is valid (context and buffers initialized)
+func (m Music) IsValid() bool {
+	return m.CtxData != nil && // Validate context loaded
+		m.FrameCount > 0 && // Validate audio frame count
+		m.Stream.IsValid() // Validate audio stream
 }
 
 // AudioStream type
@@ -101,6 +123,14 @@ type AudioStream struct {
 	// Number of channels (1-mono, 2-stereo)
 	Channels uint32
 	_        [4]byte
+}
+
+// Checks if an audio stream is valid (buffers initialized)
+func (s AudioStream) IsValid() bool {
+	return s.Buffer != nil && // Validate stream buffer
+		s.SampleRate > 0 && // Validate sample rate is supported
+		s.SampleSize > 0 && // Validate sample size is supported
+		s.Channels > 0 // Validate number of channels supported
 }
 
 type maDataConverter struct {
@@ -798,6 +828,41 @@ type Mesh struct {
 	VboID *uint32
 }
 
+func (m Mesh) IsValid() bool {
+	if m.Vertices != nil && unsafe.Slice(m.VboID, 1)[0] == 0 {
+		return false
+	} // Vertex position buffer not uploaded to GPU
+	if m.Texcoords != nil && unsafe.Slice(m.VboID, 2)[1] == 0 {
+		return false
+	} // Vertex textcoords buffer not uploaded to GPU
+	if m.Normals != nil && unsafe.Slice(m.VboID, 3)[2] == 0 {
+		return false
+	} // Vertex normals buffer not uploaded to GPU
+	if m.Colors != nil && unsafe.Slice(m.VboID, 4)[3] == 0 {
+		return false
+	} // Vertex colors buffer not uploaded to GPU
+	if m.Tangents != nil && unsafe.Slice(m.VboID, 5)[4] == 0 {
+		return false
+	} // Vertex tangents buffer not uploaded to GPU
+	if m.Texcoords2 != nil && unsafe.Slice(m.VboID, 6)[5] == 0 {
+		return false
+	} // Vertex texcoords2 buffer not uploaded to GPU
+	if m.Indices != nil && unsafe.Slice(m.VboID, 7)[6] == 0 {
+		return false
+	} // Vertex indices buffer not uploaded to GPU
+	if m.BoneIds != nil && unsafe.Slice(m.VboID, 8)[7] == 0 {
+		return false
+	} // Vertex boneIds buffer not uploaded to GPU
+	if m.BoneWeights != nil && unsafe.Slice(m.VboID, 9)[8] == 0 {
+		return false
+	} // Vertex boneWeights buffer not uploaded to GPU
+
+	// NOTE: Some OpenGL versions do not support VAO, so we don't check it
+	//if m.VaoId == 0 { return false; break }
+
+	return true
+}
+
 // Material type
 type Material struct {
 	// Shader
@@ -806,6 +871,20 @@ type Material struct {
 	Maps *MaterialMap
 	// Generic parameters (if required)
 	Params [4]float32
+}
+
+// IsMaterialValid - Check if a material is valid (shader assigned, map textures loaded in GPU)
+func (material Material) IsValid() bool {
+	result := false
+
+	if material.Maps != nil && // Validate material contain some map
+		material.Shader.IsValid() { // Validate material shader is valid
+		result = true
+	}
+
+	// TODO: Check if available maps contain loaded textures
+
+	return result
 }
 
 // GetMap - Get pointer to MaterialMap by map type
@@ -851,6 +930,28 @@ type Model struct {
 	//
 	// Use Model.GetBindPose instead (go slice)
 	BindPose *Transform
+}
+
+func (model Model) IsValid() bool {
+	result := false
+
+	if (model.Meshes != nil) && // Validate model contains some mesh
+		(model.Materials != nil) && // Validate model contains some material (at least default one)
+		(model.MeshMaterial != nil) && // Validate mesh-material linkage
+		(model.MeshCount > 0) && // Validate mesh count
+		(model.MaterialCount > 0) { // Validate material count
+		result = true
+	}
+
+	// NOTE: Many elements could be validated from a model, including every model mesh VAO/VBOs
+	// but some VBOs could not be used, it depends on Mesh vertex data
+	for _, mesh := range model.GetMeshes() {
+		if !mesh.IsValid() {
+			return false
+		}
+	}
+
+	return result
 }
 
 // GetMeshes returns the meshes of a model as go slice
@@ -971,14 +1072,19 @@ func NewShader(id uint32, locs *int32) Shader {
 	return Shader{id, locs}
 }
 
+func (s Shader) IsValid() bool {
+	return s.ID > 0 && // Validate shader id (GPU loaded successfully)
+		s.Locs != nil
+}
+
 // GetLocation - Get shader value's location
-func (sh *Shader) GetLocation(index int32) int32 {
-	return *(*int32)(unsafe.Pointer(uintptr(unsafe.Pointer(sh.Locs)) + uintptr(index*4)))
+func (s Shader) GetLocation(index int32) int32 {
+	return *(*int32)(unsafe.Pointer(uintptr(unsafe.Pointer(s.Locs)) + uintptr(index*4)))
 }
 
 // UpdateLocation - Update shader value's location
-func (sh *Shader) UpdateLocation(index int32, loc int32) {
-	*(*int32)(unsafe.Pointer(uintptr(unsafe.Pointer(sh.Locs)) + uintptr(index*4))) = loc
+func (s *Shader) UpdateLocation(index int32, loc int32) {
+	*(*int32)(unsafe.Pointer(uintptr(unsafe.Pointer(s.Locs)) + uintptr(index*4))) = loc
 }
 
 // GlyphInfo - Font character info
@@ -1023,8 +1129,8 @@ type Font struct {
 	Glyphs *GlyphInfo
 }
 
-func (f Font) IsReady() bool {
-	return f.Texture.IsReady() && // Validate OpenGL id fot font texture atlas
+func (f Font) IsValid() bool {
+	return f.Texture.IsValid() && // Validate OpenGL id fot font texture atlas
 		f.BaseSize != 0 && // Validate font size
 		f.GlyphCount != 0 && // Validate font contains some glyph
 		f.Recs != nil && // Validate font recs defining glyphs on texture atlas
@@ -1179,6 +1285,15 @@ func NewImage(data []byte, width, height, mipmaps int32, format PixelFormat) *Im
 	return &Image{d, width, height, mipmaps, format}
 }
 
+// IsImageValid - Check if an image is valid (data and parameters)
+func (image Image) IsValid() bool {
+	return (image.Data != nil) && // Validate pixel data available
+		(image.Width > 0) && // Validate image width
+		(image.Height > 0) && // Validate image height
+		(image.Format > 0) && // Validate image format
+		(image.Mipmaps > 0) // Validate image mipmaps (at least 1 for basic mipmap level)
+}
+
 func (i *Image) Unload() {
 	UnloadImage(i)
 }
@@ -1227,15 +1342,7 @@ func (t *Texture2D) Unload() {
 	UnloadTexture(t)
 }
 
-func (t Texture2D) IsNull() bool {
-	return t.ID == 0 || // Validate OpenGL id
-		t.Width == 0 ||
-		t.Height == 0 || // Validate texture size
-		t.Format == 0 || // Validate texture pixel format
-		t.Mipmaps == 0
-}
-
-func (t Texture2D) IsReady() bool {
+func (t Texture2D) IsValid() bool {
 	return t.ID > 0 && // Validate OpenGL id
 		t.Width > 0 &&
 		t.Height > 0 && // Validate texture size
@@ -1320,10 +1427,10 @@ func NewRenderTexture2D(id uint32, texture, depth Texture2D) *RenderTexture2D {
 	return &RenderTexture2D{id, texture, depth}
 }
 
-func (r RenderTexture2D) IsNull() bool {
-	return r.ID == 0 ||
-		r.Texture.IsNull() ||
-		r.Depth.IsNull()
+func (r RenderTexture2D) IsValid() bool {
+	return r.ID > 0 &&
+		r.Texture.IsValid() &&
+		r.Depth.IsValid()
 }
 
 func (r *RenderTexture2D) Unload() {

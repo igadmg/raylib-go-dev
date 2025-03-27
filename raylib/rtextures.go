@@ -122,7 +122,7 @@ func LoadImageFromTexture(texture Texture2D) Image {
 // #cgo noescape ReloadImageFromTexture
 // #cgo nocallback ReloadImageFromTexture
 func ReloadImageFromTexture(texture Texture2D, image Image) Image {
-	if image.IsNull() {
+	if !image.IsValid() {
 		return LoadImageFromTexture(texture)
 	}
 
@@ -136,14 +136,6 @@ func ReloadImageFromTexture(texture Texture2D, image Image) Image {
 func LoadImageFromScreen() Image {
 	ret := C.LoadImageFromScreen()
 	return *newImageFromPointer(&ret)
-}
-
-// IsImageValid - Check if an image is valid (data and parameters)
-func IsImageValid(image *Image) bool {
-	cimage := image.cptr()
-	ret := C.IsImageValid(*cimage)
-	v := bool(ret)
-	return v
 }
 
 // LoadTexture - Load an image as texture into GPU memory
@@ -163,9 +155,10 @@ func LoadTextureFromImage(image Image) Texture2D {
 }
 
 func ReloadTextureFromImage(image Image, texture Texture2D) Texture2D {
-	if texture.IsNull() {
+	if !texture.IsValid() {
 		return LoadTextureFromImage(image)
 	}
+
 	UpdateTextureFromImage(texture, image)
 	return texture
 }
@@ -196,26 +189,10 @@ func UnloadImage(image *Image) {
 	C.UnloadImage(cimage)
 }
 
-// IsTextureValid - Check if a texture is valid (loaded in GPU)
-func IsTextureValid(texture *Texture2D) bool {
-	ctexture := texture.cptr()
-	ret := C.IsTextureValid(*ctexture)
-	v := bool(ret)
-	return v
-}
-
 // UnloadTexture - Unload texture from GPU memory
 func UnloadTexture(texture *Texture2D) {
 	ctexture := texture.cptr()
 	C.UnloadTexture(ctexture)
-}
-
-// IsRenderTextureValid - Check if a render texture is valid (loaded in GPU)
-func IsRenderTextureValid(target *RenderTexture2D) bool {
-	ctarget := target.cptr()
-	ret := C.IsRenderTextureValid(*ctarget)
-	v := bool(ret)
-	return v
 }
 
 // UnloadRenderTexture - Unload render texture from GPU memory

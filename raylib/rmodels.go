@@ -215,14 +215,6 @@ func LoadModelFromMesh(data Mesh) Model {
 	return *newModelFromPointer(&ret)
 }
 
-// IsModelValid - Check if a model is valid (loaded in GPU, VAO/VBOs)
-func IsModelValid(model Model) bool {
-	cmodel := model.cptr()
-	ret := C.IsModelValid(*cmodel)
-	v := bool(ret)
-	return v
-}
-
 // UnloadModel - Unload model from memory (RAM and/or VRAM)
 func UnloadModel(model *Model) {
 	cmodel := model.cptr()
@@ -493,14 +485,6 @@ func LoadMaterials(fileName string) []Material {
 func LoadMaterialDefault() Material {
 	ret := C.LoadMaterialDefault()
 	return *newMaterialFromPointer(&ret)
-}
-
-// IsMaterialValid - Check if a material is valid (shader assigned, map textures loaded in GPU)
-func IsMaterialValid(material Material) bool {
-	cmaterial := material.cptr()
-	ret := C.IsMaterialValid(*cmaterial)
-	v := bool(ret)
-	return v
 }
 
 // UnloadMaterial - Unload material textures from VRAM

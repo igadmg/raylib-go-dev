@@ -17,7 +17,7 @@ var defaultFont Font
 
 // GetFontDefault - Get the default Font
 func GetFontDefault() Font {
-	if !defaultFont.IsReady() {
+	if !defaultFont.IsValid() {
 		ret := C.GetFontDefault()
 		defaultFont = *newFontFromPointer(&ret)
 	}
@@ -71,14 +71,6 @@ func LoadFontFromMemory(fileType string, fileData []byte, fontSize int32, codepo
 	ccharsCount := (C.int)(len(codepoints))
 	ret := C.LoadFontFromMemory(cfileType, cfileData, cdataSize, cfontSize, cfontChars, ccharsCount)
 	return *newFontFromPointer(&ret)
-}
-
-// IsFontValid - Check if a font is valid (font data loaded, WARNING: GPU texture not checked)
-func IsFontValid(font Font) bool {
-	cfont := font.cptr()
-	ret := C.IsFontValid(*cfont)
-	v := bool(ret)
-	return v
 }
 
 // LoadFontData - Load font data for further use
