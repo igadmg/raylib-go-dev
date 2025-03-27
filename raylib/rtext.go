@@ -9,6 +9,8 @@ import (
 	"unsafe"
 
 	"github.com/igadmg/goex/image/colorex"
+	"github.com/igadmg/raylib-go/raymath/rect2"
+	"github.com/igadmg/raylib-go/raymath/vector2"
 )
 
 var defaultFont Font
@@ -71,7 +73,7 @@ func LoadFontFromMemory(fileType string, fileData []byte, fontSize int32, codepo
 	return *newFontFromPointer(&ret)
 }
 
-// IsFontValid - Check if a font is valid
+// IsFontValid - Check if a font is valid (font data loaded, WARNING: GPU texture not checked)
 func IsFontValid(font Font) bool {
 	cfont := font.cptr()
 	ret := C.IsFontValid(*cfont)
@@ -80,12 +82,16 @@ func IsFontValid(font Font) bool {
 }
 
 // LoadFontData - Load font data for further use
-func LoadFontData(fileData []byte, fontSize int32, codePoints []int32, typ int32) []GlyphInfo {
+func LoadFontData(fileData []byte, fontSize int32, codePoints []rune, codepointCount, typ int32) []GlyphInfo {
 	cfileData := (*C.uchar)(unsafe.Pointer(&fileData[0]))
 	cdataSize := (C.int)(len(fileData))
 	cfontSize := (C.int)(fontSize)
-	ccodePoints := (*C.int)(unsafe.Pointer(&codePoints[0]))
-	ccodePointCount := (C.int)(len(codePoints))
+	ccodePoints := (*C.int)(unsafe.SliceData(codePoints))
+	// In case no chars count provided, default to 95
+	if codepointCount <= 0 {
+		codepointCount = 95
+	}
+	ccodePointCount := (C.int)(codepointCount)
 	ctype := (C.int)(typ)
 	ret := C.LoadFontData(cfileData, cdataSize, cfontSize, ccodePoints, ccodePointCount, ctype)
 	v := unsafe.Slice((*GlyphInfo)(unsafe.Pointer(ret)), ccodePointCount)
@@ -122,7 +128,7 @@ func DrawText[XT, YT CoordinateT](text string, posX XT, posY YT, fontSize int32,
 }
 
 // DrawTextEx - Draw text using Font and additional parameters
-func DrawTextEx(font Font, text string, position Vector2, fontSize float32, spacing float32, tint colorex.RGBA) {
+func DrawTextEx(font Font, text string, position vector2.Float32, fontSize float32, spacing float32, tint colorex.RGBA) {
 	cfont := font.cptr()
 	ctext := textAlloc(text)
 	cposition := cvec2ptr(&position)
@@ -132,9 +138,23 @@ func DrawTextEx(font Font, text string, position Vector2, fontSize float32, spac
 	C.DrawTextEx(*cfont, ctext, *cposition, cfontSize, cspacing, *ctint)
 }
 
-func DrawTextLayout(font Font, text string, fontSize float32, spacing float32, tint colorex.RGBA, layoutFn func(wh Vector2) Rectangle) {
+func DrawTextLayout(font Font, text string, fontSize float32, spacing float32, tint colorex.RGBA, layoutFn func(wh vector2.Float32) rect2.Float32) {
 	rect := layoutFn(MeasureTextEx(font, text, fontSize, spacing))
 	DrawTextEx(font, text, rect.Position, fontSize, spacing, tint)
+}
+
+// DrawTextPro - Draw text using Font and pro parameters (rotation)
+func DrawTextPro(font Font, text string, position vector2.Float32, origin vector2.Float32, rotation, fontSize float32, spacing float32, tint colorex.RGBA) {
+	cfont := font.cptr()
+	ctext := C.CString(text)
+	defer C.free(unsafe.Pointer(ctext))
+	cposition := cvec2ptr(&position)
+	crotation := (C.float)(rotation)
+	corigin := cvec2ptr(&origin)
+	cfontSize := (C.float)(fontSize)
+	cspacing := (C.float)(spacing)
+	ctint := ccolorptr(&tint)
+	C.DrawTextPro(*cfont, ctext, *cposition, *corigin, crotation, cfontSize, cspacing, *ctint)
 }
 
 // SetTextLineSpacing - Set vertical line spacing when drawing with line-breaks
@@ -148,12 +168,11 @@ func MeasureText(text string, fontSize int32) int32 {
 	ctext := textAlloc(text)
 	cfontSize := (C.int)(fontSize)
 	ret := C.MeasureText(ctext, cfontSize)
-	v := (int32)(ret)
-	return v
+	return (int32)(ret)
 }
 
 // MeasureTextEx - Measure string size for Font
-func MeasureTextEx(font Font, text string, fontSize float32, spacing float32) Vector2 {
+func MeasureTextEx(font Font, text string, fontSize float32, spacing float32) vector2.Float32 {
 	cfont := font.cptr()
 	ctext := textAlloc(text)
 	cfontSize := (C.float)(fontSize)
@@ -167,8 +186,7 @@ func GetGlyphIndex(font Font, codepoint int32) int32 {
 	cfont := font.cptr()
 	ccodepoint := (C.int)(codepoint)
 	ret := C.GetGlyphIndex(*cfont, ccodepoint)
-	v := (int32)(ret)
-	return v
+	return (int32)(ret)
 }
 
 // GetGlyphInfo - Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found
@@ -180,9 +198,40 @@ func GetGlyphInfo(font Font, codepoint int32) GlyphInfo {
 }
 
 // GetGlyphAtlasRec - Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found
-func GetGlyphAtlasRec(font Font, codepoint int32) Rectangle {
+func GetGlyphAtlasRec(font Font, codepoint int32) rect2.Float32 {
 	cfont := font.cptr()
 	ccodepoint := (C.int)(codepoint)
 	ret := C.GetGlyphAtlasRec(*cfont, ccodepoint)
 	return *gorec2ptr(&ret)
+}
+
+// GenImageFontAtlas - Generate image font atlas using chars info
+func GenImageFontAtlas(glyphs []GlyphInfo, glyphRecs []*Rectangle, fontSize int32, padding int32, packMethod int32) Image {
+	cglyphs := (*C.GlyphInfo)(unsafe.Pointer(&glyphs[0]))
+	cglyphRecs := (**C.Rectangle)(unsafe.Pointer(&glyphRecs[0]))
+	cglyphCount := C.int(len(glyphs))
+	ret := C.GenImageFontAtlas(cglyphs, cglyphRecs, cglyphCount, C.int(fontSize), C.int(padding), C.int(packMethod))
+	return *newImageFromPointer(&ret)
+}
+
+// DrawTextCodepoint - Draw one character (codepoint)
+func DrawTextCodepoint(font Font, codepoint rune, position vector2.Float32, fontSize float32, tint colorex.RGBA) {
+	cfont := font.cptr()
+	ccodepoint := (C.int)(codepoint)
+	cposition := cvec2ptr(&position)
+	cfontSize := (C.float)(fontSize)
+	ctint := ccolorptr(&tint)
+	C.DrawTextCodepoint(*cfont, ccodepoint, *cposition, cfontSize, *ctint)
+}
+
+// DrawTextCodepoints - Draw multiple character (codepoint)
+func DrawTextCodepoints(font Font, codepoints []rune, position vector2.Float32, fontSize float32, spacing float32, tint colorex.RGBA) {
+	cfont := font.cptr()
+	ccodepoints := (*C.int)(unsafe.SliceData(codepoints))
+	ccodepointCount := C.int(len(codepoints))
+	cposition := cvec2ptr(&position)
+	cfontSize := (C.float)(fontSize)
+	cspacing := (C.float)(spacing)
+	ctint := ccolorptr(&tint)
+	C.DrawTextCodepoints(*cfont, ccodepoints, ccodepointCount, *cposition, cfontSize, cspacing, *ctint)
 }

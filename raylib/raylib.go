@@ -43,7 +43,7 @@ type CoordinateT interface {
 }
 
 type Vector2T interface {
-	Vector2 | Vector2Int
+	vector2.Float32 | vector2.Int
 }
 
 // Wave type, defines audio wave data
@@ -57,7 +57,7 @@ type Wave struct {
 	// Number of channels (1-mono, 2-stereo)
 	Channels uint32
 	// Buffer data pointer
-	data unsafe.Pointer
+	Data unsafe.Pointer
 }
 
 // NewWave - Returns new Wave
@@ -190,6 +190,27 @@ type AudioProcessor struct {
 	Next    *AudioProcessor
 	Prev    *AudioProcessor
 }
+
+// AutomationEvent - Automation event
+//type AutomationEvent struct {
+//	Frame  uint32
+//	Type   uint32
+//	Params [4]int32
+//}
+
+// AutomationEventList - Automation event list
+//type AutomationEventList struct {
+//	Capacity uint32
+//	Count    uint32
+//	// Events array (c array)
+//	//
+//	// Use AutomationEventList.GetEvents instead (go slice)
+//	Events *AutomationEvent
+//}
+
+//func (a *AutomationEventList) GetEvents() []AutomationEvent {
+//	return unsafe.Slice(a.Events, a.Count)
+//}
 
 // CameraMode type
 type CameraMode int32
@@ -361,7 +382,7 @@ const (
 
 	// Android keys
 	KeyBack       KeyType = 4
-	KeyMenu       KeyType = 82
+	KeyMenu       KeyType = 5
 	KeyVolumeUp   KeyType = 24
 	KeyVolumeDown KeyType = 25
 )
@@ -494,11 +515,6 @@ var (
 	RayWhite = NewColor(245, 245, 245, 255)
 )
 
-// Vector2 type
-type Vector2 = vector2.Float32
-type Vector2Int = vector2.Int
-type Vector3 = vector3.Float32
-type Vector3Int = vector3.Int
 type Vector4 = vector4.Float32
 
 var (
@@ -538,7 +554,7 @@ func NewMat2(m0, m1, m10, m11 float32) Mat2 {
 }
 
 // Quaternion, 4 components (Vector4 alias)
-type Quaternion = Vector4
+type Quaternion = vector4.Float32
 
 // NewQuaternion - Returns new Quaternion
 func NewQuaternion(x, y, z, w float32) Quaternion {
@@ -555,22 +571,22 @@ type Rectangle = rect2.Float32
 type RectangleInt32 = rect2.Int32
 
 // NewRectangle - Returns new Rectangle
-func NewRectangle[XT, YT, WT, HT CoordinateT](x XT, y YT, width WT, height HT) Rectangle {
+func NewRectangle[XT, YT, WT, HT CoordinateT](x XT, y YT, width WT, height HT) rect2.Float32 {
 	return rect2.New(vector2.NewFloat32(x, y), vector2.NewFloat32(width, height))
 }
 
-func NewRectangleWHV[WHT rm.SignedNumber](wh vector2.Vector[WHT]) Rectangle {
+func NewRectangleWHV[WHT rm.SignedNumber](wh vector2.Vector[WHT]) rect2.Float32 {
 	return rect2.New(vector2.Zero[float32](), wh.ToFloat32())
 }
 
 // Camera3D type, defines a camera position/orientation in 3d space
 type Camera3D struct {
 	// Camera position
-	Position Vector3
+	Position vector3.Float32
 	// Camera target it looks-at
-	Target Vector3
+	Target vector3.Float32
 	// Camera up vector (rotation over its axis)
-	Up Vector3
+	Up vector3.Float32
 	// Camera field-of-view apperture in Y (degrees) in perspective, used as near plane width in orthographic
 	Fovy float32
 	// Camera type, controlling projection type, either CameraPerspective or CameraOrthographic.
@@ -581,16 +597,16 @@ type Camera3D struct {
 type Camera = Camera3D
 
 // NewCamera3D - Returns new Camera3D
-func NewCamera3D(pos, target, up Vector3, fovy float32, ct CameraProjection) Camera3D {
+func NewCamera3D(pos, target, up vector3.Float32, fovy float32, ct CameraProjection) Camera3D {
 	return Camera3D{pos, target, up, fovy, ct}
 }
 
 // Camera2D type, defines a 2d camera
 type Camera2D struct {
 	// Camera offset (displacement from target)
-	Offset Vector2
+	Offset vector2.Float32
 	// Camera target (rotation and zoom origin)
-	Target Vector2
+	Target vector2.Float32
 	// Camera rotation in degrees
 	Rotation float32
 	// Camera zoom (scaling), should be 1.0f by default
@@ -598,20 +614,20 @@ type Camera2D struct {
 }
 
 // NewCamera2D - Returns new Camera2D
-func NewCamera2D(offset, target Vector2, rotation, zoom float32) Camera2D {
+func NewCamera2D(offset, target vector2.Float32, rotation, zoom float32) Camera2D {
 	return Camera2D{offset, target, rotation, zoom}
 }
 
 // BoundingBox type
 type BoundingBox struct {
 	// Minimum vertex box-corner
-	Min Vector3
+	Min vector3.Float32
 	// Maximum vertex box-corner
-	Max Vector3
+	Max vector3.Float32
 }
 
 // NewBoundingBox - Returns new BoundingBox
-func NewBoundingBox(min, max Vector3) BoundingBox {
+func NewBoundingBox(min, max vector3.Float32) BoundingBox {
 	return BoundingBox{min, max}
 }
 
@@ -689,14 +705,31 @@ type ShaderUniformDataType int32
 
 // ShaderUniformDataType enumeration
 const (
+	// Shader uniform type: float
 	ShaderUniformFloat ShaderUniformDataType = iota
+	// Shader uniform type: vec2 (2 float)
 	ShaderUniformVec2
+	// Shader uniform type: vec3 (3 float)
 	ShaderUniformVec3
+	// Shader uniform type: vec4 (4 float)
 	ShaderUniformVec4
+	// Shader uniform type: int
 	ShaderUniformInt
+	// Shader uniform type: ivec2 (2 int)
 	ShaderUniformIvec2
+	// Shader uniform type: ivec2 (3 int)
 	ShaderUniformIvec3
+	// Shader uniform type: ivec2 (4 int)
 	ShaderUniformIvec4
+	// Shader uniform type: unsigned int
+	ShaderUniformUint
+	// Shader uniform type: uivec2 (2 unsigned int)
+	ShaderUniformUivec2
+	// Shader uniform type: uivec3 (3 unsigned int)
+	ShaderUniformUivec3
+	// Shader uniform type: uivec4 (4 unsigned int)
+	ShaderUniformUivec4
+	// Shader uniform type: sampler2d
 	ShaderUniformSampler2d
 )
 
@@ -755,6 +788,10 @@ type Mesh struct {
 	BoneIds *int32
 	// BoneWeights
 	BoneWeights *float32
+	// Bones animated transformation matrices
+	BoneMatrices *Matrix
+	// Number of bones
+	BoneCount int32
 	// OpenGL Vertex Array Object id
 	VaoID uint32
 	// OpenGL Vertex Buffer Objects id (7 types of vertex data)
@@ -844,21 +881,21 @@ type BoneInfo struct {
 
 // Transform type
 type Transform struct {
-	Translation Vector3
-	Rotation    Vector4
-	Scale       Vector3
+	Translation vector3.Float32
+	Rotation    Quaternion
+	Scale       vector3.Float32
 }
 
 // Ray type (useful for raycast)
 type Ray struct {
 	// Ray position (origin)
-	Position Vector3
+	Position vector3.Float32
 	// Ray direction
-	Direction Vector3
+	Direction vector3.Float32
 }
 
 // NewRay - Returns new Ray
-func NewRay(position, direction Vector3) Ray {
+func NewRay(position, direction vector3.Float32) Ray {
 	return Ray{position, direction}
 }
 
@@ -868,19 +905,41 @@ type ModelAnimation struct {
 	FrameCount int32
 	Bones      *BoneInfo
 	FramePoses **Transform
-	Name       [32]int8
+	Name       [32]uint8
+}
+
+// GetBones returns the bones information (skeleton) of a ModelAnimation as go slice
+func (m ModelAnimation) GetBones() []BoneInfo {
+	return unsafe.Slice(m.Bones, m.BoneCount)
+}
+
+// GetFramePose returns the Transform for a specific bone at a specific frame
+func (m ModelAnimation) GetFramePose(frame, bone int) Transform {
+	framePoses := unsafe.Slice(m.FramePoses, m.FrameCount)
+	return unsafe.Slice(framePoses[frame], m.BoneCount)[bone]
+}
+
+// GetName returns the ModelAnimation's name as go string
+func (m ModelAnimation) GetName() string {
+	var end int
+	for end = range m.Name {
+		if m.Name[end] == 0 {
+			break
+		}
+	}
+	return string(m.Name[:end])
 }
 
 // RayCollision type - ray hit information
 type RayCollision struct {
 	Hit      bool
 	Distance float32
-	Point    Vector3
-	Normal   Vector3
+	Point    vector3.Float32
+	Normal   vector3.Float32
 }
 
 // NewRayCollision - Returns new RayCollision
-func NewRayCollision(hit bool, distance float32, point, normal Vector3) RayCollision {
+func NewRayCollision(hit bool, distance float32, point, normal vector3.Float32) RayCollision {
 	return RayCollision{hit, distance, point, normal}
 }
 
@@ -959,7 +1018,7 @@ type Font struct {
 	// Characters texture atlas
 	Texture Texture2D
 	// Characters rectangles in texture
-	Recs *Rectangle
+	Recs *rect2.Float32
 	// Characters info data
 	Glyphs *GlyphInfo
 }
@@ -973,16 +1032,16 @@ func (f Font) IsReady() bool {
 }
 
 // DrawTextEx - Draw text using Font and additional parameters
-func (f Font) DrawEx(text string, position Vector2, fontSize float32, spacing float32, tint colorex.RGBA) {
+func (f Font) DrawEx(text string, position vector2.Float32, fontSize float32, spacing float32, tint colorex.RGBA) {
 	DrawTextEx(f, text, position, fontSize, spacing, tint)
 }
 
-func (f Font) DrawLayout(text string, fontSize float32, spacing float32, tint colorex.RGBA, layoutFn func(wh Vector2) Rectangle) {
+func (f Font) DrawLayout(text string, fontSize float32, spacing float32, tint colorex.RGBA, layoutFn func(wh vector2.Float32) rect2.Float32) {
 	DrawTextLayout(f, text, fontSize, spacing, tint, layoutFn)
 }
 
 // MeasureTextEx - Measure string size for Font
-func (f Font) MeasureEx(text string, fontSize float32, spacing float32) Vector2 {
+func (f Font) MeasureEx(text string, fontSize float32, spacing float32) vector2.Float32 {
 	return MeasureTextEx(f, text, fontSize, spacing)
 }
 
@@ -994,16 +1053,16 @@ type FontPreset struct {
 	Spacing  float32
 }
 
-func (f FontPreset) DrawEx(text string, position Vector2, tint colorex.RGBA) {
+func (f FontPreset) DrawEx(text string, position vector2.Float32, tint colorex.RGBA) {
 	DrawTextEx(f.Font, text, position, f.FontSize, f.Spacing, tint)
 }
 
-func (f FontPreset) DrawLayout(text string, tint colorex.RGBA, layoutFn func(wh Vector2) Rectangle) {
+func (f FontPreset) DrawLayout(text string, tint colorex.RGBA, layoutFn func(wh vector2.Float32) rect2.Float32) {
 	DrawTextLayout(f.Font, text, f.FontSize, f.Spacing, tint, layoutFn)
 }
 
 // MeasureTextEx - Measure string size for Font
-func (f FontPreset) MeasureEx(text string) Vector2 {
+func (f FontPreset) MeasureEx(text string) vector2.Float32 {
 	return MeasureTextEx(f.Font, text, f.FontSize, f.Spacing)
 }
 
@@ -1096,14 +1155,13 @@ const (
 	CubemapLayoutLineHorizontal          // Layout is defined by a horizontal line with faces
 	CubemapLayoutCrossThreeByFour        // Layout is defined by a 3x4 cross with cubemap faces
 	CubemapLayoutCrossFourByThree        // Layout is defined by a 4x3 cross with cubemap faces
-	CubemapLayoutPanorama                // Layout is defined by a panorama image (equirrectangular map)
 )
 
 // Image type, bpp always RGBA (32bit)
 // NOTE: Data stored in CPU memory (RAM)
 type Image struct {
-	// Image raw data
-	data unsafe.Pointer
+	// Image raw Data
+	Data unsafe.Pointer
 	// Image base width
 	Width int32
 	// Image base height
@@ -1133,15 +1191,15 @@ func (t Image) IsReady() bool {
 	return !t.IsNull()
 }
 
-func (i Image) GetSize() Vector2 {
+func (i Image) GetSize() vector2.Float32 {
 	return vector2.NewFloat32(i.Width, i.Height)
 }
 
-func (i Image) GetRect() Rectangle {
+func (i Image) GetRect() rect2.Float32 {
 	return NewRectangle(0, 0, i.Width, i.Height)
 }
 
-func (i *Image) DrawDef(dst *Image, dstRect Rectangle) {
+func (i *Image) DrawDef(dst *Image, dstRect rect2.Float32) {
 	ImageDraw(dst, i, i.GetRect(), dstRect, White)
 }
 
@@ -1185,11 +1243,11 @@ func (t Texture2D) IsReady() bool {
 		t.Mipmaps > 0
 }
 
-func (t Texture2D) GetSize() Vector2 {
+func (t Texture2D) GetSize() vector2.Float32 {
 	return vector2.NewFloat32(t.Width, t.Height)
 }
 
-func (t Texture2D) GetRect() Rectangle {
+func (t Texture2D) GetRect() rect2.Float32 {
 	return NewRectangle(0, 0, t.Width, t.Height)
 }
 
@@ -1201,49 +1259,49 @@ func (t *Texture2D) DrawDef(posX int, posY int) {
 	DrawTexture(t, posX, posY, White)
 }
 
-func (t *Texture2D) DrawV(position Vector2, tint colorex.RGBA) {
+func (t *Texture2D) DrawV(position vector2.Float32, tint colorex.RGBA) {
 	DrawTextureV(t, position, tint)
 }
 
-func (t *Texture2D) DrawVDef(position Vector2) {
+func (t *Texture2D) DrawVDef(position vector2.Float32) {
 	DrawTextureV(t, position, White)
 }
 
-func (t *Texture2D) DrawEx(position Vector2, rotation, scale float32, tint colorex.RGBA) {
+func (t *Texture2D) DrawEx(position vector2.Float32, rotation, scale float32, tint colorex.RGBA) {
 	DrawTextureEx(t, position, rotation, scale, tint)
 }
 
-func (t *Texture2D) DrawExDef(position Vector2) {
+func (t *Texture2D) DrawExDef(position vector2.Float32) {
 	DrawTextureEx(t, position, 0, 1, White)
 }
 
-func (t *Texture2D) DrawRec(sourceRec Rectangle, position Vector2, tint colorex.RGBA) {
+func (t *Texture2D) DrawRec(sourceRec rect2.Float32, position vector2.Float32, tint colorex.RGBA) {
 	DrawTextureRec(t, sourceRec, position, tint)
 }
 
-func (t *Texture2D) DrawPro(sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint colorex.RGBA) {
+func (t *Texture2D) DrawPro(sourceRec, destRec rect2.Float32, origin vector2.Float32, rotation float32, tint colorex.RGBA) {
 	DrawTexturePro(t, sourceRec, destRec, origin, rotation, tint)
 }
 
-func (t *Texture2D) DrawFlippedPro(sourceRec, destRec Rectangle, origin Vector2, rotation float32, tint colorex.RGBA) {
+func (t *Texture2D) DrawFlippedPro(sourceRec, destRec rect2.Float32, origin vector2.Float32, rotation float32, tint colorex.RGBA) {
 	sourceRec = sourceRec.ScaleByVectorF(vector2.NewFloat32(1, -1))
 	sourceRec = sourceRec.SetY(float32(t.Height) + sourceRec.Height())
 	DrawTexturePro(t, sourceRec, destRec, origin, rotation, tint)
 }
 
-func (t *Texture2D) DrawProDef(destRec Rectangle) {
+func (t *Texture2D) DrawProDef(destRec rect2.Float32) {
 	DrawTexturePro(t, t.GetRect(), destRec, vector2.Zero[float32](), 0, White)
 }
 
-func (t *Texture2D) DrawProFlippedDef(destRec Rectangle) {
+func (t *Texture2D) DrawProFlippedDef(destRec rect2.Float32) {
 	DrawTexturePro(t, t.GetRect().ScaleByVectorF(vector2.NewFloat32(1, -1)), destRec, vector2.Zero[float32](), 0, White)
 }
 
-func (t *Texture2D) DrawTiled(source, dest Rectangle, origin Vector2, rotation, scale float32, tint colorex.RGBA) {
+func (t *Texture2D) DrawTiled(source, dest rect2.Float32, origin vector2.Float32, rotation, scale float32, tint colorex.RGBA) {
 	DrawTextureTiled(t, source, dest, origin, rotation, scale, tint)
 }
 
-func (t *Texture2D) DrawTiledDef(dest Rectangle) {
+func (t *Texture2D) DrawTiledDef(dest rect2.Float32) {
 	DrawTextureTiled(t, t.GetRect(), dest, vector2.Zero[float32](), 0, 1, White)
 }
 
@@ -1310,12 +1368,12 @@ const (
 
 // NPatchInfo type, n-patch layout info
 type NPatchInfo struct {
-	Source Rectangle    // Texture source rectangle
-	Left   int32        // Left border offset
-	Top    int32        // Top border offset
-	Right  int32        // Right border offset
-	Bottom int32        // Bottom border offset
-	Layout NPatchLayout // Layout of the n-patch: 3x3, 1x3 or 3x1
+	Source rect2.Float32 // Texture source rectangle
+	Left   int32         // Left border offset
+	Top    int32         // Top border offset
+	Right  int32         // Right border offset
+	Bottom int32         // Bottom border offset
+	Layout NPatchLayout  // Layout of the n-patch: 3x3, 1x3 or 3x1
 }
 
 // VrStereoConfig, VR stereo rendering configuration for simulator
