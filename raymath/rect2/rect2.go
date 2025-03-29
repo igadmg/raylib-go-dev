@@ -478,6 +478,29 @@ func (r Rectangle[T]) ZoomByXYF(x, y float32) Rectangle[T] {
 	}
 }
 
+func (r Rectangle[T]) Inverse(v vector2.Float64) vector2.Float64 {
+	return r.InverseLerp(v).SubXY(0.5, 0.5)
+}
+
+func (r Rectangle[T]) InverseF(v vector2.Float32) vector2.Float32 {
+	return r.InverseLerpF(v).SubXY(0.5, 0.5)
+}
+
+// InverseLerp calculates the inverse lerp of a point within the rectangle, returning a normalized vector2.Vector[T].
+func (r Rectangle[T]) InverseLerp(v vector2.Float64) vector2.Float64 {
+	return v.Sub(r.Position.ToFloat64()).ToFloat64().ScaleByVector(r.Size.Inv())
+}
+
+// InverseLerpF calculates the inverse lerp of a point within the rectangle, returning a normalized vector2.Float32.
+func (r Rectangle[T]) InverseLerpF(v vector2.Float32) vector2.Float32 {
+	return v.Sub(r.Position.ToFloat32()).ToFloat32().ScaleByVectorF(r.Size.InvF())
+}
+
+// InverseLerpXYF calculates the inverse lerp of a point within the rectangle using float32 x and y, returning a normalized vector2.Float32.
+//func (r Rectangle[T]) InverseLerpXYF(x, y float32) vector2.Float32 {
+//	return vector2.New(float32(x)-float32(r.Position.X), float32(y)-float32(r.Position.Y)).Div(r.Size.ToFloat32())
+//}
+
 func (r Rectangle[T]) Lerp(t vector2.Float64) vector2.Vector[T] {
 	return r.Position.Add(r.Size.ScaleByVector(t))
 }

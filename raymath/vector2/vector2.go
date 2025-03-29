@@ -116,6 +116,57 @@ func One[T rm.SignedNumber]() Vector[T] {
 	}
 }
 
+func (v Vector[T]) SignI() Int {
+	sv := Zero[int]()
+	if v.X < 0 {
+		sv.X = -1
+	} else if v.X > 0 {
+		sv.X = 1
+	}
+	if v.Y < 0 {
+		sv.Y = -1
+	} else if v.Y > 0 {
+		sv.Y = 1
+	}
+	return sv
+}
+
+func (v Vector[T]) IsZero() bool {
+	return v.X == 0 && v.Y == 0
+}
+
+func (v Vector[T]) NearZeroF(epsilon float32) bool {
+	fv := v.ToFloat32()
+	return fv.X > -epsilon && fv.X < epsilon &&
+		fv.Y > -epsilon && fv.Y < epsilon
+}
+
+func (v Vector[T]) ZeroF(epsilon float32) Float32 {
+	fv := v.ToFloat32()
+	if fv.X < epsilon && fv.X > -epsilon {
+		fv = fv.SetX(0)
+	}
+	if fv.Y < epsilon && fv.Y > -epsilon {
+		fv = fv.SetY(0)
+	}
+
+	return fv
+}
+
+func (v Vector[T]) Inv() Float64 {
+	return Float64{
+		X: 1.0 / float64(v.X),
+		Y: 1.0 / float64(v.Y),
+	}
+}
+
+func (v Vector[T]) InvF() Float32 {
+	return Float32{
+		X: 1.0 / float32(v.X),
+		Y: 1.0 / float32(v.Y),
+	}
+}
+
 // Lerp linearly interpolates between a and b by t
 func Lerp[T rm.SignedNumber](t float32, a, b Vector[T]) Vector[T] {
 	return Vector[T]{
