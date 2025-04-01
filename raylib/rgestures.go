@@ -4,7 +4,7 @@ package rl
 #include "raylib.h"
 */
 import "C"
-import "github.com/igadmg/raylib-go/raymath/vector2"
+import "github.com/igadmg/gamemath/vector2"
 
 // SetGesturesEnabled - Enable a set of gestures using flags
 func SetGesturesEnabled(gestureFlags uint32) {

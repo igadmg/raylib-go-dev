@@ -6,13 +6,13 @@ replace (
 	deedles.dev/xiter => ../../xiter
 	github.com/igadmg/goex => ../../goex
 	github.com/igadmg/raylib-go/raylib => ../raylib
-	github.com/igadmg/raylib-go/raymath => ../raymath
+	github.com/igadmg/gamemath => ../../gamemath
 )
 
 require (
 	github.com/igadmg/goex v0.0.0-20250321131421-ccb743b21181
 	github.com/igadmg/raylib-go/raylib v0.0.0-20240518160852-5314a4a2099a
-	github.com/igadmg/raylib-go/raymath v1.6.0
+	github.com/igadmg/gamemath v1.6.0
 )
 
 require (

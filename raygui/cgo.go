@@ -10,9 +10,9 @@ import "C"
 import (
 	"unsafe"
 
+	"github.com/igadmg/gamemath/vector2"
+	"github.com/igadmg/gamemath/vector3"
 	rl "github.com/igadmg/raylib-go/raylib"
-	"github.com/igadmg/raylib-go/raymath/vector2"
-	"github.com/igadmg/raylib-go/raymath/vector3"
 )
 
 // govec2ptr - Returns new Vector2 from pointer

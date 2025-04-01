@@ -14,10 +14,10 @@ import (
 	"strings"
 	"unsafe"
 
+	"github.com/igadmg/gamemath/vector2"
+	"github.com/igadmg/gamemath/vector3"
 	"github.com/igadmg/goex/image/colorex"
 	rl "github.com/igadmg/raylib-go/raylib"
-	"github.com/igadmg/raylib-go/raymath/vector2"
-	"github.com/igadmg/raylib-go/raymath/vector3"
 )
 
 type BoundsFn func(bounds rl.Rectangle)

@@ -11,11 +11,11 @@ import "C"
 import (
 	"unsafe"
 
+	"github.com/igadmg/gamemath/rect2"
+	"github.com/igadmg/gamemath/vector2"
+	"github.com/igadmg/gamemath/vector3"
+	"github.com/igadmg/gamemath/vector4"
 	"github.com/igadmg/goex/image/colorex"
-	"github.com/igadmg/raylib-go/raymath/rect2"
-	"github.com/igadmg/raylib-go/raymath/vector2"
-	"github.com/igadmg/raylib-go/raymath/vector3"
-	"github.com/igadmg/raylib-go/raymath/vector4"
 )
 
 // core
