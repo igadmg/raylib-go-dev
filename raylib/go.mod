@@ -13,7 +13,7 @@ require (
 	github.com/igadmg/gamemath v1.6.0
 	github.com/igadmg/goex v0.0.0-20250325133153-61aee7990ef8
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
-	golang.org/x/sys v0.31.0
+	golang.org/x/sys v0.32.0
 )
 
 require (
