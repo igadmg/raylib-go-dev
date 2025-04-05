@@ -4,14 +4,14 @@ go 1.24
 
 replace (
 	deedles.dev/xiter => ../../xiter
-	github.com/igadmg/goex => ../../goex
 	github.com/igadmg/gamemath => ../../gamemath
+	github.com/igadmg/goex => ../../goex
 )
 
 require (
 	github.com/ebitengine/purego v0.8.2
-	github.com/igadmg/goex v0.0.0-20250321131421-ccb743b21181
 	github.com/igadmg/gamemath v1.6.0
+	github.com/igadmg/goex v0.0.0-20250325133153-61aee7990ef8
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
 	golang.org/x/sys v0.31.0
 )

@@ -4,15 +4,15 @@ go 1.24
 
 replace (
 	deedles.dev/xiter => ../../xiter
+	github.com/igadmg/gamemath => ../../gamemath
 	github.com/igadmg/goex => ../../goex
 	github.com/igadmg/raylib-go/raylib => ../raylib
-	github.com/igadmg/gamemath => ../../gamemath
 )
 
 require (
-	github.com/igadmg/goex v0.0.0-20250321131421-ccb743b21181
-	github.com/igadmg/raylib-go/raylib v0.0.0-20240518160852-5314a4a2099a
 	github.com/igadmg/gamemath v1.6.0
+	github.com/igadmg/goex v0.0.0-20250325133153-61aee7990ef8
+	github.com/igadmg/raylib-go/raylib v0.0.0-20250327112125-46827dd07487
 )
 
 require (
