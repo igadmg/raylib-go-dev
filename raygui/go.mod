@@ -11,7 +11,7 @@ replace (
 
 require (
 	github.com/igadmg/gamemath v1.6.0
-	github.com/igadmg/goex v0.0.0-20250325133153-61aee7990ef8
+	github.com/igadmg/goex v0.0.0-20250407220752-712c023573b8
 	github.com/igadmg/raylib-go/raylib v0.0.0-20250327112125-46827dd07487
 )
 

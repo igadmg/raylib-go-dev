@@ -16,7 +16,7 @@ require (
 require (
 	github.com/chewxy/math32 v1.11.1 // indirect
 	github.com/ebitengine/purego v0.8.2 // indirect
-	github.com/igadmg/goex v0.0.0-20250325133153-61aee7990ef8 // indirect
+	github.com/igadmg/goex v0.0.0-20250407220752-712c023573b8 // indirect
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394 // indirect
 	golang.org/x/sys v0.32.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
