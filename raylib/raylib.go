@@ -1315,7 +1315,7 @@ func (i Image) GetRect() rect2.Float32 {
 }
 
 func (i *Image) DrawDef(dst *Image, dstRect rect2.Float32) {
-	ImageDraw(dst, i, i.GetRect(), dstRect, White)
+	ImageDraw(dst, *i, i.GetRect(), dstRect, White)
 }
 
 // Texture2D type, bpp always RGBA (32bit)
@@ -1358,57 +1358,57 @@ func (t Texture2D) GetRect() rect2.Float32 {
 	return NewRectangle(0, 0, t.Width, t.Height)
 }
 
-func (t *Texture2D) Draw(posX int, posY int, tint colorex.RGBA) {
+func (t Texture2D) Draw(posX int, posY int, tint colorex.RGBA) {
 	DrawTexture(t, posX, posY, tint)
 }
 
-func (t *Texture2D) DrawDef(posX int, posY int) {
+func (t Texture2D) DrawDef(posX int, posY int) {
 	DrawTexture(t, posX, posY, White)
 }
 
-func (t *Texture2D) DrawV(position vector2.Float32, tint colorex.RGBA) {
+func (t Texture2D) DrawV(position vector2.Float32, tint colorex.RGBA) {
 	DrawTextureV(t, position, tint)
 }
 
-func (t *Texture2D) DrawVDef(position vector2.Float32) {
+func (t Texture2D) DrawVDef(position vector2.Float32) {
 	DrawTextureV(t, position, White)
 }
 
-func (t *Texture2D) DrawEx(position vector2.Float32, rotation, scale float32, tint colorex.RGBA) {
+func (t Texture2D) DrawEx(position vector2.Float32, rotation, scale float32, tint colorex.RGBA) {
 	DrawTextureEx(t, position, rotation, scale, tint)
 }
 
-func (t *Texture2D) DrawExDef(position vector2.Float32) {
+func (t Texture2D) DrawExDef(position vector2.Float32) {
 	DrawTextureEx(t, position, 0, 1, White)
 }
 
-func (t *Texture2D) DrawRec(sourceRec rect2.Float32, position vector2.Float32, tint colorex.RGBA) {
+func (t Texture2D) DrawRec(sourceRec rect2.Float32, position vector2.Float32, tint colorex.RGBA) {
 	DrawTextureRec(t, sourceRec, position, tint)
 }
 
-func (t *Texture2D) DrawPro(sourceRec, destRec rect2.Float32, origin vector2.Float32, rotation float32, tint colorex.RGBA) {
+func (t Texture2D) DrawPro(sourceRec, destRec rect2.Float32, origin vector2.Float32, rotation float32, tint colorex.RGBA) {
 	DrawTexturePro(t, sourceRec, destRec, origin, rotation, tint)
 }
 
-func (t *Texture2D) DrawFlippedPro(sourceRec, destRec rect2.Float32, origin vector2.Float32, rotation float32, tint colorex.RGBA) {
+func (t Texture2D) DrawFlippedPro(sourceRec, destRec rect2.Float32, origin vector2.Float32, rotation float32, tint colorex.RGBA) {
 	sourceRec = sourceRec.ScaleByVectorF(vector2.NewFloat32(1, -1))
 	sourceRec = sourceRec.SetY(float32(t.Height) + sourceRec.Height())
 	DrawTexturePro(t, sourceRec, destRec, origin, rotation, tint)
 }
 
-func (t *Texture2D) DrawProDef(destRec rect2.Float32) {
+func (t Texture2D) DrawProDef(destRec rect2.Float32) {
 	DrawTexturePro(t, t.GetRect(), destRec, vector2.Zero[float32](), 0, White)
 }
 
-func (t *Texture2D) DrawProFlippedDef(destRec rect2.Float32) {
+func (t Texture2D) DrawProFlippedDef(destRec rect2.Float32) {
 	DrawTexturePro(t, t.GetRect().ScaleByVectorF(vector2.NewFloat32(1, -1)), destRec, vector2.Zero[float32](), 0, White)
 }
 
-func (t *Texture2D) DrawTiled(source, dest rect2.Float32, origin vector2.Float32, rotation, scale float32, tint colorex.RGBA) {
+func (t Texture2D) DrawTiled(source, dest rect2.Float32, origin vector2.Float32, rotation, scale float32, tint colorex.RGBA) {
 	DrawTextureTiled(t, source, dest, origin, rotation, scale, tint)
 }
 
-func (t *Texture2D) DrawTiledDef(dest rect2.Float32) {
+func (t Texture2D) DrawTiledDef(dest rect2.Float32) {
 	DrawTextureTiled(t, t.GetRect(), dest, vector2.Zero[float32](), 0, 1, White)
 }
 

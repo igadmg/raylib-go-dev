@@ -1,7 +1,10 @@
 package main
 
 import (
-	rl "github.com/gen2brain/raylib-go/raylib"
+	"github.com/igadmg/gamemath/vector2"
+	"github.com/igadmg/gamemath/vector3"
+	"github.com/igadmg/goex/image/colorex"
+	rl "github.com/igadmg/raylib-go/raylib"
 )
 
 const (
@@ -12,20 +15,20 @@ func main() {
 	rl.InitWindow(800, 450, "raylib [core] example - 3d camera first person")
 
 	camera := rl.Camera3D{}
-	camera.Position = rl.NewVector3(4.0, 2.0, 4.0)
-	camera.Target = rl.NewVector3(0.0, 1.8, 0.0)
-	camera.Up = rl.NewVector3(0.0, 1.0, 0.0)
+	camera.Position = vector3.NewFloat32(4.0, 2.0, 4.0)
+	camera.Target = vector3.NewFloat32(0.0, 1.8, 0.0)
+	camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
 	camera.Fovy = 60.0
 	camera.Projection = rl.CameraPerspective
 
 	// Generates some random columns
 	heights := make([]float32, maxColumns)
-	positions := make([]rl.Vector3, maxColumns)
-	colors := make([]rl.Color, maxColumns)
+	positions := make([]vector3.Float32, maxColumns)
+	colors := make([]colorex.RGBA, maxColumns)
 
 	for i := 0; i < maxColumns; i++ {
 		heights[i] = float32(rl.GetRandomValue(1, 12))
-		positions[i] = rl.NewVector3(float32(rl.GetRandomValue(-15, 15)), heights[i]/2, float32(rl.GetRandomValue(-15, 15)))
+		positions[i] = vector3.NewFloat32(float32(rl.GetRandomValue(-15, 15)), heights[i]/2, float32(rl.GetRandomValue(-15, 15)))
 		colors[i] = rl.NewColor(uint8(rl.GetRandomValue(20, 255)), uint8(rl.GetRandomValue(10, 55)), 30, 255)
 	}
 
@@ -40,10 +43,10 @@ func main() {
 
 		rl.BeginMode3D(camera)
 
-		rl.DrawPlane(rl.NewVector3(0.0, 0.0, 0.0), rl.NewVector2(32.0, 32.0), rl.LightGray) // Draw ground
-		rl.DrawCube(rl.NewVector3(-16.0, 2.5, 0.0), 1.0, 5.0, 32.0, rl.Blue)                // Draw a blue wall
-		rl.DrawCube(rl.NewVector3(16.0, 2.5, 0.0), 1.0, 5.0, 32.0, rl.Lime)                 // Draw a green wall
-		rl.DrawCube(rl.NewVector3(0.0, 2.5, 16.0), 32.0, 5.0, 1.0, rl.Gold)                 // Draw a yellow wall
+		rl.DrawPlane(vector3.NewFloat32(0.0, 0.0, 0.0), vector2.NewFloat32(32.0, 32.0), rl.LightGray) // Draw ground
+		rl.DrawCube(vector3.NewFloat32(-16.0, 2.5, 0.0), 1.0, 5.0, 32.0, rl.Blue)                     // Draw a blue wall
+		rl.DrawCube(vector3.NewFloat32(16.0, 2.5, 0.0), 1.0, 5.0, 32.0, rl.Lime)                      // Draw a green wall
+		rl.DrawCube(vector3.NewFloat32(0.0, 2.5, 16.0), 32.0, 5.0, 1.0, rl.Gold)                      // Draw a yellow wall
 
 		// Draw some cubes around
 		for i := 0; i < maxColumns; i++ {

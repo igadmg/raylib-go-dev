@@ -3,7 +3,8 @@ package main
 import (
 	"math"
 
-	rl "github.com/gen2brain/raylib-go/raylib"
+	"github.com/igadmg/gamemath/vector2"
+	rl "github.com/igadmg/raylib-go/raylib"
 )
 
 const (
@@ -33,7 +34,7 @@ func main() {
 	totalSamples := int32(maxSamples)
 	samplesLeft := int32(totalSamples)
 
-	position := rl.NewVector2(0, 0)
+	position := vector2.NewFloat32(0, 0)
 
 	rl.SetTargetFPS(30)
 

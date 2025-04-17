@@ -202,7 +202,7 @@ func UnloadRenderTexture(target *RenderTexture2D) {
 }
 
 // LoadImageColors - Get pixel data from image as a Color slice
-func LoadImageColors(img *Image) []colorex.RGBA {
+func LoadImageColors(img Image) []colorex.RGBA {
 	cimg := img.cptr()
 	ret := C.LoadImageColors(*cimg)
 	return (*[1 << 24]colorex.RGBA)(unsafe.Pointer(ret))[0 : img.Width*img.Height]
@@ -236,14 +236,14 @@ func UpdateTextureRec(texture Texture2D, rec rect2.Float32, pixels []colorex.RGB
 }
 
 // ExportImage - Export image as a PNG file
-func ExportImage(image *Image, fileName string) bool {
+func ExportImage(image Image, fileName string) bool {
 	cfileName := textAlloc(fileName)
 	cimage := image.cptr()
 	return bool(C.ExportImage(*cimage, cfileName))
 }
 
 // ExportImageToMemory - Export image to memory buffer
-func ExportImageToMemory(image *Image, fileType string) []byte {
+func ExportImageToMemory(image Image, fileType string) []byte {
 	cfileType := textAlloc(fileType)
 	cimage := image.cptr()
 
@@ -492,7 +492,7 @@ func ImageClearBackground(dst *Image, col colorex.RGBA) {
 }
 
 // ImageDraw - Draw a source image within a destination image
-func ImageDraw(dst, src *Image, srcRec, dstRec rect2.Float32, tint colorex.RGBA) {
+func ImageDraw(dst *Image, src Image, srcRec, dstRec rect2.Float32, tint colorex.RGBA) {
 	cdst := dst.cptr()
 	csrc := src.cptr()
 	csrcRec := crect2ptr(&srcRec)
@@ -818,7 +818,7 @@ func SetTextureWrap(texture Texture2D, wrapMode TextureWrapMode) {
 }
 
 // DrawTexture - Draw a Texture2D
-func DrawTexture[XT, YT IntegerT](texture *Texture2D, posX XT, posY YT, tint colorex.RGBA) {
+func DrawTexture[XT, YT IntegerT](texture Texture2D, posX XT, posY YT, tint colorex.RGBA) {
 	ctexture := texture.cptr()
 	cposX := (C.int)(posX)
 	cposY := (C.int)(posY)
@@ -827,7 +827,7 @@ func DrawTexture[XT, YT IntegerT](texture *Texture2D, posX XT, posY YT, tint col
 }
 
 // DrawTextureV - Draw a Texture2D with position defined as vector2.Float32
-func DrawTextureV(texture *Texture2D, position vector2.Float32, tint colorex.RGBA) {
+func DrawTextureV(texture Texture2D, position vector2.Float32, tint colorex.RGBA) {
 	ctexture := texture.cptr()
 	cposition := cvec2ptr(&position)
 	ctint := ccolorptr(&tint)
@@ -835,7 +835,7 @@ func DrawTextureV(texture *Texture2D, position vector2.Float32, tint colorex.RGB
 }
 
 // DrawTextureEx - Draw a Texture2D with extended parameters
-func DrawTextureEx(texture *Texture2D, position vector2.Float32, rotation, scale float32, tint colorex.RGBA) {
+func DrawTextureEx(texture Texture2D, position vector2.Float32, rotation, scale float32, tint colorex.RGBA) {
 	ctexture := texture.cptr()
 	cposition := cvec2ptr(&position)
 	crotation := (C.float)(rotation)
@@ -845,7 +845,7 @@ func DrawTextureEx(texture *Texture2D, position vector2.Float32, rotation, scale
 }
 
 // DrawTextureRec - Draw a part of a texture defined by a rectangle
-func DrawTextureRec(texture *Texture2D, sourceRec rect2.Float32, position vector2.Float32, tint colorex.RGBA) {
+func DrawTextureRec(texture Texture2D, sourceRec rect2.Float32, position vector2.Float32, tint colorex.RGBA) {
 	ctexture := texture.cptr()
 	csourceRec := crect2ptr(&sourceRec)
 	cposition := cvec2ptr(&position)
@@ -856,7 +856,7 @@ func DrawTextureRec(texture *Texture2D, sourceRec rect2.Float32, position vector
 // #cgo noescape DrawTexturePro
 // #cgo nocallback DrawTexturePro
 // DrawTexturePro - Draw a part of a texture defined by a rectangle with 'pro' parameters
-func DrawTexturePro(texture *Texture2D, sourceRec, destRec rect2.Float32, origin vector2.Float32, rotation float32, tint colorex.RGBA) {
+func DrawTexturePro(texture Texture2D, sourceRec, destRec rect2.Float32, origin vector2.Float32, rotation float32, tint colorex.RGBA) {
 	ctexture := texture.cptr()
 	csourceRec := crect2ptr(&sourceRec)
 	cdestRec := crect2ptr(&destRec)
@@ -866,7 +866,7 @@ func DrawTexturePro(texture *Texture2D, sourceRec, destRec rect2.Float32, origin
 	C.DrawTexturePro(*ctexture, *csourceRec, *cdestRec, *corigin, crotation, *ctint)
 }
 
-func DrawTextureTiled(texture *Texture2D, source, dest rect2.Float32, origin vector2.Float32, rotation, scale float32, tint colorex.RGBA) {
+func DrawTextureTiled(texture Texture2D, source, dest rect2.Float32, origin vector2.Float32, rotation, scale float32, tint colorex.RGBA) {
 	ctexture := texture.cptr()
 	csource := crect2ptr(&source)
 	cdest := crect2ptr(&dest)
