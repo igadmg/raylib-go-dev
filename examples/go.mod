@@ -4,15 +4,13 @@ go 1.24
 
 toolchain go1.24.2
 
-replace github.com/igadmg/raylib-go/raylib => ../raylib
-
-replace github.com/igadmg/raylib-go/raygui => ../raygui
-
-replace github.com/igadmg/raylib-go/easings => ../easings
-
-replace github.com/igadmg/raylib-go/physics => ../physics
-
-replace github.com/igadmg/gamemath => ../../gamemath
+replace (
+	github.com/igadmg/gamemath => ../../gamemath
+	github.com/igadmg/raylib-go/easings => ../easings
+	github.com/igadmg/raylib-go/physics => ../physics
+	github.com/igadmg/raylib-go/raygui => ../raygui
+	github.com/igadmg/raylib-go/raylib => ../raylib
+)
 
 require (
 	github.com/igadmg/gamemath v1.6.0
