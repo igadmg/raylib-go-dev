@@ -2,15 +2,8 @@ module github.com/igadmg/raylib-go/raygui
 
 go 1.24
 
-replace (
-	deedles.dev/xiter => ../../xiter
-	github.com/igadmg/gamemath => ../../gamemath
-	github.com/igadmg/goex => ../../goex
-	github.com/igadmg/raylib-go/raylib => ../raylib
-)
-
 require (
-	github.com/igadmg/gamemath v1.6.0
+	github.com/igadmg/gamemath v0.0.0-20250410222204-28d83654fdf2
 	github.com/igadmg/goex v0.0.0-20250407220752-712c023573b8
 	github.com/igadmg/raylib-go/raylib v0.0.0-20250327112125-46827dd07487
 )

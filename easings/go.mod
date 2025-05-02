@@ -2,8 +2,6 @@ module github.com/igadmg/raylib-go/easings
 
 go 1.24
 
-replace github.com/igadmg/gamemath => ../../gamemath
-
 require github.com/igadmg/gamemath v0.0.0-20250410222204-28d83654fdf2
 
 require (

@@ -2,14 +2,8 @@ module github.com/igadmg/raylib-go/physics
 
 go 1.24
 
-replace (
-	deedles.dev/xiter => ../../xiter
-	github.com/igadmg/gamemath => ../../gamemath
-	github.com/igadmg/raylib-go/raylib => ../raylib
-)
-
 require (
-	github.com/igadmg/gamemath v1.6.0
+	github.com/igadmg/gamemath v0.0.0-20250410222204-28d83654fdf2
 	github.com/igadmg/raylib-go/raylib v0.0.0-20250327112125-46827dd07487
 )
 
