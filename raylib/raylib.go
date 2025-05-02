@@ -76,6 +76,10 @@ func (w Wave) IsValid() bool {
 		w.Channels > 0 // Validate number of channels supported
 }
 
+func (w *Wave) Unload() {
+	UnloadWave(w)
+}
+
 // AudioCallback function.
 type AudioCallback func(data []float32, frames int)
 
@@ -90,6 +94,10 @@ type Sound struct {
 func (s Sound) IsValid() bool {
 	return s.FrameCount > 0 && // Validate frame count
 		s.Stream.IsValid() // Validate stream buffer
+}
+
+func (s *Sound) Unload() {
+	UnloadSound(s)
 }
 
 // Music type (file streaming from memory)
@@ -107,6 +115,10 @@ func (m Music) IsValid() bool {
 	return m.CtxData != nil && // Validate context loaded
 		m.FrameCount > 0 && // Validate audio frame count
 		m.Stream.IsValid() // Validate audio stream
+}
+
+func (m *Music) Unload() {
+	UnloadMusicStream(m)
 }
 
 // AudioStream type
@@ -131,6 +143,10 @@ func (s AudioStream) IsValid() bool {
 		s.SampleRate > 0 && // Validate sample rate is supported
 		s.SampleSize > 0 && // Validate sample size is supported
 		s.Channels > 0 // Validate number of channels supported
+}
+
+func (a *AudioStream) Unload() {
+	UnloadAudioStream(a)
 }
 
 type maDataConverter struct {
@@ -862,6 +878,10 @@ func (m Mesh) IsValid() bool {
 	return true
 }
 
+func (m *Mesh) Unload() {
+	UnloadMesh(m)
+}
+
 // Material type
 type Material struct {
 	// Shader
@@ -884,6 +904,10 @@ func (material Material) IsValid() bool {
 	// TODO: Check if available maps contain loaded textures
 
 	return result
+}
+
+func (m *Material) Unload() {
+	UnloadMaterial(m)
 }
 
 // GetMap - Get pointer to MaterialMap by map type
@@ -953,6 +977,10 @@ func (model Model) IsValid() bool {
 	return result
 }
 
+func (m *Model) Unload() {
+	UnloadModel(m)
+}
+
 // GetMeshes returns the meshes of a model as go slice
 func (m Model) GetMeshes() []Mesh {
 	return unsafe.Slice(m.Meshes, m.MeshCount)
@@ -1006,6 +1034,10 @@ type ModelAnimation struct {
 	Bones      *BoneInfo
 	FramePoses **Transform
 	Name       [32]uint8
+}
+
+func (m *ModelAnimation) Unload() {
+	UnloadModelAnimation(m)
 }
 
 // GetBones returns the bones information (skeleton) of a ModelAnimation as go slice
@@ -1076,6 +1108,10 @@ func (s Shader) IsValid() bool {
 		s.Locs != nil
 }
 
+func (m *Shader) Unload() {
+	UnloadShader(m)
+}
+
 // GetLocation - Get shader value's location
 func (s Shader) GetLocation(index int32) int32 {
 	return *(*int32)(unsafe.Pointer(uintptr(unsafe.Pointer(s.Locs)) + uintptr(index*4)))
@@ -1134,6 +1170,10 @@ func (f Font) IsValid() bool {
 		f.GlyphCount != 0 && // Validate font contains some glyph
 		f.Recs != nil && // Validate font recs defining glyphs on texture atlas
 		f.Glyphs != nil // Validate glyph data is loaded
+}
+
+func (m *Font) Unload() {
+	UnloadFont(m)
 }
 
 // DrawTextEx - Draw text using Font and additional parameters
