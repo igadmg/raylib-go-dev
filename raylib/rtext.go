@@ -73,6 +73,14 @@ func LoadFontFromMemory(fileType string, fileData []byte, fontSize int32, codepo
 	return *newFontFromPointer(&ret)
 }
 
+// IsFontValid - Check if a font is valid (font data loaded, WARNING: GPU texture not checked)
+func IsFontValid(font Font) bool {
+	cfont := font.cptr()
+	ret := C.IsFontValid(*cfont)
+	v := bool(ret)
+	return v
+}
+
 // LoadFontData - Load font data for further use
 func LoadFontData(fileData []byte, fontSize int32, codePoints []rune, codepointCount, typ int32) []GlyphInfo {
 	cfileData := (*C.uchar)(unsafe.Pointer(&fileData[0]))

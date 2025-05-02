@@ -1476,6 +1476,11 @@ func LoadShaderFromMemory(vsCode string, fsCode string) Shader {
 	return shader
 }
 
+// IsShaderValid - Check if a shader is valid (loaded on GPU)
+func IsShaderValid(shader Shader) bool {
+	return isShaderValid(uintptr(unsafe.Pointer(&shader)))
+}
+
 // GetShaderLocation - Get shader uniform location
 func GetShaderLocation(shader Shader, uniformName string) int32 {
 	return getShaderLocation(uintptr(unsafe.Pointer(&shader)), uniformName)
@@ -2398,6 +2403,11 @@ func LoadImageFromScreen() *Image {
 	return &img
 }
 
+// IsImageValid - Check if an image is valid (data and parameters)
+func IsImageValid(image *Image) bool {
+	return isImageValid(uintptr(unsafe.Pointer(image)))
+}
+
 // UnloadImage - Unload image from CPU memory (RAM)
 func UnloadImage(image *Image) {
 	unloadImage(uintptr(unsafe.Pointer(image)))
@@ -2819,9 +2829,19 @@ func LoadRenderTexture(width int32, height int32) RenderTexture2D {
 	return texture
 }
 
+// IsTextureValid - Check if a texture is valid (loaded in GPU)
+func IsTextureValid(texture Texture2D) bool {
+	return isTextureValid(uintptr(unsafe.Pointer(&texture)))
+}
+
 // UnloadTexture - Unload texture from GPU memory (VRAM)
 func UnloadTexture(texture Texture2D) {
 	unloadTexture(uintptr(unsafe.Pointer(&texture)))
+}
+
+// IsRenderTextureValid - Check if a render texture is valid (loaded in GPU)
+func IsRenderTextureValid(target RenderTexture2D) bool {
+	return isRenderTextureValid(uintptr(unsafe.Pointer(&target)))
 }
 
 // UnloadRenderTexture - Unload render texture from GPU memory (VRAM)
@@ -3018,6 +3038,11 @@ func LoadFontFromMemory(fileType string, fileData []byte, fontSize int32, codepo
 	codepointCount := int32(len(codepoints))
 	loadFontFromMemory(uintptr(unsafe.Pointer(&font)), fileType, fileData, dataSize, fontSize, codepoints, codepointCount)
 	return font
+}
+
+// IsFontValid - Check if a font is valid (font data loaded, WARNING: GPU texture not checked)
+func IsFontValid(font Font) bool {
+	return isFontValid(uintptr(unsafe.Pointer(&font)))
 }
 
 // LoadFontData - Load font data for further use
@@ -3236,6 +3261,11 @@ func LoadModelFromMesh(mesh Mesh) Model {
 	return model
 }
 
+// IsModelValid - Check if a model is valid (loaded in GPU, VAO/VBOs)
+func IsModelValid(model Model) bool {
+	return isModelValid(uintptr(unsafe.Pointer(&model)))
+}
+
 // UnloadModel - Unload model (including meshes) from memory (RAM and/or VRAM)
 func UnloadModel(model Model) {
 	unloadModel(uintptr(unsafe.Pointer(&model)))
@@ -3432,6 +3462,11 @@ func LoadMaterialDefault() Material {
 	return material
 }
 
+// IsMaterialValid - Check if a material is valid (shader assigned, map textures loaded in GPU)
+func IsMaterialValid(material Material) bool {
+	return isMaterialValid(uintptr(unsafe.Pointer(&material)))
+}
+
 // UnloadMaterial - Unload material from GPU memory (VRAM)
 func UnloadMaterial(material Material) {
 	unloadMaterial(uintptr(unsafe.Pointer(&material)))
@@ -3473,6 +3508,11 @@ func UnloadModelAnimation(anim ModelAnimation) {
 func UnloadModelAnimations(animations []ModelAnimation) {
 	animCount := int32(len(animations))
 	unloadModelAnimations(unsafe.SliceData(animations), animCount)
+}
+
+// IsModelAnimationValid - Check model animation skeleton match
+func IsModelAnimationValid(model Model, anim ModelAnimation) bool {
+	return isModelAnimationValid(uintptr(unsafe.Pointer(&model)), uintptr(unsafe.Pointer(&anim)))
 }
 
 // CheckCollisionSpheres - Check collision between two spheres
@@ -3564,6 +3604,11 @@ func LoadWaveFromMemory(fileType string, fileData []byte, dataSize int32) Wave {
 	return wave
 }
 
+// IsWaveValid - Checks if wave data is valid (data loaded and parameters)
+func IsWaveValid(wave Wave) bool {
+	return isWaveValid(uintptr(unsafe.Pointer(&wave)))
+}
+
 // LoadSound - Load sound from file
 func LoadSound(fileName string) Sound {
 	var sound Sound
@@ -3583,6 +3628,11 @@ func LoadSoundAlias(source Sound) Sound {
 	var sound Sound
 	loadSoundAlias(uintptr(unsafe.Pointer(&sound)), uintptr(unsafe.Pointer(&source)))
 	return sound
+}
+
+// IsSoundValid - Checks if a sound is valid (data loaded and buffers initialized)
+func IsSoundValid(sound Sound) bool {
+	return isSoundValid(uintptr(unsafe.Pointer(&sound)))
 }
 
 // UpdateSound - Update sound buffer with new data
@@ -3692,6 +3742,11 @@ func LoadMusicStreamFromMemory(fileType string, data []byte, dataSize int32) Mus
 	return music
 }
 
+// IsMusicValid - Checks if a music stream is valid (context and buffers initialized)
+func IsMusicValid(music Music) bool {
+	return isMusicValid(uintptr(unsafe.Pointer(&music)))
+}
+
 // UnloadMusicStream - Unload music stream
 func UnloadMusicStream(music Music) {
 	unloadMusicStream(uintptr(unsafe.Pointer(&music)))
@@ -3762,6 +3817,11 @@ func LoadAudioStream(sampleRate uint32, sampleSize uint32, channels uint32) Audi
 	var audioStream AudioStream
 	loadAudioStream(uintptr(unsafe.Pointer(&audioStream)), sampleRate, sampleSize, channels)
 	return audioStream
+}
+
+// IsAudioStreamValid - Checks if an audio stream is valid (buffers initialized)
+func IsAudioStreamValid(stream AudioStream) bool {
+	return isAudioStreamValid(uintptr(unsafe.Pointer(&stream)))
 }
 
 // UnloadAudioStream - Unload audio stream and free memory

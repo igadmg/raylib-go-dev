@@ -455,6 +455,14 @@ func LoadShaderFromMemory(vsCode string, fsCode string) Shader {
 	return *newShaderFromPointer(&ret)
 }
 
+// IsShaderValid - Check if a shader is valid (loaded on GPU)
+func IsShaderValid(shader Shader) bool {
+	cshader := shader.cptr()
+	ret := C.IsShaderValid(*cshader)
+	v := bool(ret)
+	return v
+}
+
 // GetShaderLocation - Get shader uniform location
 func GetShaderLocation(shader Shader, uniformName string) int32 {
 	cshader := shader.cptr()

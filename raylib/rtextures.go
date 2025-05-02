@@ -138,6 +138,14 @@ func LoadImageFromScreen() Image {
 	return *newImageFromPointer(&ret)
 }
 
+// IsImageValid - Check if an image is valid (data and parameters)
+func IsImageValid(image *Image) bool {
+	cimage := image.cptr()
+	ret := C.IsImageValid(*cimage)
+	v := bool(ret)
+	return v
+}
+
 // LoadTexture - Load an image as texture into GPU memory
 func LoadTexture(fileName string) Texture2D {
 	cfileName := textAlloc(fileName)
@@ -189,10 +197,26 @@ func UnloadImage(image *Image) {
 	C.UnloadImage(cimage)
 }
 
+// IsTextureValid - Check if a texture is valid (loaded in GPU)
+func IsTextureValid(texture *Texture2D) bool {
+	ctexture := texture.cptr()
+	ret := C.IsTextureValid(*ctexture)
+	v := bool(ret)
+	return v
+}
+
 // UnloadTexture - Unload texture from GPU memory
 func UnloadTexture(texture *Texture2D) {
 	ctexture := texture.cptr()
 	C.UnloadTexture(ctexture)
+}
+
+// IsRenderTextureValid - Check if a render texture is valid (loaded in GPU)
+func IsRenderTextureValid(target *RenderTexture2D) bool {
+	ctarget := target.cptr()
+	ret := C.IsRenderTextureValid(*ctarget)
+	v := bool(ret)
+	return v
 }
 
 // UnloadRenderTexture - Unload render texture from GPU memory

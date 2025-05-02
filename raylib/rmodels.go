@@ -215,6 +215,14 @@ func LoadModelFromMesh(data Mesh) Model {
 	return *newModelFromPointer(&ret)
 }
 
+// IsModelValid - Check if a model is valid (loaded in GPU, VAO/VBOs)
+func IsModelValid(model Model) bool {
+	cmodel := model.cptr()
+	ret := C.IsModelValid(*cmodel)
+	v := bool(ret)
+	return v
+}
+
 // UnloadModel - Unload model from memory (RAM and/or VRAM)
 func UnloadModel(model *Model) {
 	cmodel := model.cptr()
@@ -336,6 +344,27 @@ func UpdateMeshBuffer(mesh Mesh, index int, data []byte, offset int) {
 	coffset := (C.int)(offset)
 	cdataSize := (C.int)(len(data))
 	C.UpdateMeshBuffer(*mesh.cptr(), cindex, unsafe.Pointer(&data[0]), cdataSize, coffset)
+}
+
+// UnloadMesh - Unload mesh from memory (RAM and/or VRAM)
+func UnloadMesh(mesh *Mesh) {
+	// Check list of go-managed mesh IDs
+	if slices.Contains(goManagedMeshIDs, mesh.VaoID) {
+		// C.UnloadMesh() only needs to read the VaoID & VboID
+		// passing a temporary struct with all other fields nil makes it safe for the C code to call free()
+		tempMesh := Mesh{
+			VaoID: mesh.VaoID,
+			VboID: mesh.VboID,
+		}
+		cmesh := tempMesh.cptr()
+		C.UnloadMesh(cmesh)
+
+		// remove mesh VaoID from list
+		goManagedMeshIDs = slices.DeleteFunc(goManagedMeshIDs, func(id uint32) bool { return id == mesh.VaoID })
+	} else {
+		cmesh := mesh.cptr()
+		C.UnloadMesh(cmesh)
+	}
 }
 
 // DrawMesh - Draw a single mesh
@@ -485,6 +514,14 @@ func LoadMaterials(fileName string) []Material {
 func LoadMaterialDefault() Material {
 	ret := C.LoadMaterialDefault()
 	return *newMaterialFromPointer(&ret)
+}
+
+// IsMaterialValid - Check if a material is valid (shader assigned, map textures loaded in GPU)
+func IsMaterialValid(material Material) bool {
+	cmaterial := material.cptr()
+	ret := C.IsMaterialValid(*cmaterial)
+	v := bool(ret)
+	return v
 }
 
 // UnloadMaterial - Unload material textures from VRAM
