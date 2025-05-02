@@ -14,8 +14,12 @@ github.com/igadmg/raylib-go/physics v0.0.0-20250502152653-9842ac273e19 h1:YNjRK6
 github.com/igadmg/raylib-go/physics v0.0.0-20250502152653-9842ac273e19/go.mod h1:ujqaGfK+X6eaojF/EdN3EV9MCQbso/KVtSw0XD5Tnt8=
 github.com/igadmg/raylib-go/raygui v0.0.0-20250502152653-9842ac273e19 h1:sXOeJanuOiXJ4MnKDYsrMyh0ifmdERb4HTGYxWgUaIQ=
 github.com/igadmg/raylib-go/raygui v0.0.0-20250502152653-9842ac273e19/go.mod h1:0yho4pQByVW0QOMguCAypJUbJKL0435jba8k2cGZ6ic=
+github.com/igadmg/raylib-go/raygui v0.0.0-20250502161514-0dfd4c9d1a23 h1:9PH8cPwoSnJJEcd/MLqiTrVhjras2eaWsdaF8dupGy0=
+github.com/igadmg/raylib-go/raygui v0.0.0-20250502161514-0dfd4c9d1a23/go.mod h1:0yho4pQByVW0QOMguCAypJUbJKL0435jba8k2cGZ6ic=
 github.com/igadmg/raylib-go/raylib v0.0.0-20250502152653-9842ac273e19 h1:Phg2JVIGFlYkIcgQTn5co6gkkktE/lsH5djlxuchCyQ=
 github.com/igadmg/raylib-go/raylib v0.0.0-20250502152653-9842ac273e19/go.mod h1:g6XCk2wFtZq0/2jBNyjqQl1PXR1jjM4bNIV6ZqRijzo=
+github.com/igadmg/raylib-go/raylib v0.0.0-20250502163006-1eae182ad111 h1:TPdftb8jxAl9xDd17rSqVe8tiFB2afTVDvT38HIw/QI=
+github.com/igadmg/raylib-go/raylib v0.0.0-20250502163006-1eae182ad111/go.mod h1:w+XQGAgqPkF/qEySy7gzRDOobtA4Jb5QHVQ/o9UgIps=
 github.com/jakecoffman/cp v1.2.1 h1:zkhc2Gpo9l4NLUZfeG3j33+3bQD7MkqPa+n5PdX+5mI=
 github.com/jakecoffman/cp v1.2.1/go.mod h1:JjY/Fp6d8E1CHnu74gWNnU0+b9VzEdUVPoJxg2PsTQg=
 github.com/neguse/go-box2d-lite v0.0.0-20170921151050-5d8ed9b7272b h1:+67TGbwfgeB5o03Rx+ZBW44zAQ+wUujcwdRA0p9CbJI=

@@ -5,7 +5,7 @@ go 1.24
 require (
 	github.com/igadmg/gamemath v0.0.0-20250502152201-14a551f600ad
 	github.com/igadmg/goex v0.0.0-20250502115452-bd40b01ba4eb
-	github.com/igadmg/raylib-go/raylib v0.0.0-20250502152653-9842ac273e19
+	github.com/igadmg/raylib-go/raylib v0.0.0-20250502163006-1eae182ad111
 )
 
 require (
