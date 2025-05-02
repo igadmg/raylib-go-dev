@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 
-	rl "github.com/gen2brain/raylib-go/raylib"
+	"github.com/igadmg/gamemath/vector3"
+	rl "github.com/igadmg/raylib-go/raylib"
 )
 
 func main() {
@@ -15,19 +16,19 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "raylib [shaders] example - model shader")
 
 	camera := rl.Camera{}
-	camera.Position = rl.NewVector3(3.0, 3.0, 3.0)
-	camera.Target = rl.NewVector3(0.0, 1.5, 0.0)
-	camera.Up = rl.NewVector3(0.0, 1.0, 0.0)
+	camera.Position = vector3.NewFloat32(3.0, 3.0, 3.0)
+	camera.Target = vector3.NewFloat32(0.0, 1.5, 0.0)
+	camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
 	camera.Fovy = 45.0
 
 	dwarf := rl.LoadModel("dwarf.obj")                                 // Load OBJ model
 	texture := rl.LoadTexture("dwarf_diffuse.png")                     // Load model texture
 	shader := rl.LoadShader("glsl330/base.vs", "glsl330/grayscale.fs") // Load model shader
 
-	rl.SetMaterialTexture(dwarf.Materials, rl.MapDiffuse, &texture)
+	rl.SetMaterialTexture(dwarf.Materials, rl.MapDiffuse, texture)
 	dwarf.Materials.Shader = shader // Set shader effect to 3d model
 
-	position := rl.NewVector3(0.0, 0.0, 0.0) // Set model position
+	position := vector3.NewFloat32(0.0, 0.0, 0.0) // Set model position
 
 	rl.SetTargetFPS(60)
 
