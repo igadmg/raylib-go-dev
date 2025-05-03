@@ -6,6 +6,8 @@ github.com/ebitengine/purego v0.8.2 h1:jPPGWs2sZ1UgOSgD2bClL0MJIqu58nOmIcBuXr62z
 github.com/ebitengine/purego v0.8.2/go.mod h1:iIjxzd6CiRiOG0UyXP+V1+jWqUXVjPKLAI0mRfJZTmQ=
 github.com/igadmg/gamemath v0.0.0-20250502152201-14a551f600ad h1:WIrUa7k6VrZusRVM57sMBVa7dikSIQQR3/PKqJyQE6o=
 github.com/igadmg/gamemath v0.0.0-20250502152201-14a551f600ad/go.mod h1:ht+Hnhqlek+UAzZiyf3zYNukFmfJHuAEOLKJrshPrQo=
+github.com/igadmg/gamemath v0.0.0-20250502161323-8f282f739e08 h1:L3nflkSPlLRgLEwrUgtBdqXuLs/cgF6V5bSzbIkhMJw=
+github.com/igadmg/gamemath v0.0.0-20250502161323-8f282f739e08/go.mod h1:ht+Hnhqlek+UAzZiyf3zYNukFmfJHuAEOLKJrshPrQo=
 github.com/igadmg/goex v0.0.0-20250502115452-bd40b01ba4eb h1:Fu2lwvI20ZfrJN9uaR/zjQeN3VMU20hFuBLkRCgE0O8=
 github.com/igadmg/goex v0.0.0-20250502115452-bd40b01ba4eb/go.mod h1:oRtmQqRpH/fasU3HEeYAoWhDfM5oLz04zIvkqsQ75AU=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

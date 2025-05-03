@@ -2,15 +2,13 @@ module examples
 
 go 1.24.2
 
-toolchain go1.24.2
-
 require (
-	github.com/igadmg/gamemath v0.0.0-20250502152201-14a551f600ad
+	github.com/igadmg/gamemath v0.0.0-20250502161323-8f282f739e08
 	github.com/igadmg/goex v0.0.0-20250502115452-bd40b01ba4eb
-	github.com/igadmg/raylib-go/easings v0.0.0-20250502152653-9842ac273e19
-	github.com/igadmg/raylib-go/physics v0.0.0-20250502152653-9842ac273e19
-	github.com/igadmg/raylib-go/raygui v0.0.0-20250502161514-0dfd4c9d1a23
-	github.com/igadmg/raylib-go/raylib v0.0.0-20250502163006-1eae182ad111
+	github.com/igadmg/raylib-go/easings v0.0.0-20250502171607-bcf0fc4a100d
+	github.com/igadmg/raylib-go/physics v0.0.0-20250502171607-bcf0fc4a100d
+	github.com/igadmg/raylib-go/raygui v0.0.0-20250502171607-bcf0fc4a100d
+	github.com/igadmg/raylib-go/raylib v0.0.0-20250502171607-bcf0fc4a100d
 	github.com/jakecoffman/cp v1.2.1
 	github.com/neguse/go-box2d-lite v0.0.0-20170921151050-5d8ed9b7272b
 )
