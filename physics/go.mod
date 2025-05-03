@@ -1,6 +1,6 @@
 module github.com/igadmg/raylib-go/physics
 
-go 1.24
+go 1.24.2
 
 require (
 	github.com/igadmg/gamemath v0.0.0-20250502152201-14a551f600ad
