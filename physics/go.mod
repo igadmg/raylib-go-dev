@@ -3,7 +3,7 @@ module github.com/igadmg/raylib-go/physics
 go 1.24.2
 
 require (
-	github.com/igadmg/gamemath v0.0.0-20250610120453-2f8524f340c9
+	github.com/igadmg/gamemath v0.0.0-20250708095842-0e78dc57d082
 	github.com/igadmg/raylib-go/raylib v0.0.0-20250502171607-bcf0fc4a100d
 )
 

@@ -4,7 +4,7 @@ go 1.24.2
 
 require (
 	github.com/ebitengine/purego v0.8.4
-	github.com/igadmg/gamemath v0.0.0-20250610120453-2f8524f340c9
+	github.com/igadmg/gamemath v0.0.0-20250708095842-0e78dc57d082
 	github.com/igadmg/goex v0.0.0-20250610111548-2e0e7d368962
 	golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b
 	golang.org/x/sys v0.33.0
