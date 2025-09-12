@@ -93,8 +93,9 @@ func LoadFontData(fileData []byte, fontSize int32, codePoints []rune, codepointC
 	}
 	ccodePointCount := (C.int)(codepointCount)
 	ctype := (C.int)(typ)
-	ret := C.LoadFontData(cfileData, cdataSize, cfontSize, ccodePoints, ccodePointCount, ctype)
-	v := unsafe.Slice((*GlyphInfo)(unsafe.Pointer(ret)), ccodePointCount)
+	cglyphCount := (C.int)(codepointCount)
+	ret := C.LoadFontData(cfileData, cdataSize, cfontSize, ccodePoints, ccodePointCount, ctype, &cglyphCount)
+	v := unsafe.Slice((*GlyphInfo)(unsafe.Pointer(ret)), cglyphCount)
 	return v
 }
 
