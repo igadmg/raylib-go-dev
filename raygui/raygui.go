@@ -251,11 +251,11 @@ const (
 // GuiColorPickerProperty .
 type GuiColorPickerProperty = int32
 
-func GetTextSize(text string) vector2.Float32 {
-	ctext := textAlloc(text)
-	ret := C.GetTextSize(ctext)
-	return *govec2ptr(&ret)
-}
+//func GetTextSize(text string) vector2.Float32 {
+//	ctext := textAlloc(text)
+//	ret := C.GetTextSize(ctext)
+//	return *govec2ptr(&ret)
+//}
 
 // GuiEnable - Enable gui controls (global state)
 func Enable() {
