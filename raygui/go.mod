@@ -3,7 +3,7 @@ module github.com/igadmg/raylib-go/raygui
 go 1.24.2
 
 require (
-	github.com/igadmg/gamemath v0.0.0-20250912082247-0e04577f05ef
+	github.com/igadmg/gamemath v0.0.0-20251005093227-7bfaf5fc0f12
 	github.com/igadmg/goex v0.0.0-20250912082322-832a32ad1931
 	github.com/igadmg/raylib-go/raylib v0.0.0-20250502171607-bcf0fc4a100d
 )
