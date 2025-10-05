@@ -17,7 +17,6 @@ require (
 	github.com/chewxy/math32 v1.11.1 // indirect
 	github.com/ebitengine/purego v0.9.0 // indirect
 	github.com/kr/text v0.2.0 // indirect
-	github.com/stretchr/testify v1.11.1 // indirect
 	golang.org/x/exp v0.0.0-20251002181428-27f1f14c8bb9 // indirect
 	golang.org/x/sys v0.36.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
