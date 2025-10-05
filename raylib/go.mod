@@ -3,10 +3,10 @@ module github.com/igadmg/raylib-go/raylib
 go 1.24.2
 
 require (
-	github.com/ebitengine/purego v0.8.4
-	github.com/igadmg/gamemath v0.0.0-20250904180607-fcd95f1c9003
-	github.com/igadmg/goex v0.0.0-20250911170851-154852de9e5b
-	golang.org/x/exp v0.0.0-20250911091902-df9299821621
+	github.com/ebitengine/purego v0.9.0
+	github.com/igadmg/gamemath v0.0.0-20250912082247-0e04577f05ef
+	github.com/igadmg/goex v0.0.0-20250912082322-832a32ad1931
+	golang.org/x/exp v0.0.0-20251002181428-27f1f14c8bb9
 	golang.org/x/sys v0.36.0
 )
 
