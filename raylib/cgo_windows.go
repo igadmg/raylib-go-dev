@@ -4,6 +4,9 @@
 package rl
 
 /*
+
+//The trick here is we define DPLATFORM_DESKTOP which naturally defines to PLATFORM_DESKTOP_GLFW inside fo glfw library
+
 #cgo CFLAGS: -I${SRCDIR}/../external/raylib/src -I${SRCDIR}/../external/raylib/src/external/glfw/include -std=gnu99 -Wno-missing-braces -Wno-unused-result -Wno-implicit-function-declaration -DPLATFORM_DESKTOP -D_GLFW_WIN32 -Wno-stringop-overflow
 #cgo windows LDFLAGS: -lgdi32 -lwinmm -lole32
 #cgo windows,!es2,!es3 LDFLAGS: -lopengl32
