@@ -1,6 +1,6 @@
 module github.com/igadmg/raylib-go/rres
 
-go 1.24.2
+go 1.25
 
 require github.com/igadmg/raylib-go/raylib v0.0.0-20250502171607-bcf0fc4a100d
 
