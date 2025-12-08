@@ -513,6 +513,10 @@ var (
 	Gray = NewColor(130, 130, 130, 255)
 	// Dark Gray
 	DarkGray = NewColor(80, 80, 80, 255)
+	// Darkest Gray
+	DarkestGray = NewColor(40, 40, 40, 255)
+	// Black Gray - the darkset of all Grays
+	BlackGray = NewColor(20, 20, 20, 255)
 	// Yellow
 	Yellow = NewColor(253, 249, 0, 255)
 	// Gold
