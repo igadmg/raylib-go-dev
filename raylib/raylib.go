@@ -1530,6 +1530,37 @@ type NPatchInfo struct {
 	Layout NPatchLayout  // Layout of the n-patch: 3x3, 1x3 or 3x1
 }
 
+func (i NPatchInfo) Default(d any) NPatchInfo {
+	switch d := d.(type) {
+	case Texture2D:
+		i.Source = d.GetRect()
+		iss := i.Source.Size
+		if iss.X == iss.Y {
+			ps := int32(iss.X / 3)
+			i.Layout = NPatchNinePatch
+			i.Left = ps
+			i.Top = ps
+			i.Right = ps
+			i.Bottom = ps
+		} else if iss.X > iss.Y {
+			ps := int32(iss.X / 3)
+			i.Layout = NPatchThreePatchHorizontal
+			i.Left = ps
+			i.Top = ps
+			i.Right = ps
+			i.Bottom = ps
+		} else {
+			ps := int32(iss.Y / 3)
+			i.Layout = NPatchThreePatchVertical
+			i.Left = ps
+			i.Top = ps
+			i.Right = ps
+			i.Bottom = ps
+		}
+	}
+	return i
+}
+
 // VrStereoConfig, VR stereo rendering configuration for simulator
 type VrStereoConfig struct {
 	Projection        [2]Matrix  // VR projection matrices (per eye)
