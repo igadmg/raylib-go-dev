@@ -8,7 +8,7 @@ import (
 	"math/rand"
 	"time"
 
-	rm "github.com/igadmg/gamemath"
+	gm "github.com/igadmg/gamemath"
 	"github.com/igadmg/gamemath/vector2"
 	rl "github.com/igadmg/raylib-go/raylib"
 )
@@ -942,7 +942,7 @@ func solveCircleToCircle(manifold *Manifold) {
 		return
 	}
 
-	distance := rm.Sqrt(distSqr)
+	distance := gm.Sqrt(distSqr)
 	manifold.ContactsCount = 1
 	if distance == 0 {
 		manifold.Penetration = bodyA.Shape.Radius
@@ -1223,9 +1223,9 @@ func initializeManifolds(manifold *Manifold) {
 	}
 
 	// // Calculate average restitution, static and dynamic friction
-	manifold.Restitution = rm.Sqrt(bodyA.Restitution * bodyB.Restitution)
-	manifold.StaticFriction = rm.Sqrt(bodyA.StaticFriction * bodyB.StaticFriction)
-	manifold.DynamicFriction = rm.Sqrt(bodyA.DynamicFriction * bodyB.DynamicFriction)
+	manifold.Restitution = gm.Sqrt(bodyA.Restitution * bodyB.Restitution)
+	manifold.StaticFriction = gm.Sqrt(bodyA.StaticFriction * bodyB.StaticFriction)
+	manifold.DynamicFriction = gm.Sqrt(bodyA.DynamicFriction * bodyB.DynamicFriction)
 
 	for i := 0; i < manifold.ContactsCount; i++ {
 		// Caculate radius from center of mass to contact
@@ -1258,7 +1258,7 @@ func integrateImpulses(manifold *Manifold) {
 	}
 
 	// Early out and positional correct if both objects have infinite mass
-	if rm.Abs(bodyA.InverseMass+bodyB.InverseMass) <= epsilon {
+	if gm.Abs(bodyA.InverseMass+bodyB.InverseMass) <= epsilon {
 		bodyA.Velocity = vector2.Float32{}
 		bodyB.Velocity = vector2.Float32{}
 		return
@@ -1337,7 +1337,7 @@ func integrateImpulses(manifold *Manifold) {
 		impulseTangent /= inverseMassSum
 		impulseTangent /= float32(manifold.ContactsCount)
 
-		absImpulseTangent := rm.Abs(impulseTangent)
+		absImpulseTangent := gm.Abs(impulseTangent)
 
 		// Don't apply tiny friction impulses
 		if absImpulseTangent <= epsilon {
@@ -1575,7 +1575,7 @@ func getCurrentTime() float32 {
 // normalize - Returns the normalized values of a vector
 func normalize(vector *vector2.Float32) {
 	aux := *vector
-	length := rm.Sqrt(aux.X*aux.X + aux.Y*aux.Y)
+	length := gm.Sqrt(aux.X*aux.X + aux.Y*aux.Y)
 	if length == 0 {
 		length = 1.0
 	}

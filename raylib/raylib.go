@@ -13,7 +13,7 @@ import (
 	"runtime"
 	"unsafe"
 
-	rm "github.com/igadmg/gamemath"
+	gm "github.com/igadmg/gamemath"
 	"github.com/igadmg/gamemath/rect2"
 	"github.com/igadmg/gamemath/vector2"
 	"github.com/igadmg/gamemath/vector3"
@@ -624,7 +624,7 @@ func NewRectangle[XT, YT, WT, HT CoordinateT](x XT, y YT, width WT, height HT) r
 	return rect2.New(vector2.NewFloat32(x, y), vector2.NewFloat32(width, height))
 }
 
-func NewRectangleWHV[WHT rm.SignedNumber](wh vector2.Vector[WHT]) rect2.Float32 {
+func NewRectangleWHV[WHT gm.SignedNumber](wh vector2.Vector[WHT]) rect2.Float32 {
 	return rect2.New(vector2.Zero[float32](), wh.ToFloat32())
 }
 

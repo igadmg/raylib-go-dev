@@ -18,7 +18,7 @@ import (
 	"unicode/utf8"
 	"unsafe"
 
-	rm "github.com/igadmg/gamemath"
+	gm "github.com/igadmg/gamemath"
 	"github.com/igadmg/gamemath/rect2"
 	"github.com/igadmg/gamemath/vector2"
 	"github.com/igadmg/goex/image/colorex"
@@ -87,8 +87,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 			width := container.Width() + (mouse.X - lastMouse.X)
 			height := container.Height() + (mouse.Y - lastMouse.Y)
 
-			container.SetWidth(rm.Clamp(width, minWidth, maxWidth))
-			container.SetHeight(rm.Clamp(height, minHeight, maxHeight))
+			container.SetWidth(gm.Clamp(width, minWidth, maxWidth))
+			container.SetHeight(gm.Clamp(height, minHeight, maxHeight))
 		} else {
 			// Check if we're resizing
 			if rl.IsMouseButtonDown(rl.MouseButtonLeft) && rl.CheckCollisionPointRec(mouse, resizer) {

@@ -17,7 +17,7 @@
 package main
 
 import (
-	rm "github.com/igadmg/gamemath"
+	gm "github.com/igadmg/gamemath"
 	"github.com/igadmg/gamemath/rect2"
 	"github.com/igadmg/gamemath/vector2"
 	rl "github.com/igadmg/raylib-go/raylib"
@@ -96,12 +96,12 @@ func main() {
 		dstRecV.SetHeight(mousePosition.Y - dstRecV.Y())
 
 		// Set a minimum Width and/or Height
-		dstRec1.SetWidth(rm.Clamp(dstRec1.Width(), 1, 300))
-		dstRec1.SetHeight(rm.Clamp(dstRec1.Height(), 1, screenHeight))
-		dstRec2.SetWidth(rm.Clamp(dstRec2.Width(), 1, 300))
-		dstRec2.SetHeight(rm.Clamp(dstRec2.Height(), 1, screenHeight))
-		dstRecH.SetWidth(rm.Clamp(dstRecH.Width(), 1, screenWidth))
-		dstRecV.SetHeight(rm.Clamp(dstRecV.Height(), 1, screenHeight))
+		dstRec1.SetWidth(gm.Clamp(dstRec1.Width(), 1, 300))
+		dstRec1.SetHeight(gm.Clamp(dstRec1.Height(), 1, screenHeight))
+		dstRec2.SetWidth(gm.Clamp(dstRec2.Width(), 1, 300))
+		dstRec2.SetHeight(gm.Clamp(dstRec2.Height(), 1, screenHeight))
+		dstRecH.SetWidth(gm.Clamp(dstRecH.Width(), 1, screenWidth))
+		dstRecV.SetHeight(gm.Clamp(dstRecV.Height(), 1, screenHeight))
 
 		// Draw
 		rl.BeginDrawing()
