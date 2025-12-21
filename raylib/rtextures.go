@@ -1,6 +1,183 @@
 package rl
 
 /*
+// nocallback is wierd - looks like it means function have no returns.
+#cgo nocallback DrawTexture
+#cgo nocallback DrawTextureEx
+#cgo nocallback DrawTextureNPatch
+#cgo nocallback DrawTexturePro
+#cgo nocallback DrawTextureRec
+#cgo nocallback DrawTextureTiled
+#cgo nocallback DrawTextureV
+#cgo nocallback ExportImage
+#cgo nocallback ExportImageToMemory
+#cgo nocallback GenImageCellular
+#cgo nocallback GenImageChecked
+#cgo nocallback GenImageColor
+#cgo nocallback GenImageGradientLinear
+#cgo nocallback GenImageGradientRadial
+#cgo nocallback GenImageGradientSquare
+#cgo nocallback GenImagePerlinNoise
+#cgo nocallback GenImageText
+#cgo nocallback GenImageWhiteNoise
+#cgo nocallback GenTextureMipmaps
+#cgo nocallback GetImageColor
+#cgo nocallback ImageAlphaClear
+#cgo nocallback ImageAlphaCrop
+#cgo nocallback ImageAlphaMask
+#cgo nocallback ImageAlphaPremultiply
+#cgo nocallback ImageBlurGaussian
+#cgo nocallback ImageClearBackground
+#cgo nocallback ImageColorBrightness
+#cgo nocallback ImageColorContrast
+#cgo nocallback ImageColorGrayscale
+#cgo nocallback ImageColorInvert
+#cgo nocallback ImageColorReplace
+#cgo nocallback ImageColorTint
+#cgo nocallback ImageCopy
+#cgo nocallback ImageCrop
+#cgo nocallback ImageDither
+#cgo nocallback ImageDraw
+#cgo nocallback ImageDrawCircle
+#cgo nocallback ImageDrawCircleLines
+#cgo nocallback ImageDrawCircleLinesV
+#cgo nocallback ImageDrawCircleV
+#cgo nocallback ImageDrawLine
+#cgo nocallback ImageDrawLineEx
+#cgo nocallback ImageDrawLineV
+#cgo nocallback ImageDrawPixel
+#cgo nocallback ImageDrawPixelV
+#cgo nocallback ImageDrawRectangle
+#cgo nocallback ImageDrawRectangleLines
+#cgo nocallback ImageDrawRectangleRec
+#cgo nocallback ImageDrawRectangleV
+#cgo nocallback ImageDrawText
+#cgo nocallback ImageDrawTextEx
+#cgo nocallback ImageDrawTriangle
+#cgo nocallback ImageDrawTriangleEx
+#cgo nocallback ImageDrawTriangleFan
+#cgo nocallback ImageDrawTriangleLines
+#cgo nocallback ImageDrawTriangleStrip
+#cgo nocallback ImageFlipHorizontal
+#cgo nocallback ImageFlipVertical
+#cgo nocallback ImageFormat
+#cgo nocallback ImageFromChannel
+#cgo nocallback ImageFromImage
+#cgo nocallback ImageKernelConvolution
+#cgo nocallback ImageMipmaps
+#cgo nocallback ImageResize
+#cgo nocallback ImageResizeCanvas
+#cgo nocallback ImageResizeNN
+#cgo nocallback ImageRotate
+#cgo nocallback ImageRotateCCW
+#cgo nocallback ImageRotateCW
+#cgo nocallback ImageText
+#cgo nocallback ImageTextEx
+#cgo nocallback ImageToPOT
+#cgo nocallback IsImageValid
+#cgo nocallback IsRenderTextureValid
+#cgo nocallback IsTextureValid
+#cgo nocallback ReloadImageFromTexture
+#cgo nocallback SetTextureFilter
+#cgo nocallback SetTextureWrap
+
+#cgo noescape DrawTexture
+#cgo noescape DrawTextureEx
+#cgo noescape DrawTextureNPatch
+#cgo noescape DrawTexturePro
+#cgo noescape DrawTextureRec
+#cgo noescape DrawTextureTiled
+#cgo noescape DrawTextureV
+#cgo noescape ExportImage
+#cgo noescape ExportImageToMemory
+#cgo noescape GenImageCellular
+#cgo noescape GenImageChecked
+#cgo noescape GenImageColor
+#cgo noescape GenImageGradientLinear
+#cgo noescape GenImageGradientRadial
+#cgo noescape GenImageGradientSquare
+#cgo noescape GenImagePerlinNoise
+#cgo noescape GenImageText
+#cgo noescape GenImageWhiteNoise
+#cgo noescape GenTextureMipmaps
+#cgo noescape GetImageColor
+#cgo noescape ImageAlphaClear
+#cgo noescape ImageAlphaCrop
+#cgo noescape ImageAlphaMask
+#cgo noescape ImageAlphaPremultiply
+#cgo noescape ImageBlurGaussian
+#cgo noescape ImageClearBackground
+#cgo noescape ImageColorBrightness
+#cgo noescape ImageColorContrast
+#cgo noescape ImageColorGrayscale
+#cgo noescape ImageColorInvert
+#cgo noescape ImageColorReplace
+#cgo noescape ImageColorTint
+#cgo noescape ImageCopy
+#cgo noescape ImageCrop
+#cgo noescape ImageDither
+#cgo noescape ImageDraw
+#cgo noescape ImageDrawCircle
+#cgo noescape ImageDrawCircleLines
+#cgo noescape ImageDrawCircleLinesV
+#cgo noescape ImageDrawCircleV
+#cgo noescape ImageDrawLine
+#cgo noescape ImageDrawLineEx
+#cgo noescape ImageDrawLineV
+#cgo noescape ImageDrawPixel
+#cgo noescape ImageDrawPixelV
+#cgo noescape ImageDrawRectangle
+#cgo noescape ImageDrawRectangleLines
+#cgo noescape ImageDrawRectangleRec
+#cgo noescape ImageDrawRectangleV
+#cgo noescape ImageDrawText
+#cgo noescape ImageDrawTextEx
+#cgo noescape ImageDrawTriangle
+#cgo noescape ImageDrawTriangleEx
+#cgo noescape ImageDrawTriangleFan
+#cgo noescape ImageDrawTriangleLines
+#cgo noescape ImageDrawTriangleStrip
+#cgo noescape ImageFlipHorizontal
+#cgo noescape ImageFlipVertical
+#cgo noescape ImageFormat
+#cgo noescape ImageFromChannel
+#cgo noescape ImageFromImage
+#cgo noescape ImageKernelConvolution
+#cgo noescape ImageMipmaps
+#cgo noescape ImageResize
+#cgo noescape ImageResizeCanvas
+#cgo noescape ImageResizeNN
+#cgo noescape ImageRotate
+#cgo noescape ImageRotateCCW
+#cgo noescape ImageRotateCW
+#cgo noescape ImageText
+#cgo noescape ImageTextEx
+#cgo noescape ImageToPOT
+#cgo noescape IsImageValid
+#cgo noescape IsRenderTextureValid
+#cgo noescape IsTextureValid
+#cgo noescape LoadImage
+#cgo noescape LoadImageAnim
+#cgo noescape LoadImageAnimFromMemory
+#cgo noescape LoadImageColors
+#cgo noescape LoadImageFromMemory
+#cgo noescape LoadImageFromScreen
+#cgo noescape LoadImageFromTexture
+#cgo noescape LoadImageRaw
+#cgo noescape LoadRenderTexture
+#cgo noescape LoadTexture
+#cgo noescape LoadTextureCubemap
+#cgo noescape LoadTextureFromImage
+#cgo noescape ReloadImageFromTexture
+#cgo noescape SetTextureFilter
+#cgo noescape SetTextureWrap
+#cgo noescape UnloadImage
+#cgo noescape UnloadImageColors
+#cgo noescape UnloadRenderTexture
+#cgo noescape UnloadTexture
+#cgo noescape UpdateTexture
+#cgo noescape UpdateTextureRec
+
 #include "raylib.h"
 #include <stdlib.h>
 */
@@ -70,18 +247,6 @@ func LoadImageRaw(fileName string, width, height int32, format PixelFormat, head
 	return *newImageFromPointer(&ret)
 }
 
-/*
-// LoadImageSvg - Load image from SVG file data or string with specified size
-func LoadImageSvg(fileNameOrString string, width, height int32) Image {
-	cfileNameOrString := textAlloc(fileNameOrString)
-	//defer C.free(unsafe.Pointer(cfileNameOrString))  TODO: possible svg code truncation
-	cwidth := (C.int)(width)
-	cheight := (C.int)(height)
-	ret := C.LoadImageSvg(cfileNameOrString, cwidth, cheight)
-	return *newImageFromPointer(&ret)
-}
-*/
-
 // LoadImageAnim - Load image sequence from file (frames appended to image.data)
 func LoadImageAnim(fileName string, frames *int32) Image {
 	cfileName := textAlloc(fileName)
@@ -110,8 +275,6 @@ func LoadImageFromMemory(fileType string, fileData []byte, dataSize int32) Image
 	return *newImageFromPointer(&ret)
 }
 
-// #cgo noescape LoadImageFromTexture
-// #cgo nocallback LoadImageFromTexture
 // LoadImageFromTexture - Get pixel data from GPU texture and return an Image
 func LoadImageFromTexture(texture Texture2D) Image {
 	ctexture := texture.cptr()
@@ -119,8 +282,6 @@ func LoadImageFromTexture(texture Texture2D) Image {
 	return *newImageFromPointer(&ret)
 }
 
-// #cgo noescape ReloadImageFromTexture
-// #cgo nocallback ReloadImageFromTexture
 func ReloadImageFromTexture(texture Texture2D, image Image) Image {
 	if !image.IsValid() {
 		return LoadImageFromTexture(texture)
@@ -153,8 +314,6 @@ func LoadTexture(fileName string) Texture2D {
 	return *newTexture2DFromPointer(&ret)
 }
 
-// #cgo noescape LoadTextureFromImage
-// #cgo nocallback LoadTextureFromImage
 // LoadTextureFromImage - Load a texture from image data
 func LoadTextureFromImage(image Image) Texture2D {
 	cimage := image.cptr()
@@ -244,8 +403,6 @@ func UpdateTexture(texture *Texture2D, pixels []colorex.RGBA) {
 	C.UpdateTexture(*ctexture, cpixels)
 }
 
-// #cgo noescape UpdateTexture
-// #cgo nocallback UpdateTexture
 func UpdateTextureFromImage(texture Texture2D, image Image) {
 	ctexture := texture.cptr()
 	C.UpdateTexture(*ctexture, image.Data)
@@ -877,8 +1034,6 @@ func DrawTextureRec(texture Texture2D, sourceRec rect2.Float32, position vector2
 	C.DrawTextureRec(*ctexture, *csourceRec, *cposition, *ctint)
 }
 
-// #cgo noescape DrawTexturePro
-// #cgo nocallback DrawTexturePro
 // DrawTexturePro - Draw a part of a texture defined by a rectangle with 'pro' parameters
 func DrawTexturePro(texture Texture2D, sourceRec, destRec rect2.Float32, origin vector2.Float32, rotation float32, tint colorex.RGBA) {
 	ctexture := texture.cptr()

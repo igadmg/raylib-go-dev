@@ -1389,6 +1389,10 @@ func (t *Texture2D) Unload() {
 	UnloadTexture(t)
 }
 
+func (t Texture2D) IsValidFast() bool {
+	return t.ID > 0
+}
+
 func (t Texture2D) IsValid() bool {
 	return t.ID > 0 && // Validate OpenGL id
 		t.Width > 0 &&
@@ -1472,6 +1476,10 @@ type RenderTexture2D struct {
 // NewRenderTexture2D - Returns new RenderTexture2D
 func NewRenderTexture2D(id uint32, texture, depth Texture2D) *RenderTexture2D {
 	return &RenderTexture2D{id, texture, depth}
+}
+
+func (r RenderTexture2D) IsValidFast() bool {
+	return r.ID > 0
 }
 
 func (r RenderTexture2D) IsValid() bool {

@@ -1,6 +1,45 @@
 package rl
 
 /*
+#cgo nocallback DrawFPS
+#cgo nocallback DrawText
+#cgo nocallback DrawTextCodepoint
+#cgo nocallback DrawTextCodepoints
+#cgo nocallback DrawTextEx
+#cgo nocallback DrawTextPro
+#cgo nocallback GenImageFontAtlas
+#cgo nocallback GetFontDefault
+#cgo nocallback GetGlyphAtlasRec
+#cgo nocallback GetGlyphIndex
+#cgo nocallback GetGlyphInfo
+#cgo nocallback IsFontValid
+#cgo nocallback MeasureText
+#cgo nocallback MeasureTextEx
+#cgo nocallback SetTextLineSpacing
+
+#cgo noescape DrawFPS
+#cgo noescape DrawText
+#cgo noescape DrawTextCodepoint
+#cgo noescape DrawTextCodepoints
+#cgo noescape DrawTextEx
+#cgo noescape DrawTextPro
+#cgo noescape GenImageFontAtlas
+#cgo noescape GetFontDefault
+#cgo noescape GetGlyphAtlasRec
+#cgo noescape GetGlyphIndex
+#cgo noescape GetGlyphInfo
+#cgo noescape IsFontValid
+#cgo noescape LoadFont
+#cgo noescape LoadFontData
+#cgo noescape LoadFontEx
+#cgo noescape LoadFontFromImage
+#cgo noescape LoadFontFromMemory
+#cgo noescape MeasureText
+#cgo noescape MeasureTextEx
+#cgo noescape SetTextLineSpacing
+#cgo noescape UnloadFont
+#cgo noescape UnloadFontData
+
 #include "raylib.h"
 #include <stdlib.h>
 */
