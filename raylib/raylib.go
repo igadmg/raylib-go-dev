@@ -13,37 +13,17 @@ import (
 	"runtime"
 	"unsafe"
 
-	gm "github.com/igadmg/gamemath"
 	"github.com/igadmg/gamemath/rect2"
 	"github.com/igadmg/gamemath/vector2"
 	"github.com/igadmg/gamemath/vector3"
 	"github.com/igadmg/gamemath/vector4"
 	"github.com/igadmg/goex/image/colorex"
+	"github.com/igadmg/goex/mathex"
 )
 
 func init() {
 	// Make sure the main goroutine is bound to the main thread.
 	runtime.LockOSThread()
-}
-
-type IntegerT interface {
-	int | int8 | int16 | int32 | int64
-}
-
-type FloatT interface {
-	float32 | float64
-}
-
-type NumberT interface {
-	IntegerT | FloatT
-}
-
-type CoordinateT interface {
-	NumberT
-}
-
-type Vector2T interface {
-	vector2.Float32 | vector2.Int
 }
 
 // Wave type, defines audio wave data
@@ -624,7 +604,7 @@ func NewRectangle[XT, YT, WT, HT CoordinateT](x XT, y YT, width WT, height HT) r
 	return rect2.New(vector2.NewFloat32(x, y), vector2.NewFloat32(width, height))
 }
 
-func NewRectangleWHV[WHT gm.SignedNumber](wh vector2.Vector[WHT]) rect2.Float32 {
+func NewRectangleWHV[WHT mathex.SignedNumber](wh vector2.Vector[WHT]) rect2.Float32 {
 	return rect2.New(vector2.Zero[float32](), wh.ToFloat32())
 }
 
