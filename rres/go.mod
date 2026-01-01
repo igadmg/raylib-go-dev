@@ -7,8 +7,8 @@ require github.com/igadmg/raylib-go/raylib v0.0.0-20250502171607-bcf0fc4a100d
 require (
 	github.com/chewxy/math32 v1.11.1 // indirect
 	github.com/ebitengine/purego v0.9.1 // indirect
-	github.com/igadmg/gamemath v0.0.0-20251220071528-e1fe8a4c77ff // indirect
-	github.com/igadmg/goex v0.0.0-20251220072321-b144920274b3 // indirect
+	github.com/igadmg/gamemath v0.0.0-20260101124751-168041cf6efc // indirect
+	github.com/igadmg/goex v0.0.0-20260101132820-0d670092b5e1 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	golang.org/x/exp v0.0.0-20251219203646-944ab1f22d93 // indirect
 	golang.org/x/sys v0.39.0 // indirect
