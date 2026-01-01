@@ -4,6 +4,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/igadmg/gamemath v0.0.0-20251220071528-e1fe8a4c77ff h1:HaAn6V54tW782F9JBsiAANaSpahVgXKwKA+jAFe1D0E=
 github.com/igadmg/gamemath v0.0.0-20251220071528-e1fe8a4c77ff/go.mod h1:HsvwdoRnPzZ29q9376V/uBg5TslVFYH7fBKWn8qZR5A=
+github.com/igadmg/gamemath v0.0.0-20260101124751-168041cf6efc h1:kq+qCO1SX3zhH99YaWyITrG+vUPrs7UYbCf14P9UzIc=
+github.com/igadmg/gamemath v0.0.0-20260101124751-168041cf6efc/go.mod h1:zdDd+ZmkcYvJtuzu0/O8X6g1yueacYmtL9kAjnRA9oU=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
