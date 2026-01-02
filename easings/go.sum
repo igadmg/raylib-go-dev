@@ -1,2 +1,4 @@
 github.com/igadmg/gamemath v0.0.0-20260101124751-168041cf6efc h1:kq+qCO1SX3zhH99YaWyITrG+vUPrs7UYbCf14P9UzIc=
 github.com/igadmg/gamemath v0.0.0-20260101124751-168041cf6efc/go.mod h1:zdDd+ZmkcYvJtuzu0/O8X6g1yueacYmtL9kAjnRA9oU=
+github.com/igadmg/gamemath v0.0.0-20260101133112-c4fa6ddd0497 h1:C6a0p9RPpXdwAOsd9D8sQVGG4xWv6KDx4I+7TeRjXQw=
+github.com/igadmg/gamemath v0.0.0-20260101133112-c4fa6ddd0497/go.mod h1:RKhQh0aR8SBtCJ1/7uz/+5hHTgaefcZjvc65dDvXf8k=
