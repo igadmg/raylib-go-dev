@@ -3,10 +3,10 @@ package raygui
 import (
 	"iter"
 
-	gm "github.com/igadmg/gamemath"
 	"github.com/igadmg/gamemath/rect2"
 	"github.com/igadmg/gamemath/vector2"
 	rl "github.com/igadmg/raylib-go/raylib"
+	"github.com/igadmg/goex/mathex"
 )
 
 type Justyfy int
@@ -62,7 +62,7 @@ func Spread[S ~[]E, E any](s S, a, b vector2.Float32, maxd, mind float32, justif
 		ab := b.Sub(a)
 		ab_length := ab.LengthF()
 		direction := ab.Normalized()
-		distance := gm.Clamp(ab_length/(float32(count)-1), mind, maxd)
+		distance := mathex.Clamp(ab_length/(float32(count)-1), mind, maxd)
 
 		_, dv := justify.Justyfy(min(distance*(float32(count)-1), ab_length), ab_length)
 		position := a.Add(direction.ScaleF(dv))

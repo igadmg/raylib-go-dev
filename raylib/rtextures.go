@@ -190,6 +190,8 @@ import (
 	"github.com/igadmg/gamemath/rect2"
 	"github.com/igadmg/gamemath/vector2"
 	"github.com/igadmg/goex/image/colorex"
+	"golang.org/x/exp/constraints"
+	"github.com/igadmg/goex/mathex"
 )
 
 // ToImage converts a Image to Go image.Image
@@ -331,14 +333,14 @@ func ReloadTextureFromImage(image Image, texture Texture2D) Texture2D {
 }
 
 // LoadRenderTexture - Load a texture to be used for rendering
-func LoadRenderTexture[WT, HT IntegerT](width WT, height HT) RenderTexture2D {
+func LoadRenderTexture[WT, HT mathex.SignedNumber](width WT, height HT) RenderTexture2D {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 	ret := C.LoadRenderTexture(cwidth, cheight)
 	return *newRenderTexture2DFromPointer(&ret)
 }
 
-func LoadRenderTextureV[T IntegerT](wh vector2.Vector[T]) RenderTexture2D {
+func LoadRenderTextureV[T mathex.SignedNumber](wh vector2.Vector[T]) RenderTexture2D {
 	return LoadRenderTexture(wh.X, wh.Y)
 }
 
@@ -999,7 +1001,7 @@ func SetTextureWrap(texture Texture2D, wrapMode TextureWrapMode) {
 }
 
 // DrawTexture - Draw a Texture2D
-func DrawTexture[XT, YT IntegerT](texture Texture2D, posX XT, posY YT, tint colorex.RGBA) {
+func DrawTexture[XT, YT constraints.Integer](texture Texture2D, posX XT, posY YT, tint colorex.RGBA) {
 	ctexture := texture.cptr()
 	cposX := (C.int)(posX)
 	cposY := (C.int)(posY)

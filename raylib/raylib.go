@@ -600,7 +600,7 @@ func NewColor(r, g, b, a uint8) colorex.RGBA {
 type RectangleInt32 = rect2.Int32
 
 // NewRectangle - Returns new Rectangle
-func NewRectangle[XT, YT, WT, HT CoordinateT](x XT, y YT, width WT, height HT) rect2.Float32 {
+func NewRectangle[XT, YT, WT, HT mathex.Number](x XT, y YT, width WT, height HT) rect2.Float32 {
 	return rect2.New(vector2.NewFloat32(x, y), vector2.NewFloat32(width, height))
 }
 

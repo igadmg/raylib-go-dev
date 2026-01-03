@@ -50,6 +50,7 @@ import (
 	"github.com/igadmg/gamemath/rect2"
 	"github.com/igadmg/gamemath/vector2"
 	"github.com/igadmg/goex/image/colorex"
+	"github.com/igadmg/goex/mathex"
 )
 
 var defaultFont Font
@@ -151,14 +152,14 @@ func UnloadFont(font *Font) {
 }
 
 // DrawFPS - Shows current FPS
-func DrawFPS[XT, YT CoordinateT](posX XT, posY YT) {
+func DrawFPS[XT, YT mathex.Number](posX XT, posY YT) {
 	cposX := (C.int)(posX)
 	cposY := (C.int)(posY)
 	C.DrawFPS(cposX, cposY)
 }
 
 // DrawText - Draw text (using default font)
-func DrawText[XT, YT CoordinateT](text string, posX XT, posY YT, fontSize int32, col colorex.RGBA) {
+func DrawText[XT, YT mathex.Number](text string, posX XT, posY YT, fontSize int32, col colorex.RGBA) {
 	ctext := textAlloc(text)
 	cposX := (C.int)(posX)
 	cposY := (C.int)(posY)

@@ -11,6 +11,7 @@ import (
 	"github.com/igadmg/gamemath/rect2"
 	"github.com/igadmg/gamemath/vector2"
 	"github.com/igadmg/goex/image/colorex"
+	"github.com/igadmg/goex/mathex"
 )
 
 // SetShapesTexture - Define default texture used to draw shapes
@@ -33,7 +34,7 @@ func GetShapesTextureRectangle() rect2.Float32 {
 }
 
 // DrawPixel - Draw a pixel
-func DrawPixel[XT, YT CoordinateT](posX XT, posY YT, col colorex.RGBA) {
+func DrawPixel[XT, YT mathex.Number](posX XT, posY YT, col colorex.RGBA) {
 	cposX := (C.int)(posX)
 	cposY := (C.int)(posY)
 	ccolor := ccolorptr(&col)
@@ -48,7 +49,7 @@ func DrawPixelV(position vector2.Float32, col colorex.RGBA) {
 }
 
 // DrawLine - Draw a line
-func DrawLine[SXT, SYT, EXT, EYT CoordinateT](startPosX SXT, startPosY SYT, endPosX EXT, endPosY EYT, col colorex.RGBA) {
+func DrawLine[SXT, SYT, EXT, EYT mathex.Number](startPosX SXT, startPosY SYT, endPosX EXT, endPosY EYT, col colorex.RGBA) {
 	cstartPosX := (C.int)(startPosX)
 	cstartPosY := (C.int)(startPosY)
 	cendPosX := (C.int)(endPosX)
@@ -212,7 +213,7 @@ func DrawRingLines(center vector2.Float32, innerRadius, outerRadius, startAngle,
 }
 
 // DrawRectangle - Draw a color-filled rectangle
-func DrawRectangle[XT, YT, WT, HT CoordinateT](posX XT, posY YT, width WT, height HT, col colorex.RGBA) {
+func DrawRectangle[XT, YT, WT, HT mathex.Number](posX XT, posY YT, width WT, height HT, col colorex.RGBA) {
 	cposX := (C.int)(posX)
 	cposY := (C.int)(posY)
 	cwidth := (C.int)(width)
