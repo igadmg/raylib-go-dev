@@ -345,7 +345,7 @@ const (
 // LoadResourceChunk - Load one resource chunk for provided id
 func LoadResourceChunk(fileName string, rresId int32) ResourceChunk {
 	cfileName := textAlloc(fileName)
-	ret := C.rresLoadResourceChunk(cfileName, C.int(rresId))
+	ret := C.rresLoadResourceChunk(cfileName, C.uint(rresId))
 	v := *(*ResourceChunk)(unsafe.Pointer(&ret))
 	return v
 }
@@ -359,7 +359,7 @@ func UnloadResourceChunk(chunk *ResourceChunk) {
 // LoadResourceMulti - Load resource for provided id (multiple resource chunks)
 func LoadResourceMulti(fileName string, rresId int32) ResourceMulti {
 	cfileName := textAlloc(fileName)
-	ret := C.rresLoadResourceMulti(cfileName, C.int(rresId))
+	ret := C.rresLoadResourceMulti(cfileName, C.uint(rresId))
 	v := *(*ResourceMulti)(unsafe.Pointer(&ret))
 	return v
 }
@@ -373,7 +373,7 @@ func UnloadResourceMulti(multi *ResourceMulti) {
 // LoadResourceChunkInfo - Load resource chunk info for provided id
 func LoadResourceChunkInfo(fileName string, rresId int32) ResourceChunkInfo {
 	cfileName := textAlloc(fileName)
-	ret := C.rresLoadResourceChunkInfo(cfileName, C.int(rresId))
+	ret := C.rresLoadResourceChunkInfo(cfileName, C.uint(rresId))
 	v := *(*ResourceChunkInfo)(unsafe.Pointer(&ret))
 	return v
 }

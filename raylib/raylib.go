@@ -289,6 +289,15 @@ const (
 	FlagInterlacedHint         ConfigFlags = 0x00010000 // Set to try enabling interlaced video format (for V3D)
 )
 
+type InputEventType int
+
+const (
+	InputEventPressed = iota // Default input event
+	InputEventDown
+	InputEventReleased
+	InputEventUp
+)
+
 type KeyType int32
 
 const (
@@ -599,6 +608,20 @@ func (k UnifiedKeyType) IsUp() bool {
 		return IsGamepadButtonUp(k.GamepadIndex(), k.Gamepad())
 	case Gesture:
 		return IsGestureDetected(k.Gesture())
+	}
+	return false
+}
+
+func (k UnifiedKeyType) IsEvent(event InputEventType) bool {
+	switch event {
+	case InputEventPressed:
+		return k.IsPressed()
+	case InputEventDown:
+		return k.IsDown()
+	case InputEventReleased:
+		return k.IsReleased()
+	case InputEventUp:
+		return k.IsUp()
 	}
 	return false
 }

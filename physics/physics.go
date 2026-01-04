@@ -1,3 +1,5 @@
+//go:build ignore
+
 // Package physics - 2D Physics library for videogames
 //
 // A port of Victor Fisac's physac engine (https://github.com/raysan5/raylib/blob/master/src/physac.h)
@@ -8,8 +10,8 @@ import (
 	"math/rand"
 	"time"
 
-	gm "github.com/igadmg/gamemath"
 	"github.com/igadmg/gamemath/vector2"
+	"github.com/igadmg/goex/mathex"
 	rl "github.com/igadmg/raylib-go/raylib"
 )
 
@@ -942,7 +944,7 @@ func solveCircleToCircle(manifold *Manifold) {
 		return
 	}
 
-	distance := gm.Sqrt(distSqr)
+	distance := mathex.Sqrt(distSqr)
 	manifold.ContactsCount = 1
 	if distance == 0 {
 		manifold.Penetration = bodyA.Shape.Radius
@@ -1223,9 +1225,9 @@ func initializeManifolds(manifold *Manifold) {
 	}
 
 	// // Calculate average restitution, static and dynamic friction
-	manifold.Restitution = gm.Sqrt(bodyA.Restitution * bodyB.Restitution)
-	manifold.StaticFriction = gm.Sqrt(bodyA.StaticFriction * bodyB.StaticFriction)
-	manifold.DynamicFriction = gm.Sqrt(bodyA.DynamicFriction * bodyB.DynamicFriction)
+	manifold.Restitution = mathex.Sqrt(bodyA.Restitution * bodyB.Restitution)
+	manifold.StaticFriction = mathex.Sqrt(bodyA.StaticFriction * bodyB.StaticFriction)
+	manifold.DynamicFriction = mathex.Sqrt(bodyA.DynamicFriction * bodyB.DynamicFriction)
 
 	for i := 0; i < manifold.ContactsCount; i++ {
 		// Caculate radius from center of mass to contact
@@ -1258,7 +1260,7 @@ func integrateImpulses(manifold *Manifold) {
 	}
 
 	// Early out and positional correct if both objects have infinite mass
-	if gm.Abs(bodyA.InverseMass+bodyB.InverseMass) <= epsilon {
+	if mathex.Abs(bodyA.InverseMass+bodyB.InverseMass) <= epsilon {
 		bodyA.Velocity = vector2.Float32{}
 		bodyB.Velocity = vector2.Float32{}
 		return
@@ -1337,7 +1339,7 @@ func integrateImpulses(manifold *Manifold) {
 		impulseTangent /= inverseMassSum
 		impulseTangent /= float32(manifold.ContactsCount)
 
-		absImpulseTangent := gm.Abs(impulseTangent)
+		absImpulseTangent := mathex.Abs(impulseTangent)
 
 		// Don't apply tiny friction impulses
 		if absImpulseTangent <= epsilon {
@@ -1575,7 +1577,7 @@ func getCurrentTime() float32 {
 // normalize - Returns the normalized values of a vector
 func normalize(vector *vector2.Float32) {
 	aux := *vector
-	length := gm.Sqrt(aux.X*aux.X + aux.Y*aux.Y)
+	length := mathex.Sqrt(aux.X*aux.X + aux.Y*aux.Y)
 	if length == 0 {
 		length = 1.0
 	}
