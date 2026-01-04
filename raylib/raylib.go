@@ -484,6 +484,286 @@ const (
 	GamepadAxisRightTrigger                        // Gamepad back trigger right, pressure level: [1..-1]
 )
 
+type InputDeviceType int8
+
+const (
+	Keyboard InputDeviceType = iota
+	Mouse
+	Gamepad
+	Gesture
+)
+
+type InputDeviceMask int32
+
+const InputDeviceMaskShift = 28
+const InputGamepadIndexMaskWidth = 4 // Up to 16 gamepads
+const InputKeyMask = (1 << InputDeviceMaskShift) - 1
+
+const (
+	KeyboardMask InputDeviceMask = InputDeviceMask(Keyboard) << InputDeviceMaskShift
+	MouseMask                    = InputDeviceMask(Mouse) << InputDeviceMaskShift
+	GamepadMask                  = InputDeviceMask(Gamepad) << InputDeviceMaskShift
+	GestureMask                  = InputDeviceMask(Gesture) << InputDeviceMaskShift
+)
+
+type UnifiedKeyType int32
+
+func (k UnifiedKeyType) Device() InputDeviceType {
+	return InputDeviceType(k >> InputDeviceMaskShift)
+}
+
+func (k UnifiedKeyType) Keyboard() KeyType {
+	return KeyType(k & InputKeyMask)
+}
+
+func (k UnifiedKeyType) Mouse() MouseButtonType {
+	return MouseButtonType(k & InputKeyMask)
+}
+
+func (k UnifiedKeyType) Gamepad() GamepadButtonType {
+	return GamepadButtonType(k & InputKeyMask)
+}
+
+func (k UnifiedKeyType) GamepadIndex() int {
+	return int(k&InputKeyMask) >> (InputDeviceMaskShift - InputGamepadIndexMaskWidth)
+}
+
+func (k UnifiedKeyType) Gesture() Gestures {
+	switch k {
+	case Gesture_Tap:
+		return GestureTap
+	case Gesture_DoubleTap:
+		return GestureDoubleTap
+	case Gesture_SwipeRight:
+		return GestureSwipeRight
+	case Gesture_SwipeLeft:
+		return GestureSwipeLeft
+	case Gesture_SwipeUp:
+		return GestureSwipeUp
+	case Gesture_SwipeDown:
+		return GestureSwipeDown
+	}
+
+	return GestureNone
+}
+
+func (k UnifiedKeyType) IsPressed() bool {
+	switch k.Device() {
+	case Keyboard:
+		return IsKeyPressed(k.Keyboard())
+	case Mouse:
+		return IsMouseButtonPressed(k.Mouse())
+	case Gamepad:
+		return IsGamepadButtonPressed(k.GamepadIndex(), k.Gamepad())
+	case Gesture:
+		return IsGestureDetected(k.Gesture())
+	}
+	return false
+}
+
+func (k UnifiedKeyType) IsDown() bool {
+	switch k.Device() {
+	case Keyboard:
+		return IsKeyDown(k.Keyboard())
+	case Mouse:
+		return IsMouseButtonDown(k.Mouse())
+	case Gamepad:
+		return IsGamepadButtonDown(k.GamepadIndex(), k.Gamepad())
+	case Gesture:
+		return IsGestureDetected(k.Gesture())
+	}
+	return false
+}
+
+func (k UnifiedKeyType) IsReleased() bool {
+	switch k.Device() {
+	case Keyboard:
+		return IsKeyReleased(k.Keyboard())
+	case Mouse:
+		return IsMouseButtonReleased(k.Mouse())
+	case Gamepad:
+		return IsGamepadButtonReleased(k.GamepadIndex(), k.Gamepad())
+	case Gesture:
+		return IsGestureDetected(k.Gesture())
+	}
+	return false
+}
+
+func (k UnifiedKeyType) IsUp() bool {
+	switch k.Device() {
+	case Keyboard:
+		return IsKeyUp(k.Keyboard())
+	case Mouse:
+		return IsMouseButtonUp(k.Mouse())
+	case Gamepad:
+		return IsGamepadButtonUp(k.GamepadIndex(), k.Gamepad())
+	case Gesture:
+		return IsGestureDetected(k.Gesture())
+	}
+	return false
+}
+
+const (
+	// KeyNull is used for no key pressed
+	Keyboard_KeyNull = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyNull)
+
+	// Keyboard Function Keys
+	Keyboard_KeySpace        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeySpace)
+	Keyboard_KeyEscape       = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyEscape)
+	Keyboard_KeyEnter        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyEnter)
+	Keyboard_KeyTab          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyTab)
+	Keyboard_KeyBackspace    = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyBackspace)
+	Keyboard_KeyInsert       = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyInsert)
+	Keyboard_KeyDelete       = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyDelete)
+	Keyboard_KeyRight        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyRight)
+	Keyboard_KeyLeft         = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyLeft)
+	Keyboard_KeyDown         = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyDown)
+	Keyboard_KeyUp           = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyUp)
+	Keyboard_KeyPageUp       = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyPageUp)
+	Keyboard_KeyPageDown     = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyPageDown)
+	Keyboard_KeyHome         = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyHome)
+	Keyboard_KeyEnd          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyEnd)
+	Keyboard_KeyCapsLock     = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyCapsLock)
+	Keyboard_KeyScrollLock   = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyScrollLock)
+	Keyboard_KeyNumLock      = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyNumLock)
+	Keyboard_KeyPrintScreen  = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyPrintScreen)
+	Keyboard_KeyPause        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyPause)
+	Keyboard_KeyF1           = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF1)
+	Keyboard_KeyF2           = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF2)
+	Keyboard_KeyF3           = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF3)
+	Keyboard_KeyF4           = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF4)
+	Keyboard_KeyF5           = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF5)
+	Keyboard_KeyF6           = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF6)
+	Keyboard_KeyF7           = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF7)
+	Keyboard_KeyF8           = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF8)
+	Keyboard_KeyF9           = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF9)
+	Keyboard_KeyF10          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF10)
+	Keyboard_KeyF11          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF11)
+	Keyboard_KeyF12          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF12)
+	Keyboard_KeyLeftShift    = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyLeftShift)
+	Keyboard_KeyLeftControl  = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyLeftControl)
+	Keyboard_KeyLeftAlt      = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyLeftAlt)
+	Keyboard_KeyLeftSuper    = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyLeftSuper)
+	Keyboard_KeyRightShift   = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyRightShift)
+	Keyboard_KeyRightControl = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyRightControl)
+	Keyboard_KeyRightAlt     = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyRightAlt)
+	Keyboard_KeyRightSuper   = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyRightSuper)
+	Keyboard_KeyKbMenu       = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKbMenu)
+	Keyboard_KeyLeftBracket  = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyLeftBracket)
+	Keyboard_KeyBackSlash    = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyBackSlash)
+	Keyboard_KeyRightBracket = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyRightBracket)
+	Keyboard_KeyGrave        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyGrave)
+
+	// Keyboard Number Pad Keys
+	Keyboard_KeyKp0        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKp0)
+	Keyboard_KeyKp1        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKp1)
+	Keyboard_KeyKp2        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKp2)
+	Keyboard_KeyKp3        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKp3)
+	Keyboard_KeyKp4        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKp4)
+	Keyboard_KeyKp5        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKp5)
+	Keyboard_KeyKp6        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKp6)
+	Keyboard_KeyKp7        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKp7)
+	Keyboard_KeyKp8        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKp8)
+	Keyboard_KeyKp9        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKp9)
+	Keyboard_KeyKpDecimal  = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKpDecimal)
+	Keyboard_KeyKpDivide   = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKpDivide)
+	Keyboard_KeyKpMultiply = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKpMultiply)
+	Keyboard_KeyKpSubtract = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKpSubtract)
+	Keyboard_KeyKpAdd      = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKpAdd)
+	Keyboard_KeyKpEnter    = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKpEnter)
+	Keyboard_KeyKpEqual    = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyKpEqual)
+
+	// Keyboard Alpha Numeric Keys
+	Keyboard_KeyApostrophe = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyApostrophe)
+	Keyboard_KeyComma      = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyComma)
+	Keyboard_KeyMinus      = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyMinus)
+	Keyboard_KeyPeriod     = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyPeriod)
+	Keyboard_KeySlash      = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeySlash)
+	Keyboard_KeyZero       = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyZero)
+	Keyboard_KeyOne        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyOne)
+	Keyboard_KeyTwo        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyTwo)
+	Keyboard_KeyThree      = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyThree)
+	Keyboard_KeyFour       = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyFour)
+	Keyboard_KeyFive       = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyFive)
+	Keyboard_KeySix        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeySix)
+	Keyboard_KeySeven      = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeySeven)
+	Keyboard_KeyEight      = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyEight)
+	Keyboard_KeyNine       = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyNine)
+	Keyboard_KeySemicolon  = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeySemicolon)
+	Keyboard_KeyEqual      = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyEqual)
+	Keyboard_KeyA          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyA)
+	Keyboard_KeyB          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyB)
+	Keyboard_KeyC          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyC)
+	Keyboard_KeyD          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyD)
+	Keyboard_KeyE          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyE)
+	Keyboard_KeyF          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyF)
+	Keyboard_KeyG          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyG)
+	Keyboard_KeyH          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyH)
+	Keyboard_KeyI          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyI)
+	Keyboard_KeyJ          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyJ)
+	Keyboard_KeyK          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyK)
+	Keyboard_KeyL          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyL)
+	Keyboard_KeyM          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyM)
+	Keyboard_KeyN          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyN)
+	Keyboard_KeyO          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyO)
+	Keyboard_KeyP          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyP)
+	Keyboard_KeyQ          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyQ)
+	Keyboard_KeyR          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyR)
+	Keyboard_KeyS          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyS)
+	Keyboard_KeyT          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyT)
+	Keyboard_KeyU          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyU)
+	Keyboard_KeyV          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyV)
+	Keyboard_KeyW          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyW)
+	Keyboard_KeyX          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyX)
+	Keyboard_KeyY          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyY)
+	Keyboard_KeyZ          = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyZ)
+
+	// Android keys
+	Keyboard_KeyBack       = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyBack)
+	Keyboard_KeyMenu       = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyMenu)
+	Keyboard_KeyVolumeUp   = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyVolumeUp)
+	Keyboard_KeyVolumeDown = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyVolumeDown)
+
+	// Mouse buttons
+	Mouse_ButtonLeft    = UnifiedKeyType(MouseMask) | UnifiedKeyType(MouseButtonLeft)
+	Mouse_ButtonRight   = UnifiedKeyType(MouseMask) | UnifiedKeyType(MouseButtonRight)
+	Mouse_ButtonMiddle  = UnifiedKeyType(MouseMask) | UnifiedKeyType(MouseButtonMiddle)
+	Mouse_ButtonSide    = UnifiedKeyType(MouseMask) | UnifiedKeyType(MouseButtonSide)
+	Mouse_ButtonExtra   = UnifiedKeyType(MouseMask) | UnifiedKeyType(MouseButtonExtra)
+	Mouse_ButtonForward = UnifiedKeyType(MouseMask) | UnifiedKeyType(MouseButtonForward)
+	Mouse_ButtonBack    = UnifiedKeyType(MouseMask) | UnifiedKeyType(MouseButtonBack)
+	Mouse_ButtonNone    = UnifiedKeyType(MouseMask) | UnifiedKeyType(MouseButtonNone) // keep last
+
+	// Gamepad buttons
+	Gamepad_ButtonUnknown        = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonUnknown)
+	Gamepad_ButtonLeftFaceUp     = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonLeftFaceUp)
+	Gamepad_ButtonLeftFaceRight  = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonLeftFaceRight)
+	Gamepad_ButtonLeftFaceDown   = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonLeftFaceDown)
+	Gamepad_ButtonLeftFaceLeft   = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonLeftFaceLeft)
+	Gamepad_ButtonRightFaceUp    = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonRightFaceUp)
+	Gamepad_ButtonRightFaceRight = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonRightFaceRight)
+	Gamepad_ButtonRightFaceDown  = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonRightFaceDown)
+	Gamepad_ButtonRightFaceLeft  = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonRightFaceLeft)
+	Gamepad_ButtonLeftTrigger1   = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonLeftTrigger1)
+	Gamepad_ButtonLeftTrigger2   = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonLeftTrigger2)
+	Gamepad_ButtonRightTrigger1  = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonRightTrigger1)
+	Gamepad_ButtonRightTrigger2  = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonRightTrigger2)
+	Gamepad_ButtonMiddleLeft     = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonMiddleLeft)
+	Gamepad_ButtonMiddle         = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonMiddle)
+	Gamepad_ButtonMiddleRight    = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonMiddleRight)
+	Gamepad_ButtonLeftThumb      = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonLeftThumb)
+	Gamepad_ButtonRightThumb     = UnifiedKeyType(GamepadMask) | UnifiedKeyType(GamepadButtonRightThumb)
+)
+const (
+	// Gestures which can be processed as virtual key inputs. These will only respond any event like on Pressed event
+	Gesture_Tap = iota + UnifiedKeyType(GestureMask)
+	Gesture_DoubleTap
+	Gesture_SwipeRight
+	Gesture_SwipeLeft
+	Gesture_SwipeUp
+	Gesture_SwipeDown
+)
+
 // Some Basic Colors
 // NOTE: Custom raylib color palette for amazing visuals on WHITE background
 var (
