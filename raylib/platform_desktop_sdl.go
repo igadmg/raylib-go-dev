@@ -15,10 +15,12 @@ import "C"
 import (
 	"os"
 	"unsafe"
+
+	"golang.org/x/exp/constraints"
 )
 
 // InitWindow - Initialize Window and OpenGL Graphics
-func InitWindow[WT, HT IntegerT](width WT, height HT, title string) {
+func InitWindow[WT, HT constraints.Integer](width WT, height HT, title string) {
 	cwidth := (C.int)(width)
 	cheight := (C.int)(height)
 

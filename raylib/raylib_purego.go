@@ -12,6 +12,7 @@ import (
 	"unsafe"
 
 	"github.com/ebitengine/purego"
+	"golang.org/x/exp/constraints"
 	"golang.org/x/sys/windows"
 )
 
@@ -1054,7 +1055,7 @@ func init() {
 }
 
 // InitWindow - Initialize window and OpenGL context
-func InitWindow[WT, HT IntegerT](width WT, height HT, title string) {
+func InitWindow[WT, HT constraints.Integer](width WT, height HT, title string) {
 	initWindow(int32(width), int32(height), title)
 }
 
