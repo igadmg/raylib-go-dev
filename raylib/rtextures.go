@@ -190,8 +190,8 @@ import (
 	"github.com/igadmg/gamemath/rect2"
 	"github.com/igadmg/gamemath/vector2"
 	"github.com/igadmg/goex/image/colorex"
-	"golang.org/x/exp/constraints"
 	"github.com/igadmg/goex/mathex"
+	"golang.org/x/exp/constraints"
 )
 
 // ToImage converts a Image to Go image.Image
@@ -1056,6 +1056,10 @@ func DrawTextureTiled(texture Texture2D, source, dest rect2.Float32, origin vect
 	cscale := (C.float)(scale)
 	ctint := ccolorptr(&tint)
 	C.DrawTextureTiled(*ctexture, *csource, *cdest, *corigin, crotation, cscale, *ctint)
+}
+
+func DrawTextureNPatchRect(texture Texture2D, nPatchInfo NPatchInfo, dest rect2.Float32) {
+	DrawTextureNPatch(texture, nPatchInfo, dest, vector2.Zero[float32](), 0, White)
 }
 
 // DrawTextureNPatch - Draws a texture (or part of it) that stretches or shrinks nicely using n-patch info

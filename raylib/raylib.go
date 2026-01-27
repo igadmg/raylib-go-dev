@@ -1485,21 +1485,22 @@ func (f Font) GetRecs() []rect2.Float32 {
 type FontPreset struct {
 	Font
 
-	FontSize float32
-	Spacing  float32
+	FontSize    uint16
+	Spacing     uint16
+	LineSpacing uint16
 }
 
 func (f FontPreset) DrawEx(text string, position vector2.Float32, tint colorex.RGBA) {
-	DrawTextEx(f.Font, text, position, f.FontSize, f.Spacing, tint)
+	DrawTextEx(f.Font, text, position, float32(f.FontSize), float32(f.Spacing), tint)
 }
 
 func (f FontPreset) DrawLayout(text string, tint colorex.RGBA, layoutFn func(wh vector2.Float32) rect2.Float32) {
-	DrawTextLayout(f.Font, text, f.FontSize, f.Spacing, tint, layoutFn)
+	DrawTextLayout(f.Font, text, float32(f.FontSize), float32(f.Spacing), tint, layoutFn)
 }
 
 // MeasureTextEx - Measure string size for Font
 func (f FontPreset) MeasureEx(text string) vector2.Float32 {
-	return MeasureTextEx(f.Font, text, f.FontSize, f.Spacing)
+	return MeasureTextEx(f.Font, text, float32(f.FontSize), float32(f.Spacing))
 }
 
 // PixelFormat - Texture format

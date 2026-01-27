@@ -1,5 +1,3 @@
-#include "../external/raylib/src/utils.c"
-
 #include "cgo_utils.h"
 #include <stdio.h>                      // Required for: vprintf()
 #include <string.h>                     // Required for: strcpy(), strcat()
