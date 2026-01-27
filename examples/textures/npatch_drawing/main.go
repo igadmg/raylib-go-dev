@@ -17,9 +17,9 @@
 package main
 
 import (
-	gm "github.com/igadmg/gamemath"
 	"github.com/igadmg/gamemath/rect2"
 	"github.com/igadmg/gamemath/vector2"
+	gm "github.com/igadmg/goex/mathex"
 	rl "github.com/igadmg/raylib-go/raylib"
 )
 

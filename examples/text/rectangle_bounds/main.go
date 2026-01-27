@@ -18,10 +18,10 @@ import (
 	"unicode/utf8"
 	"unsafe"
 
-	gm "github.com/igadmg/gamemath"
 	"github.com/igadmg/gamemath/rect2"
 	"github.com/igadmg/gamemath/vector2"
 	"github.com/igadmg/goex/image/colorex"
+	gm "github.com/igadmg/goex/mathex"
 	rl "github.com/igadmg/raylib-go/raylib"
 )
 
