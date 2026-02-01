@@ -1180,11 +1180,11 @@ type Material struct {
 }
 
 // IsMaterialValid - Check if a material is valid (shader assigned, map textures loaded in GPU)
-func (material Material) IsValid() bool {
+func (m Material) IsValid() bool {
 	result := false
 
-	if material.Maps != nil && // Validate material contain some map
-		material.Shader.IsValid() { // Validate material shader is valid
+	if m.Maps != nil && // Validate material contain some map
+		m.Shader.IsValid() { // Validate material shader is valid
 		result = true
 	}
 
@@ -1198,8 +1198,8 @@ func (m *Material) Unload() {
 }
 
 // GetMap - Get pointer to MaterialMap by map type
-func (mt Material) GetMap(index int32) *MaterialMap {
-	return (*MaterialMap)(unsafe.Pointer(uintptr(unsafe.Pointer(mt.Maps)) + uintptr(index)*unsafe.Sizeof(MaterialMap{})))
+func (m Material) GetMap(index int32) *MaterialMap {
+	return (*MaterialMap)(unsafe.Pointer(uintptr(unsafe.Pointer(m.Maps)) + uintptr(index)*unsafe.Sizeof(MaterialMap{})))
 }
 
 // MaterialMap type
