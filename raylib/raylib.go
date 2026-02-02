@@ -613,6 +613,10 @@ func (k UnifiedKeyType) IsUp() bool {
 }
 
 func (k UnifiedKeyType) IsEvent(event InputEventType) bool {
+	if k == Any_KeyNone {
+		return true
+	}
+
 	switch event {
 	case InputEventPressed:
 		return k.IsPressed()
@@ -627,8 +631,8 @@ func (k UnifiedKeyType) IsEvent(event InputEventType) bool {
 }
 
 const (
-	// KeyNull is used for no key pressed
-	Keyboard_KeyNull = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeyNull)
+	// Any_KeyNone is used for no key - any check will return true
+	Any_KeyNone = 0
 
 	// Keyboard Function Keys
 	Keyboard_KeySpace        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeySpace)
