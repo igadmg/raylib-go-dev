@@ -43,7 +43,13 @@ const (
 	STATE_FOCUSED
 	STATE_PRESSED
 	STATE_DISABLED
+
+	STATE_MAX
 )
+
+func (s GuiState) ColorProperty(base GuiControlProperty) GuiControlProperty {
+	return base + GuiControlProperty(s*PropertyControlColorStride)
+}
 
 // GuiTextAlignment .
 type GuiTextAlignment = int32
@@ -81,22 +87,22 @@ type GuiControl = int32
 
 // DEFAULT - Gui controls
 const (
-	DEFAULT GuiControl = iota
-	LABEL
-	BUTTON
-	TOGGLE
-	SLIDER
-	PROGRESSBAR
-	CHECKBOX
-	COMBOBOX
-	DROPDOWNBOX
-	TEXTBOX
-	VALUEBOX
-	SPINNER
-	LISTVIEW
-	COLORPICKER
-	SCROLLBAR
-	STATUSBAR
+	Control_DEFAULT GuiControl = iota
+	Control_LABEL
+	Control_BUTTON
+	Control_TOGGLE
+	Control_SLIDER
+	Control_PROGRESSBAR
+	Control_CHECKBOX
+	Control_COMBOBOX
+	Control_DROPDOWNBOX
+	Control_TEXTBOX
+	Control_VALUEBOX
+	Control_SPINNER
+	Control_LISTVIEW
+	Control_COLORPICKER
+	Control_SCROLLBAR
+	Control_STATUSBAR
 )
 
 // GuiControlProperty .
@@ -105,36 +111,35 @@ type GuiControlProperty = int32
 // Gui base properties for every control
 // NOTE: RAYGUI_MAX_PROPS_BASE properties (by default 16 properties)
 const (
-	BORDER_COLOR_NORMAL GuiControlProperty = iota
-	BASE_COLOR_NORMAL
-	TEXT_COLOR_NORMAL
-	BORDER_COLOR_FOCUSED
-	BASE_COLOR_FOCUSED
-	TEXT_COLOR_FOCUSED
-	BORDER_COLOR_PRESSED
-	BASE_COLOR_PRESSED
-	TEXT_COLOR_PRESSED
-	BORDER_COLOR_DISABLED
-	BASE_COLOR_DISABLED
-	TEXT_COLOR_DISABLED
-	BORDER_WIDTH
-	TEXT_PADDING
-	TEXT_ALIGNMENT
+	PropertyControl_BORDER_COLOR_NORMAL GuiControlProperty = iota
+	PropertyControl_BASE_COLOR_NORMAL
+	PropertyControl_TEXT_COLOR_NORMAL
+	PropertyControl_BORDER_COLOR_FOCUSED
+	PropertyControl_BASE_COLOR_FOCUSED
+	PropertyControl_TEXT_COLOR_FOCUSED
+	PropertyControl_BORDER_COLOR_PRESSED
+	PropertyControl_BASE_COLOR_PRESSED
+	PropertyControl_TEXT_COLOR_PRESSED
+	PropertyControl_BORDER_COLOR_DISABLED
+	PropertyControl_BASE_COLOR_DISABLED
+	PropertyControl_TEXT_COLOR_DISABLED
+	PropertyControl_BORDER_WIDTH
+	PropertyControl_TEXT_PADDING
+	PropertyControl_TEXT_ALIGNMENT
 )
 
-// GuiDefaultProperty .
-type GuiDefaultProperty = int32
+const PropertyControlColorStride = 3 // BORDER, BASE, TEXT
 
 // DEFAULT extended properties
 // NOTE: Those properties are common to all controls or global
 const (
-	TEXT_SIZE GuiDefaultProperty = iota + 16
-	TEXT_SPACING
-	LINE_COLOR
-	BACKGROUND_COLOR
-	TEXT_LINE_SPACING
-	TEXT_ALIGNMENT_VERTICAL
-	TEXT_WRAP_MODE
+	PropertyDefault_TEXT_SIZE GuiControlProperty = iota + 16
+	PropertyDefault_TEXT_SPACING
+	PropertyDefault_LINE_COLOR
+	PropertyDefault_BACKGROUND_COLOR
+	PropertyDefault_TEXT_LINE_SPACING
+	PropertyDefault_TEXT_ALIGNMENT_VERTICAL
+	PropertyDefault_TEXT_WRAP_MODE
 )
 
 // GROUP_PADDING .
@@ -301,7 +306,7 @@ func GetState() GuiState {
 }
 
 // GuiSetStyle .
-func SetStyle(control int32, property int32, value int32) {
+func SetStyle(control GuiControl, property GuiControlProperty, value int32) {
 	ccontrol := C.int(control)
 	cproperty := C.int(property)
 	cvalue := C.int(value)
@@ -309,10 +314,16 @@ func SetStyle(control int32, property int32, value int32) {
 }
 
 // GuiGetStyle - Get one style property
-func GetStyle(control int32, property int32) int32 {
+func GetStyle(control GuiControl, property GuiControlProperty) int32 {
 	ccontrol := C.int(control)
 	cproperty := C.int(property)
 	return int32(C.GuiGetStyle(ccontrol, cproperty))
+}
+
+func GetStyleColor(control GuiControl, property GuiControlProperty) colorex.RGBA {
+	ccontrol := C.int(control)
+	cproperty := C.int(property)
+	return rl.GetColor(uint(C.GuiGetStyle(ccontrol, cproperty)))
 }
 
 // GuiWindowBox - Window Box control, shows a window that can be closed
