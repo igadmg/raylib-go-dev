@@ -3,8 +3,8 @@ module examples
 go 1.25
 
 require (
-	github.com/igadmg/gamemath v0.0.0-20260128121329-35dd2bdcaffd
-	github.com/igadmg/goex v0.0.0-20260201172011-1108af2793e7
+	github.com/igadmg/gamemath v0.0.0-20260201211411-ef8e47ea1638
+	github.com/igadmg/goex v0.0.0-20260207091515-91213be8da02
 	github.com/igadmg/raylib-go/easings v0.0.0-20250502171607-bcf0fc4a100d
 	github.com/igadmg/raylib-go/physics v0.0.0-20250502171607-bcf0fc4a100d
 	github.com/igadmg/raylib-go/raygui v0.0.0-20250502171607-bcf0fc4a100d
