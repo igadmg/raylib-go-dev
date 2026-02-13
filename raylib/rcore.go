@@ -614,6 +614,12 @@ func GetWindowScaleDPI() vector2.Float32 {
 	return *govec2ptr(&ret)
 }
 
+// GetDisplayScaleDPI - Get window scale DPI factor
+func GetDisplayScaleDPI() vector2.Float32 {
+	ret := C.GetDisplayScaleDPI()
+	return *govec2ptr(&ret)
+}
+
 // GetMonitorName - Get the human-readable, UTF-8 encoded name of the primary monitor
 func GetMonitorName(monitor int) string {
 	cmonitor := (C.int)(monitor)
