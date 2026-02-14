@@ -5,8 +5,8 @@ import (
 
 	"github.com/igadmg/gamemath/rect2"
 	"github.com/igadmg/gamemath/vector2"
-	rl "github.com/igadmg/raylib-go/raylib"
 	"github.com/igadmg/goex/mathex"
+	rl "github.com/igadmg/raylib-go/raylib"
 )
 
 type Justyfy int
@@ -50,11 +50,13 @@ func (j Justyfy) Justyfy(v, max float32) (nv, dv float32) {
 	return v, 0
 }
 
+// DOC(iga): Spreads items in interval [a, b] with distance [mins, maxd]
 func Spread[S ~[]E, E any](s S, a, b vector2.Float32, maxd, mind float32, justify Justyfy) iter.Seq2[vector2.Float32, E] {
 	count := len(s)
-	if count == 0 {
+	switch count {
+	case 0:
 		return func(yield func(vector2.Float32, E) bool) {}
-	} else if count == 1 {
+	case 1:
 		return func(yield func(vector2.Float32, E) bool) { yield(a, s[0]) }
 	}
 
