@@ -7,8 +7,8 @@ require (
 )
 
 require (
-	github.com/Mishka-Squat/gamemath v0.0.0-20260416222311-4df43ca72563 // indirect
-	github.com/Mishka-Squat/goex v0.0.0-20260416221119-e795dc6e095d // indirect
+	github.com/Mishka-Squat/gamemath v0.1.0 // indirect
+	github.com/Mishka-Squat/goex v0.1.0 // indirect
 	github.com/chewxy/math32 v1.11.1 // indirect
 	github.com/ebitengine/purego v0.10.0 // indirect
 	go.yaml.in/yaml/v4 v4.0.0-rc.4 // indirect

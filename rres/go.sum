@@ -1,7 +1,7 @@
-github.com/Mishka-Squat/gamemath v0.0.0-20260416222311-4df43ca72563 h1:R5NCBAwdr6ZL1u870y0/z/NdFeyxSWUw0QM2M6KprpA=
-github.com/Mishka-Squat/gamemath v0.0.0-20260416222311-4df43ca72563/go.mod h1:1W5E7lmGRIPNmemHOei6k5d5thxeyjVc4mQvrvJTum0=
-github.com/Mishka-Squat/goex v0.0.0-20260416221119-e795dc6e095d h1:Z59mkOjp68pGvbVpysmJpKgVJwx7t61+odRp9pXAck0=
-github.com/Mishka-Squat/goex v0.0.0-20260416221119-e795dc6e095d/go.mod h1:Q5XPU/eWhTu/Efmp9yqmGXppuEs1QXYlj64BRZpgsGQ=
+github.com/Mishka-Squat/gamemath v0.1.0 h1:xrBJ3JAygni2s5vmtnS9cb5/4rU3k7VgLHaL35cpgHo=
+github.com/Mishka-Squat/gamemath v0.1.0/go.mod h1:1W5E7lmGRIPNmemHOei6k5d5thxeyjVc4mQvrvJTum0=
+github.com/Mishka-Squat/goex v0.1.0 h1:pJ677EoYTEzygxi00ywiKPc0c2KKI54S2vFrN7hSJ+I=
+github.com/Mishka-Squat/goex v0.1.0/go.mod h1:Q5XPU/eWhTu/Efmp9yqmGXppuEs1QXYlj64BRZpgsGQ=
 github.com/Mishka-Squat/raylib-go/raylib v0.0.0-20260220111826-0920877398a5 h1:hCxAA+5N++z9fS4eoQWYbXDTnNYAaoJiMx1ps+kdFeM=
 github.com/Mishka-Squat/raylib-go/raylib v0.0.0-20260220111826-0920877398a5/go.mod h1:egiQBZuE+e985GaQ7kpunCk1dlQ/39MX3SQX49qxE2w=
 github.com/chewxy/math32 v1.11.1 h1:b7PGHlp8KjylDoU8RrcEsRuGZhJuz8haxnKfuMMRqy8=

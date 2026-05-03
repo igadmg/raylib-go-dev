@@ -3,8 +3,8 @@ module examples
 go 1.26
 
 require (
-	github.com/Mishka-Squat/gamemath v0.0.0-20260416222311-4df43ca72563
-	github.com/Mishka-Squat/goex v0.0.0-20260416221119-e795dc6e095d
+	github.com/Mishka-Squat/gamemath v0.1.0
+	github.com/Mishka-Squat/goex v0.1.0
 	github.com/Mishka-Squat/raylib-go/easings v0.0.0-20260220111826-0920877398a5
 	github.com/Mishka-Squat/raylib-go/physics v0.0.0-20260220111826-0920877398a5
 	github.com/Mishka-Squat/raylib-go/raygui v0.0.0-20260220111826-0920877398a5

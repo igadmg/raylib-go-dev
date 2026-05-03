@@ -3,7 +3,7 @@ module github.com/Mishka-Squat/raylib-go/easings
 go 1.26
 
 require (
-	github.com/Mishka-Squat/goex v0.0.0-20260416221119-e795dc6e095d
+	github.com/Mishka-Squat/goex v0.1.0
 )
 
 require (
