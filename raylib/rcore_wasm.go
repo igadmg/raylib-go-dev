@@ -226,7 +226,6 @@ var drawSplineSegmentBezierCubic = wasm.Proc("DrawSplineSegmentBezierCubic")
 var getSplinePointLinear = wasm.Func[vector2.Float32]("GetSplinePointLinear")
 var getSplinePointBasis = wasm.Func[vector2.Float32]("GetSplinePointBasis")
 var getSplinePointCatmullRom = wasm.Func[vector2.Float32]("GetSplinePointCatmullRom")
-var getSplinePointBezierQuad = wasm.Func[vector2.Float32]("GetSplinePointBezierQuad")
 var getSplinePointBezierCubic = wasm.Func[vector2.Float32]("GetSplinePointBezierCubic")
 var checkCollisionRecs = wasm.Func[bool]("CheckCollisionRecs")
 var checkCollisionCircles = wasm.Func[bool]("CheckCollisionCircles")
@@ -310,7 +309,6 @@ var imageDrawRectangleV = wasm.Proc("ImageDrawRectangleV")
 var imageDrawRectangleRec = wasm.Proc("ImageDrawRectangleRec")
 var imageDrawRectangleLines = wasm.Proc("ImageDrawRectangleLines")
 var imageDrawTriangle = wasm.Proc("ImageDrawTriangle")
-var imageDrawTriangleEx = wasm.Proc("ImageDrawTriangleEx")
 var imageDrawTriangleLines = wasm.Proc("ImageDrawTriangleLines")
 var imageDrawTriangleFan = wasm.Proc("ImageDrawTriangleFan")
 var imageDrawTriangleStrip = wasm.Proc("ImageDrawTriangleStrip")
@@ -404,8 +402,6 @@ var drawModel = wasm.Proc("DrawModel")
 var drawModelEx = wasm.Proc("DrawModelEx")
 var drawModelWires = wasm.Proc("DrawModelWires")
 var drawModelWiresEx = wasm.Proc("DrawModelWiresEx")
-var drawModelPoints = wasm.Proc("DrawModelPoints")
-var drawModelPointsEx = wasm.Proc("DrawModelPointsEx")
 var drawBoundingBox = wasm.Proc("DrawBoundingBox")
 var drawBillboard = wasm.Proc("DrawBillboard")
 var drawBillboardRec = wasm.Proc("DrawBillboardRec")
@@ -1767,8 +1763,8 @@ func DrawCircleSectorLines(center vector2.Float32, radius float32, startAngle fl
 }
 
 // DrawCircleGradient - Draw a gradient-filled circle
-func DrawCircleGradient(centerX int32, centerY int32, radius float32, inner colorex.RGBA, outer colorex.RGBA) {
-	_, fl := drawCircleGradient.Call(centerX, centerY, radius, wasm.Struct(inner), wasm.Struct(outer))
+func DrawCircleGradient(center vector2.Float32, radius float32, inner colorex.RGBA, outer colorex.RGBA) {
+	_, fl := drawCircleGradient.Call(wasm.Struct(center), radius, wasm.Struct(inner), wasm.Struct(outer))
 	wasm.Free(fl...)
 }
 
@@ -2007,14 +2003,6 @@ func GetSplinePointBasis(p1 vector2.Float32, p2 vector2.Float32, p3 vector2.Floa
 // GetSplinePointCatmullRom - Get (evaluate) spline point: Catmull-Rom
 func GetSplinePointCatmullRom(p1 vector2.Float32, p2 vector2.Float32, p3 vector2.Float32, p4 vector2.Float32, t float32) vector2.Float32 {
 	ret, fl := getSplinePointCatmullRom.Call(wasm.Struct(p1), wasm.Struct(p2), wasm.Struct(p3), wasm.Struct(p4), t)
-	v := wasm.ReadStruct[vector2.Float32](ret)
-	wasm.Free(fl...)
-	return v
-}
-
-// GetSplinePointBezierQuad - Get (evaluate) spline point: Quadratic Bezier
-func GetSplinePointBezierQuad(p1 vector2.Float32, c2 vector2.Float32, p3 vector2.Float32, t float32) vector2.Float32 {
-	ret, fl := getSplinePointBezierQuad.Call(wasm.Struct(p1), wasm.Struct(c2), wasm.Struct(p3), t)
 	v := wasm.ReadStruct[vector2.Float32](ret)
 	wasm.Free(fl...)
 	return v
@@ -2553,12 +2541,6 @@ func ImageDrawRectangleLines(dst *Image, rec rect2.Float32, thick int, col color
 // ImageDrawTriangle - Draw triangle within an image
 func ImageDrawTriangle(dst *Image, v1 vector2.Float32, v2 vector2.Float32, v3 vector2.Float32, col colorex.RGBA) {
 	_, fl := imageDrawTriangle.Call(dst, wasm.Struct(v1), wasm.Struct(v2), wasm.Struct(v3), wasm.Struct(col))
-	wasm.Free(fl...)
-}
-
-// ImageDrawTriangleEx - Draw triangle with interpolated colors within an image
-func ImageDrawTriangleEx(dst *Image, v1 vector2.Float32, v2 vector2.Float32, v3 vector2.Float32, c1 colorex.RGBA, c2 colorex.RGBA, c3 colorex.RGBA) {
-	_, fl := imageDrawTriangleEx.Call(dst, wasm.Struct(v1), wasm.Struct(v2), wasm.Struct(v3), wasm.Struct(c1), wasm.Struct(c2), wasm.Struct(c3))
 	wasm.Free(fl...)
 }
 

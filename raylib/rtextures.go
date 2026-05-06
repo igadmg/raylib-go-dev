@@ -48,13 +48,12 @@ package rl
 #cgo nocallback ImageDrawPixel
 #cgo nocallback ImageDrawPixelV
 #cgo nocallback ImageDrawRectangle
-#cgo nocallback ImageDrawRectangleLines
+#cgo nocallback ImageDrawRectangleLinesEx
 #cgo nocallback ImageDrawRectangleRec
 #cgo nocallback ImageDrawRectangleV
 #cgo nocallback ImageDrawText
 #cgo nocallback ImageDrawTextEx
 #cgo nocallback ImageDrawTriangle
-#cgo nocallback ImageDrawTriangleEx
 #cgo nocallback ImageDrawTriangleFan
 #cgo nocallback ImageDrawTriangleLines
 #cgo nocallback ImageDrawTriangleStrip
@@ -127,13 +126,12 @@ package rl
 #cgo noescape ImageDrawPixel
 #cgo noescape ImageDrawPixelV
 #cgo noescape ImageDrawRectangle
-#cgo noescape ImageDrawRectangleLines
+#cgo noescape ImageDrawRectangleLinesEx
 #cgo noescape ImageDrawRectangleRec
 #cgo noescape ImageDrawRectangleV
 #cgo noescape ImageDrawText
 #cgo noescape ImageDrawTextEx
 #cgo noescape ImageDrawTriangle
-#cgo noescape ImageDrawTriangleEx
 #cgo noescape ImageDrawTriangleFan
 #cgo noescape ImageDrawTriangleLines
 #cgo noescape ImageDrawTriangleStrip
@@ -639,9 +637,9 @@ func ImageColorGrayscale(image *Image) {
 }
 
 // ImageColorContrast - Modify image color: contrast (-100 to 100)
-func ImageColorContrast(image *Image, contrast float32) {
+func ImageColorContrast(image *Image, contrast int32) {
 	cimage := image.cptr()
-	ccontrast := (C.float)(contrast)
+	ccontrast := (C.int)(contrast)
 	C.ImageColorContrast(cimage, ccontrast)
 }
 
@@ -792,13 +790,13 @@ func ImageDrawRectangleV(dst *Image, position, size vector2.Float32, col colorex
 	C.ImageDrawRectangleV(cdst, *cposition, *csize, *ccolor)
 }
 
-// ImageDrawRectangleLines - Draw rectangle lines within an image
-func ImageDrawRectangleLines(dst *Image, rec rect2.Float32, thick int, col colorex.RGBA) {
+// ImageDrawRectangleLinesEx - Draw rectangle lines within an image
+func ImageDrawRectangleLinesExEx(dst *Image, rec rect2.Float32, thick int, col colorex.RGBA) {
 	cdst := dst.cptr()
 	crec := crect2ptr(&rec)
 	cthick := (C.int)(thick)
 	ccolor := ccolorptr(&col)
-	C.ImageDrawRectangleLines(cdst, *crec, cthick, *ccolor)
+	C.ImageDrawRectangleLinesEx(cdst, *crec, cthick, *ccolor)
 }
 
 // ImageDrawTriangle - Draw triangle within an image
@@ -809,18 +807,6 @@ func ImageDrawTriangle(dst *Image, v1, v2, v3 vector2.Float32, col colorex.RGBA)
 	cv3 := cvec2ptr(&v3)
 	ccol := ccolorptr(&col)
 	C.ImageDrawTriangle(cdst, *cv1, *cv2, *cv3, *ccol)
-}
-
-// ImageDrawTriangleEx - Draw triangle with interpolated colors within an image
-func ImageDrawTriangleEx(dst *Image, v1, v2, v3 vector2.Float32, c1, c2, c3 colorex.RGBA) {
-	cdst := dst.cptr()
-	cv1 := cvec2ptr(&v1)
-	cv2 := cvec2ptr(&v2)
-	cv3 := cvec2ptr(&v3)
-	cc1 := ccolorptr(&c1)
-	cc2 := ccolorptr(&c2)
-	cc3 := ccolorptr(&c3)
-	C.ImageDrawTriangleEx(cdst, *cv1, *cv2, *cv3, *cc1, *cc2, *cc3)
 }
 
 // ImageDrawTriangleLines - Draw triangle outline within an image

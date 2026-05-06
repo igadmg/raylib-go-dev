@@ -221,7 +221,7 @@ var drawLineBezier func(startPos uintptr, endPos uintptr, thick float32, col uin
 var drawCircle func(centerX int32, centerY int32, radius float32, col uintptr)
 var drawCircleSector func(center uintptr, radius float32, startAngle float32, endAngle float32, segments int32, col uintptr)
 var drawCircleSectorLines func(center uintptr, radius float32, startAngle float32, endAngle float32, segments int32, col uintptr)
-var drawCircleGradient func(centerX int32, centerY int32, radius float32, inner uintptr, outer uintptr)
+var drawCircleGradient func(center *Vector2, radius float32, inner uintptr, outer uintptr)
 var drawCircleV func(center uintptr, radius float32, col uintptr)
 var drawCircleLines func(centerX int32, centerY int32, radius float32, col uintptr)
 var drawCircleLinesV func(center uintptr, radius float32, col uintptr)
@@ -261,7 +261,6 @@ var drawSplineSegmentBezierCubic func(p1 uintptr, c2 uintptr, c3 uintptr, p4 uin
 var getSplinePointLinear func(startPos uintptr, endPos uintptr, t float32) uintptr
 var getSplinePointBasis func(p1 uintptr, p2 uintptr, p3 uintptr, p4 uintptr, t float32) uintptr
 var getSplinePointCatmullRom func(p1 uintptr, p2 uintptr, p3 uintptr, p4 uintptr, t float32) uintptr
-var getSplinePointBezierQuad func(p1 uintptr, c2 uintptr, p3 uintptr, t float32) uintptr
 var getSplinePointBezierCubic func(p1 uintptr, c2 uintptr, c3 uintptr, p4 uintptr, t float32) uintptr
 var checkCollisionRecs func(rec1 uintptr, rec2 uintptr) bool
 var checkCollisionCircles func(center1 uintptr, radius1 float32, center2 uintptr, radius2 float32) bool
@@ -345,7 +344,6 @@ var imageDrawRectangleV func(dst *Image, position uintptr, size uintptr, col uin
 var imageDrawRectangleRec func(dst *Image, rec uintptr, col uintptr)
 var imageDrawRectangleLines func(dst *Image, rec uintptr, thick int32, col uintptr)
 var imageDrawTriangle func(dst *Image, v1, v2, v3 uintptr, col uintptr)
-var imageDrawTriangleEx func(dst *Image, v1, v2, v3 uintptr, c1, c2, c3 uintptr)
 var imageDrawTriangleLines func(dst *Image, v1, v2, v3 uintptr, col uintptr)
 var imageDrawTriangleFan func(dst *Image, points *Vector2, pointCount int32, col uintptr)
 var imageDrawTriangleStrip func(dst *Image, points *Vector2, pointCount int32, col uintptr)
@@ -876,7 +874,6 @@ func init() {
 	purego.RegisterLibFunc(&imageDrawRectangleRec, raylibDll, "ImageDrawRectangleRec")
 	purego.RegisterLibFunc(&imageDrawRectangleLines, raylibDll, "ImageDrawRectangleLines")
 	purego.RegisterLibFunc(&imageDrawTriangle, raylibDll, "ImageDrawTriangle")
-	purego.RegisterLibFunc(&imageDrawTriangleEx, raylibDll, "ImageDrawTriangleEx")
 	purego.RegisterLibFunc(&imageDrawTriangleLines, raylibDll, "ImageDrawTriangleLines")
 	purego.RegisterLibFunc(&imageDrawTriangleFan, raylibDll, "ImageDrawTriangleFan")
 	purego.RegisterLibFunc(&imageDrawTriangleStrip, raylibDll, "ImageDrawTriangleStrip")
@@ -2383,12 +2380,6 @@ func GetSplinePointCatmullRom(p1 Vector2, p2 Vector2, p3 Vector2, p4 Vector2, t 
 	return *(*Vector2)(unsafe.Pointer(&ret))
 }
 
-// GetSplinePointBezierQuad - Get (evaluate) spline point: Quadratic Bezier
-func GetSplinePointBezierQuad(p1 Vector2, c2 Vector2, p3 Vector2, t float32) Vector2 {
-	ret := getSplinePointBezierQuad(*(*uintptr)(unsafe.Pointer(&p1)), *(*uintptr)(unsafe.Pointer(&c2)), *(*uintptr)(unsafe.Pointer(&p3)), t)
-	return *(*Vector2)(unsafe.Pointer(&ret))
-}
-
 // GetSplinePointBezierCubic - Get (evaluate) spline point: Cubic Bezier
 func GetSplinePointBezierCubic(p1 Vector2, c2 Vector2, c3 Vector2, p4 Vector2, t float32) Vector2 {
 	ret := getSplinePointBezierCubic(*(*uintptr)(unsafe.Pointer(&p1)), *(*uintptr)(unsafe.Pointer(&c2)), *(*uintptr)(unsafe.Pointer(&c3)), *(*uintptr)(unsafe.Pointer(&p4)), t)
@@ -2860,11 +2851,6 @@ func ImageDrawRectangleLines(dst *Image, rec Rectangle, thick int, col color.RGB
 // ImageDrawTriangle - Draw triangle within an image
 func ImageDrawTriangle(dst *Image, v1, v2, v3 Vector2, col color.RGBA) {
 	imageDrawTriangle(dst, *(*uintptr)(unsafe.Pointer(&v1)), *(*uintptr)(unsafe.Pointer(&v2)), *(*uintptr)(unsafe.Pointer(&v3)), *(*uintptr)(unsafe.Pointer(&col)))
-}
-
-// ImageDrawTriangleEx - Draw triangle with interpolated colors within an image
-func ImageDrawTriangleEx(dst *Image, v1, v2, v3 Vector2, c1, c2, c3 color.RGBA) {
-	imageDrawTriangleEx(dst, *(*uintptr)(unsafe.Pointer(&v1)), *(*uintptr)(unsafe.Pointer(&v2)), *(*uintptr)(unsafe.Pointer(&v3)), *(*uintptr)(unsafe.Pointer(&c1)), *(*uintptr)(unsafe.Pointer(&c2)), *(*uintptr)(unsafe.Pointer(&c3)))
 }
 
 // ImageDrawTriangleLines - Draw triangle outline within an image

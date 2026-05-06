@@ -134,13 +134,12 @@ func DrawCircleSectorLines(center vector2.Float32, radius, startAngle, endAngle 
 }
 
 // DrawCircleGradient - Draw a gradient-filled circle
-func DrawCircleGradient(centerX, centerY int32, radius float32, col1, col2 colorex.RGBA) {
-	ccenterX := (C.int)(centerX)
-	ccenterY := (C.int)(centerY)
+func DrawCircleGradient(center vector2.Float32, radius float32, col1, col2 colorex.RGBA) {
+	ccenter := cvec2ptr(&center)
 	cradius := (C.float)(radius)
 	ccolor1 := ccolorptr(&col1)
 	ccolor2 := ccolorptr(&col2)
-	C.DrawCircleGradient(ccenterX, ccenterY, cradius, *ccolor1, *ccolor2)
+	C.DrawCircleGradient(*ccenter, cradius, *ccolor1, *ccolor2)
 }
 
 // DrawCircleV - Draw a color-filled circle (Vector version)
@@ -514,16 +513,6 @@ func GetSplinePointCatmullRom(p1, p2, p3, p4 vector2.Float32, t float32) vector2
 	cp4 := cvec2ptr(&p4)
 	ct := (C.float)(t)
 	ret := C.GetSplinePointCatmullRom(*cp1, *cp2, *cp3, *cp4, ct)
-	return *govec2ptr(&ret)
-}
-
-// GetSplinePointBezierQuad - Get (evaluate) spline point: Quadratic Bezier
-func GetSplinePointBezierQuad(p1, p2, p3 vector2.Float32, t float32) vector2.Float32 {
-	cp1 := cvec2ptr(&p1)
-	cp2 := cvec2ptr(&p2)
-	cp3 := cvec2ptr(&p3)
-	ct := (C.float)(t)
-	ret := C.GetSplinePointBezierQuad(*cp1, *cp2, *cp3, ct)
 	return *govec2ptr(&ret)
 }
 
