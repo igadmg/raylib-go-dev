@@ -13,8 +13,24 @@ static AAssetManager* GetAssetManager() {
 	return GetAndroidApp()->activity->assetManager;
 }
 
-static const char* GetInternalDataPath() {
-	return GetAndroidApp()->activity->internalDataPath;
+static const char* GetInternalStoragePath() {
+    struct android_app* app = GetAndroidApp();
+    return app->activity->internalDataPath;
+}
+
+static off_t GetAssetLength(AAsset* asset) {
+    return AAsset_getLength(asset);
+}
+
+static int IsAssetDir(const char* path) {
+    AAssetManager* mgr = GetAssetManager();
+    AAssetDir* dir = AAssetManager_openDir(mgr, path);
+    if (dir != NULL) {
+        const char* filename = AAssetDir_getNextFileName(dir);
+        AAssetDir_close(dir);
+        return filename != NULL ? 1 : 0;
+    }
+    return 0;
 }
 */
 import "C"
@@ -333,5 +349,5 @@ func readAssetDir(root, name string) ([]fs.DirEntry, error) {
 }
 
 func getInternalStoragePath() string {
-	return C.GoString(C.GetInternalDataPath())
+	return C.GoString(C.GetInternalStoragePath())
 }
