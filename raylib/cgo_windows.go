@@ -1,22 +1,18 @@
 //go:build windows && !rgfw && !sdl && !sdl3
-// +build windows,!rgfw,!sdl,!sdl3
 
 package rl
 
 /*
-
-//The trick here is we define DPLATFORM_DESKTOP which naturally defines to PLATFORM_DESKTOP_GLFW inside fo glfw library
-
 #cgo CFLAGS: -I${SRCDIR}/../external/raylib/src -I${SRCDIR}/../external/raylib/src/external/glfw/include -std=gnu99 -Wno-missing-braces -Wno-unused-result -Wno-implicit-function-declaration -DPLATFORM_DESKTOP -D_GLFW_WIN32 -Wno-stringop-overflow
-#cgo windows LDFLAGS: -lgdi32 -lwinmm -lole32
-#cgo windows,!es2,!es3 LDFLAGS: -lopengl32
+#cgo LDFLAGS: -lgdi32 -lwinmm -lole32
+#cgo !es2,!es3 LDFLAGS: -lopengl32
 
-#cgo windows,opengl11,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_11
-#cgo windows,opengl21,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_21
-#cgo windows,opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_43
-#cgo windows,!opengl11,!opengl21,!opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_33
-#cgo windows,es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_ES2
-#cgo windows,es3,!es2 CFLAGS: -DGRAPHICS_API_OPENGL_ES3
+#cgo opengl11,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_11
+#cgo opengl21,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_21
+#cgo opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_43
+#cgo !opengl11,!opengl21,!opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_33
+#cgo es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_ES2
+#cgo es3,!es2 CFLAGS: -DGRAPHICS_API_OPENGL_ES3
 
 #include "external/glfw/src/context.c"
 #include "external/glfw/src/init.c"

@@ -1,5 +1,4 @@
 //go:build darwin && !rgfw && !sdl && !sdl3
-// +build darwin,!rgfw,!sdl,!sdl3
 
 package rl
 
@@ -27,16 +26,16 @@ GLFWbool _glfwConnectNull(int platformID, _GLFWplatform* platform) {
 	return GLFW_TRUE;
 }
 
-#cgo darwin LDFLAGS: -framework Cocoa -framework IOKit -framework CoreVideo -framework CoreFoundation
-#cgo darwin CFLAGS: -x objective-c -Iexternal/glfw/include -D_GLFW_COCOA -D_GLFW_USE_CHDIR -D_GLFW_USE_MENUBAR -D_GLFW_USE_RETINA -Wno-deprecated-declarations -Wno-implicit-const-int-float-conversion -DPLATFORM_DESKTOP
+#cgo LDFLAGS: -framework Cocoa -framework IOKit -framework CoreVideo -framework CoreFoundation
+#cgo CFLAGS: -x objective-c -Iexternal/glfw/include -D_GLFW_COCOA -D_GLFW_USE_CHDIR -D_GLFW_USE_MENUBAR -D_GLFW_USE_RETINA -Wno-deprecated-declarations -Wno-implicit-const-int-float-conversion -DPLATFORM_DESKTOP
 
-#cgo darwin,!es2,!es3 LDFLAGS: -framework OpenGL
+#cgo !es2,!es3 LDFLAGS: -framework OpenGL
 
-#cgo darwin,opengl11,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_11
-#cgo darwin,opengl21,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_21
-#cgo darwin,opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_43
-#cgo darwin,!opengl11,!opengl21,!opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_33
-#cgo darwin,es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_ES2
-#cgo darwin,es3,!es2 CFLAGS: -DGRAPHICS_API_OPENGL_ES3
+#cgo opengl11,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_11
+#cgo opengl21,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_21
+#cgo opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_43
+#cgo !opengl11,!opengl21,!opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_33
+#cgo es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_ES2
+#cgo es3,!es2 CFLAGS: -DGRAPHICS_API_OPENGL_ES3
 */
 import "C"

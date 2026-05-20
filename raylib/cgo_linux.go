@@ -1,5 +1,4 @@
 //go:build linux && !rgfw && !drm && !sdl && !sdl3 && !android
-// +build linux,!rgfw,!drm,!sdl,!sdl3,!android
 
 package rl
 
@@ -38,22 +37,22 @@ GLFWbool _glfwConnectNull(int platformID, _GLFWplatform* platform) {
 	return GLFW_TRUE;
 }
 
-#cgo linux CFLAGS: -Iexternal/glfw/include -DPLATFORM_DESKTOP -Wno-stringop-overflow
-#cgo linux LDFLAGS: -lm -pthread -ldl -lrt -lxkbcommon
-#cgo linux,!x11 LDFLAGS: -lwayland-client -lwayland-cursor -lwayland-egl
+#cgo CFLAGS: -Iexternal/glfw/include -DPLATFORM_DESKTOP -Wno-stringop-overflow
+#cgo LDFLAGS: -lm -pthread -ldl -lrt -lxkbcommon
+#cgo !x11 LDFLAGS: -lwayland-client -lwayland-cursor -lwayland-egl
 
-#cgo linux,x11 CFLAGS: -D_GLFW_X11
-#cgo linux,wayland CFLAGS: -D_GLFW_WAYLAND
-//cgo linux,!x11,!wayland CFLAGS: -D_GLFW_X11 -D_GLFW_WAYLAND
-#cgo linux,!x11,!wayland CFLAGS: -D_GLFW_WAYLAND
+#cgo x11 CFLAGS: -D_GLFW_X11
+#cgo wayland CFLAGS: -D_GLFW_WAYLAND
+//cgo !x11,!wayland CFLAGS: -D_GLFW_X11 -D_GLFW_WAYLAND
+#cgo !x11,!wayland CFLAGS: -D_GLFW_WAYLAND
 
-#cgo linux,!es2,!es3,!wayland LDFLAGS: -lGL
+#cgo !es2,!es3,!wayland LDFLAGS: -lGL
 
-#cgo linux,opengl11,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_11
-#cgo linux,opengl21,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_21
-#cgo linux,opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_43
-#cgo linux,!opengl11,!opengl21,!opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_33
-#cgo linux,es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_ES2
-#cgo linux,es3,!es2 CFLAGS: -DGRAPHICS_API_OPENGL_ES3
+#cgo opengl11,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_11
+#cgo opengl21,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_21
+#cgo opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_43
+#cgo !opengl11,!opengl21,!opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_33
+#cgo es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_ES2
+#cgo es3,!es2 CFLAGS: -DGRAPHICS_API_OPENGL_ES3
 */
 import "C"
