@@ -11,7 +11,6 @@ package rl
 #cgo nocallback BeginVrStereoMode
 #cgo nocallback ClearBackground
 #cgo nocallback ClearWindowState
-#cgo nocallback CloseWindow
 #cgo nocallback ColorAlphaBlend
 #cgo nocallback ColorBrightness
 #cgo nocallback ColorContrast

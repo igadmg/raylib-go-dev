@@ -22,7 +22,7 @@ var internalLoadFileTextCallbackFn LoadFileTextCallbackFn
 //export internalTraceLogCallback
 func internalTraceLogCallback(logType C.int, ctext *C.char) {
 	str := C.GoString(ctext)
-	lt := int(logType)
+	lt := TraceLogLevel(logType)
 	internalTraceLogCallbackFn(lt, str)
 }
 

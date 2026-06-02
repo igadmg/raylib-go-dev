@@ -22,8 +22,7 @@ void SetTraceLogCallbackWrapper(void) {
 	SetTraceLogCallback(rayLogWrapperCallback);
 }
 
-void TraceLogWrapper(int logLevel, const char *text)
-{
+void TraceLogWrapper(int logLevel, const char *text) {
 	TraceLog(logLevel, text);
 }
 

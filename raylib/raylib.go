@@ -1851,7 +1851,7 @@ func (r *RenderTexture2D) Unload() {
 }
 
 // TraceLogCallbackFun - function that will recive the trace log messages
-type TraceLogCallbackFun func(int, string)
+type TraceLogCallbackFun func(TraceLogLevel, string)
 
 // TraceLogLevel parameter of trace log message
 type TraceLogLevel int
