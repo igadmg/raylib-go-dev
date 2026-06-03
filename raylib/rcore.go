@@ -131,7 +131,6 @@ package rl
 #cgo nocallback SetShaderValueMatrix
 #cgo nocallback SetShaderValueTexture
 #cgo nocallback SetShaderValueV
-#cgo nocallback SetTargetFPS
 #cgo nocallback SetWindowIcon
 #cgo nocallback SetWindowIcons
 #cgo nocallback SetWindowMaxSize

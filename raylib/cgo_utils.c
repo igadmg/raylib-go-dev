@@ -2,7 +2,7 @@
 #include <stdio.h>                      // Required for: vprintf()
 #include <string.h>                     // Required for: strcpy(), strcat()
 
-#define MAX_TRACELOG_BUFFER_SIZE   128  // As defined in utils.c from raylib
+#define MAX_TRACELOG_BUFFER_SIZE   1024 // As defined in utils.c from raylib
 
 extern void internalTraceLogCallback(int logType, void *text);
 extern unsigned char *internalLoadFileDataCallback(const char *fileName, int *dataSize);    // FileIO: Load binary data
@@ -13,7 +13,7 @@ extern char *internalLoadFileTextCallback(const char *fileName);                
 void rayLogWrapperCallback(int logType, const char *text, va_list args) {
 	char buffer[MAX_TRACELOG_BUFFER_SIZE] = { 0 };
 
-	vsprintf(buffer, text, args);
+	vsnprintf(buffer, MAX_TRACELOG_BUFFER_SIZE, text, args);
 
 	internalTraceLogCallback(logType, buffer);
 }
