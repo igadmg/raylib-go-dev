@@ -1850,6 +1850,14 @@ func (r *RenderTexture2D) Unload() {
 	*r = UnloadRenderTexture(*r)
 }
 
+func (t RenderTexture2D) GetSize() vector2.Float32 {
+	return t.Texture.GetSize()
+}
+
+func (t RenderTexture2D) GetRect() rect2.Float32 {
+	return t.Texture.GetRect()
+}
+
 // TraceLogCallbackFun - function that will recive the trace log messages
 type TraceLogCallbackFun func(TraceLogLevel, string)
 
