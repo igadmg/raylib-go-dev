@@ -17,13 +17,13 @@ func main() {
 	parrots := rl.LoadImage("parrots.png") // Load image in CPU memory (RAM)
 
 	// Draw over image using custom font
-	rl.ImageDrawTextEx(&parrots, vector2.NewFloat32(20, 20), font, "[Parrots font drawing]", float32(font.BaseSize), 0, rl.White)
+	rl.ImageDrawTextEx(&parrots, vector2.MakeFloat32(20, 20), font, "[Parrots font drawing]", float32(font.BaseSize), 0, rl.White)
 
 	texture := rl.LoadTextureFromImage(parrots) // Image converted to texture, uploaded to GPU memory (VRAM)
 
 	rl.UnloadImage(&parrots) // Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM
 
-	position := vector2.NewFloat32(float32(screenWidth)/2-float32(texture.Width)/2, float32(screenHeight)/2-float32(texture.Height)/2-20)
+	position := vector2.MakeFloat32(float32(screenWidth)/2-float32(texture.Width)/2, float32(screenHeight)/2-float32(texture.Height)/2-20)
 
 	showFont := false
 
@@ -45,7 +45,7 @@ func main() {
 			rl.DrawTextureV(texture, position, rl.White)
 
 			// Draw text directly using sprite font
-			rl.DrawTextEx(font, "[Parrots font drawing]", vector2.NewFloat32(position.X+20, position.Y+20+280), float32(font.BaseSize), 0, rl.White)
+			rl.DrawTextEx(font, "[Parrots font drawing]", vector2.MakeFloat32(position.X+20, position.Y+20+280), float32(font.BaseSize), 0, rl.White)
 		} else {
 			rl.DrawTexture(font.Texture, screenWidth/2-font.Texture.Width/2, 50, rl.Black)
 		}

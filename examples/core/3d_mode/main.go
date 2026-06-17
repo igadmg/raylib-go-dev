@@ -9,13 +9,13 @@ func main() {
 	rl.InitWindow(800, 450, "raylib [core] example - 3d mode")
 
 	camera := rl.Camera3D{}
-	camera.Position = vector3.NewFloat32(0.0, 10.0, 10.0)
-	camera.Target = vector3.NewFloat32(0.0, 0.0, 0.0)
-	camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
+	camera.Position = vector3.MakeFloat32(0.0, 10.0, 10.0)
+	camera.Target = vector3.MakeFloat32(0.0, 0.0, 0.0)
+	camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0)
 	camera.Fovy = 45.0
 	camera.Projection = rl.CameraPerspective
 
-	cubePosition := vector3.NewFloat32(0.0, 0.0, 0.0)
+	cubePosition := vector3.MakeFloat32(0.0, 0.0, 0.0)
 
 	rl.SetTargetFPS(60)
 

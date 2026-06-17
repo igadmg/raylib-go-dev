@@ -15,9 +15,9 @@ func main() {
 	rl.InitWindow(800, 450, "raylib [models] example - skybox loading and drawing")
 
 	camera := rl.MakeCamera3D(
-		vector3.NewFloat32(1.0, 1.0, 1.0),
-		vector3.NewFloat32(4.0, 1.0, 4.0),
-		vector3.NewFloat32(0.0, 1.0, 0.0),
+		vector3.MakeFloat32(1.0, 1.0, 1.0),
+		vector3.MakeFloat32(4.0, 1.0, 4.0),
+		vector3.MakeFloat32(0.0, 1.0, 0.0),
 		45.0,
 		rl.CameraPerspective,
 	)
@@ -86,7 +86,7 @@ func main() {
 		rl.DisableBackfaceCulling()
 		rl.DisableDepthMask()
 
-		rl.DrawModel(skybox, vector3.NewFloat32(0, 0, 0), 1.0, rl.White)
+		rl.DrawModel(skybox, vector3.MakeFloat32(0, 0, 0), 1.0, rl.White)
 
 		// restore depth and backface culling
 		rl.EnableBackfaceCulling()

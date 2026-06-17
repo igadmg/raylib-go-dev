@@ -13,8 +13,8 @@ func main() {
 
 	rl.InitWindow(screenWidth, screenHeight, "raylib [shapes] example - bouncing ball")
 
-	ballPos := vector2.NewFloat32(float32(screenWidth)/2, float32(screenHeight)/2)
-	ballSpeed := vector2.NewFloat32(5, 4)
+	ballPos := vector2.MakeFloat32(float32(screenWidth)/2, float32(screenHeight)/2)
+	ballSpeed := vector2.MakeFloat32(5, 4)
 	ballRadius := 20
 
 	pause := false

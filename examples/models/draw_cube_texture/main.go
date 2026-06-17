@@ -63,8 +63,8 @@ func main() {
 		DrawCubeTexture(texture, vec, 2.0, 4.0, 2.0, rl.White)
 
 		// Draw cube with an applied texture, but only a defined rectangle piece of the texture
-		rec := rect2.NewFloat32(
-			vector2.NewFloat32(0, float32(texture.Height)/2.0),
+		rec := rect2.MakeFloat32(
+			vector2.MakeFloat32(0, float32(texture.Height)/2.0),
 			texture.GetSize().ScaleF(0.5),
 		)
 		vec = vector3.Float32{

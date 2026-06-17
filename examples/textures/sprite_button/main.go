@@ -34,12 +34,12 @@ func main() {
 
 	// Define frame rectangle for drawing
 	frameHeight := float32(button.Height) / numFrames
-	sourceRec := rect2.NewFloat32(vector2.Zero[float32](), vector2.NewFloat32(button.Width, frameHeight))
+	sourceRec := rect2.MakeFloat32(vector2.Zero[float32](), vector2.MakeFloat32(button.Width, frameHeight))
 
 	// Define button bounds on screen
-	btnBounds := rect2.NewFloat32(
-		vector2.NewFloat32(screenWidth/2.0-button.Width/2.0, screenHeight/2.0-button.Height/numFrames/2.0),
-		vector2.NewFloat32(button.Width, frameHeight),
+	btnBounds := rect2.MakeFloat32(
+		vector2.MakeFloat32(screenWidth/2.0-button.Width/2.0, screenHeight/2.0-button.Height/numFrames/2.0),
+		vector2.MakeFloat32(button.Width, frameHeight),
 	)
 
 	btnState := 0      // Button state: 0-NORMAL, 1-MOUSE_HOVER, 2-PRESSED

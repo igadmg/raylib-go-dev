@@ -38,14 +38,14 @@ func main() {
 	var origin vector2.Float32
 
 	// Position and size of the n-patches
-	dstRec1 := rect2.NewFloat32(vector2.NewFloat32(480.0, 160.0), vector2.NewFloat32(32.0, 32.0))
-	dstRec2 := rect2.NewFloat32(vector2.NewFloat32(160.0, 160.0), vector2.NewFloat32(32.0, 32.0))
-	dstRecH := rect2.NewFloat32(vector2.NewFloat32(160.0, 93.0), vector2.NewFloat32(32.0, 32.0))
-	dstRecV := rect2.NewFloat32(vector2.NewFloat32(92.0, 160.0), vector2.NewFloat32(32.0, 32.0))
+	dstRec1 := rect2.MakeFloat32(vector2.MakeFloat32(480.0, 160.0), vector2.MakeFloat32(32.0, 32.0))
+	dstRec2 := rect2.MakeFloat32(vector2.MakeFloat32(160.0, 160.0), vector2.MakeFloat32(32.0, 32.0))
+	dstRecH := rect2.MakeFloat32(vector2.MakeFloat32(160.0, 93.0), vector2.MakeFloat32(32.0, 32.0))
+	dstRecV := rect2.MakeFloat32(vector2.MakeFloat32(92.0, 160.0), vector2.MakeFloat32(32.0, 32.0))
 
 	// A 9-patch (NPatchNinePatch) changes its sizes in both axis
 	ninePatchInfo1 := rl.NPatchInfo{
-		Source: rect2.NewFloat32(vector2.Zero[float32](), vector2.NewFloat32(64.0, 64.0)),
+		Source: rect2.MakeFloat32(vector2.Zero[float32](), vector2.MakeFloat32(64.0, 64.0)),
 		Left:   12,
 		Top:    40,
 		Right:  12,
@@ -53,7 +53,7 @@ func main() {
 		Layout: rl.NPatchNinePatch,
 	}
 	ninePatchInfo2 := rl.NPatchInfo{
-		Source: rect2.NewFloat32(vector2.NewFloat32(0, 128.0), vector2.NewFloat32(64.0, 64.0)),
+		Source: rect2.MakeFloat32(vector2.MakeFloat32(0, 128.0), vector2.MakeFloat32(64.0, 64.0)),
 		Left:   16,
 		Top:    16,
 		Right:  16,
@@ -63,7 +63,7 @@ func main() {
 
 	// A horizontal 3-patch (NPatchThreePatchHorizontal) changes its sizes along the x-axis only
 	h3PatchInfo := rl.NPatchInfo{
-		Source: rect2.NewFloat32(vector2.NewFloat32(0, 64.0), vector2.NewFloat32(64.0, 64.0)),
+		Source: rect2.MakeFloat32(vector2.MakeFloat32(0, 64.0), vector2.MakeFloat32(64.0, 64.0)),
 		Left:   8,
 		Top:    8,
 		Right:  8,
@@ -73,7 +73,7 @@ func main() {
 
 	// A vertical 3-patch (NPatchThreePatchVertical) changes its sizes along the y-axis only
 	v3PatchInfo := rl.NPatchInfo{
-		Source: rect2.NewFloat32(vector2.NewFloat32(0, 192.0), vector2.NewFloat32(64.0, 64.0)),
+		Source: rect2.MakeFloat32(vector2.MakeFloat32(0, 192.0), vector2.MakeFloat32(64.0, 64.0)),
 		Left:   6,
 		Top:    6,
 		Right:  6,

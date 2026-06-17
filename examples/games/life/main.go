@@ -72,8 +72,8 @@ func (g *Game) Init(clear bool) {
 	for x := int32(0); x <= g.Cols; x++ {
 		for y := int32(0); y <= g.Rows; y++ {
 			g.Cells[x][y] = &Cell{}
-			g.Cells[x][y].Position = vector2.NewFloat32((float32(x) * squareSize), (float32(y)*squareSize)+1)
-			g.Cells[x][y].Size = vector2.NewFloat32(squareSize-1, squareSize-1)
+			g.Cells[x][y].Position = vector2.MakeFloat32((float32(x) * squareSize), (float32(y)*squareSize)+1)
+			g.Cells[x][y].Size = vector2.MakeFloat32(squareSize-1, squareSize-1)
 			if rand.Float64() < 0.1 && clear == false {
 				g.Cells[x][y].Alive = true
 			}
@@ -184,16 +184,16 @@ func (g *Game) Draw() {
 	// Draw grid lines
 	for i := int32(0); i < g.Cols+1; i++ {
 		rl.DrawLineV(
-			vector2.NewFloat32(float32(squareSize*i), 0),
-			vector2.NewFloat32(float32(squareSize*i), float32(g.ScreenHeight)),
+			vector2.MakeFloat32(float32(squareSize*i), 0),
+			vector2.MakeFloat32(float32(squareSize*i), float32(g.ScreenHeight)),
 			rl.LightGray,
 		)
 	}
 
 	for i := int32(0); i < g.Rows+1; i++ {
 		rl.DrawLineV(
-			vector2.NewFloat32(0, float32(squareSize*i)),
-			vector2.NewFloat32(float32(g.ScreenWidth), float32(squareSize*i)),
+			vector2.MakeFloat32(0, float32(squareSize*i)),
+			vector2.MakeFloat32(float32(g.ScreenWidth), float32(squareSize*i)),
 			rl.LightGray,
 		)
 	}

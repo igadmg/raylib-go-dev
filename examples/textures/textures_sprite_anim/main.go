@@ -21,7 +21,7 @@ func main() {
 	// NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
 	scarfy := rl.LoadTexture("scarfy.png") // Texture loading
 
-	position := vector2.NewFloat32(350.0, 280.0)
+	position := vector2.MakeFloat32(350.0, 280.0)
 	frameRec := rl.MakeRectangle(0, 0, float32(scarfy.Width/6), float32(scarfy.Height))
 	currentFrame := float32(0)
 

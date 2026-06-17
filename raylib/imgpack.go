@@ -174,7 +174,7 @@ type TextureAtlasItem struct {
 }
 
 func (t TextureAtlasItem) DrawExDef(position vector2.Float32) {
-	DrawTexturePro(*t.Texture, t.Rect, rect2.NewFloat32(position, t.Rect.Size), vector2.Zero[float32](), 0, White)
+	DrawTexturePro(*t.Texture, t.Rect, rect2.MakeFloat32(position, t.Rect.Size), vector2.Zero[float32](), 0, White)
 }
 
 func (t TextureAtlasItem) DrawProDef(destRec rect2.Float32) {

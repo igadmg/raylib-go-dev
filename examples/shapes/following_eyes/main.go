@@ -15,12 +15,12 @@ func main() {
 
 	rl.InitWindow(screenWidth, screenHeight, "raylib [shapes] example - following eyes")
 
-	scleraLpos := vector2.NewFloat32(float32(screenWidth/2)-100, float32(screenHeight/2))
-	scleraRpos := vector2.NewFloat32(float32(screenWidth/2)+100, float32(screenHeight/2))
+	scleraLpos := vector2.MakeFloat32(float32(screenWidth/2)-100, float32(screenHeight/2))
+	scleraRpos := vector2.MakeFloat32(float32(screenWidth/2)+100, float32(screenHeight/2))
 	scleraRad := 80
 
-	irisLpos := vector2.NewFloat32(float32(screenWidth/2)-100, float32(screenHeight/2))
-	irisRpos := vector2.NewFloat32(float32(screenWidth/2)+100, float32(screenHeight/2))
+	irisLpos := vector2.MakeFloat32(float32(screenWidth/2)-100, float32(screenHeight/2))
+	irisRpos := vector2.MakeFloat32(float32(screenWidth/2)+100, float32(screenHeight/2))
 	irisRad := 24
 
 	angle := float32(0)

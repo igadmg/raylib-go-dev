@@ -30,12 +30,12 @@ func DrawScene() {
 	spacing := float32(4.0)
 
 	// Grid of cube trees on a plane to make a "world"
-	rl.DrawPlane(vector3.NewFloat32(0, 0, 0), vector2.NewFloat32(50, 50), rl.Beige) // Simple world plane
+	rl.DrawPlane(vector3.MakeFloat32(0, 0, 0), vector2.MakeFloat32(50, 50), rl.Beige) // Simple world plane
 
 	for x := -float32(count * spacing); x <= count*spacing; x += spacing {
 		for z := -float32(count * spacing); z <= count*spacing; z += spacing {
-			rl.DrawCube(vector3.NewFloat32(x, 1.5, z), 1, 1, 1, rl.Lime)
-			rl.DrawCube(vector3.NewFloat32(x, 0.5, z), 0.25, 1, 0.25, rl.Brown)
+			rl.DrawCube(vector3.MakeFloat32(x, 1.5, z), 1, 1, 1, rl.Lime)
+			rl.DrawCube(vector3.MakeFloat32(x, 0.5, z), 0.25, 1, 0.25, rl.Brown)
 		}
 	}
 
@@ -131,8 +131,8 @@ func main() {
 		// Draw both views render textures to the screen side by side
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.Black)
-		rl.DrawTextureRec(screenPlayer1.Texture, splitScreenRect, vector2.NewFloat32(0, 0), rl.White)
-		rl.DrawTextureRec(screenPlayer2.Texture, splitScreenRect, vector2.NewFloat32(screenWidth/2.0, 0), rl.White)
+		rl.DrawTextureRec(screenPlayer1.Texture, splitScreenRect, vector2.MakeFloat32(0, 0), rl.White)
+		rl.DrawTextureRec(screenPlayer2.Texture, splitScreenRect, vector2.MakeFloat32(screenWidth/2.0, 0), rl.White)
 		rl.EndDrawing()
 	}
 

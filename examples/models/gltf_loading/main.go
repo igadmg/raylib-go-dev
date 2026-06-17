@@ -14,9 +14,9 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "raylib [models] example - gltf loading")
 
 	camera := rl.Camera{}
-	camera.Position = vector3.NewFloat32(5.0, 5.0, 5.0)
-	camera.Target = vector3.NewFloat32(0.0, 2.0, 0.0)
-	camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
+	camera.Position = vector3.MakeFloat32(5.0, 5.0, 5.0)
+	camera.Target = vector3.MakeFloat32(0.0, 2.0, 0.0)
+	camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0)
 	camera.Fovy = 45.0
 	camera.Projection = rl.CameraPerspective
 
@@ -27,7 +27,7 @@ func main() {
 
 	modelAnims := rl.LoadModelAnimations("robot.glb")
 
-	position := vector3.NewFloat32(0, 0, 0)
+	position := vector3.MakeFloat32(0, 0, 0)
 	rl.DisableCursor()
 
 	rl.SetTargetFPS(60)

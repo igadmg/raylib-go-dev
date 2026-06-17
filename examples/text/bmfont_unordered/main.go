@@ -31,7 +31,7 @@ func main() {
 		rl.DrawText(fmt.Sprintf("Font base size:           %d", font.BaseSize), 40, 80, 20, rl.Gray)
 		rl.DrawText(fmt.Sprintf("Font chars number:     %d", font.GlyphCount), 40, 110, 20, rl.Gray)
 
-		rl.DrawTextEx(font, msg, vector2.NewFloat32(40, 180), float32(font.BaseSize), 0, rl.Maroon)
+		rl.DrawTextEx(font, msg, vector2.MakeFloat32(40, 180), float32(font.BaseSize), 0, rl.Maroon)
 
 		rl.EndDrawing()
 	}

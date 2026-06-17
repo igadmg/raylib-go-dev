@@ -42,13 +42,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 	resizing, wordWrap := false, true
 
-	container := rect2.NewFloat32(
-		vector2.NewFloat32(25.0, 25.0),
-		vector2.NewFloat32(screenWidth-50, screenHeight-250),
+	container := rect2.MakeFloat32(
+		vector2.MakeFloat32(25.0, 25.0),
+		vector2.MakeFloat32(screenWidth-50, screenHeight-250),
 	)
-	resizer := rect2.NewFloat32(
-		vector2.NewFloat32(container.B().X-17, container.B().Y-17),
-		vector2.NewFloat32(14, 14),
+	resizer := rect2.MakeFloat32(
+		vector2.MakeFloat32(container.B().X-17, container.B().Y-17),
+		vector2.MakeFloat32(14, 14),
 	)
 
 	// Minimum width and height for the container rectangle
@@ -115,9 +115,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 		// Draw bottom info
 		rl.DrawRectangle(0, screenHeight-54, screenWidth, 54, rl.Gray)
-		rl.DrawRectangleRec(rect2.NewFloat32(
-			vector2.NewFloat32(382.0, screenHeight-34.0),
-			vector2.NewFloat32(12.0, 12.0),
+		rl.DrawRectangleRec(rect2.MakeFloat32(
+			vector2.MakeFloat32(382.0, screenHeight-34.0),
+			vector2.MakeFloat32(12.0, 12.0),
 		), rl.Maroon)
 
 		rl.DrawText("Word Wrap: ", 313, screenHeight-115, 20, rl.Black)
@@ -258,9 +258,9 @@ func DrawTextBoxedSelectable(font rl.Font, text string, rec rect2.Float32, fontS
 				// Draw selection background
 				isGlyphSelected := false
 				if (selectStart >= 0) && (k >= selectStart) && (k < (selectStart + selectLength)) {
-					rl.DrawRectangleRec(rect2.NewFloat32(
+					rl.DrawRectangleRec(rect2.MakeFloat32(
 						rec.Position.AddXY(textOffsetX-1, textOffsetY),
-						vector2.NewFloat32(glyphWidth, float32(font.BaseSize)*scaleFactor),
+						vector2.MakeFloat32(glyphWidth, float32(font.BaseSize)*scaleFactor),
 					), selectBackTint)
 					isGlyphSelected = true
 				}

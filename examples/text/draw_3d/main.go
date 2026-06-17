@@ -487,7 +487,7 @@ func drawTextCodepoint3D(font rl.Font, codepoint rune, position vector3.Float32,
 	// Character source rectangle from font texture atlas
 	// NOTE: We consider chars padding when drawing, it could be required for outline/glow shader effects
 	recs := unsafe.Slice(font.Recs, font.GlyphCount)
-	srcRec := rect2.NewFloat32(
+	srcRec := rect2.MakeFloat32(
 		recs[index].Position.SubXY(float32(font.GlyphPadding), float32(font.GlyphPadding)),
 		recs[index].Size.AddXY(float32(2*font.GlyphPadding), float32(2*font.GlyphPadding)),
 	)

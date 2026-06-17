@@ -42,7 +42,7 @@ func main() {
 	for i = 0; i < maxFonts; i++ {
 		x := screenWidth/2 - int32(rl.MeasureTextEx(fonts[i], messages[i], float32(fonts[i].BaseSize*2), spacings[i]).X/2)
 		y := 60 + fonts[i].BaseSize + 45*i
-		positions[i] = vector2.NewFloat32(float32(x), float32(y))
+		positions[i] = vector2.MakeFloat32(float32(x), float32(y))
 	}
 
 	// Small Y position corrections

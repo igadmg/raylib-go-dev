@@ -53,7 +53,7 @@ func main() {
 	defer rl.UnloadShader(&shader)                          // Unload SDF shader
 	rl.SetTextureFilter(fontSDF.Texture, rl.FilterBilinear) // Required for SDF font
 
-	fontPosition := vector2.NewFloat32(40, screenHeight/2.0-50)
+	fontPosition := vector2.MakeFloat32(40, screenHeight/2.0-50)
 	textSize := vector2.Zero[float32]()
 	fontSize := float32(16)
 	currentFont := 0 // 0 - fontDefault, 1 - fontSDF

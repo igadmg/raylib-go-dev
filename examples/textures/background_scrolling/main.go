@@ -45,14 +45,14 @@ func main() {
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.RayWhite)
 
-		rl.DrawTextureEx(background, vector2.NewFloat32(scrollBack, 20), 0, 2, rl.White)
-		rl.DrawTextureEx(background, vector2.NewFloat32(float32(background.Width*2)+scrollBack, 20), 0, 2, rl.White)
+		rl.DrawTextureEx(background, vector2.MakeFloat32(scrollBack, 20), 0, 2, rl.White)
+		rl.DrawTextureEx(background, vector2.MakeFloat32(float32(background.Width*2)+scrollBack, 20), 0, 2, rl.White)
 
-		rl.DrawTextureEx(midground, vector2.NewFloat32(scrollMid, 20), 0, 2, rl.White)
-		rl.DrawTextureEx(midground, vector2.NewFloat32(float32(midground.Width*2)+scrollMid, 20), 0, 2, rl.White)
+		rl.DrawTextureEx(midground, vector2.MakeFloat32(scrollMid, 20), 0, 2, rl.White)
+		rl.DrawTextureEx(midground, vector2.MakeFloat32(float32(midground.Width*2)+scrollMid, 20), 0, 2, rl.White)
 
-		rl.DrawTextureEx(foreground, vector2.NewFloat32(scrollFore, 20), 0, 2, rl.White)
-		rl.DrawTextureEx(foreground, vector2.NewFloat32(float32(foreground.Width*2)+scrollFore, 20), 0, 2, rl.White)
+		rl.DrawTextureEx(foreground, vector2.MakeFloat32(scrollFore, 20), 0, 2, rl.White)
+		rl.DrawTextureEx(foreground, vector2.MakeFloat32(float32(foreground.Width*2)+scrollFore, 20), 0, 2, rl.White)
 
 		txt := "BACKGROUND SCROLLING & PARALLAX"
 		txtlen := rl.MeasureText(txt, 20)

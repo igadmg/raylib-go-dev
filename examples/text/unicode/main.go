@@ -96,9 +96,9 @@ func main() {
 		// Draw random emojis in the background
 		for i := int32(0); i < emojiPerWidth*emojiPerHeight; i++ {
 			txt := emojiCodepoints[emoji[i].index : emoji[i].index+4]
-			emojiRect := rect2.NewFloat32(
+			emojiRect := rect2.MakeFloat32(
 				position,
-				vector2.NewFloat32(fontEmoji.BaseSize, fontEmoji.BaseSize),
+				vector2.MakeFloat32(fontEmoji.BaseSize, fontEmoji.BaseSize),
 			)
 
 			if !rl.CheckCollisionPointRec(mouse, emojiRect) {
@@ -144,9 +144,9 @@ func main() {
 				sz.X = 160
 			}
 
-			msgRect := rect2.NewFloat32(
+			msgRect := rect2.MakeFloat32(
 				selectedPos.AddX(-38.8),
-				vector2.NewFloat32(float32(2*horizontalPadding)+sz.X, float32(2*verticalPadding)+sz.Y),
+				vector2.MakeFloat32(float32(2*horizontalPadding)+sz.X, float32(2*verticalPadding)+sz.Y),
 			)
 			msgRect.Position.AddY(-msgRect.Height())
 
@@ -187,7 +187,7 @@ func main() {
 			rl.DrawTriangle(a, b, c, emoji[selected].color)
 
 			// Draw the main text message
-			textRect := rect2.NewFloat32(
+			textRect := rect2.MakeFloat32(
 				msgRect.Position.AddXY(float32(horizontalPadding)/2, float32(verticalPadding)/2),
 				msgRect.Size.AddX(-float32(horizontalPadding)),
 			)

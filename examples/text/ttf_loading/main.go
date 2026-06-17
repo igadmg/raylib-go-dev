@@ -25,7 +25,7 @@ func main() {
 	rl.GenTextureMipmaps(&font.Texture)
 
 	fontSize := font.BaseSize
-	fontPosition := vector2.NewFloat32(40, float32(screenHeight)/2+50)
+	fontPosition := vector2.MakeFloat32(40, float32(screenHeight)/2+50)
 	textSize := vector2.Float32{}
 
 	rl.SetTextureFilter(font.Texture, rl.FilterPoint)

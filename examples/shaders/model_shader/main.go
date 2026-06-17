@@ -16,9 +16,9 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "raylib [shaders] example - model shader")
 
 	camera := rl.Camera{}
-	camera.Position = vector3.NewFloat32(3.0, 3.0, 3.0)
-	camera.Target = vector3.NewFloat32(0.0, 1.5, 0.0)
-	camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
+	camera.Position = vector3.MakeFloat32(3.0, 3.0, 3.0)
+	camera.Target = vector3.MakeFloat32(0.0, 1.5, 0.0)
+	camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0)
 	camera.Fovy = 45.0
 
 	dwarf := rl.LoadModel("dwarf.obj")                                 // Load OBJ model
@@ -28,7 +28,7 @@ func main() {
 	rl.SetMaterialTexture(dwarf.Materials, rl.MapDiffuse, texture)
 	dwarf.Materials.Shader = shader // Set shader effect to 3d model
 
-	position := vector3.NewFloat32(0.0, 0.0, 0.0) // Set model position
+	position := vector3.MakeFloat32(0.0, 0.0, 0.0) // Set model position
 
 	rl.SetTargetFPS(60)
 

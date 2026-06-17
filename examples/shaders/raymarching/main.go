@@ -14,9 +14,9 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "raylib [shaders] example - raymarching")
 
 	camera := rl.Camera{}
-	camera.Position = vector3.NewFloat32(2.5, 2.5, 3.0)
-	camera.Target = vector3.NewFloat32(0.0, 0.0, 0.7)
-	camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
+	camera.Position = vector3.MakeFloat32(2.5, 2.5, 3.0)
+	camera.Target = vector3.MakeFloat32(0.0, 0.0, 0.7)
+	camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0)
 	camera.Fovy = 65.0
 
 	shader := rl.LoadShader("", "raymarching.fs")

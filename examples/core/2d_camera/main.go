@@ -40,8 +40,8 @@ func main() {
 	}
 
 	camera := rl.Camera2D{}
-	camera.Target = vector2.NewFloat32(float32(player.Position.X+20), float32(player.Position.Y+20))
-	camera.Offset = vector2.NewFloat32(float32(screenWidth/2), float32(screenHeight/2))
+	camera.Target = vector2.MakeFloat32(float32(player.Position.X+20), float32(player.Position.Y+20))
+	camera.Offset = vector2.MakeFloat32(float32(screenWidth/2), float32(screenHeight/2))
 	camera.Rotation = 0.0
 	camera.Zoom = 1.0
 
@@ -55,7 +55,7 @@ func main() {
 		}
 
 		// Camera target follows player
-		camera.Target = vector2.NewFloat32(float32(player.Position.X+20), float32(player.Position.Y+20))
+		camera.Target = vector2.MakeFloat32(float32(player.Position.X+20), float32(player.Position.Y+20))
 
 		// Camera rotation controls
 		if rl.IsKeyDown(rl.KeyA) {

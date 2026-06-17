@@ -26,7 +26,7 @@ func main() {
 	physics.SetGravity(0, 0)
 
 	// Create random polygon physics body to shatter
-	physics.NewBodyPolygon(vector2.NewFloat32(screenWidth/2, screenHeight/2), float32(rl.GetRandomValue(80, 200)), int(rl.GetRandomValue(3, 8)), 10)
+	physics.NewBodyPolygon(vector2.MakeFloat32(screenWidth/2, screenHeight/2), float32(rl.GetRandomValue(80, 200)), int(rl.GetRandomValue(3, 8)), 10)
 
 	rl.SetTargetFPS(60)
 
@@ -38,7 +38,7 @@ func main() {
 			physics.Reset()
 
 			// Create random polygon physics body to shatter
-			physics.NewBodyPolygon(vector2.NewFloat32(screenWidth/2, screenHeight/2), float32(rl.GetRandomValue(80, 200)), int(rl.GetRandomValue(3, 8)), 10)
+			physics.NewBodyPolygon(vector2.MakeFloat32(screenWidth/2, screenHeight/2), float32(rl.GetRandomValue(80, 200)), int(rl.GetRandomValue(3, 8)), 10)
 		}
 
 		if rl.IsMouseButtonPressed(rl.MouseLeftButton) {

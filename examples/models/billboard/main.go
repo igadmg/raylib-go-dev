@@ -26,15 +26,15 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "raylib [models] example - drawing billboards")
 
 	camera := rl.Camera{}
-	camera.Position = vector3.NewFloat32(5.0, 4.0, 5.0)
-	camera.Target = vector3.NewFloat32(0.0, 2.0, 0.0)
-	camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
+	camera.Position = vector3.MakeFloat32(5.0, 4.0, 5.0)
+	camera.Target = vector3.MakeFloat32(0.0, 2.0, 0.0)
+	camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0)
 	camera.Fovy = 45.0
 	camera.Projection = rl.CameraPerspective
 
-	bill := rl.LoadTexture("billboard.png")                   // Our texture billboard
-	billPositionStatic := vector3.NewFloat32(0.0, 2.0, 0.0)   // Position of static billboard
-	billPositionRotating := vector3.NewFloat32(1.0, 2.0, 1.0) // Position of rotating billboard
+	bill := rl.LoadTexture("billboard.png")                    // Our texture billboard
+	billPositionStatic := vector3.MakeFloat32(0.0, 2.0, 0.0)   // Position of static billboard
+	billPositionRotating := vector3.MakeFloat32(1.0, 2.0, 1.0) // Position of rotating billboard
 
 	// Entire billboard texture, source is used to take a segment from a larger texture.
 	source := bill.GetRect()

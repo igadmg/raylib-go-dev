@@ -25,9 +25,9 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "raylib [models] example - obj model loading")
 
 	camera := rl.Camera{}
-	camera.Position = vector3.NewFloat32(50.0, 50.0, 50.0)
-	camera.Target = vector3.NewFloat32(0.0, 10.0, 0.0)
-	camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
+	camera.Position = vector3.MakeFloat32(50.0, 50.0, 50.0)
+	camera.Target = vector3.MakeFloat32(0.0, 10.0, 0.0)
+	camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0)
 	camera.Fovy = 45.0
 	camera.Projection = rl.CameraPerspective
 
@@ -36,7 +36,7 @@ func main() {
 
 	rl.SetMaterialTexture(obj.Materials, rl.MapDiffuse, texture) // Set map diffuse texture
 
-	position := vector3.NewFloat32(0.0, 0.0, 0.0) // Set model position
+	position := vector3.MakeFloat32(0.0, 0.0, 0.0) // Set model position
 
 	meshes := unsafe.Slice(obj.Meshes, obj.MeshCount)
 	bounds := rl.GetMeshBoundingBox(meshes[0]) // Set model bounds

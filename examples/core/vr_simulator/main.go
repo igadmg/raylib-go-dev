@@ -83,8 +83,8 @@ func main() {
 	target := rl.LoadRenderTexture(device.HResolution, device.VResolution)
 
 	// The target's height is flipped (in the source Rectangle), due to OpenGL reasons
-	sourceRec := rect2.NewFloat32(vector2.Zero[float32](), vector2.NewFloat32(target.Texture.Width, -target.Texture.Height))
-	destRec := rect2.NewFloat32(vector2.Zero[float32](), rl.GetScreenSize())
+	sourceRec := rect2.MakeFloat32(vector2.Zero[float32](), vector2.MakeFloat32(target.Texture.Width, -target.Texture.Height))
+	destRec := rect2.MakeFloat32(vector2.Zero[float32](), rl.GetScreenSize())
 
 	// Define the camera to look into our 3d world
 

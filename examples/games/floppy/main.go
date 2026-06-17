@@ -144,7 +144,7 @@ func main() {
 func (g *Game) Init() {
 
 	// Gopher
-	g.Floppy = Floppy{vector2.NewFloat32(80, float32(screenHeight)/2-spriteSize/2)}
+	g.Floppy = Floppy{vector2.MakeFloat32(80, float32(screenHeight)/2-spriteSize/2)}
 
 	// Sprite rectangle
 	g.FrameRec = rl.MakeRectangle(0, 0, spriteSize, spriteSize)
@@ -155,7 +155,7 @@ func (g *Game) Init() {
 	// Initialize particles
 	g.Particles = make([]Particle, maxParticles)
 	for i := 0; i < maxParticles; i++ {
-		g.Particles[i].Position = vector2.NewFloat32(0, 0)
+		g.Particles[i].Position = vector2.MakeFloat32(0, 0)
 		g.Particles[i].Color = rl.RayWhite
 		g.Particles[i].Alpha = 1.0
 		g.Particles[i].Size = float32(rl.GetRandomValue(1, 30)) / 20.0
@@ -388,11 +388,11 @@ func (g *Game) Draw() {
 
 	if !g.GameOver {
 		// Draw clouds
-		rl.DrawTextureRec(g.TxClouds, g.CloudRec, vector2.NewFloat32(0, float32(screenHeight-g.TxClouds.Height)), rl.RayWhite)
+		rl.DrawTextureRec(g.TxClouds, g.CloudRec, vector2.MakeFloat32(0, float32(screenHeight-g.TxClouds.Height)), rl.RayWhite)
 
 		// Draw rotated clouds
 		rl.DrawTexturePro(g.TxClouds, rl.MakeRectangle(-g.CloudRec.Position.X, 0, float32(g.TxClouds.Width), float32(g.TxClouds.Height)),
-			rl.MakeRectangle(0, 0, float32(g.TxClouds.Width), float32(g.TxClouds.Height)), vector2.NewFloat32(float32(g.TxClouds.Width), float32(g.TxClouds.Height)), 180, rl.White)
+			rl.MakeRectangle(0, 0, float32(g.TxClouds.Width), float32(g.TxClouds.Height)), vector2.MakeFloat32(float32(g.TxClouds.Width), float32(g.TxClouds.Height)), 180, rl.White)
 
 		// Draw Gopher
 		rl.DrawTextureRec(g.TxSprites, g.FrameRec, g.Floppy.Position, rl.RayWhite)
@@ -405,7 +405,7 @@ func (g *Game) Draw() {
 						g.TxSmoke,
 						rl.MakeRectangle(0, 0, float32(g.TxSmoke.Width), float32(g.TxSmoke.Height)),
 						rl.MakeRectangle(g.Particles[i].Position.X, g.Particles[i].Position.Y, float32(g.TxSmoke.Width)*g.Particles[i].Size, float32(g.TxSmoke.Height)*g.Particles[i].Size),
-						vector2.NewFloat32(float32(g.TxSmoke.Width)*g.Particles[i].Size/2, float32(g.TxSmoke.Height)*g.Particles[i].Size/2),
+						vector2.MakeFloat32(float32(g.TxSmoke.Width)*g.Particles[i].Size/2, float32(g.TxSmoke.Height)*g.Particles[i].Size/2),
 						g.Particles[i].Rotation,
 						rl.Fade(g.Particles[i].Color, g.Particles[i].Alpha),
 					)
@@ -448,7 +448,7 @@ func (g *Game) Draw() {
 		}
 
 		// Draw Gopher
-		rl.DrawTextureRec(g.TxSprites, g.FrameRec, vector2.NewFloat32(float32(rl.GetScreenWidth()/2-spriteSize/2), float32(rl.GetScreenHeight()/2)), rl.RayWhite)
+		rl.DrawTextureRec(g.TxSprites, g.FrameRec, vector2.MakeFloat32(float32(rl.GetScreenWidth()/2-spriteSize/2), float32(rl.GetScreenHeight()/2)), rl.RayWhite)
 	}
 
 	rl.EndDrawing()

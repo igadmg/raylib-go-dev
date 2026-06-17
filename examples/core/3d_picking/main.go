@@ -12,14 +12,14 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "raylib [core] example - 3d picking")
 
 	camera := rl.Camera3D{}
-	camera.Position = vector3.NewFloat32(10.0, 10.0, 10.0)
-	camera.Target = vector3.NewFloat32(0.0, 0.0, 0.0)
-	camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
+	camera.Position = vector3.MakeFloat32(10.0, 10.0, 10.0)
+	camera.Target = vector3.MakeFloat32(0.0, 0.0, 0.0)
+	camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0)
 	camera.Fovy = 45.0
 	camera.Projection = rl.CameraPerspective
 
-	cubePosition := vector3.NewFloat32(0.0, 1.0, 0.0)
-	cubeSize := vector3.NewFloat32(2.0, 2.0, 2.0)
+	cubePosition := vector3.MakeFloat32(0.0, 1.0, 0.0)
+	cubeSize := vector3.MakeFloat32(2.0, 2.0, 2.0)
 
 	var ray rl.Ray
 	var collision rl.RayCollision
@@ -34,8 +34,8 @@ func main() {
 				ray = rl.GetMouseRay(rl.GetMousePosition(), camera)
 
 				// Check collision between ray and box
-				min := vector3.NewFloat32(cubePosition.X-cubeSize.X/2, cubePosition.Y-cubeSize.Y/2, cubePosition.Z-cubeSize.Z/2)
-				max := vector3.NewFloat32(cubePosition.X+cubeSize.X/2, cubePosition.Y+cubeSize.Y/2, cubePosition.Z+cubeSize.Z/2)
+				min := vector3.MakeFloat32(cubePosition.X-cubeSize.X/2, cubePosition.Y-cubeSize.Y/2, cubePosition.Z-cubeSize.Z/2)
+				max := vector3.MakeFloat32(cubePosition.X+cubeSize.X/2, cubePosition.Y+cubeSize.Y/2, cubePosition.Z+cubeSize.Z/2)
 				collision = rl.GetRayCollisionBox(ray, rl.MakeBoundingBox(min, max))
 			} else {
 				collision.Hit = false

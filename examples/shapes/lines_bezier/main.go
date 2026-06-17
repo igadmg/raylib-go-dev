@@ -11,8 +11,8 @@ func main() {
 
 	rl.InitWindow(screenWidth, screenHeight, "raylib [shapes] example - cubic-bezier lines")
 
-	start := vector2.NewFloat32(0, 0)
-	end := vector2.NewFloat32(float32(screenWidth), float32(screenHeight))
+	start := vector2.MakeFloat32(0, 0)
+	end := vector2.MakeFloat32(float32(screenWidth), float32(screenHeight))
 
 	rl.SetTargetFPS(60)
 

@@ -34,14 +34,14 @@ func main() {
 
 	// Define the camera to look into our 3d world
 	camera := rl.Camera{
-		Position:   vector3.NewFloat32(1.5, 1.5, 1.5),
-		Target:     vector3.NewFloat32(0.0, 0.4, 0.0),
-		Up:         vector3.NewFloat32(0.0, 1.0, 0.0),
+		Position:   vector3.MakeFloat32(1.5, 1.5, 1.5),
+		Target:     vector3.MakeFloat32(0.0, 0.4, 0.0),
+		Up:         vector3.MakeFloat32(0.0, 1.0, 0.0),
 		Fovy:       45.0,
 		Projection: rl.CameraPerspective,
 	}
 
-	position := vector3.NewFloat32(0.0, 0.0, 0.0)
+	position := vector3.MakeFloat32(0.0, 0.0, 0.0)
 
 	modelFileName := "cesium_man.m3d"
 	drawMesh := true

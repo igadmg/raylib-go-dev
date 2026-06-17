@@ -87,7 +87,7 @@ func main() {
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.RayWhite)
 
-		rl.DrawRectanglePro(rec, vector2.NewFloat32(rec.Size.X/2, rec.Size.Y/2), rotation, rl.Fade(rl.Black, alpha))
+		rl.DrawRectanglePro(rec, vector2.MakeFloat32(rec.Size.X/2, rec.Size.Y/2), rotation, rl.Fade(rl.Black, alpha))
 
 		if state == 5 {
 			txtlen := rl.MeasureText("SPACE to replay", 20)

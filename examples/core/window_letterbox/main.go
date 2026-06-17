@@ -46,7 +46,7 @@ func main() {
 			X: (mouse.X - (float32(rl.GetScreenWidth())-(float32(gameScreenWidth)*scale))*0.5) / scale,
 			Y: (mouse.Y - (float32(rl.GetScreenHeight())-(float32(gameScreenHeight)*scale))*0.5) / scale,
 		}
-		virtualMouse = virtualMouse.Clamp0V(vector2.NewFloat32(gameScreenWidth, gameScreenHeight))
+		virtualMouse = virtualMouse.Clamp0V(vector2.MakeFloat32(gameScreenWidth, gameScreenHeight))
 
 		// Apply the same transformation as the virtual mouse to the real mouse (i.e. to work with raygui)
 		//rl.SetMouseOffset(
@@ -77,10 +77,10 @@ func main() {
 		// Draw render texture to screen, properly scaled
 		rl.DrawTexturePro(
 			target.Texture,
-			rect2.NewFloat32(vector2.Zero[float32](), vector2.NewFloat32(target.Texture.Width, -target.Texture.Height)),
-			rect2.NewFloat32(
+			rect2.MakeFloat32(vector2.Zero[float32](), vector2.MakeFloat32(target.Texture.Width, -target.Texture.Height)),
+			rect2.MakeFloat32(
 				rl.GetScreenSize().ToFloat32().SubXY(float32(gameScreenWidth)*scale*0.5, float32(gameScreenHeight)*scale*0.5),
-				vector2.NewFloat32(float32(gameScreenWidth)*scale, float32(gameScreenHeight)*scale),
+				vector2.MakeFloat32(float32(gameScreenWidth)*scale, float32(gameScreenHeight)*scale),
 			),
 			vector2.Float32{X: 0, Y: 0}, 0, rl.White,
 		)

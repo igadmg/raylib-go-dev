@@ -24,7 +24,7 @@ func main() {
 	destRec := rl.MakeRectangle(float32(screenWidth)/2, float32(screenHeight)/2, frameWidth*2, frameHeight*2)
 
 	// NOTE: Origin of the texture (rotation/scale point), it's relative to destination rectangle size
-	origin := vector2.NewFloat32(float32(frameWidth), float32(frameHeight))
+	origin := vector2.MakeFloat32(float32(frameWidth), float32(frameHeight))
 
 	rotation := float32(0)
 

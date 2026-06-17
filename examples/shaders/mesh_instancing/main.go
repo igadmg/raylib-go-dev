@@ -29,9 +29,9 @@ func main() {
 
 	// Define the camera to look into our 3d world
 	camera := rl.Camera{
-		Position:   vector3.NewFloat32(-125.0, 125.0, -125.0),
-		Target:     vector3.NewFloat32(0.0, 0.0, 0.0),
-		Up:         vector3.NewFloat32(0.0, 1.0, 0.0),
+		Position:   vector3.MakeFloat32(-125.0, 125.0, -125.0),
+		Target:     vector3.MakeFloat32(0.0, 0.0, 0.0),
+		Up:         vector3.MakeFloat32(0.0, 1.0, 0.0),
 		Fovy:       45.0,
 		Projection: rl.CameraPerspective,
 	}
@@ -52,7 +52,7 @@ func main() {
 		x = float32(rl.GetRandomValue(0, 360))
 		y = float32(rl.GetRandomValue(0, 360))
 		z = float32(rl.GetRandomValue(0, 360))
-		axis := vector3.NewFloat32(x, y, z).Normalized()
+		axis := vector3.MakeFloat32(x, y, z).Normalized()
 		angle := float32(rl.GetRandomValue(0, 10)) * rl.Deg2rad
 
 		rotationsInc[i] = rl.MatrixRotate(axis, angle)
@@ -69,7 +69,7 @@ func main() {
 	// ambient light level
 	ambientLoc := rl.GetShaderLocation(shader, "ambient")
 	rl.SetShaderValueA(shader, ambientLoc, []float32{0.2, 0.2, 0.2, 1.0}, rl.ShaderUniformVec4)
-	NewLight(LightTypeDirectional, vector3.NewFloat32(50.0, 50.0, 0.0), vector3.Zero[float32](), rl.White, shader)
+	NewLight(LightTypeDirectional, vector3.MakeFloat32(50.0, 50.0, 0.0), vector3.Zero[float32](), rl.White, shader)
 
 	material := rl.LoadMaterialDefault()
 	material.Shader = shader

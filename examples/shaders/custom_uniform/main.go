@@ -15,9 +15,9 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "raylib [shaders] example - custom uniform variable")
 
 	camera := rl.Camera{}
-	camera.Position = vector3.NewFloat32(8.0, 8.0, 8.0)
-	camera.Target = vector3.NewFloat32(0.0, 1.5, 0.0)
-	camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
+	camera.Position = vector3.MakeFloat32(8.0, 8.0, 8.0)
+	camera.Target = vector3.MakeFloat32(0.0, 1.5, 0.0)
+	camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0)
 	camera.Fovy = 45.0
 	camera.Projection = rl.CameraPerspective
 
@@ -26,7 +26,7 @@ func main() {
 
 	rl.SetMaterialTexture(obj.Materials, rl.MapDiffuse, texture) // Set obj model diffuse texture
 
-	position := vector3.NewFloat32(0.0, 0.0, 0.0) // Set model position
+	position := vector3.MakeFloat32(0.0, 0.0, 0.0) // Set model position
 
 	shader := rl.LoadShader("", "glsl330/swirl.fs")
 
@@ -82,7 +82,7 @@ func main() {
 		rl.BeginShaderMode(shader)
 
 		// NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
-		rl.DrawTextureRec(target.Texture, rl.MakeRectangle(0, 0, float32(target.Texture.Width), float32(-target.Texture.Height)), vector2.NewFloat32(0, 0), rl.White)
+		rl.DrawTextureRec(target.Texture, rl.MakeRectangle(0, 0, float32(target.Texture.Width), float32(-target.Texture.Height)), vector2.MakeFloat32(0, 0), rl.White)
 
 		rl.EndShaderMode()
 

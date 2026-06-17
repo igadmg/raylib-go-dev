@@ -68,7 +68,7 @@ func main() {
 
 		if mouseScaleReady {
 			rl.DrawRectangleLinesEx(rec, 1, rl.Red)
-			rl.DrawTriangle(vector2.NewFloat32(rec.Position.X+rec.Size.X-mouseScaleMarkSize, rec.Position.Y+rec.Size.Y), vector2.NewFloat32(rec.Position.X+rec.Size.X, rec.Position.Y+rec.Size.Y), vector2.NewFloat32(rec.Position.X+rec.Size.X, rec.Position.Y+rec.Size.Y-mouseScaleMarkSize), rl.Red)
+			rl.DrawTriangle(vector2.MakeFloat32(rec.Position.X+rec.Size.X-mouseScaleMarkSize, rec.Position.Y+rec.Size.Y), vector2.MakeFloat32(rec.Position.X+rec.Size.X, rec.Position.Y+rec.Size.Y), vector2.MakeFloat32(rec.Position.X+rec.Size.X, rec.Position.Y+rec.Size.Y-mouseScaleMarkSize), rl.Red)
 		}
 
 		rl.EndDrawing()

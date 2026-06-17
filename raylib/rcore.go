@@ -507,7 +507,7 @@ func GetScreenHeight() int {
 }
 
 func GetScreenSize() vector2.Int {
-	return vector2.NewInt(
+	return vector2.MakeInt(
 		GetScreenWidth(),
 		GetScreenHeight(),
 	)
@@ -528,7 +528,7 @@ func GetRenderHeight() int {
 }
 
 func GetRenderSize() vector2.Int {
-	return vector2.NewInt(
+	return vector2.MakeInt(
 		GetRenderWidth(),
 		GetRenderHeight(),
 	)
@@ -981,7 +981,7 @@ func ColorToInt(col colorex.RGBA) int32 {
 
 // ColorNormalize - Returns color normalized as float [0..1]
 func ColorNormalize(col colorex.RGBA) vector4.Float32 {
-	return vector4.NewFloat32(
+	return vector4.MakeFloat32(
 		float32(col.R)/255,
 		float32(col.G)/255,
 		float32(col.B)/255,

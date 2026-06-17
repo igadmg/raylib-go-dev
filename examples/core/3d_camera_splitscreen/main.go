@@ -68,12 +68,12 @@ func main() {
 		rl.ClearBackground(rl.SkyBlue)
 		rl.BeginMode3D(cam1)
 
-		rl.DrawPlane(vector3.Zero[float32](), vector2.NewFloat32(50, 50), rl.Beige)
+		rl.DrawPlane(vector3.Zero[float32](), vector2.MakeFloat32(50, 50), rl.Beige)
 
 		for x := -count * spacing; x <= count*spacing; x += spacing {
 			for z := -count * spacing; z <= count*spacing; z += spacing {
-				rl.DrawCube(vector3.NewFloat32(x-0.5, 1.5, z), 1, 1, 1, rl.Lime)
-				rl.DrawCube(vector3.NewFloat32(x-0.5, 0.5, z), 0.25, 1, 0.25, rl.Brown)
+				rl.DrawCube(vector3.MakeFloat32(x-0.5, 1.5, z), 1, 1, 1, rl.Lime)
+				rl.DrawCube(vector3.MakeFloat32(x-0.5, 0.5, z), 0.25, 1, 0.25, rl.Brown)
 			}
 		}
 
@@ -91,12 +91,12 @@ func main() {
 		rl.ClearBackground(rl.SkyBlue)
 		rl.BeginMode3D(cam2)
 
-		rl.DrawPlane(vector3.Zero[float32](), vector2.NewFloat32(50, 50), rl.Beige)
+		rl.DrawPlane(vector3.Zero[float32](), vector2.MakeFloat32(50, 50), rl.Beige)
 
 		for x := -count * spacing; x <= count*spacing; x += spacing {
 			for z := -count * spacing; z <= count*spacing; z += spacing {
-				rl.DrawCube(vector3.NewFloat32(x, 1.5, z), 1, 1, 1, rl.Lime)
-				rl.DrawCube(vector3.NewFloat32(x, 0.5, z), 0.25, 1, 0.25, rl.Brown)
+				rl.DrawCube(vector3.MakeFloat32(x, 1.5, z), 1, 1, 1, rl.Lime)
+				rl.DrawCube(vector3.MakeFloat32(x, 0.5, z), 0.25, 1, 0.25, rl.Brown)
 			}
 		}
 
@@ -113,8 +113,8 @@ func main() {
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.Black)
 
-		rl.DrawTextureRec(screenCam1.Texture, splitScreenRec, vector2.NewFloat32(0, 0), rl.White)
-		rl.DrawTextureRec(screenCam2.Texture, splitScreenRec, vector2.NewFloat32(float32(screenW/2), 0), rl.White)
+		rl.DrawTextureRec(screenCam1.Texture, splitScreenRec, vector2.MakeFloat32(0, 0), rl.White)
+		rl.DrawTextureRec(screenCam2.Texture, splitScreenRec, vector2.MakeFloat32(float32(screenW/2), 0), rl.White)
 		rl.DrawRectangle((screenW/2)-2, 0, 4, screenH, rl.LightGray)
 
 		rl.EndDrawing()

@@ -101,7 +101,7 @@ func main() {
 
 		toggleGroupActive int32 = 0
 
-		viewScroll = vector2.NewFloat32(0, 0)
+		viewScroll = vector2.MakeFloat32(0, 0)
 
 		//----------------------------------------------------------------------------------
 

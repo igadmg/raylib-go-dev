@@ -49,8 +49,8 @@ func main() {
 		panelRec        = rl.MakeRectangle(20, 40, 200, 150)
 		panelContentRec = rl.MakeRectangle(0, 0, 340, 340)
 		panelView       = rl.MakeRectangle(0, 0, 0, 0)
-		panelScroll     = vector2.NewFloat32(99, -20)
-		mouseCell       = vector2.NewFloat32(0, 0)
+		panelScroll     = vector2.MakeFloat32(99, -20)
+		mouseCell       = vector2.MakeFloat32(0, 0)
 
 		showContentArea = true
 	)

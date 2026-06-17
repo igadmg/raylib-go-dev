@@ -80,9 +80,9 @@ func (g *Game) Init() {
 	g.Snake = make([]Snake, snakeLength)
 
 	for i := 0; i < snakeLength; i++ {
-		g.Snake[i].Position = vector2.NewFloat32(g.Offset.X/2, g.Offset.Y/2)
-		g.Snake[i].Size = vector2.NewFloat32(squareSize, squareSize)
-		g.Snake[i].Speed = vector2.NewFloat32(squareSize, 0)
+		g.Snake[i].Position = vector2.MakeFloat32(g.Offset.X/2, g.Offset.Y/2)
+		g.Snake[i].Size = vector2.MakeFloat32(squareSize, squareSize)
+		g.Snake[i].Speed = vector2.MakeFloat32(squareSize, 0)
 
 		if i == 0 {
 			g.Snake[i].Color = rl.DarkBlue
@@ -94,10 +94,10 @@ func (g *Game) Init() {
 	g.SnakePosition = make([]vector2.Float32, snakeLength)
 
 	for i := 0; i < snakeLength; i++ {
-		g.SnakePosition[i] = vector2.NewFloat32(0.0, 0.0)
+		g.SnakePosition[i] = vector2.MakeFloat32(0.0, 0.0)
 	}
 
-	g.Fruit.Size = vector2.NewFloat32(squareSize, squareSize)
+	g.Fruit.Size = vector2.MakeFloat32(squareSize, squareSize)
 	g.Fruit.Color = rl.SkyBlue
 	g.Fruit.Active = false
 }
@@ -112,19 +112,19 @@ func (g *Game) Update() {
 		if !g.Pause {
 			// control
 			if rl.IsKeyPressed(rl.KeyRight) && g.Snake[0].Speed.X == 0 && g.AllowMove {
-				g.Snake[0].Speed = vector2.NewFloat32(squareSize, 0)
+				g.Snake[0].Speed = vector2.MakeFloat32(squareSize, 0)
 				g.AllowMove = false
 			}
 			if rl.IsKeyPressed(rl.KeyLeft) && g.Snake[0].Speed.X == 0 && g.AllowMove {
-				g.Snake[0].Speed = vector2.NewFloat32(-squareSize, 0)
+				g.Snake[0].Speed = vector2.MakeFloat32(-squareSize, 0)
 				g.AllowMove = false
 			}
 			if rl.IsKeyPressed(rl.KeyUp) && g.Snake[0].Speed.Y == 0 && g.AllowMove {
-				g.Snake[0].Speed = vector2.NewFloat32(0, -squareSize)
+				g.Snake[0].Speed = vector2.MakeFloat32(0, -squareSize)
 				g.AllowMove = false
 			}
 			if rl.IsKeyPressed(rl.KeyDown) && g.Snake[0].Speed.Y == 0 && g.AllowMove {
-				g.Snake[0].Speed = vector2.NewFloat32(0, squareSize)
+				g.Snake[0].Speed = vector2.MakeFloat32(0, squareSize)
 				g.AllowMove = false
 			}
 
@@ -161,14 +161,14 @@ func (g *Game) Update() {
 
 			if !g.Fruit.Active {
 				g.Fruit.Active = true
-				g.Fruit.Position = vector2.NewFloat32(
+				g.Fruit.Position = vector2.MakeFloat32(
 					float32(rl.GetRandomValue(0, (g.ScreenWidth/squareSize)-1)*squareSize)+(g.Offset.X)/2,
 					float32(rl.GetRandomValue(0, (g.ScreenHeight/squareSize)-1)*squareSize)+(g.Offset.Y)/2,
 				)
 
 				for i := 0; i < g.CounterTail; i++ {
 					for (g.Fruit.Position.X == g.Snake[i].Position.X) && (g.Fruit.Position.Y == g.Snake[i].Position.Y) {
-						g.Fruit.Position = vector2.NewFloat32(
+						g.Fruit.Position = vector2.MakeFloat32(
 							float32(rl.GetRandomValue(0, (g.ScreenWidth/squareSize)-1)*squareSize)+g.Offset.X/2,
 							float32(rl.GetRandomValue(0, (g.ScreenHeight/squareSize)-1)*squareSize)+g.Offset.Y/2,
 						)
@@ -207,16 +207,16 @@ func (g *Game) Draw() {
 		// Draw grid lines
 		for i := int32(0); i < g.ScreenWidth/squareSize+1; i++ {
 			rl.DrawLineV(
-				vector2.NewFloat32(float32(squareSize*i)+g.Offset.X/2, g.Offset.Y/2),
-				vector2.NewFloat32(float32(squareSize*i)+g.Offset.X/2, float32(g.ScreenHeight)-g.Offset.Y/2),
+				vector2.MakeFloat32(float32(squareSize*i)+g.Offset.X/2, g.Offset.Y/2),
+				vector2.MakeFloat32(float32(squareSize*i)+g.Offset.X/2, float32(g.ScreenHeight)-g.Offset.Y/2),
 				rl.LightGray,
 			)
 		}
 
 		for i := int32(0); i < g.ScreenHeight/squareSize+1; i++ {
 			rl.DrawLineV(
-				vector2.NewFloat32(g.Offset.X/2, float32(squareSize*i)+g.Offset.Y/2),
-				vector2.NewFloat32(float32(g.ScreenWidth)-g.Offset.X/2, float32(squareSize*i)+g.Offset.Y/2),
+				vector2.MakeFloat32(g.Offset.X/2, float32(squareSize*i)+g.Offset.Y/2),
+				vector2.MakeFloat32(float32(g.ScreenWidth)-g.Offset.X/2, float32(squareSize*i)+g.Offset.Y/2),
 				rl.LightGray,
 			)
 		}

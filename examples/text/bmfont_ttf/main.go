@@ -31,7 +31,7 @@ func main() {
 		rl.ClearBackground(rl.RayWhite)
 
 		rl.DrawTextEx(fontBm, msgBm, fontPosition, float32(fontBm.BaseSize), 0, rl.Maroon)
-		rl.DrawTextEx(fontTtf, msgTtf, vector2.NewFloat32(75.0, 240.0), float32(fontTtf.BaseSize)*0.8, 2, rl.Lime)
+		rl.DrawTextEx(fontTtf, msgTtf, vector2.MakeFloat32(75.0, 240.0), float32(fontTtf.BaseSize)*0.8, 2, rl.Lime)
 
 		rl.EndDrawing()
 	}

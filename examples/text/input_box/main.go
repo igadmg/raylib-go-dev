@@ -33,9 +33,9 @@ func main() {
 	var letterCount, framesCounter int32
 	var mouseOnText bool
 
-	textBox := rect2.NewFloat32(
-		vector2.NewFloat32(screenWidth/2.0-100, 180),
-		vector2.NewFloat32(225, 50),
+	textBox := rect2.MakeFloat32(
+		vector2.MakeFloat32(screenWidth/2.0-100, 180),
+		vector2.MakeFloat32(225, 50),
 	)
 
 	rl.SetTargetFPS(60) // Set our game to run at 60 frames-per-second

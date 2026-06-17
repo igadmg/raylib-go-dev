@@ -22,7 +22,7 @@ func main() {
 	finalPositionX := startPositionX * 3
 	currentPositionX := startPositionX
 
-	ballPosition := vector2.NewFloat32(startPositionX, float32(screenHeight)/2)
+	ballPosition := vector2.MakeFloat32(startPositionX, float32(screenHeight)/2)
 
 	comboActive := int32(0)
 	comboLastActive := int32(0)

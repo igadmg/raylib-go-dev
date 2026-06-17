@@ -12,9 +12,9 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "raylib [shaders] example - texture tiling")
 
 	cam := rl.Camera3D{}
-	cam.Position = vector3.NewFloat32(4, 4, 4)
-	cam.Target = vector3.NewFloat32(0, 0.5, 0)
-	cam.Up = vector3.NewFloat32(0, 1, 0)
+	cam.Position = vector3.MakeFloat32(4, 4, 4)
+	cam.Target = vector3.MakeFloat32(0, 0.5, 0)
+	cam.Up = vector3.MakeFloat32(0, 1, 0)
 	cam.Fovy = 45
 	cam.Projection = rl.CameraPerspective
 
@@ -38,7 +38,7 @@ func main() {
 		rl.UpdateCamera(&cam, rl.CameraOrbital)
 
 		if rl.IsKeyPressed(rl.KeyZ) {
-			cam.Target = vector3.NewFloat32(0, 0.5, 0)
+			cam.Target = vector3.MakeFloat32(0, 0.5, 0)
 		}
 
 		rl.BeginDrawing()

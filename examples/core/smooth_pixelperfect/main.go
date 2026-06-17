@@ -33,7 +33,7 @@ func main() {
 	sourceRec := rl.MakeRectangle(0, 0, float32(target.Texture.Width), -float32(target.Texture.Height))
 	destRec := rl.MakeRectangle(-virtualRatio, -virtualRatio, float32(screenW)+(virtualRatio*2), float32(screenH)+(virtualRatio*2))
 
-	origin := vector2.NewFloat32(0, 0)
+	origin := vector2.MakeFloat32(0, 0)
 
 	rotation, camX, camY := float32(0), float32(0), float32(0)
 
@@ -46,7 +46,7 @@ func main() {
 		camX = float32(math.Sin(rl.GetTime()) * 50)
 		camY = float32(math.Cos(rl.GetTime()) * 30)
 
-		screenSpaceCam.Target = vector2.NewFloat32(camX, camY)
+		screenSpaceCam.Target = vector2.MakeFloat32(camX, camY)
 
 		worldSpaceCam.Target.X = screenSpaceCam.Target.X
 		screenSpaceCam.Target.X -= worldSpaceCam.Target.X

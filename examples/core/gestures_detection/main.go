@@ -15,7 +15,7 @@ func main() {
 
 	rl.InitWindow(screenWidth, screenHeight, "raylib [core] example - gestures detection")
 
-	touchPosition := vector2.NewFloat32(0, 0)
+	touchPosition := vector2.MakeFloat32(0, 0)
 	touchArea := rl.MakeRectangle(220, 10, float32(screenWidth)-230, float32(screenHeight)-20)
 
 	gestureStrings := make([]string, 0)

@@ -102,7 +102,7 @@ func main() {
 		rl.PopMatrix()
 
 		// Some reference elements (not affected by previous matrix transformations)
-		rl.DrawCircle3D(vector3.Float32{}, earthOrbitRadius, vector3.NewFloat32(1, 0, 0), 90.0, rl.Fade(rl.Red, 0.5))
+		rl.DrawCircle3D(vector3.Float32{}, earthOrbitRadius, vector3.MakeFloat32(1, 0, 0), 90.0, rl.Fade(rl.Red, 0.5))
 		rl.DrawGrid(20, 1.0)
 
 		rl.EndMode3D()

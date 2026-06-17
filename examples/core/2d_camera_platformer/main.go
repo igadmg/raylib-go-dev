@@ -40,17 +40,17 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "raylib [core] example - 2d camera platformer")
 
 	player := Player{
-		position: vector2.NewFloat32(400, 280),
+		position: vector2.MakeFloat32(400, 280),
 		speed:    0,
 		canJump:  false,
 	}
 
 	envItems := []EnvironmentItem{
-		{rect: rect2.NewFloat32(vector2.Zero[float32](), vector2.NewFloat32(1000, 400)), blocking: false, color: rl.LightGray},
-		{rect: rect2.NewFloat32(vector2.NewFloat32(0, 400), vector2.NewFloat32(1000, 200)), blocking: true, color: rl.Gray},
-		{rect: rect2.NewFloat32(vector2.NewFloat32(300, 200), vector2.NewFloat32(400, 10)), blocking: true, color: rl.Gray},
-		{rect: rect2.NewFloat32(vector2.NewFloat32(250, 300), vector2.NewFloat32(100, 10)), blocking: true, color: rl.Gray},
-		{rect: rect2.NewFloat32(vector2.NewFloat32(650, 300), vector2.NewFloat32(100, 10)), blocking: true, color: rl.Gray},
+		{rect: rect2.MakeFloat32(vector2.Zero[float32](), vector2.MakeFloat32(1000, 400)), blocking: false, color: rl.LightGray},
+		{rect: rect2.MakeFloat32(vector2.MakeFloat32(0, 400), vector2.MakeFloat32(1000, 200)), blocking: true, color: rl.Gray},
+		{rect: rect2.MakeFloat32(vector2.MakeFloat32(300, 200), vector2.MakeFloat32(400, 10)), blocking: true, color: rl.Gray},
+		{rect: rect2.MakeFloat32(vector2.MakeFloat32(250, 300), vector2.MakeFloat32(100, 10)), blocking: true, color: rl.Gray},
+		{rect: rect2.MakeFloat32(vector2.MakeFloat32(650, 300), vector2.MakeFloat32(100, 10)), blocking: true, color: rl.Gray},
 	}
 
 	camera := rl.Camera2D{
@@ -103,9 +103,9 @@ func main() {
 			rl.DrawRectangleRec(item.rect, item.color)
 		}
 
-		playerRect := rect2.NewFloat32(
+		playerRect := rect2.MakeFloat32(
 			player.position.SubXY(20, 40),
-			vector2.NewFloat32(40, 40),
+			vector2.MakeFloat32(40, 40),
 		)
 		rl.DrawRectangleRec(playerRect, rl.Red)
 		rl.DrawCircleV(player.position, 5, rl.Gold)

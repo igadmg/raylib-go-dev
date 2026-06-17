@@ -165,7 +165,7 @@ func main() {
 		rl.ClearBackground(rl.RayWhite)
 
 		// NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
-		rl.DrawTextureRec(target.Texture, rl.MakeRectangle(0, 0, float32(target.Texture.Width), float32(-target.Texture.Height)), vector2.NewFloat32(0, 0), rl.White)
+		rl.DrawTextureRec(target.Texture, rl.MakeRectangle(0, 0, float32(target.Texture.Width), float32(-target.Texture.Height)), vector2.MakeFloat32(0, 0), rl.White)
 
 		if mousePos.Y > 50 {
 			if rl.IsMouseButtonDown(rl.MouseRightButton) {

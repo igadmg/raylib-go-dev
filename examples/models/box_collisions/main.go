@@ -12,20 +12,20 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "raylib [models] example - box collisions")
 
 	camera := rl.Camera{}
-	camera.Position = vector3.NewFloat32(0.0, 10.0, 10.0)
-	camera.Target = vector3.NewFloat32(0.0, 0.0, 0.0)
-	camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
+	camera.Position = vector3.MakeFloat32(0.0, 10.0, 10.0)
+	camera.Target = vector3.MakeFloat32(0.0, 0.0, 0.0)
+	camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0)
 	camera.Fovy = 45.0
 	camera.Projection = rl.CameraPerspective
 
-	playerPosition := vector3.NewFloat32(0.0, 1.0, 2.0)
-	playerSize := vector3.NewFloat32(1.0, 2.0, 1.0)
+	playerPosition := vector3.MakeFloat32(0.0, 1.0, 2.0)
+	playerSize := vector3.MakeFloat32(1.0, 2.0, 1.0)
 	playerColor := rl.Green
 
-	enemyBoxPos := vector3.NewFloat32(-4.0, 1.0, 0.0)
-	enemyBoxSize := vector3.NewFloat32(2.0, 2.0, 2.0)
+	enemyBoxPos := vector3.MakeFloat32(-4.0, 1.0, 0.0)
+	enemyBoxSize := vector3.MakeFloat32(2.0, 2.0, 2.0)
 
-	enemySpherePos := vector3.NewFloat32(4.0, 0.0, 0.0)
+	enemySpherePos := vector3.MakeFloat32(4.0, 0.0, 0.0)
 	enemySphereSize := float32(1.5)
 
 	collision := false
@@ -51,11 +51,11 @@ func main() {
 		// Check collisions player vs enemy-box
 		if rl.CheckCollisionBoxes(
 			rl.MakeBoundingBox(
-				vector3.NewFloat32(playerPosition.X-playerSize.X/2, playerPosition.Y-playerSize.Y/2, playerPosition.Z-playerSize.Z/2),
-				vector3.NewFloat32(playerPosition.X+playerSize.X/2, playerPosition.Y+playerSize.Y/2, playerPosition.Z+playerSize.Z/2)),
+				vector3.MakeFloat32(playerPosition.X-playerSize.X/2, playerPosition.Y-playerSize.Y/2, playerPosition.Z-playerSize.Z/2),
+				vector3.MakeFloat32(playerPosition.X+playerSize.X/2, playerPosition.Y+playerSize.Y/2, playerPosition.Z+playerSize.Z/2)),
 			rl.MakeBoundingBox(
-				vector3.NewFloat32(enemyBoxPos.X-enemyBoxSize.X/2, enemyBoxPos.Y-enemyBoxSize.Y/2, enemyBoxPos.Z-enemyBoxSize.Z/2),
-				vector3.NewFloat32(enemyBoxPos.X+enemyBoxSize.X/2, enemyBoxPos.Y+enemyBoxSize.Y/2, enemyBoxPos.Z+enemyBoxSize.Z/2)),
+				vector3.MakeFloat32(enemyBoxPos.X-enemyBoxSize.X/2, enemyBoxPos.Y-enemyBoxSize.Y/2, enemyBoxPos.Z-enemyBoxSize.Z/2),
+				vector3.MakeFloat32(enemyBoxPos.X+enemyBoxSize.X/2, enemyBoxPos.Y+enemyBoxSize.Y/2, enemyBoxPos.Z+enemyBoxSize.Z/2)),
 		) {
 			collision = true
 		}
@@ -63,8 +63,8 @@ func main() {
 		// Check collisions player vs enemy-sphere
 		if rl.CheckCollisionBoxSphere(
 			rl.MakeBoundingBox(
-				vector3.NewFloat32(playerPosition.X-playerSize.X/2, playerPosition.Y-playerSize.Y/2, playerPosition.Z-playerSize.Z/2),
-				vector3.NewFloat32(playerPosition.X+playerSize.X/2, playerPosition.Y+playerSize.Y/2, playerPosition.Z+playerSize.Z/2)),
+				vector3.MakeFloat32(playerPosition.X-playerSize.X/2, playerPosition.Y-playerSize.Y/2, playerPosition.Z-playerSize.Z/2),
+				vector3.MakeFloat32(playerPosition.X+playerSize.X/2, playerPosition.Y+playerSize.Y/2, playerPosition.Z+playerSize.Z/2)),
 			enemySpherePos,
 			enemySphereSize,
 		) {

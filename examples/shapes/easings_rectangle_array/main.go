@@ -80,7 +80,7 @@ func main() {
 
 		if state == 0 {
 			for i := 0; i < maxRecsX*maxRecsY; i++ {
-				rl.DrawRectanglePro(recs[i], vector2.NewFloat32(recs[i].Size.X/2, recs[i].Size.Y/2), rotation, rl.Red)
+				rl.DrawRectanglePro(recs[i], vector2.MakeFloat32(recs[i].Size.X/2, recs[i].Size.Y/2), rotation, rl.Red)
 			}
 		} else if state == 1 {
 			txtlen := rl.MeasureText("SPACE to replay", 20)

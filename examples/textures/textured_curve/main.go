@@ -31,11 +31,11 @@ func main() {
 	texRoad = rl.LoadTexture("road.png")
 	rl.SetTextureFilter(texRoad, rl.TextureFilterMode(rl.FilterBilinear))
 
-	curveStartPos = vector2.NewFloat32(80, 100)
-	curveStartPosTangent = vector2.NewFloat32(100, 300)
+	curveStartPos = vector2.MakeFloat32(80, 100)
+	curveStartPosTangent = vector2.MakeFloat32(100, 300)
 
-	curveEndPos = vector2.NewFloat32(700, 350)
-	curveEndPosTangent = vector2.NewFloat32(600, 100)
+	curveEndPos = vector2.MakeFloat32(700, 350)
+	curveEndPosTangent = vector2.MakeFloat32(600, 100)
 
 	rl.SetTargetFPS(60)
 
@@ -128,8 +128,8 @@ func drawTexturedCurve() {
 		current.Y = a*curveStartPos.Y + b*curveStartPosTangent.Y + c*curveEndPosTangent.Y + d*curveEndPos.Y
 		current.X = a*curveStartPos.X + b*curveStartPosTangent.X + c*curveEndPosTangent.X + d*curveEndPos.X
 
-		delta := vector2.NewFloat32(current.X-previous.X, current.Y-previous.Y)
-		normal := vector2.NewFloat32(-delta.Y, delta.X).Normalized()
+		delta := vector2.MakeFloat32(current.X-previous.X, current.Y-previous.Y)
+		normal := vector2.MakeFloat32(-delta.Y, delta.X).Normalized()
 		v := previousV + delta.LengthF()
 
 		if !tangentSet {

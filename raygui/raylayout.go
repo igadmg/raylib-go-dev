@@ -106,7 +106,7 @@ func CanvasLayout(bounds rect2.Float32) CanvasLayoutPanel {
 func (cl *CanvasLayoutPanel) Layout(anchor vector2.Float32, pivot vector2.Float32, wh vector2.Float32) rect2.Float32 {
 	anchorp := anchor.MulByVector(cl.Bounds.Size)
 	pivotp := pivot.MulByVector(wh)
-	return rect2.NewFloat32(cl.Bounds.Position.Add(anchorp).Sub(pivotp), wh)
+	return rect2.MakeFloat32(cl.Bounds.Position.Add(anchorp).Sub(pivotp), wh)
 }
 
 type HorizontalLayoutPanel struct {

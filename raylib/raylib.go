@@ -908,13 +908,13 @@ var (
 type Vector4 = vector4.Float32
 
 var (
-	AnchorTopLeft      = vector2.NewFloat32(0, 0)
-	AnchorTopRight     = vector2.NewFloat32(1, 0)
-	AnchorTopCenter    = vector2.NewFloat32(0.5, 0)
-	AnchorCenter       = vector2.NewFloat32(0.5, 0.5)
-	AnchorBottomCenter = vector2.NewFloat32(0.5, 1)
-	AnchorBottomLeft   = vector2.NewFloat32(0, 1)
-	AnchorBottomRight  = vector2.NewFloat32(1, 1)
+	AnchorTopLeft      = vector2.MakeFloat32(0, 0)
+	AnchorTopRight     = vector2.MakeFloat32(1, 0)
+	AnchorTopCenter    = vector2.MakeFloat32(0.5, 0)
+	AnchorCenter       = vector2.MakeFloat32(0.5, 0.5)
+	AnchorBottomCenter = vector2.MakeFloat32(0.5, 1)
+	AnchorBottomLeft   = vector2.MakeFloat32(0, 1)
+	AnchorBottomRight  = vector2.MakeFloat32(1, 1)
 )
 
 // Matrix type (OpenGL style 4x4 - right handed, column major)
@@ -948,7 +948,7 @@ type Quaternion = vector4.Float32
 
 // MakeQuaternion - Returns new Quaternion
 func MakeQuaternion(x, y, z, w float32) Quaternion {
-	return vector4.NewFloat32(x, y, z, w)
+	return vector4.MakeFloat32(x, y, z, w)
 }
 
 // MakeColor - Returns new Color
@@ -961,11 +961,11 @@ type RectangleInt32 = rect2.Int32
 
 // MakeRectangle - Returns new Rectangle
 func MakeRectangle[XT, YT, WT, HT mathex.Number](x XT, y YT, width WT, height HT) rect2.Float32 {
-	return rect2.New(vector2.NewFloat32(x, y), vector2.NewFloat32(width, height))
+	return rect2.Make(vector2.MakeFloat32(x, y), vector2.MakeFloat32(width, height))
 }
 
 func MakeRectangleWHV[WHT mathex.SignedNumber](wh vector2.Of[WHT]) rect2.Float32 {
-	return rect2.New(vector2.Zero[float32](), wh.ToFloat32())
+	return rect2.Make(vector2.Zero[float32](), wh.ToFloat32())
 }
 
 // Camera3D type, defines a camera position/orientation in 3d space
@@ -1706,7 +1706,7 @@ func (t Image) IsReady() bool {
 }
 
 func (i Image) GetSize() vector2.Float32 {
-	return vector2.NewFloat32(i.Width, i.Height)
+	return vector2.MakeFloat32(i.Width, i.Height)
 }
 
 func (i Image) GetRect() rect2.Float32 {
@@ -1760,7 +1760,7 @@ func (t Texture2D) IsValid() bool {
 }
 
 func (t Texture2D) GetSize() vector2.Float32 {
-	return vector2.NewFloat32(t.Width, t.Height)
+	return vector2.MakeFloat32(t.Width, t.Height)
 }
 
 func (t Texture2D) GetRect() rect2.Float32 {
@@ -1800,7 +1800,7 @@ func (t Texture2D) DrawPro(sourceRec, destRec rect2.Float32, origin vector2.Floa
 }
 
 func (t Texture2D) DrawFlippedPro(sourceRec, destRec rect2.Float32, origin vector2.Float32, rotation float32, tint colorex.RGBA) {
-	sourceRec = sourceRec.ScaleByVectorF(vector2.NewFloat32(1, -1))
+	sourceRec = sourceRec.ScaleByVectorF(vector2.MakeFloat32(1, -1))
 	sourceRec = sourceRec.SetY(float32(t.Height) + sourceRec.Height())
 	DrawTexturePro(t, sourceRec, destRec, origin, rotation, tint)
 }
@@ -1810,7 +1810,7 @@ func (t Texture2D) DrawProDef(destRec rect2.Float32) {
 }
 
 func (t Texture2D) DrawProFlippedDef(destRec rect2.Float32) {
-	DrawTexturePro(t, t.GetRect().ScaleByVectorF(vector2.NewFloat32(1, -1)), destRec, vector2.Zero[float32](), 0, White)
+	DrawTexturePro(t, t.GetRect().ScaleByVectorF(vector2.MakeFloat32(1, -1)), destRec, vector2.Zero[float32](), 0, White)
 }
 
 func (t Texture2D) DrawTiled(source, dest rect2.Float32, origin vector2.Float32, rotation, scale float32, tint colorex.RGBA) {

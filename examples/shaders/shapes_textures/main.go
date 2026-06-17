@@ -45,15 +45,15 @@ func main() {
 
 		rl.DrawText("USING DEFAULT SHADER", 370, 40, 10, rl.Red)
 
-		rl.DrawTriangle(vector2.NewFloat32(430, 80),
-			vector2.NewFloat32(430-60, 150),
-			vector2.NewFloat32(430+60, 150), rl.Violet)
+		rl.DrawTriangle(vector2.MakeFloat32(430, 80),
+			vector2.MakeFloat32(430-60, 150),
+			vector2.MakeFloat32(430+60, 150), rl.Violet)
 
-		rl.DrawTriangleLines(vector2.NewFloat32(430, 160),
-			vector2.NewFloat32(430-20, 230),
-			vector2.NewFloat32(430+20, 230), rl.DarkBlue)
+		rl.DrawTriangleLines(vector2.MakeFloat32(430, 160),
+			vector2.MakeFloat32(430-20, 230),
+			vector2.MakeFloat32(430+20, 230), rl.DarkBlue)
 
-		rl.DrawPoly(vector2.NewFloat32(430, 320), 6, 80, 0, rl.Brown)
+		rl.DrawPoly(vector2.MakeFloat32(430, 320), 6, 80, 0, rl.Brown)
 
 		// Activate our custom shader to be applied on next shapes/textures drawings
 		rl.BeginShaderMode(shader)

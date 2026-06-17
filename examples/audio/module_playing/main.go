@@ -42,7 +42,7 @@ func main() {
 
 		x := rl.GetRandomValue(int32(c.Radius), screenWidth-int32(c.Radius))
 		y := rl.GetRandomValue(int32(c.Radius), screenHeight-int32(c.Radius))
-		c.Position = vector2.NewFloat32(float32(x), float32(y))
+		c.Position = vector2.MakeFloat32(float32(x), float32(y))
 
 		c.Speed = float32(rl.GetRandomValue(1, 100)) / 20000.0
 		c.Color = colors[rl.GetRandomValue(0, int32(len(colors)-1))]

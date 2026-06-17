@@ -15,7 +15,7 @@ func main() {
 
 	shader := rl.LoadShader("", "outline.fs")
 
-	cnt := vector2.NewFloat32(float32(screenWidth/2), float32(screenHeight/2))
+	cnt := vector2.MakeFloat32(float32(screenWidth/2), float32(screenHeight/2))
 
 	outlineSize := []float32{2}
 	outlineColor := []float32{1, 0, 0, 1}

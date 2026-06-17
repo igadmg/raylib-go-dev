@@ -11,7 +11,7 @@ func main() {
 
 	rl.InitWindow(screenWidth, screenHeight, "raylib [core] example - keyboard input")
 
-	ballPosition := vector2.NewFloat32(float32(screenWidth)/2, float32(screenHeight)/2)
+	ballPosition := vector2.MakeFloat32(float32(screenWidth)/2, float32(screenHeight)/2)
 
 	rl.SetTargetFPS(60)
 

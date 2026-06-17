@@ -34,11 +34,11 @@ func main() {
 
 	// Define the camera to look into our 3d world (position, target, up vector)
 	camera := rl.Camera3D{}
-	camera.Position = vector3.NewFloat32(0.0, 2.0, 4.0) // Camera position
-	camera.Target = vector3.NewFloat32(0.0, 2.0, 0.0)   // Camera looking at point
-	camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)       // Camera up vector (rotation towards target)
-	camera.Fovy = 60.0                                  // Camera field-of-view Y
-	camera.Projection = rl.CameraPerspective            // Camera projection type
+	camera.Position = vector3.MakeFloat32(0.0, 2.0, 4.0) // Camera position
+	camera.Target = vector3.MakeFloat32(0.0, 2.0, 0.0)   // Camera looking at point
+	camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0)       // Camera up vector (rotation towards target)
+	camera.Fovy = 60.0                                   // Camera field-of-view Y
+	camera.Projection = rl.CameraPerspective             // Camera projection type
 
 	cameraMode := rl.CameraFirstPerson
 
@@ -49,7 +49,7 @@ func main() {
 
 	for i := 0; i < maxColumns; i++ {
 		heights[i] = rndF(1, 12)
-		positions[i] = vector3.NewFloat32(rndF(-15, 15), heights[i]/2, rndF(-15, 15))
+		positions[i] = vector3.MakeFloat32(rndF(-15, 15), heights[i]/2, rndF(-15, 15))
 		colors[i] = rl.MakeColor(rndU(20, 255), rndU(10, 55), 30, 255)
 	}
 
@@ -61,19 +61,19 @@ func main() {
 		// Switch camera mode
 		if rl.IsKeyPressed(rl.KeyOne) {
 			cameraMode = rl.CameraFree
-			camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0) // Reset roll
+			camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0) // Reset roll
 		}
 		if rl.IsKeyPressed(rl.KeyTwo) {
 			cameraMode = rl.CameraFirstPerson
-			camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0) // Reset roll
+			camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0) // Reset roll
 		}
 		if rl.IsKeyPressed(rl.KeyThree) {
 			cameraMode = rl.CameraThirdPerson
-			camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0) // Reset roll
+			camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0) // Reset roll
 		}
 		if rl.IsKeyPressed(rl.KeyFour) {
 			cameraMode = rl.CameraOrbital
-			camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0) // Reset roll
+			camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0) // Reset roll
 		}
 
 		// Switch camera projection
@@ -82,18 +82,18 @@ func main() {
 			if camera.Projection == rl.CameraPerspective {
 				// Create isometric view
 				// Note: The target distance is related to the render distance in the orthographic projection
-				camera.Position = vector3.NewFloat32(0.0, 2.0, -100.0)
-				camera.Target = vector3.NewFloat32(0.0, 2.0, 0.0)
-				camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
+				camera.Position = vector3.MakeFloat32(0.0, 2.0, -100.0)
+				camera.Target = vector3.MakeFloat32(0.0, 2.0, 0.0)
+				camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0)
 				camera.Projection = rl.CameraOrthographic
 				camera.Fovy = 20.0 // near plane width in CAMERA_ORTHOGRAPHIC
 				rl.CameraYaw(&camera, -135*rl.Deg2rad, True)
 				rl.CameraPitch(&camera, -45*rl.Deg2rad, True, True, False)
 			} else if camera.Projection == rl.CameraOrthographic {
 				// Reset to default view
-				camera.Position = vector3.NewFloat32(0.0, 2.0, 10.0)
-				camera.Target = vector3.NewFloat32(0.0, 2.0, 0.0)
-				camera.Up = vector3.NewFloat32(0.0, 1.0, 0.0)
+				camera.Position = vector3.MakeFloat32(0.0, 2.0, 10.0)
+				camera.Target = vector3.MakeFloat32(0.0, 2.0, 0.0)
+				camera.Up = vector3.MakeFloat32(0.0, 1.0, 0.0)
 				camera.Projection = rl.CameraPerspective
 				camera.Fovy = 60.0
 			}
@@ -130,10 +130,10 @@ func main() {
 
 		rl.BeginMode3D(camera)
 
-		rl.DrawPlane(vector3.NewFloat32(0.0, 0.0, 0.0), vector2.NewFloat32(32.0, 32.0), rl.LightGray) // Draw ground
-		rl.DrawCube(vector3.NewFloat32(-16.0, 2.5, 0.0), 1.0, 5.0, 32.0, rl.Blue)                     // Draw a blue wall
-		rl.DrawCube(vector3.NewFloat32(16.0, 2.5, 0.0), 1.0, 5.0, 32.0, rl.Lime)                      // Draw a green wall
-		rl.DrawCube(vector3.NewFloat32(0.0, 2.5, 16.0), 32.0, 5.0, 1.0, rl.Gold)                      // Draw a yellow wall
+		rl.DrawPlane(vector3.MakeFloat32(0.0, 0.0, 0.0), vector2.MakeFloat32(32.0, 32.0), rl.LightGray) // Draw ground
+		rl.DrawCube(vector3.MakeFloat32(-16.0, 2.5, 0.0), 1.0, 5.0, 32.0, rl.Blue)                      // Draw a blue wall
+		rl.DrawCube(vector3.MakeFloat32(16.0, 2.5, 0.0), 1.0, 5.0, 32.0, rl.Lime)                       // Draw a green wall
+		rl.DrawCube(vector3.MakeFloat32(0.0, 2.5, 16.0), 32.0, 5.0, 1.0, rl.Gold)                       // Draw a yellow wall
 
 		// Draw some cubes around
 		for i := 0; i < maxColumns; i++ {

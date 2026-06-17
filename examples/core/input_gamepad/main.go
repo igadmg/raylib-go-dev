@@ -115,7 +115,7 @@ func main() {
 					rl.DrawRectangle(328, 170, 32, 13, rl.Red)
 				}
 				if rl.IsGamepadButtonDown(gamepad, rl.GamepadButtonMiddleRight) {
-					rl.DrawTriangle(vector2.NewFloat32(436, 168), vector2.NewFloat32(436, 185), vector2.NewFloat32(464, 177), rl.Red)
+					rl.DrawTriangle(vector2.MakeFloat32(436, 168), vector2.MakeFloat32(436, 185), vector2.MakeFloat32(464, 177), rl.Red)
 				}
 				if rl.IsGamepadButtonDown(gamepad, rl.GamepadButtonRightFaceUp) {
 					rl.DrawCircle(557, 144, 13, rl.Lime)

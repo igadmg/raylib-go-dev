@@ -19,12 +19,12 @@ func MakeMonitor(i int) Monitor {
 	return Monitor{
 		Index: i,
 		Name:  GetMonitorName(i),
-		Resolution: vector2.New(
+		Resolution: vector2.Make(
 			GetMonitorWidth(i),
 			GetMonitorHeight(i),
 		),
 		Position: GetMonitorPosition(i),
-		Dimensions: vector2.New(
+		Dimensions: vector2.Make(
 			GetMonitorPhysicalWidth(i),
 			GetMonitorPhysicalHeight(i),
 		),
