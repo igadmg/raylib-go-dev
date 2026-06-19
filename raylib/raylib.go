@@ -1714,7 +1714,7 @@ func (i Image) GetRect() rect2.Float32 {
 }
 
 func (i *Image) DrawDef(dst *Image, dstRect rect2.Float32) {
-	ImageDraw(dst, *i, i.GetRect(), dstRect, White)
+	ImageDrawImagePro(dst, *i, i.GetRect(), dstRect, vector2.Zero[float32](), 0, White)
 }
 
 // Texture2D type, bpp always RGBA (32bit)

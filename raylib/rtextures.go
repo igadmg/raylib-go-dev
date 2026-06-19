@@ -37,7 +37,9 @@ package rl
 #cgo nocallback ImageCopy
 #cgo nocallback ImageCrop
 #cgo nocallback ImageDither
-#cgo nocallback ImageDraw
+//#cgo nocallback ImageDrawImage
+//#cgo nocallback ImageDrawImageRec
+#cgo nocallback ImageDrawImagePro
 #cgo nocallback ImageDrawCircle
 #cgo nocallback ImageDrawCircleLines
 #cgo nocallback ImageDrawCircleLinesV
@@ -115,7 +117,9 @@ package rl
 #cgo noescape ImageCopy
 #cgo noescape ImageCrop
 #cgo noescape ImageDither
-#cgo noescape ImageDraw
+//#cgo noescape ImageDrawImage
+//#cgo noescape ImageDrawImageRec
+#cgo noescape ImageDrawImagePro
 #cgo noescape ImageDrawCircle
 #cgo noescape ImageDrawCircleLines
 #cgo noescape ImageDrawCircleLinesV
@@ -675,14 +679,20 @@ func ImageClearBackground(dst *Image, col colorex.RGBA) {
 	C.ImageClearBackground(cdst, *ccolor)
 }
 
-// ImageDraw - Draw a source image within a destination image
-func ImageDraw(dst *Image, src Image, srcRec, dstRec rect2.Float32, tint colorex.RGBA) {
+// ImageDrawImagePro - Draw a part of an image defined by a rectangle into destination rectangle, with scaling and rotation, within an image
+func ImageDrawImagePro(dst *Image, src Image, srcRec, dstRec rect2.Float32, origin vector2.Float32, rotation float32, tint colorex.RGBA) {
+	//void ImageDrawImage(Image *dst, Image src, int posX, int posY, Color tint);                      // Draw an image within an image
+	//void ImageDrawImageRec(Image *dst, Image src, Rectangle srcRec, Vector2 position, Color tint);     // Draw a part of an image defined by a rectangle within an image
+	//void ImageDrawImagePro(Image *dst, Image src, Rectangle srcRec, Rectangle dstRec, Vector2 origin, float rotation, Color tint);
+
 	cdst := dst.cptr()
 	csrc := src.cptr()
 	csrcRec := crect2ptr(&srcRec)
 	cdstRec := crect2ptr(&dstRec)
+	corigin := cvec2ptr(&origin)
+	crotation := C.float(rotation)
 	ctint := ccolorptr(&tint)
-	C.ImageDraw(cdst, *csrc, *csrcRec, *cdstRec, *ctint)
+	C.ImageDrawImagePro(cdst, *csrc, *csrcRec, *cdstRec, *corigin, crotation, *ctint)
 }
 
 // ImageDrawLine - Draw line within an image
