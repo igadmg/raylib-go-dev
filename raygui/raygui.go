@@ -1160,8 +1160,8 @@ func (s *ListViewState[T]) ListView(bounds rect2.Float32) {
 	C.GuiListViewEx(*cbounds, (**C.char)(s.citemNames.Pointer), count, cscrollIndex, cactive, cfocus)
 }
 
-// TabBar control
-func TabBar(bounds rect2.Float32, text []string, active *int32) int32 {
+// TabBarEx control
+func TabBarEx(bounds rect2.Float32, text []string, hscroll *int32, active *int32, focus *int32) int32 {
 	cbounds := crect2ptr(&bounds)
 
 	ctext := NewCStringArrayFromSlice(text)
@@ -1172,11 +1172,15 @@ func TabBar(bounds rect2.Float32, text []string, active *int32) int32 {
 	if active == nil {
 		active = new(int32)
 	}
+	chscroll := C.int(*hscroll)
 	cactive := C.int(*active)
+	cfocus := C.int(*focus)
 	defer func() {
+		*hscroll = int32(chscroll)
 		*active = int32(cactive)
+		*focus = int32(cfocus)
 	}()
-	return int32(C.GuiTabBar(*cbounds, (**C.char)(ctext.Pointer), count, &cactive))
+	return int32(C.GuiTabBarEx(*cbounds, (**C.char)(ctext.Pointer), count, &chscroll, &cactive, &cfocus))
 }
 
 // SetFont - set custom font (global state)
