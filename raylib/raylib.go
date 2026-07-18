@@ -1493,6 +1493,10 @@ func (s Shader) GetLocationUniform(name string) int32 {
 	return GetShaderLocation(s, name)
 }
 
+func (s Shader) Draw(fn func()) {
+	DoShaderMode(s, fn)
+}
+
 // GlyphInfo - Font character info
 type GlyphInfo struct {
 	// Character value (Unicode)
