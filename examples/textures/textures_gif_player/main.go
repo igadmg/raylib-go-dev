@@ -58,7 +58,7 @@ func main() {
 			// Update GPU texture data with next frame image data
 			// WARNING: Data size (frame size) and pixel format must match already created texture
 			// here we needed to make the Data as public
-			rl.UpdateTexture(&texScarfyAnim,
+			rl.UpdateTextureRGBA(&texScarfyAnim,
 				unsafe.Slice((*colorex.RGBA)(unsafe.Pointer(uintptr(imScarfyAnim.Data)+uintptr(nextFrameDataOffset))), texScarfyAnimSize))
 
 			frameCounter = 0

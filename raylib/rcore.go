@@ -744,6 +744,7 @@ func LoadShader(vsFileName string, fsFileName string) Shader {
 }
 
 // LoadShaderFromMemory - Load shader from code strings and bind default locations
+// func LoadShaderFromMemory(vsCode []byte, fsCode []byte) Shader {
 func LoadShaderFromMemory(vsCode string, fsCode string) Shader {
 	var cvsCode *C.char = nil
 	var cfsCode *C.char = nil

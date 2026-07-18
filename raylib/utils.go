@@ -61,6 +61,8 @@ func TraceLog(logLevel TraceLogLevel, text string, v ...interface{}) {
 
 // SetTraceLogCallback - set a call-back function for trace log
 func SetTraceLogCallback(fn TraceLogCallbackFun) {
+	return // TODO(iga): implement different way throug socket
+
 	internalTraceLogCallbackFn = fn
 	C.SetTraceLogCallbackWrapper()
 }

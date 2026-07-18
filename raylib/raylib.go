@@ -1825,6 +1825,10 @@ func (t Texture2D) DrawTiledDef(dest rect2.Float32) {
 	DrawTextureTiled(t, t.GetRect(), dest, vector2.Zero[float32](), 0, 1, White)
 }
 
+func (t *Texture2D) UpdateTexture(data []byte) {
+	UpdateTexture(t, data)
+}
+
 // RenderTexture2D type, for texture rendering
 type RenderTexture2D struct {
 	// Render texture (fbo) id

@@ -99,8 +99,8 @@ func main() {
 				break
 			}
 
-			pixels := rl.LoadImageColors(image) // Get pixel data from image (RGBA 32bit)
-			rl.UpdateTexture(&texture, pixels)  // Update texture with new image data
+			pixels := rl.LoadImageColors(image)    // Get pixel data from image (RGBA 32bit)
+			rl.UpdateTextureRGBA(&texture, pixels) // Update texture with new image data
 
 			textureReload = false
 		}
