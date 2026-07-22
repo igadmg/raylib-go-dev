@@ -191,6 +191,7 @@ import (
 
 	"github.com/Mishka-Squat/gamemath/rect2"
 	"github.com/Mishka-Squat/gamemath/vector2"
+	"github.com/Mishka-Squat/gamemath/vector3"
 	"github.com/Mishka-Squat/goex/image/colorex"
 	"github.com/Mishka-Squat/goex/mathex"
 	"golang.org/x/exp/constraints"
@@ -983,6 +984,38 @@ func GenImageText(width, height int, text string) Image {
 
 	ret := C.GenImageText(cwidth, cheight, ctext)
 	return *newImageFromPointer(&ret)
+}
+
+func StbPerlinNoise3(p vector3.Float32, wrap vector3.Int) float32 {
+	return float32(C.StbPerlinNoise3(C.float(p.X), C.float(p.Y), C.float(p.Z), C.int(wrap.X), C.int(wrap.Y), C.int(wrap.Z)))
+}
+
+func StbPerlinNoise3Seed(p vector3.Float32, wrap vector3.Int, seed int) float32 {
+	return float32(C.StbPerlinNoise3Seed(C.float(p.X), C.float(p.Y), C.float(p.Z), C.int(wrap.X), C.int(wrap.Y), C.int(wrap.Z), C.int(seed)))
+}
+
+func StbPerlinRidgeNoise3(p vector3.Float32, lacunarity float32, gain float32, offset float32, octaves int) float32 {
+	return float32(C.StbPerlinRidgeNoise3(C.float(p.X), C.float(p.Y), C.float(p.Z), C.float(lacunarity), C.float(gain), C.float(offset), C.int(octaves)))
+}
+
+func StbPerlinFbmNoise3(p vector3.Float32, lacunarity float32, gain float32, octaves int) float32 {
+	return float32(C.StbPerlinFbmNoise3(C.float(p.X), C.float(p.Y), C.float(p.Z), C.float(lacunarity), C.float(gain), C.int(octaves)))
+}
+
+func StbPerlinTurbulenceNoise3(p vector3.Float32, lacunarity float32, gain float32, octaves int) float32 {
+	return float32(C.StbPerlinTurbulenceNoise3(C.float(p.X), C.float(p.Y), C.float(p.Z), C.float(lacunarity), C.float(gain), C.int(octaves)))
+}
+
+func StbPerlinNoise3WrapNonpow2(p vector3.Float32, wrap vector3.Int, seed byte) float32 {
+	return float32(C.StbPerlinNoise3WrapNonpow2(C.float(p.X), C.float(p.Y), C.float(p.Z), C.int(wrap.X), C.int(wrap.Y), C.int(wrap.Z), C.uchar(seed)))
+}
+
+func GenPerlinNoise2(p vector2.Float32) float32 {
+	return float32(C.GenPerlinNoise2(C.float(p.X), C.float(p.Y)))
+}
+
+func GenPerlinNoise3(p vector3.Float32) float32 {
+	return float32(C.GenPerlinNoise3(C.float(p.X), C.float(p.Y), C.float(p.Z)))
 }
 
 // GenTextureMipmaps - Generate GPU mipmaps for a texture
