@@ -1010,6 +1010,8 @@ func StbPerlinNoise3WrapNonpow2(p vector3.Float32, wrap vector3.Int, seed byte) 
 	return float32(C.StbPerlinNoise3WrapNonpow2(C.float(p.X), C.float(p.Y), C.float(p.Z), C.int(wrap.X), C.int(wrap.Y), C.int(wrap.Z), C.uchar(seed)))
 }
 
+var PerlinNoizeMagnitude float32 = mathex.Sqrt[float32](3.0 / 4)
+
 func GenPerlinNoise2(p vector2.Float32) float32 {
 	return float32(C.GenPerlinNoise2(C.float(p.X), C.float(p.Y)))
 }
