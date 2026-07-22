@@ -579,7 +579,8 @@ func MessageBox(bounds rect2.Float32, title string, message string, buttons stri
 	ctitle := textAlloc(title)
 	cmessage := textAlloc(message)
 	cbuttons := textAlloc(buttons)
-	return int32(C.GuiMessageBox(*cbounds, ctitle, cmessage, cbuttons))
+	abutton := C.int(0)
+	return int32(C.GuiMessageBox(*cbounds, ctitle, cmessage, cbuttons, &abutton))
 }
 
 // ColorPicker control (multiple color controls)
@@ -1083,7 +1084,9 @@ func TextInputBox(bounds rect2.Float32, title, message, buttons string, text *st
 		*secretViewActive = bool(csecretViewActive)
 	}()
 
-	return int32(C.GuiTextInputBox(*cbounds, ctitle, cmessage, cbuttons, ctext, ctextMaxSize, &csecretViewActive))
+	cabutton := C.int(0)
+
+	return int32(C.GuiTextInputBox(*cbounds, ctitle, cmessage, ctext, ctextMaxSize, cbuttons, &cabutton, &csecretViewActive))
 }
 
 // ListViewEx control with extended parameters
