@@ -2,11 +2,9 @@ module github.com/Mishka-Squat/raylib-go/easings
 
 go 1.26
 
-require (
-	github.com/Mishka-Squat/goex v0.1.0
-)
+require github.com/Mishka-Squat/goex v0.1.1
 
 require (
-	github.com/chewxy/math32 v1.11.1 // indirect
-	golang.org/x/exp v0.0.0-20260410095643-746e56fc9e2f // indirect
+	github.com/chewxy/math32 v1.11.2 // indirect
+	golang.org/x/exp v0.0.0-20260727155853-b88d891fe743 // indirect
 )
