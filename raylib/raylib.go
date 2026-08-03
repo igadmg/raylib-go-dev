@@ -680,7 +680,7 @@ func (k UnifiedKeyType) IsEvent(event InputEventType) bool {
 
 const (
 	// Any_KeyNone is used for no key - any check will return true
-	Any_KeyNone = 0
+	Any_KeyNone UnifiedKeyType = 0
 
 	// Keyboard Function Keys
 	Keyboard_KeySpace        = UnifiedKeyType(KeyboardMask) | UnifiedKeyType(KeySpace)
