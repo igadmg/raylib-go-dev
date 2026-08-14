@@ -29,13 +29,16 @@ GLFWbool _glfwConnectNull(int platformID, _GLFWplatform* platform) {
 #cgo LDFLAGS: -framework Cocoa -framework IOKit -framework CoreVideo -framework CoreFoundation
 #cgo CFLAGS: -x objective-c -Iexternal/glfw/include -D_GLFW_COCOA -D_GLFW_USE_CHDIR -D_GLFW_USE_MENUBAR -D_GLFW_USE_RETINA -Wno-deprecated-declarations -Wno-implicit-const-int-float-conversion -DPLATFORM_DESKTOP
 
-#cgo !es2,!es3 LDFLAGS: -framework OpenGL
+#cgo !es2,!es3,!angle LDFLAGS: -framework OpenGL
 
 #cgo opengl11,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_11
 #cgo opengl21,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_21
 #cgo opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_43
-#cgo !opengl11,!opengl21,!opengl43,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_33
+#cgo !opengl11,!opengl21,!opengl43,!es2,!es3,!angle CFLAGS: -DGRAPHICS_API_OPENGL_33
 #cgo es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_ES2
 #cgo es3,!es2 CFLAGS: -DGRAPHICS_API_OPENGL_ES3
+// angle: link against Google's ANGLE (libEGL/libGLESv2) instead of native OpenGL/Metal;
+// see third_party/angle in the main repo for build scripts and cgo_darwin_angle.go for rpath setup.
+#cgo angle,!es2,!es3 CFLAGS: -DGRAPHICS_API_OPENGL_ES3
 */
 import "C"
