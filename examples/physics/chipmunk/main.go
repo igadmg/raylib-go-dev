@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"time"
 
 	"github.com/Mishka-Squat/gamemath/vector2"
 	rl "github.com/Mishka-Squat/raylib-go/raylib"
@@ -81,7 +82,7 @@ func main() {
 	var mouse cp.Vector
 	var mouseJoint *cp.Constraint
 
-	var accumulator, dt float32
+	var accumulator, dt time.Duration
 	lastTime := rl.GetTime()
 	for !rl.WindowShouldClose() {
 		// calculate dt

@@ -312,6 +312,7 @@ package rl
 import "C"
 
 import (
+	"time"
 	"unsafe"
 
 	"github.com/Mishka-Squat/gamemath/vector2"
@@ -933,6 +934,10 @@ func GetFrameTime() float32 {
 	ret := C.GetFrameTime()
 	v := (float32)(ret)
 	return v
+}
+
+func GetFrameTimeDuration() time.Duration {
+	return time.Duration(GetFrameTime() * float32(time.Second))
 }
 
 // GetTime - Return time in seconds
