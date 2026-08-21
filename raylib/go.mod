@@ -1,6 +1,6 @@
 module github.com/Mishka-Squat/raylib-go/raylib
 
-go 1.26
+go 1.27
 
 require (
 	github.com/BrownNPC/wasm-ffi-go v1.3.0
