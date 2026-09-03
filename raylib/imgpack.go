@@ -267,3 +267,54 @@ func (t *TextureAtlas) ToItemSet() []TextureAtlasItem {
 	}
 	return itemSet
 }
+
+// LoadImageAtlasGrid places source image i at row-major cell
+// (i % columns, i / columns), i.e. pixel position (i%columns*tileSize.X,
+// i/columns*tileSize.Y), with zero padding and no stb_rect_pack call.
+// Every source image must be exactly tileSize; a mismatch is a load error.
+// Atlas[i] == {Position: cell*tileSize, Size: tileSize} always, so index i
+// and grid cell are identical by construction.
+func LoadImageAtlasGrid(width, height int, tileSize vector2.Int, fileNames ...string) (ImageAtlas, error) {
+	images := make([]Image, len(fileNames))
+	defer func() {
+		for _, i := range images {
+			i.Unload()
+		}
+	}()
+	for i := range images {
+		images[i] = LoadImage(fileNames[i])
+	}
+
+	columns := width / tileSize.X
+	atlasImage := GenImageColor(width, height, Blank)
+	atlasAtlas := make([]rect2.Float32, len(images))
+	for i, img := range images {
+		if img.Width != int32(tileSize.X) || img.Height != int32(tileSize.Y) {
+			return ImageAtlas{}, fmt.Errorf(
+				"LoadImageAtlasGrid: %s is %dx%d, expected uniform tile %v",
+				fileNames[i], img.Width, img.Height, tileSize)
+		}
+		cell := vector2.MakeInt(i%columns, i/columns)
+		rect := rect2.MakeFloat32(cell.ToFloat32().ScaleByVectorI(tileSize), tileSize.ToFloat32())
+		atlasAtlas[i] = rect
+		img.DrawDef(&atlasImage, rect)
+	}
+	return ImageAtlas{Image: atlasImage, Atlas: atlasAtlas}, nil
+}
+
+func LoadTextureAtlasGrid(width, height int, tileSize vector2.Int, fileNames ...string) (TextureAtlas, error) {
+	ia, err := LoadImageAtlasGrid(width, height, tileSize, fileNames...)
+	if err != nil {
+		return TextureAtlas{}, err
+	}
+	defer ia.Unload()
+
+	return TextureAtlas{
+		Texture: LoadTextureFromImage(ia.Image),
+		Atlas:   ia.Atlas,
+	}, nil
+}
+
+func LoadTextureAtlasGridSeq(width, height int, tileSize vector2.Int, fileNames iter.Seq[string]) (TextureAtlas, error) {
+	return LoadTextureAtlasGrid(width, height, tileSize, slices.Collect(fileNames)...)
+}
